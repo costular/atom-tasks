@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AtomHabits</string>
+
+    <string name="repetition_everyday">Everyday</string>
+    <string name="repetition_weekly">Every week</string>
+
+    <string name="day_yesterday">Yesterday</string>
+    <string name="day_today">Today</string>
+    <string name="day_tomorrow">Tomorrow</string>
+
+    <string name="create_habit_next">Next</string>
+    <string name="create_habit_save">Save</string>
+
+    <string name="create_habit_name_header">Add your new habit</string>
+    <string name="create_habit_name_name_label">Your new habit\'s name</string>
+
+    <string name="create_habit_repetition_header">Frequency</string>
+
+</resources>
