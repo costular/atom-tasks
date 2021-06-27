@@ -5,7 +5,11 @@ import java.time.LocalDate
 
 interface HabitLocalDataSource {
 
-    suspend fun createHabit(habitEntity: HabitEntity)
-    fun getHabits(day: LocalDate? = null): Flow<List<HabitEntity>>
+    suspend fun createHabit(habitEntity: HabitEntity): Long
+    suspend fun createReminderForHabit(reminderEntity: ReminderEntity)
+    fun getHabits(day: LocalDate? = null): Flow<List<HabitAggregrated>>
+    fun getHabitById(id: Long): Flow<HabitAggregrated>
+    suspend fun addHabitRecord(habitId: Long, date: LocalDate)
+    suspend fun removeHabitRecord(habitId: Long, date: LocalDate)
 
 }

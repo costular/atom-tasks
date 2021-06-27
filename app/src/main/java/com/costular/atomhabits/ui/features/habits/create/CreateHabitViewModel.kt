@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +23,10 @@ class CreateHabitViewModel @Inject constructor(
     private val dispatcher: DispatcherProvider,
     private val createHabitInteractor: CreateHabitInteractor
 ) : MviViewModel<CreateHabitState>(CreateHabitState()) {
+
+    fun goToPage(page: Int) {
+        sendEvent(CreateHabitEvents.GoToPage(page))
+    }
 
     fun setName(name: String) = viewModelScope.launchSetState {
         copy(name = name)
@@ -32,7 +38,14 @@ class CreateHabitViewModel @Inject constructor(
 
     fun save() = viewModelScope.launch {
         val state = withContext(dispatcher.computation) { awaitState() }
-        createHabitInteractor(CreateHabitInteractor.Params(state.name, state.repetition))
+        createHabitInteractor(
+            CreateHabitInteractor.Params(
+                state.name,
+                state.repetition,
+                state.reminderEnabled,
+                state.reminderTime
+            )
+        )
             .flowOn(dispatcher.io)
             .collect { status ->
                 when (status) {
@@ -40,13 +53,22 @@ class CreateHabitViewModel @Inject constructor(
                         setState { copy(isSaving = true) }
                     }
                     is InvokeSuccess -> {
-                        // TODO: 24/6/21 navigate away
+                        sendEvent(CreateHabitEvents.SavedSuccessfully)
                     }
                     is InvokeError -> {
-
+                        Timber.e(status.throwable)
+                        setState { copy(isSaving = true) }
                     }
                 }
             }
+    }
+
+    fun setReminderTime(time: LocalTime) = viewModelScope.launchSetState {
+        copy(reminderTime = time)
+    }
+
+    fun setReminderEnabled(active: Boolean) = viewModelScope.launchSetState {
+        copy(reminderEnabled = active)
     }
 
 }

@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -80,6 +79,7 @@ dependencies {
     implementation(Deps.coroutines)
     implementation(Deps.kotlin)
     implementation(Deps.timber)
+    implementation("androidx.test.ext:junit-ktx:1.1.2")
     kapt(Deps.hiltCompiler)
     kapt(Deps.hiltJetpackCompiler)
     implementation(Deps.hiltJetpackViewModel)
@@ -103,6 +103,7 @@ dependencies {
     implementation(Deps.roomRuntinme)
     implementation(Deps.accompanistPager)
     implementation(Deps.accompanistPagerIndicators)
+    implementation(Deps.materialDialogsDatetime)
     kapt(Deps.roomCompiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
@@ -112,6 +113,12 @@ dependencies {
     testImplementation(Deps.truth)
     testImplementation(Deps.test)
     testImplementation(Deps.mockk)
+
+    androidTestImplementation(Deps.coroutinesTest)
+    androidTestImplementation(Deps.truth)
+    androidTestImplementation(Deps.turbine)
+    androidTestImplementation(Deps.androidTestRunner)
+    androidTestImplementation(Deps.androidTestRules)
 }
 
 tasks.withType<KotlinCompile> {

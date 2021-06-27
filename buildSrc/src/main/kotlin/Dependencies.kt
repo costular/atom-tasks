@@ -1,18 +1,20 @@
 object Versions {
-    val hiltNavigationCompose = "1.0.0-alpha02"
+    val hiltNavigationCompose = "1.0.0-alpha03"
     val activityCompose = "1.3.0-beta02"
     val kotlin = "1.5.10"
     val coroutines = "1.5.0"
+    val materialDialogs = "0.4.3"
 
-    val core = "1.5.0-alpha02"
+    val core = "1.6.0-rc01"
     val material = "1.4.0-rc01"
     val appCompat = "1.4.0-alpha02"
     val constraintLayout = "2.0.4"
-    val lifecycle = "2.4.0-alpha01"
+    val lifecycle = "2.4.0-alpha02"
     val viewModelCompose = "1.0.0-alpha07"
-    val fragment = "1.3.3"
+    val fragment = "1.4.0-alpha03"
     val mockk = "1.10.0"
     val hilt = "2.37"
+    val testRunner = "1.3.0"
     val hiltJetpack = "1.0.0"
     val testJetpack = "2.1.0"
     val timber = "4.7.1"
@@ -23,7 +25,7 @@ object Versions {
     val hiltJetpackViewModel = "1.0.0-alpha03"
     val accompanist = "0.12.0"
     val workManager = "2.5.0"
-    val room = "2.3.0"
+    val room = "2.4.0-alpha03"
 
     val preferences = "1.1.1"
     val preferencesDataStore = "1.0.0-beta01"
@@ -71,6 +73,7 @@ object Deps {
     val roomRuntinme = "androidx.room:room-runtime:${Versions.room}"
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    val materialDialogsDatetime = "io.github.vanpra.compose-material-dialogs:datetime:${Versions.materialDialogs}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
@@ -78,4 +81,6 @@ object Deps {
     val truth = "androidx.test.ext:truth:${Versions.truth}"
     val test = "androidx.arch.core:core-testing:${Versions.testJetpack}"
     val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
+    val androidTestRunner = "androidx.test:runner:${Versions.testRunner}"
+    val androidTestRules = "androidx.test:rules:${Versions.testRunner}"
 }

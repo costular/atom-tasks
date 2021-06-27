@@ -2,7 +2,8 @@
     <string name="app_name">AtomHabits</string>
 
     <string name="repetition_everyday">Everyday</string>
-    <string name="repetition_weekly">Every week</string>
+    <string name="repetition_weekly">Weekly</string>
+    <string name="repetition_weekly_formatted">Every %1$s</string>
 
     <string name="day_yesterday">Yesterday</string>
     <string name="day_today">Today</string>
@@ -15,5 +16,9 @@
     <string name="create_habit_name_name_label">Your new habit\'s name</string>
 
     <string name="create_habit_repetition_header">Frequency</string>
+
+    <string name="create_habit_reminder_header">Reminder</string>
+
+    <string name="habit_detail_loading">Loading…</string>
 
 </resources>

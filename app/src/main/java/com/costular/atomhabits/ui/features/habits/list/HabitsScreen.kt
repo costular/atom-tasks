@@ -1,11 +1,18 @@
 package com.costular.atomhabits.ui.features.habits.list
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.ChevronLeft
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -42,8 +49,9 @@ fun HabitsScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -54,6 +62,9 @@ fun HabitsScreen(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 24.dp, horizontal = 16.dp)
+                        .clickable {
+                            // TODO: 26/6/21 open calendar
+                        }
                 )
 
                 IconButton(
@@ -92,16 +103,13 @@ fun HabitsScreen(
 
             val habits = state.habits
             when (habits) {
-                is Async.Loading -> {
-                    CircularProgressIndicator()
-                }
                 is Async.Success -> {
                     HabitList(
                         habits = habits.data,
                         onClick = { onOpenHabit(it) },
-                        onMarkHabit = {},
+                        onMarkHabit = { id, isMarked -> viewModel.onMarkHabit(id, !isMarked) },
                         modifier = Modifier.fillMaxSize(),
-                        padding = PaddingValues()
+                        date = state.selectedDay
                     )
                 }
             }

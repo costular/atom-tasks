@@ -2,7 +2,8 @@ package com.costular.atomhabits.di
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomhabits.data.db.AtomHabitDatabase
+import com.costular.atomhabits.db.AtomHabitDatabase
+import com.costular.atomhabits.data.habitrecord.HabitRecordDao
 import com.costular.atomhabits.data.habits.*
 import dagger.Module
 import dagger.Provides
@@ -19,6 +20,7 @@ class DataModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): AtomHabitDatabase =
         Room.databaseBuilder(context, AtomHabitDatabase::class.java, "atomhabits.db")
+            .fallbackToDestructiveMigration() // TODO: 26/6/21 remove this
             .build()
 
     @Singleton
@@ -27,8 +29,20 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providesHabitLocalDataSource(habitsDao: HabitsDao): HabitLocalDataSource =
-        DefaultHabitLocalDataSource(habitsDao)
+    fun providesReminderDao(db: AtomHabitDatabase): ReminderDao = db.getRemindersDao()
+
+    @Singleton
+    @Provides
+    fun provideHabitRecordDao(db: AtomHabitDatabase): HabitRecordDao = db.getHabitRecordDao()
+
+    @Singleton
+    @Provides
+    fun providesHabitLocalDataSource(
+        habitsDao: HabitsDao,
+        reminderDao: ReminderDao,
+        habitRecordDao: HabitRecordDao
+    ): HabitLocalDataSource =
+        DefaultHabitLocalDataSource(habitsDao, reminderDao, habitRecordDao)
 
     @Singleton
     @Provides

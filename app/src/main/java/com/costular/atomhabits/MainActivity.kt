@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.costular.atomhabits.ui.features.habits.create.CreateHabit
+import com.costular.atomhabits.ui.features.habits.detail.HabitDetailScreen
 import com.costular.atomhabits.ui.features.habits.list.HabitsScreen
 import com.costular.atomhabits.ui.theme.AtomHabitsTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -37,8 +38,8 @@ private fun Navigation() {
                 onCreateHabit = {
                     navController.navigate(Screen.NewHabit.route)
                 },
-                onOpenHabit = {
-                    // TODO: 22/6/21
+                onOpenHabit = { habit ->
+                    navController.navigate(Screen.HabitDetail.createRoute(habit.id))
                 }
             )
         }
@@ -47,10 +48,20 @@ private fun Navigation() {
                 goBack = { navController.popBackStack() }
             )
         }
+        composable(route = Screen.HabitDetail.route) { backStackEntry ->
+            val habitId = backStackEntry.arguments?.getString("id")
+            requireNotNull(habitId) { "id parameter wasn't found. Please make sure it's set!" }
+            HabitDetailScreen(habitId.toLong(), onGoBack = { navController.popBackStack() })
+        }
     }
 }
 
 sealed class Screen(val route: String) {
     object HabitList : Screen("habits")
-    object NewHabit : Screen("habits/new")
+
+    object HabitDetail : Screen("habits/{id}") {
+        fun createRoute(id: Long): String = "habits/$id"
+    }
+
+    object NewHabit : Screen("new-habit")
 }
