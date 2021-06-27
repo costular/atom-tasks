@@ -11,5 +11,6 @@ interface HabitLocalDataSource {
     fun getHabitById(id: Long): Flow<HabitAggregrated>
     suspend fun addHabitRecord(habitId: Long, date: LocalDate)
     suspend fun removeHabitRecord(habitId: Long, date: LocalDate)
+    suspend fun removeHabit(habitId: Long)
 
 }

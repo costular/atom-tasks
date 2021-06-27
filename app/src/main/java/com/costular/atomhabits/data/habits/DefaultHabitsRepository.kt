@@ -63,6 +63,10 @@ class DefaultHabitsRepository(
         localDataSource.removeHabitRecord(habitId, date)
     }
 
+    override suspend fun removeHabit(habitId: Long) {
+        localDataSource.removeHabit(habitId)
+    }
+
 }
 
 private fun Repetition.asRepetitionType(): String = when (this) {

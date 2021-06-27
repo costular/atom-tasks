@@ -44,4 +44,8 @@ class DefaultHabitLocalDataSource(
         habitRecordDao.deleteEntryByDate(habitId, date)
     }
 
+    override suspend fun removeHabit(habitId: Long) {
+        habitsDao.removeHabitById(habitId)
+    }
+
 }

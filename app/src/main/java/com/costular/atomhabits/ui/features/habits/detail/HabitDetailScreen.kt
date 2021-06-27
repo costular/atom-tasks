@@ -8,16 +8,15 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomhabits.R
 import com.costular.atomhabits.domain.Async
 import com.costular.atomhabits.domain.model.Habit
 import com.costular.atomhabits.ui.components.ScreenHeader
 import com.costular.atomhabits.ui.components.reminderAsText
 import com.costular.atomhabits.ui.components.repetitionAsText
 import com.costular.atomhabits.ui.util.rememberFlowWithLifecycle
+import kotlinx.coroutines.flow.collect
 
 
 @Composable
@@ -29,10 +28,18 @@ fun HabitDetailScreen(
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(HabitDetailState())
 
     LaunchedEffect(viewModel) {
+        viewModel.uiEvents.collect { event ->
+            when (event) {
+                is HabitDetailEvents.GoBack -> onGoBack()
+            }
+        }
+    }
+
+    LaunchedEffect(viewModel) {
         viewModel.load(habitId)
     }
 
-    var showMenu by remember { mutableStateOf(false) }
+    var showRemoveDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -49,20 +56,27 @@ fun HabitDetailScreen(
                     IconButton(onClick = { }) {
                         Icon(Icons.Outlined.Edit, contentDescription = null)
                     }
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { showRemoveDialog = true }) {
                         Icon(Icons.Outlined.Delete, contentDescription = null)
-                    }
-                    DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
-                        DropdownMenuItem(onClick = {}) {
-                            Icon(Icons.Outlined.ImportExport, contentDescription = null)
-                        }
                     }
                 }
             )
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        HabitDetailContent(state)
+        Box {
+            HabitDetailContent(state)
+
+            if (showRemoveDialog) {
+                RemoveHabitDialog(
+                    onAccept = {
+                        showRemoveDialog = false
+                        viewModel.delete()
+                    },
+                    onCancel = { showRemoveDialog = false }
+                )
+            }
+        }
     }
 }
 
@@ -129,4 +143,27 @@ private fun HabitContent(
             }
         }
     }
+}
+
+@Composable
+private fun RemoveHabitDialog(
+    onAccept: () -> Unit,
+    onCancel: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onCancel,
+        text = {
+            Text("Are you sure to remove this habit?")
+        },
+        confirmButton = {
+            Button(onClick = onAccept) {
+                Text("Remove")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onCancel) {
+                Text("Cancel")
+            }
+        }
+    )
 }

@@ -19,5 +19,6 @@ interface HabitsRepository {
     fun getHabits(day: LocalDate? = null): Flow<List<Habit>>
     suspend fun addHabitRecord(habitId: Long, date: LocalDate)
     suspend fun removeHabitRecord(habitId: Long, date: LocalDate)
+    suspend fun removeHabit(habitId: Long)
 
 }

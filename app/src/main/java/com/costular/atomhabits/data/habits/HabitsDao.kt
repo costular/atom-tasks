@@ -20,4 +20,7 @@ abstract class HabitsDao {
     @Query("SELECT * FROM habits WHERE id = :id LIMIT 1")
     abstract fun getHabitById(id: Long): Flow<HabitAggregrated>
 
+    @Query("DELETE FROM habits WHERE id = :id")
+    abstract suspend fun removeHabitById(id: Long)
+
 }
