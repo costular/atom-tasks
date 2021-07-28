@@ -74,7 +74,7 @@ val Typography = Typography(
     ),
     button = TextStyle(
         fontFamily = Lato,
-        fontWeight = FontWeight.Black,
+        fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     ),
     caption = TextStyle(

@@ -1,5 +1,7 @@
 package com.costular.atomhabits.ui.features.habits.detail
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomhabits.domain.Async
 import com.costular.atomhabits.domain.model.Habit
+import com.costular.atomhabits.ui.components.CalendarView
 import com.costular.atomhabits.ui.components.ScreenHeader
 import com.costular.atomhabits.ui.components.reminderAsText
 import com.costular.atomhabits.ui.components.repetitionAsText
@@ -96,6 +99,7 @@ private fun HabitDetailContent(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 private fun HabitContent(
     habit: Habit
@@ -142,6 +146,12 @@ private fun HabitContent(
                 }
             }
         }
+
+        CalendarView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        )
     }
 }
 
