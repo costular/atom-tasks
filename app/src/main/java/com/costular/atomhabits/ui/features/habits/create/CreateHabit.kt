@@ -29,7 +29,7 @@ fun CreateHabit(
 ) {
     val viewModel: CreateHabitViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateHabitState())
-    val pagerState = rememberPagerState(pageCount = 3)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler {
@@ -62,7 +62,7 @@ fun CreateHabit(
                 ) // TODO: 23/6/21 add content description
             }
 
-            HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) {
+            HorizontalPager(state = pagerState, modifier = Modifier.weight(1f), count = 3) {
                 when (pagerState.currentPage) {
                     PAGE_NAME -> CreateHabitName(state, onChangeName = { viewModel.setName(it) })
                     PAGE_REPETITION -> CreateHabitRepetition(
@@ -152,7 +152,7 @@ private fun BottomActionBar(
 private fun BottomActionBarPreview() {
     BottomActionBar(
         isSaving = true,
-        rememberPagerState(pageCount = 5),
+        rememberPagerState(),
         onNext = {},
         onSave = {}
     )
