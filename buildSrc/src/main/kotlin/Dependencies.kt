@@ -1,7 +1,7 @@
 object Versions {
     val hiltNavigationCompose = "1.0.0-alpha03"
     val activityCompose = "1.4.0-rc01"
-    val kotlin = "1.5.40"
+    val kotlin = "1.5.31"
     val coroutines = "1.5.2"
     val materialDialogs = "0.6.1"
 
