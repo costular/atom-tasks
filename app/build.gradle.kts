@@ -11,7 +11,6 @@ plugins {
 
 android {
     compileSdk = Config.compileVersion
-    buildToolsVersion = Config.buildToolsVersion
     defaultConfig {
         applicationId = "com.costular.atomhabits"
         minSdk = Config.minSdk
