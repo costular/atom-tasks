@@ -2,9 +2,8 @@ package com.costular.atomreminders.di
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomreminders.db.AtomHabitDatabase
-import com.costular.atomreminders.data.habitrecord.HabitRecordDao
-import com.costular.atomreminders.data.habits.*
+import com.costular.atomreminders.db.AtomRemindersDatabase
+import com.costular.atomreminders.data.tasks.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,35 +17,30 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AtomHabitDatabase =
-        Room.databaseBuilder(context, AtomHabitDatabase::class.java, "atomhabits.db")
+    fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
+        Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomreminders.db")
             .fallbackToDestructiveMigration() // TODO: 26/6/21 remove this
             .build()
 
     @Singleton
     @Provides
-    fun provideHabitsDao(db: AtomHabitDatabase): HabitsDao = db.getHabitsDao()
+    fun providesTasksDao(db: AtomRemindersDatabase): TasksDao = db.getHabitsDao()
 
     @Singleton
     @Provides
-    fun providesReminderDao(db: AtomHabitDatabase): ReminderDao = db.getRemindersDao()
+    fun providesReminderDao(db: AtomRemindersDatabase): ReminderDao = db.getRemindersDao()
 
     @Singleton
     @Provides
-    fun provideHabitRecordDao(db: AtomHabitDatabase): HabitRecordDao = db.getHabitRecordDao()
-
-    @Singleton
-    @Provides
-    fun providesHabitLocalDataSource(
-        habitsDao: HabitsDao,
+    fun providesTaskLocalDataSource(
+        tasksDao: TasksDao,
         reminderDao: ReminderDao,
-        habitRecordDao: HabitRecordDao
-    ): HabitLocalDataSource =
-        DefaultHabitLocalDataSource(habitsDao, reminderDao, habitRecordDao)
+    ): TaskLocalDataSource =
+        DefaultTasksLocalDataSource(tasksDao, reminderDao)
 
     @Singleton
     @Provides
-    fun provideHabitsRepository(localDataSource: HabitLocalDataSource): HabitsRepository =
-        DefaultHabitsRepository(localDataSource)
+    fun provideTaskRepository(localDataSource: TaskLocalDataSource): TasksRepository =
+        DefaultTasksRepository(localDataSource)
 
 }

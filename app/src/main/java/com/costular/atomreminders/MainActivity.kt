@@ -7,10 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.costular.atomreminders.ui.features.habits.create.CreateHabit
-import com.costular.atomreminders.ui.features.habits.detail.HabitDetail
-import com.costular.atomreminders.ui.features.habits.list.HabitsScreen
-import com.costular.atomreminders.ui.theme.AtomHabitsTheme
+import com.costular.atomreminders.ui.features.tasks.detail.TaskDetail
+import com.costular.atomreminders.ui.features.tasks.agenda.Agenda
+import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AtomHabitsTheme {
+            AtomRemindersTheme {
                 Navigation()
             }
         }
@@ -32,36 +31,29 @@ class MainActivity : ComponentActivity() {
 private fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = Screen.HabitList.route) {
-        composable(route = Screen.HabitList.route) {
-            HabitsScreen(
-                onCreateHabit = {
-                    navController.navigate(Screen.NewHabit.route)
+    NavHost(navController, startDestination = Screen.Agenda.route) {
+        composable(route = Screen.Agenda.route) {
+            Agenda(
+                onCreateTask = {
+                    // TODO:
                 },
-                onOpenHabit = { habit ->
-                    navController.navigate(Screen.HabitDetail.createRoute(habit.id))
+                onOpenTask = { task ->
+                    navController.navigate(Screen.TaskDetail.createRoute(task.id))
                 }
             )
         }
-        composable(route = Screen.NewHabit.route) {
-            CreateHabit(
-                goBack = { navController.popBackStack() }
-            )
-        }
-        composable(route = Screen.HabitDetail.route) { backStackEntry ->
-            val habitId = backStackEntry.arguments?.getString("id")
-            requireNotNull(habitId) { "id parameter wasn't found. Please make sure it's set!" }
-            HabitDetail(habitId.toLong(), onGoBack = { navController.popBackStack() })
+        composable(route = Screen.TaskDetail.route) { backStackEntry ->
+            val taskId = backStackEntry.arguments?.getString("id")
+            requireNotNull(taskId) { "id parameter wasn't found. Please make sure it's set!" }
+            TaskDetail(taskId.toLong(), onGoBack = { navController.popBackStack() })
         }
     }
 }
 
 sealed class Screen(val route: String) {
-    object HabitList : Screen("habits")
+    object Agenda : Screen("agenda")
 
-    object HabitDetail : Screen("habits/{id}") {
-        fun createRoute(id: Long): String = "habits/$id"
+    object TaskDetail : Screen("tasks/{id}") {
+        fun createRoute(id: Long): String = "tasks/$id"
     }
-
-    object NewHabit : Screen("new-habit")
 }

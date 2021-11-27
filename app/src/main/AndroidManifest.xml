@@ -8,13 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AtomHabits"
-        android:name="com.costular.atomreminders.ui.AtomHabitsApp">
+        android:theme="@style/Theme.AtomReminders"
+        android:name="com.costular.atomreminders.ui.AtomRemindersApp">
         <activity
             android:name="com.costular.atomreminders.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AtomHabits">
+            android:theme="@style/Theme.AtomReminders">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
