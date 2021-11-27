@@ -1,7 +1,5 @@
 package com.costular.atomhabits.ui.features.habits.detail
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,20 +8,21 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomhabits.domain.Async
+import com.costular.atomhabits.domain.model.Daily
 import com.costular.atomhabits.domain.model.Habit
-import com.costular.atomhabits.ui.components.CalendarView
-import com.costular.atomhabits.ui.components.ScreenHeader
-import com.costular.atomhabits.ui.components.reminderAsText
-import com.costular.atomhabits.ui.components.repetitionAsText
+import com.costular.atomhabits.domain.model.Reminder
+import com.costular.atomhabits.ui.components.*
+import com.costular.atomhabits.ui.theme.AtomHabitsTheme
 import com.costular.atomhabits.ui.util.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 
 
 @Composable
-fun HabitDetailScreen(
+fun HabitDetail(
     habitId: Long,
     onGoBack: () -> Unit
 ) {
@@ -99,7 +98,6 @@ private fun HabitDetailContent(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 private fun HabitContent(
     habit: Habit
@@ -146,12 +144,6 @@ private fun HabitContent(
                 }
             }
         }
-
-        CalendarView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
     }
 }
 

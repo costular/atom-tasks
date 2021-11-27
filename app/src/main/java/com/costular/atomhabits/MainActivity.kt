@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.costular.atomhabits.ui.features.habits.create.CreateHabit
-import com.costular.atomhabits.ui.features.habits.detail.HabitDetailScreen
+import com.costular.atomhabits.ui.features.habits.detail.HabitDetail
 import com.costular.atomhabits.ui.features.habits.list.HabitsScreen
 import com.costular.atomhabits.ui.theme.AtomHabitsTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -51,7 +51,7 @@ private fun Navigation() {
         composable(route = Screen.HabitDetail.route) { backStackEntry ->
             val habitId = backStackEntry.arguments?.getString("id")
             requireNotNull(habitId) { "id parameter wasn't found. Please make sure it's set!" }
-            HabitDetailScreen(habitId.toLong(), onGoBack = { navController.popBackStack() })
+            HabitDetail(habitId.toLong(), onGoBack = { navController.popBackStack() })
         }
     }
 }
