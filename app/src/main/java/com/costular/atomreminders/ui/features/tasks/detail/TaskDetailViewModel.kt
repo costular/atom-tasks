@@ -41,9 +41,10 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun delete() = viewModelScope.launch {
-        val state = withContext(dispatcher.computation) { awaitState() }
-        if (state.task is Async.Success) {
-            removeTaskInteractor(RemoveTaskInteractor.Params(state.task.data.id))
+        val task = state.value.task
+
+        if (task is Async.Success) {
+            removeTaskInteractor(RemoveTaskInteractor.Params(task().id))
                 .flowOn(dispatcher.io)
                 .collect { status ->
                     when (status) {
