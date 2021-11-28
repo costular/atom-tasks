@@ -1,4 +1,4 @@
-package com.costular.atomreminders.ui.features.tasks.agenda
+package com.costular.atomreminders.ui.features.agenda
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

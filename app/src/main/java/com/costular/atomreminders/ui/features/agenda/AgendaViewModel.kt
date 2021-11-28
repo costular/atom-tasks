@@ -1,4 +1,4 @@
-package com.costular.atomreminders.ui.features.tasks.agenda
+package com.costular.atomreminders.ui.features.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomreminders.core.net.DispatcherProvider

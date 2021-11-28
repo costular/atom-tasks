@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.costular.atomreminders.ui.features.tasks.detail.TaskDetail
-import com.costular.atomreminders.ui.features.tasks.agenda.Agenda
+import com.costular.atomreminders.ui.features.agenda.Agenda
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
