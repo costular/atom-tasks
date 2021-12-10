@@ -27,6 +27,10 @@ abstract class MviViewModel<S> constructor(initialState: S) : ViewModel() {
         _state.update(block)
     }
 
+    protected fun withState(block: S.() -> Unit) {
+        block(_state.value)
+    }
+
     protected fun sendEvent(uiEvent: UiEvent) = viewModelScope.launch {
         _uiEvents.send(uiEvent)
     }
