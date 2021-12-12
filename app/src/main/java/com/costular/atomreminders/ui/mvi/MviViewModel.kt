@@ -1,14 +1,12 @@
-package com.costular.decorit.presentation.base
+package com.costular.atomreminders.ui.mvi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
+import com.costular.decorit.presentation.base.UiEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlin.reflect.KProperty1
 
 abstract class MviViewModel<S> constructor(initialState: S) : ViewModel() {
 

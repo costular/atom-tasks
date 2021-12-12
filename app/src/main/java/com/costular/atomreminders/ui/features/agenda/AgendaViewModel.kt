@@ -5,14 +5,13 @@ import com.costular.atomreminders.core.net.DispatcherProvider
 import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.domain.InvokeStatus
 import com.costular.atomreminders.domain.interactor.GetTasksInteractor
-import com.costular.decorit.presentation.base.MviViewModel
+import com.costular.atomreminders.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -32,9 +31,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun loadTasks() = viewModelScope.launch {
-        val state = withContext(dispatcher.computation) { awaitState() }
-
-        getTasksInteractor(GetTasksInteractor.Params(day = state.selectedDay))
+        getTasksInteractor(GetTasksInteractor.Params(day = state.value.selectedDay))
         getTasksInteractor.observe()
             .flowOn(dispatcher.io)
             .onStart { setState { copy(habits = Async.Loading) } }
@@ -43,8 +40,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
-        val state = withContext(dispatcher.computation) { awaitState() }
-        // TODO: update task
+
     }
 
     private fun handleMarkStatus(status: InvokeStatus) {
