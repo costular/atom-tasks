@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.costular.atomreminders.db.AtomRemindersDatabase
 import com.costular.atomreminders.data.tasks.*
+import com.costular.atomreminders.ui.common.validation.FieldValidator
+import com.costular.atomreminders.ui.common.validation.FieldValidatorDefault
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,5 +44,9 @@ class DataModule {
     @Provides
     fun provideTaskRepository(localDataSource: TaskLocalDataSource): TasksRepository =
         DefaultTasksRepository(localDataSource)
+
+    @Singleton
+    @Provides
+    fun provideFieldValidator(): FieldValidator = FieldValidatorDefault()
 
 }
