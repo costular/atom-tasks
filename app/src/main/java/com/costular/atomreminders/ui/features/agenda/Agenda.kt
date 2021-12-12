@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomreminders.ui.components.HorizontalCalendar
 import java.time.LocalDate
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.costular.atomreminders.R
 import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.domain.model.Task
 import com.costular.atomreminders.ui.components.HabitList
@@ -23,8 +25,8 @@ import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
 
 @Composable
 fun Agenda(
-    onCreateTask: () -> Unit,
-    onOpenTask: (Task) -> Unit
+    onCreateTask: (LocalDate?) -> Unit,
+    onOpenTask: (Task) -> Unit,
 ) {
     val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(initial = AgendaState())
@@ -33,9 +35,9 @@ fun Agenda(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 text = {
-                    Text("Create")
+                    Text(stringResource(R.string.agenda_create_task))
                 },
-                onClick = onCreateTask,
+                onClick = { onCreateTask(state.selectedDay) },
                 icon = {
                     Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
                 },
