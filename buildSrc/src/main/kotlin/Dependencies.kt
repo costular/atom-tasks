@@ -20,7 +20,6 @@ object Versions {
     val timber = "5.0.1"
     val initializer = "1.0.0-alpha01"
     val compose = "1.1.0-beta01"
-    val composeNavigation = "2.4.0-beta01"
     val hiltWork = "1.0.0"
     val hiltJetpackViewModel = "1.0.0-alpha03"
     val accompanistCoil = "0.15.0"
@@ -65,7 +64,6 @@ object Deps {
     val composeMaterialIcons =
         "androidx.compose.material:material-icons-extended:${Versions.compose}"
     val composeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
-    val composeNavigation = "androidx.navigation:navigation-compose:${Versions.composeNavigation}"
     val accompanistCoil = "com.google.accompanist:accompanist-coil:${Versions.accompanistCoil}"
     val accompanistPager = "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
     val accompanistPagerIndicators = "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"

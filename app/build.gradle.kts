@@ -94,7 +94,6 @@ dependencies {
     implementation(Deps.composeMaterialIcons)
     implementation(Deps.composeUi)
     implementation(Deps.composeUiTooling)
-    implementation(Deps.composeNavigation)
     implementation(Deps.accompanistCoil)
     implementation(Deps.hiltNavigationCompose)
     implementation(Deps.workManager)
