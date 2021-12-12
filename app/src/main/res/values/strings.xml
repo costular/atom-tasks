@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Atom Reminders</string>
 
+    <string name="error_generic">Oh no! something failed :(</string>
     <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
 

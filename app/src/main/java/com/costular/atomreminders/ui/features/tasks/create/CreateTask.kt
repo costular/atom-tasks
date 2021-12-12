@@ -29,6 +29,7 @@ import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @ExperimentalComposeUiApi
@@ -39,7 +40,9 @@ fun CreateTask(
     viewModel: CreateTaskViewModel = hiltViewModel(),
 ) {
     val dialogState = rememberMaterialDialogState()
+    val coroutineScope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scaffoldState = rememberScaffoldState()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskState.Empty)
 
     LaunchedEffect(date) {
@@ -48,10 +51,17 @@ fun CreateTask(
         }
     }
 
+    val error = stringResource(R.string.error_generic)
+
     LaunchedEffect(viewModel) {
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is CreateTaskUiEvent.NavigateUp -> onNavigateBack()
+                is CreateTaskUiEvent.ShowError -> {
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(error)
+                    }
+                }
             }
         }
     }
@@ -71,20 +81,26 @@ fun CreateTask(
         onDismiss = viewModel::closeDateSelection
     )
 
-    CreateTask(
-        state,
-        actioner = { action ->
-            when (action) {
-                is CreateTaskAction.CreateTask -> viewModel.save()
-                is CreateTaskAction.NavigateUp -> onNavigateBack()
-                is CreateTaskAction.SelectDate -> viewModel.selectDate()
-                is CreateTaskAction.UpdateName -> viewModel.setName(action.name)
-                is CreateTaskAction.HideKeyboard -> {
-                    keyboardController?.hide()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState,
+    ) {
+        CreateTask(
+            state,
+            actioner = { action ->
+                when (action) {
+                    is CreateTaskAction.CreateTask -> viewModel.save()
+                    is CreateTaskAction.NavigateUp -> onNavigateBack()
+                    is CreateTaskAction.SelectDate -> viewModel.selectDate()
+                    is CreateTaskAction.UpdateName -> viewModel.setName(action.name)
+                    is CreateTaskAction.HideKeyboard -> {
+                        keyboardController?.hide()
+                    }
                 }
             }
-        }
-    )
+        )
+    }
+
 }
 
 @Composable
@@ -204,7 +220,7 @@ private fun ColumnScope.DateChip(
             style = MaterialTheme.typography.body1
         )
     }
-    
+
     if (!state.isDateValid) {
         Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
         TextFieldError(stringResource(R.string.create_task_date_in_the_past))
