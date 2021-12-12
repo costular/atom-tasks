@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Atom Reminders</string>
 
+    <string name="ok">Okay</string>
+    <string name="cancel">Cancel</string>
+
     <string name="repetition_everyday">Everyday</string>
     <string name="repetition_weekly">Weekly</string>
     <string name="repetition_weekly_formatted">Every %1$s</string>
@@ -8,4 +11,16 @@
     <string name="day_yesterday">Yesterday</string>
     <string name="day_today">Today</string>
     <string name="day_tomorrow">Tomorrow</string>
+
+    <string name="field_error_empty">This field cannot be empty</string>
+
+    <string name="agenda_create_task">Create</string>
+
+    <string name="create_task_title">New task</string>
+    <string name="create_task_name">Task\'s name</string>
+    <string name="create_task_what">What</string>
+    <string name="create_task_when">When</string>
+    <string name="create_task_save">Save</string>
+    <string name="today">Today</string>
+    <string name="create_task_date_in_the_past">Date cannot be in the past</string>
 </resources>
