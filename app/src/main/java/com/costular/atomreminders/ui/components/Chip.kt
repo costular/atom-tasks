@@ -12,20 +12,29 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomreminders.R
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 
 @Composable
 fun Chip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colors.background,
+    isError: Boolean = false,
     content: @Composable RowScope.() -> Unit,
 ) {
+    val borderColor =
+        if (isError) MaterialTheme.colors.error else contentColorFor(backgroundColor).copy(alpha = ContentAlpha.disabled)
+
     Surface(
+        color = backgroundColor,
         border = BorderStroke(
             1.dp,
-            MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+            borderColor,
         ),
         shape = MaterialTheme.shapes.small,
         modifier = modifier
@@ -50,7 +59,7 @@ private fun ChipPreview() {
                 contentDescription = null
             )
             Spacer(Modifier.width(16.dp))
-            Text("Today", style = MaterialTheme.typography.body1)
+            Text(stringResource(R.string.today), style = MaterialTheme.typography.body1)
         }
     }
 }
