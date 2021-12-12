@@ -5,5 +5,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "AtomHabits"
+rootProject.name = "AtomReminders"
 include(":app")

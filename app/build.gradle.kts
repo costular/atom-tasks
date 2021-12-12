@@ -12,7 +12,7 @@ plugins {
 android {
     compileSdk = Config.compileVersion
     defaultConfig {
-        applicationId = "com.costular.atomhabits"
+        applicationId = "com.costular.atomreminders"
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
@@ -94,7 +94,6 @@ dependencies {
     implementation(Deps.composeMaterialIcons)
     implementation(Deps.composeUi)
     implementation(Deps.composeUiTooling)
-    implementation(Deps.composeNavigation)
     implementation(Deps.accompanistCoil)
     implementation(Deps.hiltNavigationCompose)
     implementation(Deps.workManager)
