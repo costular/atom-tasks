@@ -9,7 +9,9 @@ import org.junit.Rule
 abstract class MviViewModelTest {
 
     protected val coroutineTestDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    protected val dispatcherProvider: DispatcherProvider = TestDispatcherProvider(coroutineTestDispatcher)
+
+    protected val dispatcherProvider: DispatcherProvider =
+        TestDispatcherProvider(coroutineTestDispatcher)
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule(coroutineTestDispatcher)
