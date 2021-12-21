@@ -20,6 +20,7 @@ import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.domain.model.Task
 import com.costular.atomreminders.ui.components.HabitList
 import com.costular.atomreminders.ui.components.ScreenHeader
+import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.util.DateUtils.dayAsText
 import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
 
@@ -91,7 +92,7 @@ fun Agenda(
                 from = LocalDate.now().minusDays(AgendaDaysBefore.toLong()),
                 until = LocalDate.now().plusDays(AgendaDaysAfter.toLong()),
                 selectedDay = state.selectedDay,
-                modifier = Modifier.padding(bottom = 24.dp),
+                modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
                 onSelectDay = {
                     viewModel.setSelectedDay(it)
                 }
