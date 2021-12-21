@@ -58,7 +58,10 @@ fun Agenda(
                     text = selectedDayText,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(vertical = 24.dp, horizontal = 16.dp)
+                        .padding(
+                            vertical = AppTheme.dimens.spacingXLarge,
+                            horizontal = AppTheme.dimens.spacingLarge
+                        )
                         .clickable {
                             // TODO: 26/6/21 open calendar
                         }
