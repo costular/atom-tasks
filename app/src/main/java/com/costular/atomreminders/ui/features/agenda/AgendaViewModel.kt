@@ -1,10 +1,8 @@
 package com.costular.atomreminders.ui.features.agenda
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomreminders.core.net.DispatcherProvider
 import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.domain.InvokeError
-import com.costular.atomreminders.domain.InvokeStatus
 import com.costular.atomreminders.domain.InvokeSuccess
 import com.costular.atomreminders.domain.interactor.GetTasksInteractor
 import com.costular.atomreminders.domain.interactor.UpdateTaskInteractor
@@ -12,7 +10,6 @@ import com.costular.atomreminders.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -36,9 +33,9 @@ class AgendaViewModel @Inject constructor(
     fun loadTasks() = viewModelScope.launch {
         getTasksInteractor(GetTasksInteractor.Params(day = state.value.selectedDay))
         getTasksInteractor.observe()
-            .onStart { setState { copy(habits = Async.Loading) } }
-            .catch { setState { copy(habits = Async.Failure(it)) } }
-            .collect { setState { copy(habits = Async.Success(it)) } }
+            .onStart { setState { copy(tasks = Async.Loading) } }
+            .catch { setState { copy(tasks = Async.Failure(it)) } }
+            .collect { setState { copy(tasks = Async.Success(it)) } }
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
@@ -53,6 +50,11 @@ class AgendaViewModel @Inject constructor(
                     }
                 }
             }
+    }
+
+    companion object {
+        const val DaysBefore = 1
+        const val DaysAfter = 14
     }
 
 }

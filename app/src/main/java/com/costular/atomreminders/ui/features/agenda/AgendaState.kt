@@ -6,5 +6,5 @@ import java.time.LocalDate
 
 data class AgendaState(
     val selectedDay: LocalDate = LocalDate.now(),
-    val habits: Async<List<Task>> = Async.Uninitialized
+    val tasks: Async<List<Task>> = Async.Uninitialized
 )
