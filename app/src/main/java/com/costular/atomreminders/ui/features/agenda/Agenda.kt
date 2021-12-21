@@ -94,8 +94,8 @@ fun Agenda(
             HorizontalCalendar(
                 from = state.calendarFromDate,
                 until = state.calendarUntilDate,
-                selectedDay = state.selectedDay,
                 modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
+                selectedDay = state.selectedDay,
                 onSelectDay = {
                     viewModel.setSelectedDay(it)
                 }
