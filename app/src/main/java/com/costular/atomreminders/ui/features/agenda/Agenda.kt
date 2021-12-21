@@ -27,7 +27,6 @@ import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
 @Composable
 fun Agenda(
     onCreateTask: (LocalDate?) -> Unit,
-    onOpenTask: (Task) -> Unit,
 ) {
     val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(initial = AgendaState())
@@ -103,19 +102,19 @@ fun Agenda(
                 }
             )
 
-            val tasks = state.tasks
-            when (tasks) {
+            when (val tasks = state.tasks) {
                 is Async.Success -> {
                     HabitList(
                         tasks = tasks.data,
-                        onClick = { onOpenTask(it) },
+                        onClick = {
+                            // TODO()
+                        },
                         onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                         modifier = Modifier.fillMaxSize(),
                         date = state.selectedDay
                     )
                 }
             }
-
         }
     }
 }
