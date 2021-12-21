@@ -68,6 +68,7 @@ fun Agenda(
                 )
 
                 IconButton(
+                    enabled = state.isPreviousDaySelected,
                     onClick = {
                         val newDay = state.selectedDay.minusDays(1)
                         viewModel.setSelectedDay(newDay)
@@ -79,6 +80,7 @@ fun Agenda(
                     Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
                 }
                 IconButton(
+                    enabled = state.isNextDaySelected,
                     onClick = {
                         val newDay = state.selectedDay.plusDays(1)
                         viewModel.setSelectedDay(newDay)
