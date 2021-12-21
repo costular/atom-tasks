@@ -89,8 +89,8 @@ fun Agenda(
             }
 
             HorizontalCalendar(
-                from = LocalDate.now().minusDays(AgendaDaysBefore.toLong()),
-                until = LocalDate.now().plusDays(AgendaDaysAfter.toLong()),
+                from = state.calendarFromDate,
+                until = state.calendarUntilDate,
                 selectedDay = state.selectedDay,
                 modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
                 onSelectDay = {
@@ -98,11 +98,11 @@ fun Agenda(
                 }
             )
 
-            val habits = state.habits
-            when (habits) {
+            val tasks = state.tasks
+            when (tasks) {
                 is Async.Success -> {
                     HabitList(
-                        tasks = habits.data,
+                        tasks = tasks.data,
                         onClick = { onOpenTask(it) },
                         onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                         modifier = Modifier.fillMaxSize(),
@@ -114,6 +114,3 @@ fun Agenda(
         }
     }
 }
-
-const val AgendaDaysBefore = 1
-const val AgendaDaysAfter = 14
