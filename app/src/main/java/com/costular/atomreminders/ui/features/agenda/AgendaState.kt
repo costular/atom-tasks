@@ -9,11 +9,16 @@ import java.time.LocalDate
 data class AgendaState(
     val selectedDay: LocalDate = LocalDate.now(),
     val tasks: Async<List<Task>> = Async.Uninitialized,
+    val taskAction: Task? = null,
 ) {
-    val calendarFromDate = LocalDate.now().minusDays(DaysBefore.toLong())
-    val calendarUntilDate = LocalDate.now().plusDays(DaysAfter.toLong())
+    val calendarFromDate: LocalDate = LocalDate.now().minusDays(DaysBefore.toLong())
+    val calendarUntilDate: LocalDate = LocalDate.now().plusDays(DaysAfter.toLong())
 
     val isPreviousDaySelected get() = calendarFromDate.isBefore(selectedDay)
     val isNextDaySelected get() = calendarUntilDate.isAfter(selectedDay)
+
+    companion object {
+        val Empty = AgendaState()
+    }
 
 }
