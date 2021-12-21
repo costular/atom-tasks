@@ -10,5 +10,6 @@ interface TaskLocalDataSource {
     fun getTasks(day: LocalDate? = null): Flow<List<TaskAggregated>>
     fun getTaskById(id: Long): Flow<TaskAggregated>
     suspend fun removeTask(taskId: Long)
+    suspend fun markTask(taskId: Long, isDone: Boolean)
 
 }

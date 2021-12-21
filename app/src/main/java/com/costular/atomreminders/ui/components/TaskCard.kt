@@ -26,7 +26,7 @@ fun TaskCard(
     title: String,
     isFinished: Boolean,
     reminder: Reminder?,
-    onMark: (Boolean) -> Unit,
+    onMark: () -> Unit,
     onOpen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun TaskCard(
             Markable(
                 isMarked = isFinished,
                 borderColor = mediumColor,
-                onClick = { onMark(!isFinished) },
+                onClick = { onMark() },
                 contentColor = MaterialTheme.colors.primary,
                 onContentColor = MaterialTheme.colors.onPrimary
             )

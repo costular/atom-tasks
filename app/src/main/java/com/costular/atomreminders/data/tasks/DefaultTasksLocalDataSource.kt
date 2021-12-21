@@ -32,4 +32,8 @@ class DefaultTasksLocalDataSource(
         tasksDao.removeTaskById(taskId)
     }
 
+    override suspend fun markTask(taskId: Long, isDone: Boolean) {
+        tasksDao.updateTaskDone(taskId, isDone)
+    }
+
 }

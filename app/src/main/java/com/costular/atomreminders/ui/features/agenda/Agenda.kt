@@ -103,7 +103,7 @@ fun Agenda(
                     HabitList(
                         tasks = habits.data,
                         onClick = { onOpenTask(it) },
-                        onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, !isMarked) },
+                        onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                         modifier = Modifier.fillMaxSize(),
                         date = state.selectedDay
                     )
