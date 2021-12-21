@@ -88,8 +88,8 @@ fun Agenda(
             }
 
             HorizontalCalendar(
-                from = LocalDate.now().minusDays(7),
-                until = LocalDate.now().plusDays(7),
+                from = LocalDate.now().minusDays(AgendaDaysBefore.toLong()),
+                until = LocalDate.now().plusDays(AgendaDaysAfter.toLong()),
                 selectedDay = state.selectedDay,
                 modifier = Modifier.padding(bottom = 24.dp),
                 onSelectDay = {
@@ -113,3 +113,6 @@ fun Agenda(
         }
     }
 }
+
+const val AgendaDaysBefore = 1
+const val AgendaDaysAfter = 14
