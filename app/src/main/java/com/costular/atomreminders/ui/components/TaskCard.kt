@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.costular.atomreminders.domain.model.*
+import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
@@ -36,7 +37,7 @@ fun TaskCard(
         modifier
             .fillMaxWidth()
             .clickable { onOpen() }
-            .padding(vertical = 4.dp),
+            .padding(vertical = AppTheme.dimens.spacingSmall),
         color = MaterialTheme.colors.background
     ) {
         val reminderIconId = "alarm"
