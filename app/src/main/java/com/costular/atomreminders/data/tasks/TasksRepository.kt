@@ -17,5 +17,6 @@ interface TasksRepository {
     fun getTaskById(id: Long): Flow<Task>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
     suspend fun removeTask(taskId: Long)
+    suspend fun markTask(taskId: Long, isDone: Boolean)
 
 }

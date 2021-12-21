@@ -13,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.costular.atomreminders.domain.model.*
+import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
@@ -26,7 +28,7 @@ fun TaskCard(
     title: String,
     isFinished: Boolean,
     reminder: Reminder?,
-    onMark: (Boolean) -> Unit,
+    onMark: () -> Unit,
     onOpen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -36,7 +38,7 @@ fun TaskCard(
         modifier
             .fillMaxWidth()
             .clickable { onOpen() }
-            .padding(vertical = 4.dp),
+            .padding(vertical = AppTheme.dimens.spacingSmall),
         color = MaterialTheme.colors.background
     ) {
         val reminderIconId = "alarm"
@@ -67,7 +69,7 @@ fun TaskCard(
             Markable(
                 isMarked = isFinished,
                 borderColor = mediumColor,
-                onClick = { onMark(!isFinished) },
+                onClick = { onMark() },
                 contentColor = MaterialTheme.colors.primary,
                 onContentColor = MaterialTheme.colors.onPrimary
             )
@@ -75,7 +77,9 @@ fun TaskCard(
             Column {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6.copy(
+                        textDecoration = if (isFinished) TextDecoration.LineThrough else null
+                    )
                 )
                 Row {
                     if (reminder != null) {

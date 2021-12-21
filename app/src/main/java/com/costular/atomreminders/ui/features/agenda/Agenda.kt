@@ -20,6 +20,7 @@ import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.domain.model.Task
 import com.costular.atomreminders.ui.components.HabitList
 import com.costular.atomreminders.ui.components.ScreenHeader
+import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.util.DateUtils.dayAsText
 import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
 
@@ -57,13 +58,17 @@ fun Agenda(
                     text = selectedDayText,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(vertical = 24.dp, horizontal = 16.dp)
+                        .padding(
+                            vertical = AppTheme.dimens.spacingXLarge,
+                            horizontal = AppTheme.dimens.spacingLarge
+                        )
                         .clickable {
                             // TODO: 26/6/21 open calendar
                         }
                 )
 
                 IconButton(
+                    enabled = state.isPreviousDaySelected,
                     onClick = {
                         val newDay = state.selectedDay.minusDays(1)
                         viewModel.setSelectedDay(newDay)
@@ -75,6 +80,7 @@ fun Agenda(
                     Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
                 }
                 IconButton(
+                    enabled = state.isNextDaySelected,
                     onClick = {
                         val newDay = state.selectedDay.plusDays(1)
                         viewModel.setSelectedDay(newDay)
@@ -88,22 +94,22 @@ fun Agenda(
             }
 
             HorizontalCalendar(
-                from = LocalDate.now().minusDays(7),
-                until = LocalDate.now().plusDays(7),
+                from = state.calendarFromDate,
+                until = state.calendarUntilDate,
+                modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
                 selectedDay = state.selectedDay,
-                modifier = Modifier.padding(bottom = 24.dp),
                 onSelectDay = {
                     viewModel.setSelectedDay(it)
                 }
             )
 
-            val habits = state.habits
-            when (habits) {
+            val tasks = state.tasks
+            when (tasks) {
                 is Async.Success -> {
                     HabitList(
-                        tasks = habits.data,
+                        tasks = tasks.data,
                         onClick = { onOpenTask(it) },
-                        onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, !isMarked) },
+                        onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                         modifier = Modifier.fillMaxSize(),
                         date = state.selectedDay
                     )

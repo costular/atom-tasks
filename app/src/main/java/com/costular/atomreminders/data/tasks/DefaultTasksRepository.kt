@@ -49,4 +49,8 @@ class DefaultTasksRepository(
     override suspend fun removeTask(taskId: Long) {
         localDataSource.removeTask(taskId)
     }
+
+    override suspend fun markTask(taskId: Long, isDone: Boolean) {
+        localDataSource.markTask(taskId, isDone)
+    }
 }

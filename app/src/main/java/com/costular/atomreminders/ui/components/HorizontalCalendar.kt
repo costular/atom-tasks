@@ -26,8 +26,8 @@ fun HorizontalCalendar(
     from: LocalDate,
     until: LocalDate,
     onSelectDay: (LocalDate) -> Unit,
-    selectedDay: LocalDate = LocalDate.now(),
     modifier: Modifier = Modifier,
+    selectedDay: LocalDate = LocalDate.now(),
     lazyListState: LazyListState = rememberLazyListState()
 ) {
     val coroutineScope = rememberCoroutineScope()

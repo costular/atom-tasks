@@ -31,7 +31,7 @@ fun HabitList(
         items(tasks) { task ->
             TaskCard(
                 title = task.name,
-                onMark = { isMarked -> onMarkHabit(task.id, isMarked) },
+                onMark = { onMarkHabit(task.id, !task.isDone) },
                 onOpen = { onClick(task) },
                 reminder = task.reminder,
                 isFinished = task.isDone
