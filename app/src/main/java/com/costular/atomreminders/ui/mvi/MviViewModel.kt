@@ -11,13 +11,10 @@ import kotlinx.coroutines.sync.Mutex
 abstract class MviViewModel<S> constructor(initialState: S) : ViewModel() {
 
     private val _uiEvents = Channel<UiEvent>(Channel.BUFFERED)
-
     val uiEvents: Flow<UiEvent>
         get() = _uiEvents.receiveAsFlow()
 
     private val _state = MutableStateFlow(initialState)
-    private val stateMutex = Mutex()
-
     val state: StateFlow<S>
         get() = _state.asStateFlow()
 
