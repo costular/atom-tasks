@@ -17,7 +17,7 @@ import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 
 @Composable
-fun BottomMenuItem(
+fun ActionItem(
     icon: ImageVector,
     text: String,
     onClick: () -> Unit,
@@ -36,7 +36,7 @@ fun BottomMenuItem(
 
         Text(
             text = text,
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.subtitle1,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -47,7 +47,7 @@ fun BottomMenuItem(
 @Composable
 private fun ActionMenuItemPreview() {
     AtomRemindersTheme {
-        BottomMenuItem(
+        ActionItem(
             Icons.Outlined.Delete,
             "Remove",
             onClick = {}
