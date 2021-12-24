@@ -31,6 +31,7 @@ object Versions {
     val preferencesDataStore = "1.0.0"
     val truth = "1.4.0"
     val turbine = "0.6.1"
+    val composeCalendar = "0.2.1"
 }
 
 
@@ -73,6 +74,7 @@ object Deps {
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     val materialDialogsDatetime = "io.github.vanpra.compose-material-dialogs:datetime:${Versions.materialDialogs}"
+    val composeCalendar = "io.github.boguszpawlowski.composecalendar:composecalendar:${Versions.composeCalendar}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
