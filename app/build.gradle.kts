@@ -102,6 +102,7 @@ dependencies {
     implementation(Deps.accompanistPager)
     implementation(Deps.accompanistPagerIndicators)
     implementation(Deps.materialDialogsDatetime)
+    implementation(Deps.composeCalendar)
     kapt(Deps.roomCompiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
