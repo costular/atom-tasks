@@ -10,9 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.costular.atomreminders.ui.features.agenda.Agenda
-import com.costular.atomreminders.ui.features.tasks.create.CreateTask
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
-import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -40,21 +38,8 @@ private fun Navigation() {
         composable(route = Screen.Agenda.route) {
             Agenda(
                 onCreateTask = { date ->
-                    navController.navigate(Screen.TaskCreation.createRoute(date))
+                    // TODO: 23/12/21
                 }
-            )
-        }
-        composable(route = Screen.TaskCreation.route) { navBackStackEntry ->
-            val dateString = navBackStackEntry.arguments?.getString("date")
-            val date = if (dateString != null) {
-                LocalDate.parse(dateString)
-            } else {
-                null
-            }
-
-            CreateTask(
-                onNavigateBack = { navController.navigateUp() },
-                date = date,
             )
         }
     }
@@ -62,8 +47,4 @@ private fun Navigation() {
 
 sealed class Screen(val route: String) {
     object Agenda : Screen("agenda")
-
-    object TaskCreation : Screen("create_task?date={date}") {
-        fun createRoute(date: LocalDate?): String = "create_task?date=$date"
-    }
 }
