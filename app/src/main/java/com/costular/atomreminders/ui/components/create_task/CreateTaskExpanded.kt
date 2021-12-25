@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 import com.costular.atomreminders.ui.util.DateTimeFormatters
 import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
+import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -39,13 +41,33 @@ import java.time.LocalTime
 fun CreateTaskExpanded(
     value: String,
     date: LocalDate,
-    onSave: () -> Unit,
+    onSave: (CreateTaskResult) -> Unit,
     modifier: Modifier = Modifier,
     reminder: LocalTime? = null,
 ) {
     val viewModel: CreateTaskExpandedViewModel = viewModel()
     val state by
     rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
+
+    LaunchedEffect(value) {
+        viewModel.setName(value)
+    }
+
+    LaunchedEffect(date) {
+        viewModel.setDate(date)
+    }
+
+    LaunchedEffect(reminder) {
+        viewModel.setReminder(reminder)
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.uiEvents.collect { event ->
+            when (event) {
+                is CreateTaskUiEvents.SaveTask -> onSave(event.taskResult)
+            }
+        }
+    }
 
     CreateTaskExpanded(
         state = state,
@@ -54,7 +76,9 @@ fun CreateTaskExpanded(
         onClickDate = { viewModel.selectTaskData(TaskDataSelection.Date) },
         onSetDate = { viewModel.setDate(it) },
         onClickReminder = { viewModel.selectTaskData(TaskDataSelection.Reminder) },
-        onSave = onSave,
+        onSave = {
+            viewModel.requestSave()
+        },
     )
 }
 

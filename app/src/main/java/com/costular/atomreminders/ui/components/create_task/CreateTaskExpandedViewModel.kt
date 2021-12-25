@@ -19,7 +19,7 @@ class CreateTaskExpandedViewModel :
         }
     }
 
-    fun setReminder(localTime: LocalTime) {
+    fun setReminder(localTime: LocalTime?) {
         setState {
             copy(reminder = localTime)
         }
@@ -38,7 +38,18 @@ class CreateTaskExpandedViewModel :
     }
 
     fun requestSave() {
-        // TODO: 24/12/21
+        sendEvent(
+            CreateTaskUiEvents.SaveTask(
+                state.value.asCreateTaskResult()
+            )
+        )
     }
+
+    private fun CreateTaskExpandedState.asCreateTaskResult(): CreateTaskResult =
+        CreateTaskResult(
+            name = name,
+            date = date,
+            reminder = reminder
+        )
 
 }

@@ -107,4 +107,22 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
             }
         }
 
+    @Test
+    fun `should send save event with according data when request save`() = testBlocking {
+        val name = "name"
+        val date = LocalDate.of(2021, 12, 24)
+        val reminder = LocalTime.of(9, 0)
+        val expected = CreateTaskResult(name, date, reminder)
+
+        sut.setName(name)
+        sut.setDate(date)
+        sut.setReminder(reminder)
+        sut.requestSave()
+
+        sut.uiEvents.test {
+            assertThat(expectMostRecentItem()).isEqualTo(CreateTaskUiEvents.SaveTask(expected))
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
 }

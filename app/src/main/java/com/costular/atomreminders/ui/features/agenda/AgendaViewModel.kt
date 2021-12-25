@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,14 +34,18 @@ class AgendaViewModel @Inject constructor(
         loadTasks()
     }
 
-    fun createTask(name: String, date: LocalDate) {
+    fun createTask(
+        name: String,
+        date: LocalDate,
+        reminder: LocalTime?,
+    ) {
         viewModelScope.launch {
             createTaskInteractor(
                 CreateTaskInteractor.Params(
                     name,
                     date,
-                    false,
-                    null
+                    reminder != null,
+                    reminder
                 ))
                 .collect { status ->
                     // TODO: 24/12/21 send side effect to close bottom sheet

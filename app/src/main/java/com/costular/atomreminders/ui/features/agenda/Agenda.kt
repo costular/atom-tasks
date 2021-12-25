@@ -1,5 +1,6 @@
 package com.costular.atomreminders.ui.features.agenda
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,7 +17,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.ui.components.*
+import com.costular.atomreminders.ui.components.create_task.CreateTask
 import com.costular.atomreminders.ui.components.create_task.CreateTaskExpanded
+import com.costular.atomreminders.ui.components.create_task.CreateTaskResult
 import com.costular.atomreminders.ui.dialogs.RemoveTaskDialog
 import com.costular.atomreminders.ui.dialogs.TaskActionDialog
 import com.costular.atomreminders.ui.theme.AppTheme
@@ -30,11 +33,16 @@ import kotlinx.coroutines.launch
 fun Agenda(
     onCreateTask: (LocalDate?) -> Unit,
 ) {
-    val keyboard = LocalSoftwareKeyboardController.current
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(initial = AgendaState.Empty)
+
+    BackHandler(enabled = bottomState.isVisible) {
+        coroutineScope.launch {
+            bottomState.hide()
+        }
+    }
 
     LaunchedEffect(bottomState.currentValue) {
         if (bottomState.currentValue == ModalBottomSheetValue.Hidden) {
@@ -68,17 +76,23 @@ fun Agenda(
         )
     }
 
-    var newTask by remember { mutableStateOf("") }
-
     AtomBottomSheet(
         sheetState = bottomState,
         sheetContent = {
-            CreateTask()
+            CreateTask(
+                onSave = {
+                    viewModel.createTask(
+                        it.name,
+                        it.date,
+                        it.reminder
+                    )
+                }
+            )
         }
     ) {
         Scaffold(
             bottomBar = {
-                com.costular.atomreminders.ui.components.create_task.CreateTask(
+                CreateTask(
                     onClick = {
                         coroutineScope.launch {
                             bottomState.show()
@@ -126,14 +140,12 @@ fun Agenda(
 @ExperimentalComposeUiApi
 @Composable
 private fun CreateTask(
-
+    onSave: (CreateTaskResult) -> Unit,
 ) {
     CreateTaskExpanded(
         value = "Whatever",
         date = LocalDate.now(),
-        onSave = {
-            // TODO: 24/12/21
-        },
+        onSave = onSave,
         modifier = Modifier.fillMaxWidth()
     )
 }
