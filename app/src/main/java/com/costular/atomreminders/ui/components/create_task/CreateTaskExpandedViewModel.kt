@@ -43,6 +43,9 @@ class CreateTaskExpandedViewModel :
                 state.value.asCreateTaskResult()
             )
         )
+        setState {
+            CreateTaskExpandedState.Empty
+        }
     }
 
     private fun CreateTaskExpandedState.asCreateTaskResult(): CreateTaskResult =
