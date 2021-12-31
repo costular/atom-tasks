@@ -85,6 +85,7 @@ fun Agenda() {
         sheetState = bottomState,
         sheetContent = {
             CreateTask(
+                state.selectedDay,
                 onSave = {
                     viewModel.createTask(
                         it.name,
@@ -145,11 +146,12 @@ fun Agenda() {
 @ExperimentalComposeUiApi
 @Composable
 private fun CreateTask(
+    date: LocalDate,
     onSave: (CreateTaskResult) -> Unit,
 ) {
     CreateTaskExpanded(
-        value = "Whatever",
-        date = LocalDate.now(),
+        value = "",
+        date = date,
         onSave = onSave,
         modifier = Modifier.fillMaxWidth()
     )
