@@ -25,6 +25,7 @@ import com.costular.atomreminders.ui.dialogs.TaskActionDialog
 import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.util.DateUtils.dayAsText
 import com.costular.atomreminders.ui.util.rememberFlowWithLifecycle
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -44,9 +45,15 @@ fun Agenda(
         }
     }
 
-    LaunchedEffect(bottomState.currentValue) {
-        if (bottomState.currentValue == ModalBottomSheetValue.Hidden) {
-            // TODO: 24/12/21
+    LaunchedEffect(viewModel.uiEvents) {
+        viewModel.uiEvents.collect { event ->
+            when (event) {
+                is AgendaUiEvents.CloseCreateTask -> {
+                    coroutineScope.launch {
+                        bottomState.hide()
+                    }
+                }
+            }
         }
     }
 

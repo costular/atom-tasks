@@ -48,7 +48,9 @@ class AgendaViewModel @Inject constructor(
                     reminder
                 ))
                 .collect { status ->
-                    // TODO: 24/12/21 send side effect to close bottom sheet
+                    if (status is InvokeSuccess) {
+                        sendEvent(AgendaUiEvents.CloseCreateTask)
+                    }
                 }
         }
     }
