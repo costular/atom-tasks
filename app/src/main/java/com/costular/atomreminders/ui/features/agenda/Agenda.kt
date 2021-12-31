@@ -31,9 +31,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalMaterialApi
 @Composable
-fun Agenda(
-    onCreateTask: (LocalDate?) -> Unit,
-) {
+fun Agenda() {
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     val viewModel: AgendaViewModel = hiltViewModel()

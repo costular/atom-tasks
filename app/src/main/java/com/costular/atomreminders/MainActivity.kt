@@ -36,11 +36,7 @@ private fun Navigation() {
 
     NavHost(navController, startDestination = Screen.Agenda.route) {
         composable(route = Screen.Agenda.route) {
-            Agenda(
-                onCreateTask = { date ->
-                    // TODO: 23/12/21
-                }
-            )
+            Agenda()
         }
     }
 }
