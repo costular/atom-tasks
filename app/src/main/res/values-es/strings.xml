@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atom Reminders</string>
+    <string name="error_generic">¡Oh no! algo falló :(</string>
+    <string name="ok">Vale</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="repetition_everyday">Diariamente</string>
+    <string name="repetition_weekly">Semanalmente</string>
+    <string name="repetition_weekly_formatted">Cada %1$s</string>
+    <string name="day_yesterday">Ayer</string>
+    <string name="day_today">Hoy</string>
+    <string name="day_tomorrow">Mañana</string>
+    <string name="field_error_empty">Este campo no puede estar vacío</string>
+    <string name="agenda_create_task">Crear</string>
+    <string name="agenda_create_task_name">Nombre de la tarea</string>
+    <string name="agenda_edit_task">Editar</string>
+    <string name="agenta_delete_task">Eliminar</string>
+    <string name="agenda_create_new_task">Crear nueva tarea...</string>
+    <string name="today">Hoy</string>
+    <string name="create_task_date_in_the_past">La fecha no puede ser en pasado</string>
+    <string name="remove_task_message">¿Estás seguro que quieres eliminar esta tarea?</string>
+    <string name="no_reminder">Sin recordatorio</string>
+    <string name="enable_reminder">Activar recordatorio</string>
+</resources>
