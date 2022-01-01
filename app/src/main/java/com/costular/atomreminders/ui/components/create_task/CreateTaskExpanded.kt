@@ -100,9 +100,12 @@ private fun CreateTaskExpanded(
 ) {
     Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            BasicTextField(
+            OutlinedTextField(
                 value = state.name,
                 onValueChange = onValueChange,
+                placeholder = {
+                    Text(stringResource(R.string.agenda_create_task_name))
+                },
                 modifier = Modifier.weight(1f),
                 textStyle = MaterialTheme.typography.h6,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -133,7 +136,7 @@ private fun CreateTaskExpanded(
             }
         }
 
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+        Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
             Chip(
