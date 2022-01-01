@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomreminders.domain.Async
 import com.costular.atomreminders.ui.components.*
@@ -58,9 +57,6 @@ fun Agenda() {
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
-            onEdit = {
-
-            },
             onDelete = {
                 viewModel.actionDelete(requireNotNull(state.taskAction).id)
             },

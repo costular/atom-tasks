@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.atomreminders.R
@@ -21,7 +22,9 @@ fun CreateTask(
 ) {
     Surface(
         shape = MaterialTheme.shapes.small,
-        modifier = modifier.clickable { onClick() },
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable { onClick() },
     ) {
         Box(
             modifier = Modifier

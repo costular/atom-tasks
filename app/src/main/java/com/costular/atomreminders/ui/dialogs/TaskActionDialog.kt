@@ -20,7 +20,6 @@ import com.costular.atomreminders.ui.theme.AppTheme
 @Composable
 fun TaskActionDialog(
     taskName: String?,
-    onEdit: () -> Unit,
     onDelete: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -54,11 +53,6 @@ fun TaskActionDialog(
                     color = MaterialTheme.colors.surface,
                 )
 
-                ActionItem(
-                    icon = Icons.Outlined.Edit,
-                    text = stringResource(R.string.agenda_edit_task),
-                    onClick = onEdit
-                )
                 ActionItem(
                     icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.agenta_delete_task),
