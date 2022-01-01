@@ -22,10 +22,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.costular.atomreminders.R
 import com.costular.atomreminders.ui.components.Chip
 import com.costular.atomreminders.ui.theme.AppTheme
 import com.costular.atomreminders.ui.theme.AtomRemindersTheme
@@ -65,7 +67,7 @@ fun CreateTaskExpanded(
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is CreateTaskUiEvents.SaveTask -> onSave(event.taskResult)
-            }
+             }
         }
     }
 
@@ -75,6 +77,7 @@ fun CreateTaskExpanded(
         onValueChange = { viewModel.setName(it) },
         onClickDate = { viewModel.selectTaskData(TaskDataSelection.Date) },
         onSetDate = { viewModel.setDate(it) },
+        onSetTime = { viewModel.setReminder(it) },
         onClickReminder = { viewModel.selectTaskData(TaskDataSelection.Reminder) },
         onSave = {
             viewModel.requestSave()
@@ -91,6 +94,7 @@ private fun CreateTaskExpanded(
     onValueChange: (String) -> Unit,
     onClickDate: () -> Unit,
     onSetDate: (LocalDate) -> Unit,
+    onSetTime: (LocalTime?) -> Unit,
     onClickReminder: () -> Unit,
     onSave: () -> Unit,
 ) {
@@ -160,8 +164,15 @@ private fun CreateTaskExpanded(
                     modifier = Modifier.size(AppTheme.ChipIconSize)
                 )
                 Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+
+                val reminderText = if (state.reminder != null) {
+                    DateTimeFormatters.timeFormatter.format(state.reminder)
+                } else {
+                    stringResource(R.string.no_reminder)
+                }
+
                 Text(
-                    "Reminder",
+                    reminderText,
                     style = MaterialTheme.typography.body1,
                 )
             }
@@ -180,7 +191,7 @@ private fun CreateTaskExpanded(
                 TaskReminderData(
                     reminder = state.reminder ?: LocalTime.now(),
                     onSelectReminder = {
-                        // TODO: 24/12/21
+                        onSetTime(it)
                     }
                 )
             }
@@ -203,6 +214,7 @@ fun CreateTaskExpandedPreview() {
             onClickDate = {},
             onSave = {},
             onSetDate = {},
+            onSetTime = {},
         )
     }
 }

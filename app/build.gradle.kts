@@ -105,6 +105,7 @@ dependencies {
     implementation(Deps.composeCalendar)
     kapt(Deps.roomCompiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    implementation(Deps.numberPicker)
 
     testImplementation(Deps.junit)
     testImplementation(Deps.coroutinesTest)
