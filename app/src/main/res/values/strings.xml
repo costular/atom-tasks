@@ -4,6 +4,7 @@
     <string name="error_generic">Oh no! something failed :(</string>
     <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 
     <string name="repetition_everyday">Everyday</string>
     <string name="repetition_weekly">Weekly</string>
@@ -16,12 +17,14 @@
     <string name="field_error_empty">This field cannot be empty</string>
 
     <string name="agenda_create_task">Create</string>
+    <string name="agenda_edit_task">Edit</string>
+    <string name="agenta_delete_task">Delete</string>
+    <string name="agenda_create_new_task">Create new task…</string>
 
-    <string name="create_task_title">New task</string>
-    <string name="create_task_name">Task\'s name</string>
-    <string name="create_task_what">What</string>
-    <string name="create_task_when">When</string>
-    <string name="create_task_save">Save</string>
     <string name="today">Today</string>
     <string name="create_task_date_in_the_past">Date cannot be in the past</string>
+    <string name="remove_task_message">Are you sure to remove this task?</string>
+    <string name="no_reminder">No reminder</string>
+    <string name="enable_reminder">Enable reminder</string>
+
 </resources>

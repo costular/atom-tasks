@@ -3,9 +3,14 @@ package com.costular.atomreminders.ui.features.agenda
 import app.cash.turbine.test
 import com.costular.atomreminders.MviViewModelTest
 import com.costular.atomreminders.domain.Async
+import com.costular.atomreminders.domain.InvokeSuccess
+import com.costular.atomreminders.domain.interactor.CreateTaskInteractor
 import com.costular.atomreminders.domain.interactor.GetTasksInteractor
+import com.costular.atomreminders.domain.interactor.RemoveTaskInteractor
 import com.costular.atomreminders.domain.interactor.UpdateTaskInteractor
 import com.costular.atomreminders.domain.model.Task
+import com.costular.atomreminders.ui.features.agenda.DeleteTaskAction.Hidden
+import com.costular.atomreminders.ui.features.agenda.DeleteTaskAction.Shown
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -22,14 +27,18 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     lateinit var sut: AgendaViewModel
 
+    private val createTaskInteractor: CreateTaskInteractor = mockk(relaxed = true)
     private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
     private val updateTaskInteractor: UpdateTaskInteractor = mockk(relaxed = true)
+    private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         sut = AgendaViewModel(
+            createTaskInteractor,
             getTasksInteractor,
             updateTaskInteractor,
+            removeTaskInteractor,
         )
     }
 
@@ -87,6 +96,63 @@ class AgendaViewModelTest : MviViewModelTest() {
 
         coVerify { updateTaskInteractor(UpdateTaskInteractor.Params(expected.first().id, true)) }
     }
+
+    @Test
+    fun `should show delete task action when tap on delete`() =
+        testBlocking {
+            val tasks = DEFAULT_TASKS
+            val taskId = DEFAULT_TASKS.first().id
+            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+
+            sut.loadTasks()
+            sut.actionDelete(taskId)
+
+            sut.state.test {
+                assertThat(expectMostRecentItem().deleteTaskAction).isInstanceOf(Shown::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+
+    @Test
+    fun `should set delete task action to hidden when dismiss dialog`() =
+        testBlocking {
+            val tasks = DEFAULT_TASKS
+            val taskId = DEFAULT_TASKS.first().id
+            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+
+            sut.loadTasks()
+            sut.actionDelete(taskId)
+            sut.dismissDelete()
+
+            sut.state.test {
+                assertThat(expectMostRecentItem().deleteTaskAction).isInstanceOf(Hidden::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `should load empty tasks when remove given there is only one existing task`() =
+        testBlocking {
+            val expected = emptyList<Task>()
+            val taskId = DEFAULT_TASKS.first().id
+            coEvery {
+                getTasksInteractor.observe()
+            } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
+
+            coEvery {
+                removeTaskInteractor(RemoveTaskInteractor.Params(taskId))
+            } returns flowOf(InvokeSuccess)
+
+            sut.loadTasks()
+            sut.actionDelete(taskId)
+            sut.deleteTask(taskId)
+
+            sut.state.test {
+                assertThat(expectMostRecentItem().tasks).isEqualTo(Async.Success(emptyList<Task>()))
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
 
     companion object {
         val DEFAULT_TASKS = listOf(

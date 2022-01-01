@@ -9,6 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 
 private val DarkColorPalette = darkColors(
     primary = Teal200,
@@ -72,4 +73,6 @@ object AppTheme {
     val dimens: Dimensions
         @Composable
         get() = LocalAppDimens.current
+
+    val ChipIconSize = 18.dp
 }
