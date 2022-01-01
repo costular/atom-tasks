@@ -7,6 +7,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.outlined.ChevronLeft
+import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.outlined.Today
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -177,6 +180,17 @@ private fun DayHeader(
         )
 
         IconButton(
+            modifier = Modifier
+                .width(40.dp)
+                .height(40.dp),
+            onClick = {
+                viewModel.setSelectedDay(LocalDate.now())
+            }
+        ) {
+            Icon(imageVector = Icons.Outlined.Today, contentDescription = null)
+        }
+
+        IconButton(
             enabled = state.isPreviousDaySelected,
             onClick = {
                 val newDay = state.selectedDay.minusDays(1)
@@ -186,8 +200,9 @@ private fun DayHeader(
                 .width(40.dp)
                 .height(40.dp)
         ) {
-            Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+            Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = null)
         }
+
         IconButton(
             enabled = state.isNextDaySelected,
             onClick = {
@@ -198,7 +213,7 @@ private fun DayHeader(
                 .width(40.dp)
                 .height(40.dp)
         ) {
-            Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null)
+            Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
         }
     }
 }
