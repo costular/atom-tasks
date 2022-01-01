@@ -103,10 +103,6 @@ class AgendaViewModel @Inject constructor(
         }
     }
 
-    fun actionEdit(id: Long) {
-        // TODO: send side effect
-    }
-
     fun dismissDelete() {
         hideAskDelete()
     }
