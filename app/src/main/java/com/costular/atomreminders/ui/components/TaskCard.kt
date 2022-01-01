@@ -1,5 +1,6 @@
 package com.costular.atomreminders.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.InlineTextContent
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.costular.atomreminders.domain.model.*
 import com.costular.atomreminders.ui.theme.AppTheme
+import com.costular.atomreminders.ui.theme.AtomRemindersTheme
 import com.costular.atomreminders.ui.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
@@ -30,7 +32,7 @@ fun TaskCard(
     reminder: Reminder?,
     onMark: () -> Unit,
     onOpen: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val mediumColor = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.medium)
 
@@ -81,16 +83,16 @@ fun TaskCard(
                         textDecoration = if (isFinished) TextDecoration.LineThrough else null
                     )
                 )
-                Row {
-                    if (reminder != null) {
+                AnimatedVisibility(reminder != null && !isFinished) {
+                    Row {
                         val alarmText = buildAnnotatedString {
                             appendInlineContent(reminderIconId, "[alarm]")
                             append(" ")
-                            append(reminderAsText(reminder))
+                            append(reminderAsText(requireNotNull(reminder)))
                         }
                         Text(
                             text = alarmText,
-                            style = MaterialTheme.typography.body1,
+                            style = MaterialTheme.typography.body2,
                             color = mediumColor,
                             inlineContent = reminderInlineContent
                         )
@@ -107,11 +109,13 @@ fun reminderAsText(reminder: Reminder): String =
 @Preview(showBackground = true)
 @Composable
 private fun HabitCardPreview() {
-    TaskCard(
-        title = "Run every morning!",
-        isFinished = true,
-        onMark = {},
-        onOpen = {},
-        reminder = Reminder(1L, LocalTime.parse("10:00"), true, LocalDate.now())
-    )
+    AtomRemindersTheme {
+        TaskCard(
+            title = "Run every morning!",
+            isFinished = true,
+            onMark = {},
+            onOpen = {},
+            reminder = Reminder(1L, LocalTime.parse("10:00"), true, LocalDate.now())
+        )
+    }
 }

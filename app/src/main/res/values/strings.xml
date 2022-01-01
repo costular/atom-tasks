@@ -17,6 +17,7 @@
     <string name="field_error_empty">This field cannot be empty</string>
 
     <string name="agenda_create_task">Create</string>
+    <string name="agenda_create_task_name">Task\'s name</string>
     <string name="agenda_edit_task">Edit</string>
     <string name="agenta_delete_task">Delete</string>
     <string name="agenda_create_new_task">Create new task…</string>

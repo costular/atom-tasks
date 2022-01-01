@@ -113,7 +113,7 @@ class AgendaViewModel @Inject constructor(
 
     companion object {
         const val DaysBefore = 1
-        const val DaysAfter = 14
+        const val DaysAfter = 30
     }
 
 }
