@@ -40,7 +40,7 @@ class TaskDatabaseTest {
             .setQueryExecutor(testCoroutine.asExecutor())
             .allowMainThreadQueries()
             .build()
-        tasksDao = db.getHabitsDao()
+        tasksDao = db.getTasksDao()
     }
 
     @After
@@ -50,9 +50,9 @@ class TaskDatabaseTest {
     }
 
     @Test
-    fun testAddHabit() = testCoroutine.runBlockingTest {
+    fun testAddTask() = testCoroutine.runBlockingTest {
         // Given
-        val habit = TaskEntity(
+        val task = TaskEntity(
             0L,
             LocalDate.now(),
             "whatever",
@@ -61,7 +61,7 @@ class TaskDatabaseTest {
         )
 
         // When
-        val id = tasksDao.addTask(habit)
+        val id = tasksDao.addTask(task)
 
         // Then
         tasksDao.getAllTasks().test {

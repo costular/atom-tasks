@@ -19,10 +19,10 @@ import com.costular.atomreminders.ui.theme.AppTheme
 import java.time.LocalDate
 
 @Composable
-fun HabitList(
+fun TaskList(
     tasks: List<Task>,
     onClick: (Task) -> Unit,
-    onMarkHabit: (taskId: Long, isDone: Boolean) -> Unit,
+    onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
     padding: PaddingValues = PaddingValues(0.dp),
@@ -39,7 +39,7 @@ fun HabitList(
             items(tasks) { task ->
                 TaskCard(
                     title = task.name,
-                    onMark = { onMarkHabit(task.id, !task.isDone) },
+                    onMark = { onMarkTask(task.id, !task.isDone) },
                     onOpen = { onClick(task) },
                     reminder = task.reminder,
                     isFinished = task.isDone

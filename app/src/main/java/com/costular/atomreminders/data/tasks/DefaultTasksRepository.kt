@@ -17,14 +17,14 @@ class DefaultTasksRepository(
         reminderEnabled: Boolean,
         reminderTime: LocalTime?
     ) {
-        val habitEntity = TaskEntity(
+        val taskEntity = TaskEntity(
             0,
             LocalDate.now(),
             name,
             date,
             false,
         )
-        val taskId = localDataSource.createTask(habitEntity)
+        val taskId = localDataSource.createTask(taskEntity)
 
         if (reminderEnabled) {
             val reminder = ReminderEntity(
@@ -43,7 +43,7 @@ class DefaultTasksRepository(
     }
 
     override fun getTasks(day: LocalDate?): Flow<List<Task>> {
-        return localDataSource.getTasks(day).map { habits -> habits.map { it.toDomain() } }
+        return localDataSource.getTasks(day).map { tasks -> tasks.map { it.toDomain() } }
     }
 
     override suspend fun removeTask(taskId: Long) {

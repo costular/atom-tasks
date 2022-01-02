@@ -126,12 +126,12 @@ fun Agenda() {
 
                 when (val tasks = state.tasks) {
                     is Async.Success -> {
-                        HabitList(
+                        TaskList(
                             tasks = tasks.data,
                             onClick = { task ->
                                 viewModel.openTaskAction(task)
                             },
-                            onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
+                            onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                             modifier = Modifier.fillMaxSize(),
                         )
                     }

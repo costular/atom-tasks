@@ -25,7 +25,7 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providesTasksDao(db: AtomRemindersDatabase): TasksDao = db.getHabitsDao()
+    fun providesTasksDao(db: AtomRemindersDatabase): TasksDao = db.getTasksDao()
 
     @Singleton
     @Provides

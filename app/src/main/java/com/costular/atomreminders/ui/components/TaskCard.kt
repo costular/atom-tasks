@@ -108,7 +108,7 @@ fun reminderAsText(reminder: Reminder): String =
 
 @Preview(showBackground = true)
 @Composable
-private fun HabitCardPreview() {
+private fun TaskCardPreview() {
     AtomRemindersTheme {
         TaskCard(
             title = "Run every morning!",
