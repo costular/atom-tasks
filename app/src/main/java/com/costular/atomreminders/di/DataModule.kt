@@ -21,7 +21,6 @@ class DataModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
         Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomreminders.db")
-            .fallbackToDestructiveMigration() // TODO: 26/6/21 remove this
             .build()
 
     @Singleton
