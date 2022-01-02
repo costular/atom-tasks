@@ -133,7 +133,6 @@ fun Agenda() {
                             },
                             onMarkHabit = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
                             modifier = Modifier.fillMaxSize(),
-                            date = state.selectedDay
                         )
                     }
                 }

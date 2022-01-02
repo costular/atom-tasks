@@ -78,7 +78,6 @@ dependencies {
     implementation(Deps.coroutines)
     implementation(Deps.kotlin)
     implementation(Deps.timber)
-    implementation("androidx.test.ext:junit-ktx:1.1.2")
     kapt(Deps.hiltCompiler)
     kapt(Deps.hiltJetpackCompiler)
     implementation(Deps.hiltJetpackViewModel)
@@ -106,6 +105,7 @@ dependencies {
     kapt(Deps.roomCompiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     implementation(Deps.numberPicker)
+    implementation(Deps.lottie)
 
     testImplementation(Deps.junit)
     testImplementation(Deps.coroutinesTest)
