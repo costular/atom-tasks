@@ -12,7 +12,7 @@ plugins {
 android {
     compileSdk = Config.compileVersion
     defaultConfig {
-        applicationId = "com.costular.atomreminders"
+        applicationId = "com.costular.atomtasks"
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
