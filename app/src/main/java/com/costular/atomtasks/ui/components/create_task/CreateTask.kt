@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.R
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
@@ -25,6 +26,7 @@ fun CreateTask(
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
             .clickable { onClick() },
+        elevation = 2.dp,
     ) {
         Box(
             modifier = Modifier
