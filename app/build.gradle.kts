@@ -107,6 +107,7 @@ dependencies {
     implementation(Deps.numberPicker)
     implementation(Deps.lottie)
 
+    testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
     testImplementation(Deps.coroutinesTest)
     testImplementation(Deps.turbine)
@@ -114,6 +115,7 @@ dependencies {
     testImplementation(Deps.test)
     testImplementation(Deps.mockk)
 
+    androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
     androidTestImplementation(Deps.truth)
     androidTestImplementation(Deps.turbine)

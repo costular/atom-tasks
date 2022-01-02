@@ -34,6 +34,7 @@ object Versions {
     val composeCalendar = "0.2.1"
     val numberPicker = "0.0.11"
     val lottie = "4.2.2"
+    val androidJunit = "1.1.3"
 }
 
 
@@ -79,6 +80,7 @@ object Deps {
     val composeCalendar = "io.github.boguszpawlowski.composecalendar:composecalendar:${Versions.composeCalendar}"
     val numberPicker = "com.chargemap.compose:numberpicker:${Versions.numberPicker}"
     val lottie = "com.airbnb.android:lottie-compose:${Versions.lottie}"
+    val androidJunit = "androidx.test.ext:junit-ktx:${Versions.androidJunit}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
