@@ -2,7 +2,7 @@ package com.costular.atomtasks.di
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomtasks.db.AtomRemindersDatabase
+import com.costular.atomtasks.db.AtomTasks
 import com.costular.atomtasks.data.tasks.*
 import com.costular.atomtasks.ui.common.validation.FieldValidator
 import com.costular.atomtasks.ui.common.validation.FieldValidatorDefault
@@ -19,17 +19,17 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
-        Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomreminders.db")
+    fun provideDatabase(@ApplicationContext context: Context): AtomTasks =
+        Room.databaseBuilder(context, AtomTasks::class.java, "atomtasks.db")
             .build()
 
     @Singleton
     @Provides
-    fun providesTasksDao(db: AtomRemindersDatabase): TasksDao = db.getTasksDao()
+    fun providesTasksDao(db: AtomTasks): TasksDao = db.getTasksDao()
 
     @Singleton
     @Provides
-    fun providesReminderDao(db: AtomRemindersDatabase): ReminderDao = db.getRemindersDao()
+    fun providesReminderDao(db: AtomTasks): ReminderDao = db.getRemindersDao()
 
     @Singleton
     @Provides
