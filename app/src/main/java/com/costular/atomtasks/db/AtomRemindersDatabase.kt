@@ -14,7 +14,7 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
     version = 4,
     exportSchema = true
 )
-abstract class AtomTasks : RoomDatabase() {
+abstract class AtomRemindersDatabase : RoomDatabase() {
 
     abstract fun getTasksDao(): TasksDao
     abstract fun getRemindersDao(): ReminderDao
