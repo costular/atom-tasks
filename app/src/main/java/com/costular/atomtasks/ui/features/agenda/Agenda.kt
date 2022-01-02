@@ -172,20 +172,9 @@ private fun DayHeader(
                     horizontal = AppTheme.dimens.spacingLarge
                 )
                 .clickable {
-                    // TODO: 26/6/21 open calendar
+                    viewModel.setSelectedDay(LocalDate.now())
                 }
         )
-
-        IconButton(
-            modifier = Modifier
-                .width(40.dp)
-                .height(40.dp),
-            onClick = {
-                viewModel.setSelectedDay(LocalDate.now())
-            }
-        ) {
-            Icon(imageVector = Icons.Outlined.Today, contentDescription = null)
-        }
 
         IconButton(
             enabled = state.isPreviousDaySelected,
