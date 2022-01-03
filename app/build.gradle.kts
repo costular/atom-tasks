@@ -72,6 +72,13 @@ android {
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
 }
 
 kapt {
@@ -132,6 +139,9 @@ dependencies {
     testImplementation(Deps.truth)
     testImplementation(Deps.test)
     testImplementation(Deps.mockk)
+    testImplementation(Deps.robolectric)
+    testImplementation(Deps.composeUiTest)
+    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)

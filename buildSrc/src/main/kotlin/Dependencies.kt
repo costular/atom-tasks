@@ -91,6 +91,8 @@ object Deps {
     val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
     val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics"
+    val composeUiTest = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    val composeUiManifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
