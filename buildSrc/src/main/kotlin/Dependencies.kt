@@ -38,6 +38,7 @@ object Versions {
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
+    val robolectric = "4.7.3"
 }
 
 
@@ -99,4 +100,5 @@ object Deps {
     val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     val androidTestRunner = "androidx.test:runner:${Versions.testRunner}"
     val androidTestRules = "androidx.test:rules:${Versions.testRunner}"
+    val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
 }
