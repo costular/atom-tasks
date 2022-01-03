@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,21 +25,17 @@ import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 fun Chip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
+    shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke = BorderStroke(1.dp, MaterialTheme.colors.onSurface),
-    backgroundColor: Color = MaterialTheme.colors.background,
-    contentPadding: PaddingValues = PaddingValues(start = 8.dp, end = 8.dp),
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    contentPadding: PaddingValues = PaddingValues(AppTheme.dimens.spacingMedium),
     content: @Composable RowScope.() -> Unit,
 ) {
-    val shape = MaterialTheme.shapes.small.copy(all = CornerSize(8.dp))
-    val computedBackgroundColor = if (isSelected) MaterialTheme.colors.primary else backgroundColor
-
     Surface(
-        color = computedBackgroundColor,
+        color = backgroundColor,
         shape = shape,
         border = border,
         modifier = modifier
-            .height(32.dp)
             .clip(shape)
             .clickable(onClick = onClick),
     ) {

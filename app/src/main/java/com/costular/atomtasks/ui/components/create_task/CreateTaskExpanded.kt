@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.R
 import com.costular.atomtasks.ui.components.Chip
+import com.costular.atomtasks.ui.components.ExpandableChip
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateTimeFormatters
@@ -138,8 +139,8 @@ private fun CreateTaskExpanded(
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Chip(
-                isSelected = state.shouldShowDateSelection,
+            ExpandableChip(
+                isExpanded = state.shouldShowDateSelection,
                 onClick = onClickDate,
             ) {
                 Icon(
@@ -156,8 +157,8 @@ private fun CreateTaskExpanded(
 
             Spacer(Modifier.width(16.dp))
 
-            Chip(
-                isSelected = state.shouldShowReminderSelection,
+            ExpandableChip(
+                isExpanded = state.shouldShowReminderSelection,
                 onClick = onClickReminder,
             ) {
                 Icon(
