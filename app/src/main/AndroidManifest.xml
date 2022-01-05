@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AtomReminders"
-        android:name="com.costular.atomtasks.ui.AtomRemindersApp">
+        android:name="com.costular.atomtasks.ui.AtomRemindersApp"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity
             android:name="com.costular.atomtasks.MainActivity"
             android:exported="true"
