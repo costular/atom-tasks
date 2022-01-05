@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data.tasks
+package com.costular.atomtasks.domain.repository
 
 import com.costular.atomtasks.domain.model.Task
 import kotlinx.coroutines.flow.Flow

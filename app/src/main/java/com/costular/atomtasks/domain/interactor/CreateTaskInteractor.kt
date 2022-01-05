@@ -1,6 +1,6 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.data.tasks.TasksRepository
+import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.domain.Interactor
 import java.time.LocalDate
 import java.time.LocalTime
