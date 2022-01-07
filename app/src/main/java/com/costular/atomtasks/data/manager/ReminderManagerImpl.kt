@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.getSystemService
-import com.costular.atomtasks.data.service.TaskNotificationService
+import com.costular.atomtasks.data.receiver.NotifyTaskReceiver
 import com.costular.atomtasks.domain.manager.ReminderManager
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -36,10 +36,10 @@ class ReminderManagerImpl(
     }
 
     private fun buildPendingIntent(taskId: Long): PendingIntent =
-        PendingIntent.getService(
+        PendingIntent.getBroadcast(
             context,
             taskId.toInt(),
-            Intent(context, TaskNotificationService::class.java).apply {
+            Intent(context, NotifyTaskReceiver::class.java).apply {
                 putExtra("task_id", taskId)
             },
             PendingIntent.FLAG_UPDATE_CURRENT
