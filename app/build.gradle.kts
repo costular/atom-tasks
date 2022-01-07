@@ -121,6 +121,7 @@ dependencies {
     androidTestImplementation(Deps.turbine)
     androidTestImplementation(Deps.androidTestRunner)
     androidTestImplementation(Deps.androidTestRules)
+    androidTestImplementation(Deps.workManagerTesting)
 }
 
 tasks.withType<KotlinCompile> {
