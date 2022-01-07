@@ -8,4 +8,9 @@ data class Reminder(
     val time: LocalTime,
     val isEnabled: Boolean,
     val date: LocalDate?
-)
+) {
+
+    val isToday: Boolean get() = date == LocalDate.now()
+    val isNow: Boolean get() = time.hour == LocalTime.now().hour
+
+}
