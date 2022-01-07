@@ -7,9 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class GetTaskByIdInteractor @Inject constructor(
-    private val tasksRepository: TasksRepository
+class GetTaskByIdInteractor(
+    private val tasksRepository: TasksRepository,
 ) : SubjectInteractor<GetTaskByIdInteractor.Params, Task>() {
 
     data class Params(val id: Long)
