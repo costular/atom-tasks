@@ -17,7 +17,7 @@ class DefaultTasksRepository(
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?
-    ) {
+    ): Long {
         val taskEntity = TaskEntity(
             0,
             LocalDate.now(),
@@ -37,6 +37,7 @@ class DefaultTasksRepository(
             )
             localDataSource.createReminderForTask(reminder)
         }
+        return taskId
     }
 
     override fun getTaskById(id: Long): Flow<Task> {

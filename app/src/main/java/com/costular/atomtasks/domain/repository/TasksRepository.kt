@@ -12,7 +12,7 @@ interface TasksRepository {
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?
-    )
+    ): Long
 
     fun getTaskById(id: Long): Flow<Task>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
