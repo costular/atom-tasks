@@ -1,8 +1,10 @@
 package com.costular.atomtasks.data.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Logger
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
@@ -26,18 +28,18 @@ class NotifyTaskWorker @AssistedInject constructor(
 
         return try {
             if (taskId == -1L) {
-                throw IllegalArgumentException()
+                throw IllegalArgumentException("Task id has not been passed")
             }
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
             val task = getTaskByIdInteractor.observe().first()
 
             if (task.reminder == null) {
-                throw IllegalStateException()
+                throw IllegalStateException("Reminder is null")
             }
 
             if (!task.reminder.isToday || !task.reminder.isNow || !task.reminder.isEnabled) {
-                throw IllegalStateException()
+                throw IllegalStateException("Reminder is not valid")
             }
             notifManager.remindTask(task)
             Result.success()
