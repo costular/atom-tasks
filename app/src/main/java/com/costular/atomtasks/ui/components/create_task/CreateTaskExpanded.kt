@@ -123,7 +123,7 @@ private fun CreateTaskExpanded(
             ) {
                 FloatingActionButton(
                     onClick = onSave,
-                    modifier = Modifier.size(36.dp),
+                    modifier = Modifier.size(48.dp),
                     elevation = FloatingActionButtonDefaults.elevation(
                         defaultElevation = 0.dp,
                         pressedElevation = 0.dp,
