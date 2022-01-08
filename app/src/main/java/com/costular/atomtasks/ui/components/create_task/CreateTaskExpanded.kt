@@ -67,7 +67,7 @@ fun CreateTaskExpanded(
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is CreateTaskUiEvents.SaveTask -> onSave(event.taskResult)
-             }
+            }
         }
     }
 
@@ -104,7 +104,10 @@ private fun CreateTaskExpanded(
                 value = state.name,
                 onValueChange = onValueChange,
                 placeholder = {
-                    Text(stringResource(R.string.agenda_create_task_name))
+                    Text(
+                        stringResource(R.string.agenda_create_task_name),
+                        style = MaterialTheme.typography.h6,
+                    )
                 },
                 modifier = Modifier.weight(1f),
                 textStyle = MaterialTheme.typography.h6,
