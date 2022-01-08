@@ -116,7 +116,8 @@ private fun CreateTaskExpanded(
                 keyboardOptions = KeyboardOptions(imeAction = imeAction),
                 keyboardActions = KeyboardActions(onDone = {
                     onSave()
-                })
+                }),
+                maxLines = 1,
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
