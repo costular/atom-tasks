@@ -39,6 +39,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                     null,
                 )
             )
+            .setAutoCancel(true)
 
         notify(task.id.toInt(), builder.build())
     }
