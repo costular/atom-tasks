@@ -143,7 +143,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.actionDelete(taskId)
             sut.deleteTask(taskId)
 
-            coVerify { removeTaskInteractor(RemoveTaskInteractor.Params(taskId))F }
+            coVerify { removeTaskInteractor(RemoveTaskInteractor.Params(taskId)) }
         }
 
     companion object {
