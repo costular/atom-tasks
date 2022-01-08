@@ -10,15 +10,11 @@ import com.costular.atomtasks.data.worker.SetTasksRemindersWorker
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == BOOT) {
+        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             val request = OneTimeWorkRequestBuilder<SetTasksRemindersWorker>()
                 .build()
             WorkManager.getInstance(context).enqueue(request)
         }
-    }
-
-    companion object {
-        const val BOOT = "android.intent.action.BOOT_COMPLETED"
     }
 
 }
