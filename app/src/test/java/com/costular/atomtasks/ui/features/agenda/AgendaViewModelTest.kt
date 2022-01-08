@@ -139,18 +139,11 @@ class AgendaViewModelTest : MviViewModelTest() {
                 getTasksInteractor.observe()
             } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
 
-            coEvery {
-                removeTaskInteractor(RemoveTaskInteractor.Params(taskId))
-            } returns flowOf(InvokeSuccess)
-
             sut.loadTasks()
             sut.actionDelete(taskId)
             sut.deleteTask(taskId)
 
-            sut.state.test {
-                assertThat(expectMostRecentItem().tasks).isEqualTo(Async.Success(emptyList<Task>()))
-                cancelAndIgnoreRemainingEvents()
-            }
+            coVerify { removeTaskInteractor(RemoveTaskInteractor.Params(taskId))F }
         }
 
     companion object {
