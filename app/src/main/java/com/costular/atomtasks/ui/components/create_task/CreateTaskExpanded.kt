@@ -67,7 +67,7 @@ fun CreateTaskExpanded(
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is CreateTaskUiEvents.SaveTask -> onSave(event.taskResult)
-             }
+            }
         }
     }
 
@@ -104,14 +104,14 @@ private fun CreateTaskExpanded(
                 value = state.name,
                 onValueChange = onValueChange,
                 placeholder = {
-                    Text(stringResource(R.string.agenda_create_task_name))
+                    Text(
+                        stringResource(R.string.agenda_create_task_name),
+                        style = MaterialTheme.typography.h6,
+                    )
                 },
                 modifier = Modifier.weight(1f),
                 textStyle = MaterialTheme.typography.h6,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    onSave()
-                })
+                maxLines = 2,
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
@@ -123,7 +123,7 @@ private fun CreateTaskExpanded(
             ) {
                 FloatingActionButton(
                     onClick = onSave,
-                    modifier = Modifier.size(36.dp),
+                    modifier = Modifier.size(48.dp),
                     elevation = FloatingActionButtonDefaults.elevation(
                         defaultElevation = 0.dp,
                         pressedElevation = 0.dp,
