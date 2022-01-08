@@ -24,6 +24,8 @@ object Versions {
     val hiltJetpackViewModel = "1.0.0-alpha03"
     val accompanistCoil = "0.15.0"
     val accompanistPager = "0.20.0"
+    val accompanistSystemUi = "0.22.0-rc"
+    val accompanistInsetsUi = "0.22.0-rc"
     val workManager = "2.7.1"
     val room = "2.4.0-alpha03"
 
@@ -82,6 +84,8 @@ object Deps {
     val numberPicker = "com.chargemap.compose:numberpicker:${Versions.numberPicker}"
     val lottie = "com.airbnb.android:lottie-compose:${Versions.lottie}"
     val androidJunit = "androidx.test.ext:junit-ktx:${Versions.androidJunit}"
+    val accompanistSystemUi = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanistSystemUi}"
+    val accompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:${Versions.accompanistInsetsUi}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"

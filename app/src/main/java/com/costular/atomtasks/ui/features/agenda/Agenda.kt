@@ -25,6 +25,8 @@ import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -103,12 +105,16 @@ fun Agenda() {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .navigationBarsPadding()
                         .padding(AppTheme.dimens.contentMargin)
                 )
             }
-        ) {
+        ) { contentPadding ->
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding)
+                    .statusBarsPadding()
             ) {
                 DayHeader(state, viewModel)
 
@@ -149,7 +155,9 @@ private fun CreateTask(
         value = "",
         date = date,
         onSave = onSave,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
     )
 }
 

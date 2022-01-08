@@ -106,6 +106,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     implementation(Deps.numberPicker)
     implementation(Deps.lottie)
+    implementation(Deps.accompanistSystemUi)
+    implementation(Deps.accompanistInsetsUi)
 
     testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
