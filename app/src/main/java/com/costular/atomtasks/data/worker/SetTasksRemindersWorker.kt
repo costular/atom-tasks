@@ -21,16 +21,15 @@ class SetTasksRemindersWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result =
         try {
-            val tasks = getTasksWithReminderInteractor(Unit).single()
+            val tasks = getTasksWithReminderInteractor.executeSync(Unit)
             tasks.forEach { task ->
                 if (task.reminder != null) {
-                    reminderManager.set(task.id, task.reminder.time.atDate(task.reminder.date))
+                    reminderManager.set(task.id, task.reminder.localDateTime)
                 }
             }
             Result.success()
         } catch (e: Exception) {
             Result.failure()
         }
-
 
 }

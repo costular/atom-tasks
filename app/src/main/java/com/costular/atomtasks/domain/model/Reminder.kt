@@ -1,6 +1,7 @@
 package com.costular.atomtasks.domain.model
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class Reminder(
@@ -12,5 +13,6 @@ data class Reminder(
 
     val isToday: Boolean get() = date == LocalDate.now()
     val isNow: Boolean get() = time.hour == LocalTime.now().hour
+    val localDateTime: LocalDateTime get() = time.atDate(date)
 
 }

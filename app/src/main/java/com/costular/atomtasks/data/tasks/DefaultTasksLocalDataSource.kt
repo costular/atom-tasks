@@ -1,7 +1,6 @@
 package com.costular.atomtasks.data.tasks
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.single
 import java.time.LocalDate
 
 class DefaultTasksLocalDataSource(
@@ -21,7 +20,7 @@ class DefaultTasksLocalDataSource(
         return if (day != null) {
             tasksDao.getAllTasksForDate(day)
         } else {
-            tasksDao.getAllTasks()
+            tasksDao.observeAllTasks()
         }
     }
 
@@ -30,7 +29,7 @@ class DefaultTasksLocalDataSource(
     }
 
     override suspend fun getTasksWithReminder(): List<TaskAggregated> {
-        return tasksDao.getAllTasks().single()
+        return tasksDao.getAllTasks()
             .filter { it.reminder != null }
     }
 
