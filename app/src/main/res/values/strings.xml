@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Atom Reminders</string>
+    <string name="app_name">Atom Tasks</string>
 
     <string name="error_generic">Oh no! something failed :(</string>
     <string name="ok">Okay</string>
