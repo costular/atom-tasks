@@ -50,7 +50,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
 
     private fun buildNotificationBase(channel: String): NotificationCompat.Builder =
         NotificationCompat.Builder(context, channel)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_atom)
 
     companion object {
         const val REQUEST_OPEN_APP = 20
