@@ -100,8 +100,6 @@ private fun CreateTaskExpanded(
 ) {
     Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val imeAction = if (state.shouldShowSend) ImeAction.Done else ImeAction.None
-
             OutlinedTextField(
                 value = state.name,
                 onValueChange = onValueChange,
@@ -113,11 +111,7 @@ private fun CreateTaskExpanded(
                 },
                 modifier = Modifier.weight(1f),
                 textStyle = MaterialTheme.typography.h6,
-                keyboardOptions = KeyboardOptions(imeAction = imeAction),
-                keyboardActions = KeyboardActions(onDone = {
-                    onSave()
-                }),
-                maxLines = 1,
+                maxLines = 2,
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
