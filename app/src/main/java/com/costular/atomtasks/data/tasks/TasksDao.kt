@@ -11,7 +11,10 @@ abstract class TasksDao {
     abstract suspend fun addTask(taskEntity: TaskEntity): Long
 
     @Query("SELECT * FROM tasks")
-    abstract fun getAllTasks(): Flow<List<TaskAggregated>>
+    abstract fun observeAllTasks(): Flow<List<TaskAggregated>>
+
+    @Query("SELECT * FROM tasks")
+    abstract fun getAllTasks(): List<TaskAggregated>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE date = :date")

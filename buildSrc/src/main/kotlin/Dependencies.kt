@@ -24,7 +24,7 @@ object Versions {
     val hiltJetpackViewModel = "1.0.0-alpha03"
     val accompanistCoil = "0.15.0"
     val accompanistPager = "0.20.0"
-    val workManager = "2.7.0"
+    val workManager = "2.7.1"
     val room = "2.4.0-alpha03"
 
     val preferences = "1.1.1"
@@ -72,6 +72,7 @@ object Deps {
     val accompanistPager = "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
     val accompanistPagerIndicators = "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
     val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    val workManagerTesting = "androidx.work:work-testing:${Versions.workManager}"
     val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
     val roomRuntinme = "androidx.room:room-runtime:${Versions.room}"
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"

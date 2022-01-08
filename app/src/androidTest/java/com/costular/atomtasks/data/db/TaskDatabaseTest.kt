@@ -64,7 +64,7 @@ class TaskDatabaseTest {
         val id = tasksDao.addTask(task)
 
         // Then
-        tasksDao.getAllTasks().test {
+        tasksDao.observeAllTasks().test {
             Truth.assertThat(awaitItem().size).isEqualTo(1)
             cancelAndIgnoreRemainingEvents()
         }

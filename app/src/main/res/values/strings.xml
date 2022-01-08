@@ -28,4 +28,8 @@
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>
 
+    <string name="notification_channel_reminders_title">Reminders</string>
+    <string name="notification_channel_reminders_description">Reminders for your tasks</string>
+    <string name="notification_reminder">🔔 Friendly reminder!</string>
+
 </resources>

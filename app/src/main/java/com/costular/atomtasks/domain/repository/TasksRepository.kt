@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data.tasks
+package com.costular.atomtasks.domain.repository
 
 import com.costular.atomtasks.domain.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -12,10 +12,11 @@ interface TasksRepository {
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?
-    )
+    ): Long
 
     fun getTaskById(id: Long): Flow<Task>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
+    suspend fun getTasksWithReminder(): List<Task>
     suspend fun removeTask(taskId: Long)
     suspend fun markTask(taskId: Long, isDone: Boolean)
 

@@ -22,4 +22,7 @@
     <string name="remove_task_message">¿Estás seguro que quieres eliminar esta tarea?</string>
     <string name="no_reminder">Sin recordatorio</string>
     <string name="enable_reminder">Activar recordatorio</string>
+    <string name="notification_channel_reminders_title">Recordatorios</string>
+    <string name="notification_channel_reminders_description">Recordatorios de tus tareas</string>
+    <string name="notification_reminder">🔔 Recordatorio amistoso</string>
 </resources>

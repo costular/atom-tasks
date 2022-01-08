@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.costular.atomtasks.db.AtomRemindersDatabase
 import com.costular.atomtasks.data.tasks.*
+import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.ui.common.validation.FieldValidator
 import com.costular.atomtasks.ui.common.validation.FieldValidatorDefault
 import dagger.Module

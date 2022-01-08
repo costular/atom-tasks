@@ -20,12 +20,17 @@ class DefaultTasksLocalDataSource(
         return if (day != null) {
             tasksDao.getAllTasksForDate(day)
         } else {
-            tasksDao.getAllTasks()
+            tasksDao.observeAllTasks()
         }
     }
 
     override fun getTaskById(id: Long): Flow<TaskAggregated> {
         return tasksDao.getTaskById(id)
+    }
+
+    override suspend fun getTasksWithReminder(): List<TaskAggregated> {
+        return tasksDao.getAllTasks()
+            .filter { it.reminder != null }
     }
 
     override suspend fun removeTask(taskId: Long) {
