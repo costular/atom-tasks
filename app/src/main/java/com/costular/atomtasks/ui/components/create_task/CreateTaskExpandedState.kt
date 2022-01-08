@@ -9,7 +9,7 @@ data class CreateTaskExpandedState(
     val date: LocalDate = LocalDate.now(),
     val reminder: LocalTime? = null,
 ) {
-    val shouldShowSend: Boolean get() = name.isNotEmpty()
+    val shouldShowSend: Boolean get() = name.isNotBlank()
     val shouldShowDateSelection: Boolean get() = taskDataSelection is TaskDataSelection.Date
     val shouldShowReminderSelection: Boolean get() = taskDataSelection is TaskDataSelection.Reminder
 
