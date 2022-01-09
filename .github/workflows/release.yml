@@ -36,6 +36,11 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
+      - name: Decode google-services.json
+        env:
+          FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $FIREBASE_CONFIG > app/google-services.json
+
       - name: Generate Release APK
         run: ./gradlew assembleRelease
 
