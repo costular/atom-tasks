@@ -61,8 +61,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: Bundle artifact
-          path: app/release/app-release.aab
+          name: bundle
+          path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Upload mapping.txt
         uses: actions/upload-artifact@master
@@ -78,7 +78,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@master
         with:
-          name: app-release.aab
+          name: bundle
 
       - name: Download mapping.txt
         uses: actions/download-artifact@master
@@ -90,7 +90,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.costular.atomtasks
-          releaseFile: app-release-unsigned-signed.apk
+          releaseFile: app-release.aab
           track: production
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
