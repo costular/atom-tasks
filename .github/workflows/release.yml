@@ -46,21 +46,14 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: Write keystore to disk
-        id: write_release_keystore_to_disk
-        uses: timheuer/base64-to-file@v1.1.0
-        with:
-          fileName: "release-keystore.jks"
-          encodedString: ${{ secrets.SIGNING_KEY }}
-
-      - name: Set App Center keystore path environment variable
+      - name: Decode keystore
         run: |
-          echo RELEASE_STORE_FILE=${{ steps.write_release_keystore_to_disk.outputs.filePath }} >> $GITHUB_ENV
+          echo "${{ secrets.SIGNING_KEY_BASE_64 }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.KEY_STORE_PASSWORD }}" --batch release.keystore.asc > release.keystore
 
       - name: Generate Release Bundle
         run: ./gradlew bundleRelease
         env:
-          SIGNING_KEY: ${{ env.RELEASE_STORE_FILE }}
           SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
