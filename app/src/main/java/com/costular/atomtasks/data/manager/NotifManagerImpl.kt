@@ -6,12 +6,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.costular.atomtasks.MainActivity
 import com.costular.atomtasks.R
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.ui.theme.Teal500
 import com.costular.atomtasks.ui.util.CHANNEL_REMINDERS
 
 @ExperimentalComposeUiApi
@@ -51,6 +53,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
     private fun buildNotificationBase(channel: String): NotificationCompat.Builder =
         NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.drawable.ic_atom)
+            .setColor(Teal500.toArgb())
 
     companion object {
         const val REQUEST_OPEN_APP = 20
