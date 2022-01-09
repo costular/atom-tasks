@@ -103,3 +103,4 @@ jobs:
           track: production
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
+          status: completed
