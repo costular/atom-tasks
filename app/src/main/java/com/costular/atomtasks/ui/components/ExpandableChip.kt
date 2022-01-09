@@ -67,7 +67,6 @@ fun ExpandableChip(
                     .rotate(angle)
             )
         }
-
     }
 
 }
