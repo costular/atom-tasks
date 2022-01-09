@@ -5,6 +5,7 @@ on:
       - develop
       - release/**
       - hotfix/**
+      - main
 
 jobs:
   unit_tests:
