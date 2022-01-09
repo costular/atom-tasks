@@ -46,26 +46,23 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: Generate Release APK
-        run: ./gradlew assembleRelease
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY_BASE_64 }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.KEY_STORE_PASSWORD }}" --batch release.keystore.asc > release.keystore
 
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Generate Release Bundle
+        run: ./gradlew bundleRelease
         env:
-          BUILD_TOOLS_VERSION: "30.0.2"
+          SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: release.apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          name: Bundle artifact
+          path: app/release/app-release.aab
 
       - name: Upload mapping.txt
         uses: actions/upload-artifact@master
@@ -81,7 +78,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@master
         with:
-          name: release.apk
+          name: app-release.aab
 
       - name: Download mapping.txt
         uses: actions/download-artifact@master
