@@ -105,7 +105,7 @@ fun Agenda() {
                 CreateTask(
                     onClick = {
                         coroutineScope.launch {
-                            bottomState.show()
+                            bottomState.animateTo(ModalBottomSheetValue.Expanded)
                         }
                     },
                     modifier = Modifier
