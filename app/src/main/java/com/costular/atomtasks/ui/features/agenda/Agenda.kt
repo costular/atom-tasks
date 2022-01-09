@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.ui.components.*
@@ -35,6 +37,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun Agenda() {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     val viewModel: AgendaViewModel = hiltViewModel()
@@ -51,6 +54,7 @@ fun Agenda() {
             when (event) {
                 is AgendaUiEvents.CloseCreateTask -> {
                     coroutineScope.launch {
+                        keyboardController?.hide()
                         bottomState.hide()
                     }
                 }
@@ -101,7 +105,7 @@ fun Agenda() {
                 CreateTask(
                     onClick = {
                         coroutineScope.launch {
-                            bottomState.show()
+                            bottomState.animateTo(ModalBottomSheetValue.Expanded)
                         }
                     },
                     modifier = Modifier
