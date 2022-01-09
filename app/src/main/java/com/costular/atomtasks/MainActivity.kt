@@ -3,6 +3,7 @@ package com.costular.atomtasks
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,8 +31,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val systemUiController = rememberSystemUiController()
             val useDarkIcons = MaterialTheme.colors.isLight
+
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = useDarkIcons)
+                systemUiController.setSystemBarsColor(
+                    Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
             }
 
             AtomRemindersTheme {

@@ -37,6 +37,7 @@ object Versions {
     val numberPicker = "0.0.11"
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
+    val firebaseBom = "29.0.3"
 }
 
 
@@ -86,6 +87,9 @@ object Deps {
     val androidJunit = "androidx.test.ext:junit-ktx:${Versions.androidJunit}"
     val accompanistSystemUi = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanistSystemUi}"
     val accompanistInsetsUi = "com.google.accompanist:accompanist-insets-ui:${Versions.accompanistInsetsUi}"
+    val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
+    val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+    val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
