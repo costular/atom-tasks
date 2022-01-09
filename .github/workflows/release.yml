@@ -49,7 +49,7 @@ jobs:
       - name: Decode keystore
         env:
           SECRETS_PROPERTIES: ${{ secrets.SIGNING_KEY_BASE_64 }}
-          run: echo "$KEYSTORE" | base64 -d > release.keystore
+        run: echo "$KEYSTORE" | base64 -d > release.keystore
 
       - name: Generate Release Bundle
         run: ./gradlew bundleRelease
