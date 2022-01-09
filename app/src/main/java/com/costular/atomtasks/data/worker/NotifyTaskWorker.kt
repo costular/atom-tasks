@@ -41,6 +41,11 @@ class NotifyTaskWorker @AssistedInject constructor(
             if (!task.reminder.isToday || !task.reminder.isNow || !task.reminder.isEnabled) {
                 throw IllegalStateException("Reminder is not valid")
             }
+
+            if (task.isDone) {
+                throw IllegalStateException("Reminder is done so does not makes sense to notify the reminder")
+            }
+
             notifManager.remindTask(task)
             Result.success()
         } catch (e: Exception) {
