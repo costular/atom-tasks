@@ -47,9 +47,9 @@ jobs:
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
       - name: Decode keystore
-        env:
-          SECRETS_PROPERTIES: ${{ secrets.SIGNING_KEY_BASE_64 }}
-        run: echo "$KEYSTORE" | base64 -d > release.keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY_BASE_64 }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.KEY_STORE_PASSWORD }}" --batch release.keystore.asc > release.keystore
 
       - name: Generate Release Bundle
         run: ./gradlew bundleRelease
