@@ -7,6 +7,8 @@ plugins {
     id(GradlePlugins.kotlinParcelize)
     id(GradlePlugins.hilt)
     id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -108,6 +110,9 @@ dependencies {
     implementation(Deps.lottie)
     implementation(Deps.accompanistSystemUi)
     implementation(Deps.accompanistInsetsUi)
+    implementation(platform(Deps.firebaseBom))
+    implementation(Deps.firebaseAnalytics)
+    implementation(Deps.firebaseCrashlytics)
 
     testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
