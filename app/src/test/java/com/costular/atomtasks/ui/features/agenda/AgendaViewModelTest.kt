@@ -3,11 +3,10 @@ package com.costular.atomtasks.ui.features.agenda
 import app.cash.turbine.test
 import com.costular.atomtasks.MviViewModelTest
 import com.costular.atomtasks.domain.Async
-import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.domain.interactor.UpdateTaskInteractor
+import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.features.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.ui.features.agenda.DeleteTaskAction.Shown
@@ -28,7 +27,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     private val createTaskInteractor: CreateTaskInteractor = mockk(relaxed = true)
     private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
-    private val updateTaskInteractor: UpdateTaskInteractor = mockk(relaxed = true)
+    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
 
     @Before
@@ -36,7 +35,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut = AgendaViewModel(
             createTaskInteractor,
             getTasksInteractor,
-            updateTaskInteractor,
+            updateTaskIsDoneInteractor,
             removeTaskInteractor,
         )
     }
@@ -93,7 +92,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
 
-        coVerify { updateTaskInteractor(UpdateTaskInteractor.Params(expected.first().id, true)) }
+        coVerify { updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(expected.first().id, true)) }
     }
 
     @Test

@@ -6,9 +6,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateTaskInteractor @Inject constructor(
+class UpdateTaskIsDoneInteractor @Inject constructor(
     private val tasksRepository: TasksRepository,
-) : Interactor<UpdateTaskInteractor.Params>() {
+) : Interactor<UpdateTaskIsDoneInteractor.Params>() {
 
     data class Params(
         val taskId: Long,
