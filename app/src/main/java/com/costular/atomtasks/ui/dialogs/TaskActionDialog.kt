@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.costular.atomtasks.R
 import com.costular.atomtasks.ui.components.ActionItem
+import com.costular.atomtasks.ui.theme.AlphaDivider
 import com.costular.atomtasks.ui.theme.AppTheme
 
 @Composable
@@ -25,7 +27,6 @@ fun TaskActionDialog(
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
             shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colors.background,
         ) {
             Column(
                 modifier = Modifier
@@ -49,7 +50,7 @@ fun TaskActionDialog(
                         .fillMaxWidth()
                         .padding(top = AppTheme.dimens.spacingLarge)
                         .padding(bottom = AppTheme.dimens.spacingSmall),
-                    color = MaterialTheme.colors.surface,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = AlphaDivider),
                 )
 
                 ActionItem(
