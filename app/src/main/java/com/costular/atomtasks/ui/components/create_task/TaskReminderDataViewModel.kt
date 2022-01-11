@@ -12,8 +12,4 @@ class TaskReminderDataViewModel(
         }
     }
 
-    fun toggleEnabled() {
-        setState { copy(isEnabled = !isEnabled) }
-    }
-
 }

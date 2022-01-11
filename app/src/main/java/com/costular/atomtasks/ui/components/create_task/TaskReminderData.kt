@@ -3,6 +3,7 @@ package com.costular.atomtasks.ui.components.create_task
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
@@ -29,7 +30,6 @@ internal fun TaskReminderData(
     TaskReminderData(
         isEnabled = state.isEnabled,
         time = reminder,
-        onToggleEnable = viewModel::toggleEnabled,
         onEnableReminder = viewModel::enableReminder,
         onUpdateReminder = onSelectReminder,
     )
@@ -39,7 +39,6 @@ internal fun TaskReminderData(
 private fun TaskReminderData(
     isEnabled: Boolean,
     time: LocalTime,
-    onToggleEnable: () -> Unit,
     onEnableReminder: (Boolean) -> Unit,
     onUpdateReminder: (LocalTime?) -> Unit,
 ) {
@@ -51,9 +50,11 @@ private fun TaskReminderData(
         Row(
             Modifier
                 .fillMaxWidth()
-                .selectable(isEnabled,
+                .toggleable(
+                    value = isEnabled,
                     role = Role.Switch,
-                    onClick = onToggleEnable),
+                    onValueChange = onEnableReminder
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
