@@ -11,6 +11,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.costular.atomtasks.MainActivity
 import com.costular.atomtasks.R
+import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
+import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.theme.Teal500
@@ -42,8 +44,41 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                 )
             )
             .setAutoCancel(true)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .addAction(
+                NotificationCompat.Action.Builder(
+                    0,
+                    context.getString(R.string.notification_reminder_done),
+                    PendingIntent.getBroadcast(
+                        context,
+                        REQUEST_ACTION_DONE,
+                        Intent(context, MarkTaskAsDoneReceiver::class.java).apply {
+                            putExtra(MarkTaskAsDoneReceiver.PARAM_TASK_ID, task.id)
+                        },
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    )
+                ).build()
+            )
+            .addAction(
+                NotificationCompat.Action.Builder(
+                    0,
+                    context.getString(R.string.notification_reminder_postpone),
+                    PendingIntent.getBroadcast(
+                        context,
+                        REQUEST_ACTION_POSTPONE,
+                        Intent(context, PostponeTaskReceiver::class.java).apply {
+                            putExtra(PostponeTaskReceiver.PARAM_TASK_ID, task.id)
+                        },
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    )
+                ).build()
+            )
 
         notify(task.id.toInt(), builder.build())
+    }
+
+    override fun removeTaskNotification(taskId: Long) {
+        notificationManager.cancel(taskId.toInt())
     }
 
     private fun notify(id: Int, notification: Notification) {
@@ -57,6 +92,8 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
 
     companion object {
         const val REQUEST_OPEN_APP = 20
+        const val REQUEST_ACTION_DONE = 21
+        const val REQUEST_ACTION_POSTPONE = 22
     }
 
 }

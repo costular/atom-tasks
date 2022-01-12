@@ -6,7 +6,7 @@ import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.domain.interactor.UpdateTaskInteractor
+import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class AgendaViewModel @Inject constructor(
     private val createTaskInteractor: CreateTaskInteractor,
     private val getTasksInteractor: GetTasksInteractor,
-    private val updateTaskInteractor: UpdateTaskInteractor,
+    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
@@ -65,7 +65,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
-        updateTaskInteractor(UpdateTaskInteractor.Params(taskId, isDone)).collect()
+        updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
     }
 
     fun openTaskAction(task: Task) {

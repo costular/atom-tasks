@@ -59,4 +59,8 @@ class DefaultTasksRepository(
     override suspend fun markTask(taskId: Long, isDone: Boolean) {
         localDataSource.markTask(taskId, isDone)
     }
+
+    override suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime) {
+        localDataSource.updateTaskReminder(taskId, reminderTime)
+    }
 }

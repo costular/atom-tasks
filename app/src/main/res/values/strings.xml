@@ -31,5 +31,7 @@
     <string name="notification_channel_reminders_title">Reminders</string>
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>
     <string name="notification_reminder">🔔 Friendly reminder!</string>
+    <string name="notification_reminder_done">Done</string>
+    <string name="notification_reminder_postpone">Postpone 1 hour</string>
 
 </resources>
