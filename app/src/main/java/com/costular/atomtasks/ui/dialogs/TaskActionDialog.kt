@@ -6,7 +6,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,7 +23,10 @@ import com.costular.atomtasks.ui.theme.AppTheme
 @Composable
 fun TaskActionDialog(
     taskName: String?,
+    isDone: Boolean,
     onDelete: () -> Unit,
+    onDone: () -> Unit,
+    onUndone: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -52,6 +57,20 @@ fun TaskActionDialog(
                         .padding(bottom = AppTheme.dimens.spacingSmall),
                     color = MaterialTheme.colors.onSurface.copy(alpha = AlphaDivider),
                 )
+
+                if (!isDone) {
+                    ActionItem(
+                        icon = Icons.Outlined.Done,
+                        text = stringResource(R.string.agenda_mark_as_done),
+                        onClick = onDone
+                    )
+                } else {
+                    ActionItem(
+                        icon = Icons.Outlined.Close,
+                        text = stringResource(R.string.agenda_mark_as_undone),
+                        onClick = onUndone
+                    )
+                }
 
                 ActionItem(
                     icon = Icons.Outlined.Delete,

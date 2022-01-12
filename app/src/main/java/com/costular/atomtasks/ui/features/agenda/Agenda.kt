@@ -55,7 +55,11 @@ fun Agenda() {
                 is AgendaUiEvents.CloseCreateTask -> {
                     coroutineScope.launch {
                         keyboardController?.hide()
-                        bottomState.hide()
+                        try {
+                            bottomState.hide()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
@@ -65,12 +69,21 @@ fun Agenda() {
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
+            isDone = state.taskAction?.isDone ?: false, // TODO: 12/1/22 improve this nullability logic
             onDelete = {
                 viewModel.actionDelete(requireNotNull(state.taskAction).id)
             },
             onDismissRequest = {
                 viewModel.dismissTaskAction()
-            }
+            },
+            onDone = {
+                viewModel.dismissTaskAction()
+                viewModel.onMarkTask(requireNotNull(state.taskAction).id, true)
+            },
+            onUndone = {
+                viewModel.dismissTaskAction()
+                viewModel.onMarkTask(requireNotNull(state.taskAction).id, false)
+            },
         )
     }
 
