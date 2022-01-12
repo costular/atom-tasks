@@ -45,6 +45,8 @@
         </receiver>
 
         <receiver android:name=".data.receiver.NotifyTaskReceiver" />
+        <receiver android:name=".data.receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".data.receiver.PostponeTaskReceiver" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
