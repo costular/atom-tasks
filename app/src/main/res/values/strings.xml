@@ -20,6 +20,8 @@
     <string name="agenda_create_task_name">Task\'s name</string>
     <string name="agenda_edit_task">Edit</string>
     <string name="agenta_delete_task">Delete</string>
+    <string name="agenda_mark_as_done">Mark as done</string>
+    <string name="agenda_mark_as_undone">Mark as undone</string>
     <string name="agenda_create_new_task">Create new task…</string>
 
     <string name="today">Today</string>
@@ -33,5 +35,6 @@
     <string name="notification_reminder">🔔 Friendly reminder!</string>
     <string name="notification_reminder_done">Done</string>
     <string name="notification_reminder_postpone">Postpone 1 hour</string>
+
 
 </resources>
