@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.1] - 2021-01-09
+## [0.3.0] - 2022-01-28
+### Added
+- Mark as done/undone in task action dialog
+- Notification actions for done & postpone
+
+## [0.2.1] - 2022-01-09
 ### Added
 - Changelog
 - Firebase analytics and Crashlytics
