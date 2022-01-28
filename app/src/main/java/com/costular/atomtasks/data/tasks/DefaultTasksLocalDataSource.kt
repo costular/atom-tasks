@@ -2,6 +2,7 @@ package com.costular.atomtasks.data.tasks
 
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
+import java.time.LocalTime
 
 class DefaultTasksLocalDataSource(
     private val tasksDao: TasksDao,
@@ -39,6 +40,10 @@ class DefaultTasksLocalDataSource(
 
     override suspend fun markTask(taskId: Long, isDone: Boolean) {
         tasksDao.updateTaskDone(taskId, isDone)
+    }
+
+    override suspend fun updateTaskReminder(taskId: Long, time: LocalTime) {
+        reminderDao.updateReminder(taskId, time)
     }
 
 }

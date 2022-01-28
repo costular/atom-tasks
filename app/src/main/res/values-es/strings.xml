@@ -25,4 +25,8 @@
     <string name="notification_channel_reminders_title">Recordatorios</string>
     <string name="notification_channel_reminders_description">Recordatorios de tus tareas</string>
     <string name="notification_reminder">🔔 Recordatorio amistoso</string>
+    <string name="notification_reminder_done">Hecho</string>
+    <string name="notification_reminder_postpone">Posponer 1 hora</string>
+    <string name="agenda_mark_as_done">Marcar como hecho</string>
+    <string name="agenda_mark_as_undone">Marcar como no hecho</string>
 </resources>
