@@ -5,9 +5,8 @@ import com.costular.atomtasks.domain.manager.ReminderManager
 import org.junit.Before
 import org.junit.Test
 import android.app.PendingIntent
-
 import android.content.Intent
-import com.costular.atomtasks.data.service.TaskNotificationService
+import com.costular.atomtasks.data.receiver.NotifyTaskReceiver
 import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import java.time.LocalDateTime
@@ -45,11 +44,11 @@ class ReminderManagerImplTest {
     }
 
     private fun hasPendingIntent() =
-        PendingIntent.getService(
+        PendingIntent.getBroadcast(
             InstrumentationRegistry.getInstrumentation().targetContext,
             TASK_ID.toInt(),
             Intent(InstrumentationRegistry.getInstrumentation().targetContext,
-                TaskNotificationService::class.java),
+                NotifyTaskReceiver::class.java),
             PendingIntent.FLAG_NO_CREATE
         ) != null
 
