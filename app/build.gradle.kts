@@ -19,13 +19,23 @@ android {
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
         versionName = Config.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.di.AtomHiltRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
                 arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
+        }
+
+        packagingOptions {
+            // for JNA and JNA-platform
+            resources.excludes.add("META-INF/AL2.0")
+            resources.excludes.add("META-INF/LGPL2.1")
+            // for byte-buddy
+            resources.excludes.add("META-INF/licenses/ASM")
+            resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
+            resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
         }
     }
 
@@ -150,6 +160,10 @@ dependencies {
     androidTestImplementation(Deps.androidTestRunner)
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
+    androidTestImplementation(Deps.composeUiTest)
+    androidTestImplementation(Deps.composeUiManifest)
+    androidTestImplementation(Deps.hiltAndroidTesting)
+    androidTestImplementation(Deps.mockk)
 }
 
 tasks.withType<KotlinCompile> {

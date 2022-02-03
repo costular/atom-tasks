@@ -59,6 +59,7 @@ object Deps {
     val hiltNavigationCompose =
         "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}"
     val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
+    val hiltAndroidTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     val appInitializer = "androidx.startup:startup-runtime:${Versions.initializer}"
     val preferences = "androidx.preference:preference-ktx:${Versions.preferences}"
