@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.ui.components.*
@@ -69,7 +70,8 @@ fun Agenda() {
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
-            isDone = state.taskAction?.isDone ?: false, // TODO: 12/1/22 improve this nullability logic
+            isDone = state.taskAction?.isDone
+                ?: false, // TODO: 12/1/22 improve this nullability logic
             onDelete = {
                 viewModel.actionDelete(requireNotNull(state.taskAction).id)
             },
@@ -125,6 +127,7 @@ fun Agenda() {
                         .fillMaxWidth()
                         .navigationBarsWithImePadding()
                         .padding(AppTheme.dimens.contentMargin)
+                        .testTag("AgendaCreateTask")
                 )
             }
         ) { contentPadding ->
@@ -154,7 +157,9 @@ fun Agenda() {
                                 viewModel.openTaskAction(task)
                             },
                             onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .testTag("AgendaTaskList"),
                         )
                     }
                 }
@@ -200,6 +205,7 @@ private fun DayHeader(
                 .clickable {
                     viewModel.setSelectedDay(LocalDate.now())
                 }
+                .testTag("AgendaTitle")
         )
 
         IconButton(
@@ -211,6 +217,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
+                .testTag("AgendaPrevDay")
         ) {
             Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = null)
         }
@@ -224,6 +231,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
+                .testTag("AgendaNextDay")
         ) {
             Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
         }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -109,7 +110,9 @@ private fun CreateTaskExpanded(
                         style = MaterialTheme.typography.h6,
                     )
                 },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("CreateTaskInput"),
                 textStyle = MaterialTheme.typography.h6,
                 maxLines = 2,
             )
@@ -123,7 +126,9 @@ private fun CreateTaskExpanded(
             ) {
                 FloatingActionButton(
                     onClick = onSave,
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier
+                        .size(48.dp)
+                        .testTag("CreateTaskSave"),
                     elevation = FloatingActionButtonDefaults.elevation(
                         defaultElevation = 0.dp,
                         pressedElevation = 0.dp,

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,8 @@ fun TaskActionDialog(
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = AppTheme.dimens.contentMargin),
+                        .padding(horizontal = AppTheme.dimens.contentMargin)
+                        .testTag("TaskActionTitle"),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -62,20 +64,23 @@ fun TaskActionDialog(
                     ActionItem(
                         icon = Icons.Outlined.Done,
                         text = stringResource(R.string.agenda_mark_as_done),
-                        onClick = onDone
+                        onClick = onDone,
+                        modifier = Modifier.testTag("TaskActionDone")
                     )
                 } else {
                     ActionItem(
                         icon = Icons.Outlined.Close,
                         text = stringResource(R.string.agenda_mark_as_undone),
-                        onClick = onUndone
+                        onClick = onUndone,
+                        modifier = Modifier.testTag("TaskActionUndone")
                     )
                 }
 
                 ActionItem(
                     icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.agenta_delete_task),
-                    onClick = onDelete
+                    onClick = onDelete,
+                    modifier = Modifier.testTag("TaskActionDelete")
                 )
             }
         }
