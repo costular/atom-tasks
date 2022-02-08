@@ -38,6 +38,7 @@ object Versions {
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
+    val composeDestinations = "1.2.1-beta"
     val robolectric = "4.7.3"
 }
 
@@ -92,6 +93,8 @@ object Deps {
     val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
     val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics"
+    val composeDestinations = "io.github.raamcosta.compose-destinations:animations-core:${Versions.composeDestinations}"
+    val composeDestinationsKsp = "io.github.raamcosta.compose-destinations:ksp:${Versions.composeDestinations}"
     val composeUiTest = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
     val composeUiManifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose}"
 

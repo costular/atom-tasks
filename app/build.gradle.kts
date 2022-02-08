@@ -9,6 +9,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
 }
 
 android {
@@ -91,6 +92,17 @@ android {
 
 }
 
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
 kapt {
     correctErrorTypes = true
 }
@@ -141,6 +153,8 @@ dependencies {
     implementation(platform(Deps.firebaseBom))
     implementation(Deps.firebaseAnalytics)
     implementation(Deps.firebaseCrashlytics)
+    implementation(Deps.composeDestinations)
+    ksp(Deps.composeDestinationsKsp)
 
     testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
@@ -167,5 +181,21 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-Xinline-classes"
+    kotlinOptions.freeCompilerArgs +=
+        listOf(
+            "-Xinline-classes",
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi",
+            "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
+            "-Xuse-experimental=androidx.compose.ExperimentalComposeApi",
+            "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
+            "-Xuse-experimental=androidx.compose.runtime.ExperimentalComposeApi",
+            "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
+            "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
+            "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
+            "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+        )
 }

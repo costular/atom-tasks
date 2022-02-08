@@ -3,6 +3,7 @@ buildscript {
         google()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.2")
