@@ -1,8 +1,6 @@
 package com.costular.atomtasks.di
 
 import android.content.Context
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.ExperimentalComposeUiApi
 import com.costular.atomtasks.data.manager.NotifManagerImpl
 import com.costular.atomtasks.data.manager.ReminderManagerImpl
 import com.costular.atomtasks.domain.manager.NotifManager
@@ -23,8 +21,6 @@ class RemindersModule {
     fun providesRemindManager(@ApplicationContext context: Context): ReminderManager =
         ReminderManagerImpl(context)
 
-    @ExperimentalMaterialApi
-    @ExperimentalComposeUiApi
     @Singleton
     @Provides
     fun providesNotifManager(@ApplicationContext context: Context): NotifManager =

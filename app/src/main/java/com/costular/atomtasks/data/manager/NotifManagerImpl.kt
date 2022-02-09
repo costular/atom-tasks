@@ -4,8 +4,6 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,8 +16,6 @@ import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.theme.Teal500
 import com.costular.atomtasks.ui.util.CHANNEL_REMINDERS
 
-@ExperimentalComposeUiApi
-@ExperimentalMaterialApi
 class NotifManagerImpl(private val context: Context) : NotifManager {
 
     private val notificationManager: NotificationManagerCompat =
