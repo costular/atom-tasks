@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
-    private val createTaskInteractor: CreateTaskInteractor,
     private val getTasksInteractor: GetTasksInteractor,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
@@ -28,27 +27,6 @@ class AgendaViewModel @Inject constructor(
 
     init {
         loadTasks()
-    }
-
-    fun createTask(
-        name: String,
-        date: LocalDate,
-        reminder: LocalTime?,
-    ) {
-        viewModelScope.launch {
-            createTaskInteractor(
-                CreateTaskInteractor.Params(
-                    name,
-                    date,
-                    reminder != null,
-                    reminder
-                ))
-                .collect { status ->
-                    if (status is InvokeSuccess) {
-                        sendEvent(AgendaUiEvents.CloseCreateTask)
-                    }
-                }
-        }
     }
 
     fun setSelectedDay(localDate: LocalDate) = viewModelScope.launch {
