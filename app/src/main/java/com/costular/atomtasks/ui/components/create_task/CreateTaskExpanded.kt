@@ -1,7 +1,6 @@
 package com.costular.atomtasks.ui.components.create_task
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.scaleIn
@@ -37,8 +36,6 @@ import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
 
-@ExperimentalComposeUiApi
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CreateTaskExpanded(
     value: String,
@@ -85,8 +82,6 @@ fun CreateTaskExpanded(
     )
 }
 
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
 @Composable
 private fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
@@ -202,8 +197,6 @@ private fun CreateTaskExpanded(
     }
 }
 
-@ExperimentalAnimationApi
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview(showBackground = true)
 @Composable
 fun CreateTaskExpandedPreview() {

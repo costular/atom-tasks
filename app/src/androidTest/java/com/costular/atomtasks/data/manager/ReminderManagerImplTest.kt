@@ -7,7 +7,6 @@ import org.junit.Test
 import android.app.PendingIntent
 
 import android.content.Intent
-import com.costular.atomtasks.data.service.TaskNotificationService
 import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import java.time.LocalDateTime

@@ -20,7 +20,6 @@ import java.io.IOException
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
 
-@ExperimentalCoroutinesApi
 @ExperimentalTime
 @RunWith(AndroidJUnit4::class)
 class TaskDatabaseTest {
