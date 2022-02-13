@@ -25,5 +25,4 @@ class RemindersModule {
     @Provides
     fun providesNotifManager(@ApplicationContext context: Context): NotifManager =
         NotifManagerImpl(context)
-
 }

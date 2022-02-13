@@ -22,6 +22,4 @@ class DatabaseModuleTest {
     fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
         Room.inMemoryDatabaseBuilder(context, AtomRemindersDatabase::class.java)
             .build()
-
-
 }

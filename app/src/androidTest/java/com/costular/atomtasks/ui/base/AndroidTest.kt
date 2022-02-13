@@ -21,5 +21,4 @@ abstract class AndroidTest : ComposeProvider {
     fun setUp() {
         hiltRule.inject()
     }
-
 }

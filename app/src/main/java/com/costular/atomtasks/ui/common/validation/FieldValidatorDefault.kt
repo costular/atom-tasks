@@ -11,5 +11,4 @@ class FieldValidatorDefault : FieldValidator {
             textFieldValidation.mapNotNull { it.validate(input) }
         )
     }
-
 }

@@ -4,13 +4,12 @@ import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Logger
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
@@ -53,5 +52,4 @@ class NotifyTaskWorker @AssistedInject constructor(
             Result.failure()
         }
     }
-
 }

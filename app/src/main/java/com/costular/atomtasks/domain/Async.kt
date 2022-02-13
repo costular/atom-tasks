@@ -9,9 +9,7 @@ sealed class Async<out T> {
     data class Success<out T>(val data: T) : Async<T>() {
 
         operator fun invoke(): T = data
-
     }
 
     data class Failure(val throwable: Throwable) : Async<Nothing>()
-
 }

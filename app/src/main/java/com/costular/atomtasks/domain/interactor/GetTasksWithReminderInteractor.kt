@@ -14,5 +14,4 @@ class GetTasksWithReminderInteractor @Inject constructor(
     override suspend fun doWork(params: Unit): List<Task> {
         return tasksRepository.getTasksWithReminder()
     }
-
 }

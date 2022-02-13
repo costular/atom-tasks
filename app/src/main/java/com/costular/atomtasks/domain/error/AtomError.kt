@@ -6,5 +6,4 @@ sealed class AtomError {
     object Unknown : AtomError()
 
     abstract class FeatureFailure : AtomError()
-
 }

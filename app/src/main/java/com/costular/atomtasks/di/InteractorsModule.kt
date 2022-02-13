@@ -16,5 +16,4 @@ class InteractorsModule {
     @Provides
     fun provideGetTaskByIdInteractor(tasksRepository: TasksRepository): GetTaskByIdInteractor =
         GetTaskByIdInteractor(tasksRepository)
-
 }

@@ -54,5 +54,4 @@ class CreateTaskExpandedViewModel :
             date = date,
             reminder = reminder
         )
-
 }

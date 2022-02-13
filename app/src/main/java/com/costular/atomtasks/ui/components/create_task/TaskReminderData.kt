@@ -1,12 +1,17 @@
 package com.costular.atomtasks.ui.components.create_task
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -51,9 +56,11 @@ private fun TaskReminderData(
         Row(
             Modifier
                 .fillMaxWidth()
-                .selectable(isEnabled,
+                .selectable(
+                    isEnabled,
                     role = Role.Switch,
-                    onClick = onToggleEnable),
+                    onClick = onToggleEnable
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(

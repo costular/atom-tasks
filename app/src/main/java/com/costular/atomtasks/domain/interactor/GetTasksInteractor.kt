@@ -1,8 +1,8 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.domain.SubjectInteractor
 import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.domain.repository.TasksRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
@@ -19,5 +19,4 @@ class GetTasksInteractor @Inject constructor(
 
     override fun createObservable(params: Params): Flow<List<Task>> =
         tasksRepository.getTasks(params.day)
-
 }

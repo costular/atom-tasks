@@ -1,18 +1,11 @@
 package com.costular.atomtasks.domain.interactor
 
-import app.cash.turbine.test
-import com.costular.atomtasks.domain.InvokeError
-import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.manager.ReminderManager
 import com.costular.atomtasks.domain.repository.TasksRepository
-import com.google.common.truth.Truth
-import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
@@ -43,12 +36,14 @@ class CreateTaskInteractorTest {
         val date = LocalDate.of(2021, 1, 7)
         val reminder = LocalTime.of(9, 0)
 
-        createTaskInteractor.executeSync(CreateTaskInteractor.Params(
-            name = name,
-            date = date,
-            reminderEnabled = true,
-            reminderTime = reminder
-        ))
+        createTaskInteractor.executeSync(
+            CreateTaskInteractor.Params(
+                name = name,
+                date = date,
+                reminderEnabled = true,
+                reminderTime = reminder
+            )
+        )
 
         coEvery { tasksRepository.createTask(name, date, true, reminder) }
     }
@@ -76,5 +71,4 @@ class CreateTaskInteractorTest {
 
             verify { reminderManager.set(taskId, reminder.atDate(date)) }
         }
-
 }

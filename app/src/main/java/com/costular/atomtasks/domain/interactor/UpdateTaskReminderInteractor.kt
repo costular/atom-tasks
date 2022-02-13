@@ -19,5 +19,4 @@ class UpdateTaskReminderInteractor @Inject constructor(
     override suspend fun doWork(params: Params) {
         tasksRepository.updateTaskReminder(params.taskId, params.time)
     }
-
 }

@@ -35,12 +35,14 @@ class CreateTaskViewModelTest : MviViewModelTest() {
         val date = LocalDate.of(2022, 2, 10)
         val reminder = LocalTime.of(0, 0)
         coEvery {
-            createTaskInteractor(CreateTaskInteractor.Params(
-                name,
-                date,
-                true,
-                reminder
-            ))
+            createTaskInteractor(
+                CreateTaskInteractor.Params(
+                    name,
+                    date,
+                    true,
+                    reminder
+                )
+            )
         } returns flow {
             emit(InvokeStarted)
             emit(InvokeSuccess)
@@ -71,6 +73,4 @@ class CreateTaskViewModelTest : MviViewModelTest() {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
-
 }

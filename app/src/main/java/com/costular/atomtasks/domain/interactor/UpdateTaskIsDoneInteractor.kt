@@ -1,7 +1,7 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.domain.Interactor
+import com.costular.atomtasks.domain.repository.TasksRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,5 +18,4 @@ class UpdateTaskIsDoneInteractor @Inject constructor(
     override suspend fun doWork(params: Params) {
         tasksRepository.markTask(params.taskId, params.isDone)
     }
-
 }

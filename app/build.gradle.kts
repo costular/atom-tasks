@@ -10,6 +10,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
 }
 
 android {

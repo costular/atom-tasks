@@ -6,5 +6,4 @@ interface NotifManager {
 
     fun remindTask(task: Task)
     fun removeTaskNotification(taskId: Long)
-
 }
