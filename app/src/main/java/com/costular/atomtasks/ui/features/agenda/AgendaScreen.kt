@@ -118,9 +118,7 @@ fun AgendaScreen(
                             viewModel.openTaskAction(task)
                         },
                         onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("AgendaTaskList"),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
