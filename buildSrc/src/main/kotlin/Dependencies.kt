@@ -102,6 +102,7 @@ object Deps {
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     val mockk = "io.mockk:mockk:${Versions.mockk}"
+    val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
     val truth = "androidx.test.ext:truth:${Versions.truth}"
     val test = "androidx.arch.core:core-testing:${Versions.testJetpack}"
     val turbine = "app.cash.turbine:turbine:${Versions.turbine}"

@@ -89,7 +89,6 @@ android {
             isIncludeAndroidResources = true
         }
     }
-
 }
 
 kotlin {
@@ -177,7 +176,8 @@ dependencies {
     androidTestImplementation(Deps.composeUiTest)
     androidTestImplementation(Deps.composeUiManifest)
     androidTestImplementation(Deps.hiltAndroidTesting)
-    androidTestImplementation(Deps.mockk)
+    androidTestImplementation(Deps.mockkAndroid)
+    kaptAndroidTest(Deps.hiltCompiler)
 }
 
 tasks.withType<KotlinCompile> {
