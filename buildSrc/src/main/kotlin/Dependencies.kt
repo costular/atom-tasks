@@ -38,7 +38,6 @@ object Versions {
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
-    val robolectric = "4.7.3"
     val composeDestinations = "1.2.1-beta"
     val robolectric = "4.7.3"
 }
