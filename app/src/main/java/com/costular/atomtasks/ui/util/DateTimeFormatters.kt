@@ -1,7 +1,7 @@
 package com.costular.atomtasks.ui.util
 
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 object DateTimeFormatters {
     val dayOfWeekFormatter: DateTimeFormatter =

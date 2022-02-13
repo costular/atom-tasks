@@ -40,7 +40,7 @@ import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun DatePicker(

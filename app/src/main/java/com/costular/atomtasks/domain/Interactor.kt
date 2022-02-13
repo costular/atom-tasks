@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.flow.flatMapLatest
 
 abstract class Interactor<in P> {
     operator fun invoke(params: P, timeoutMs: Long = defaultTimeoutMs): Flow<InvokeStatus> {
