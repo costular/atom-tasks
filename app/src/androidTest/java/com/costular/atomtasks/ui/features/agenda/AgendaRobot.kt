@@ -1,5 +1,8 @@
 package com.costular.atomtasks.ui.features.agenda
 
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import com.costular.atomtasks.ui.base.ComposeProvider
@@ -9,48 +12,79 @@ fun ComposeProvider.agenda(func: AgendaRobot.() -> Unit) = AgendaRobot(composeTe
 
 class AgendaRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
+    private val title by lazy { composeTestRule.onNodeWithTag("AgendaTitle") }
+    private val taskList by lazy { composeTestRule.onNodeWithTag("AgendaTaskList") }
+    private val nextDay by lazy { composeTestRule.onNodeWithTag("AgendaNextDay") }
+    private val prevDay by lazy { composeTestRule.onNodeWithTag("AgendaPrevDay") }
+    private val createTask by lazy { composeTestRule.onNodeWithTag("AgendaCreateTask") }
+
     init {
-        composeTestRule.onNodeWithTag("AgendaTitle")
-            .assertIsDisplayed()
+        title.assertIsDisplayed()
     }
 
     fun assertDayText(text: String) {
-        composeTestRule.onNodeWithTag("AgendaTitle")
-            .assertTextEquals(text)
+        title.assertTextEquals(text)
     }
 
     fun goNextDay() {
-        composeTestRule.onNodeWithTag("AgendaNextDay")
+        nextDay
             .assertIsDisplayed()
             .performClick()
     }
 
     fun goPrevDay() {
-        composeTestRule.onNodeWithTag("AgendaPrevDay")
+        prevDay
             .assertIsDisplayed()
             .performClick()
     }
 
     fun goToday() {
-        composeTestRule.onNodeWithTag("AgendaTitle")
-            .performClick()
+        title.performClick()
     }
 
     infix fun openCreateTask(func: CreateTaskRobot.() -> Unit): CreateTaskRobot {
-        composeTestRule.onNodeWithTag("AgendaCreateTask")
+        createTask
             .assertIsDisplayed()
             .performClick()
 
         return CreateTaskRobot(composeTestRule).apply(func)
     }
 
-    fun firstTaskHasText(text: String) {
-        composeTestRule.onNodeWithTag("AgendaTaskList")
-            .onChildAt(0)
-            .assertTextEquals(text)
+    fun clickOnTask(name: String, func: TaskActionRobot.() -> Unit): TaskActionRobot {
+        composeTestRule.onNode(hasText(name))
+            .assert(hasParent(hasTestTag("AgendaTaskList")))
+            .performClick()
+
+        return TaskActionRobot(composeTestRule).apply(func)
     }
 
-    // TODO: mark task as done/undone
+    fun taskHasText(index: Int, text: String) {
+        taskAtIndex(index).assertTextEquals(text)
+    }
+
+    fun taskIsDone(taskName: String, isDone: Boolean) {
+        val checkbox = SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Checkbox)
+        composeTestRule.onNode(checkbox)
+            .assert(hasParent(hasText(taskName)))
+            .run {
+                if (isDone) {
+                    assertIsSelected()
+                } else {
+                    assertIsNotSelected()
+                }
+            }
+    }
+
+    fun toggleTask(taskName: String) {
+        val checkbox = SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Checkbox)
+        composeTestRule.onNode(checkbox)
+            .assert(hasParent(hasText(taskName)))
+            .performClick()
+    }
+
+    private fun taskAtIndex(index: Int): SemanticsNodeInteraction {
+        return taskList.onChildAt(index)
+    }
 
     // TODO: remove task
 
