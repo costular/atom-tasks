@@ -20,13 +20,23 @@ android {
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
         versionName = Config.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.di.AtomHiltRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
                 arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
+        }
+
+        packagingOptions {
+            // for JNA and JNA-platform
+            resources.excludes.add("META-INF/AL2.0")
+            resources.excludes.add("META-INF/LGPL2.1")
+            // for byte-buddy
+            resources.excludes.add("META-INF/licenses/ASM")
+            resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
+            resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
         }
     }
 
@@ -72,6 +82,23 @@ android {
         resources.excludes.add("META-INF/licenses/**")
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
     }
 }
 
@@ -146,6 +173,9 @@ dependencies {
     testImplementation(Deps.truth)
     testImplementation(Deps.test)
     testImplementation(Deps.mockk)
+    testImplementation(Deps.robolectric)
+    testImplementation(Deps.composeUiTest)
+    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
@@ -154,6 +184,11 @@ dependencies {
     androidTestImplementation(Deps.androidTestRunner)
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
+    androidTestImplementation(Deps.composeUiTest)
+    androidTestImplementation(Deps.composeUiManifest)
+    androidTestImplementation(Deps.hiltAndroidTesting)
+    androidTestImplementation(Deps.mockkAndroid)
+    kaptAndroidTest(Deps.hiltCompiler)
 }
 
 tasks.withType<KotlinCompile> {

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.ui.components.*
@@ -88,6 +89,7 @@ fun AgendaScreen(
                     .fillMaxWidth()
                     .navigationBarsWithImePadding()
                     .padding(AppTheme.dimens.contentMargin)
+                    .testTag("AgendaCreateTask")
             )
         }
     ) {
@@ -145,6 +147,7 @@ private fun DayHeader(
                 .clickable {
                     viewModel.setSelectedDay(LocalDate.now())
                 }
+                .testTag("AgendaTitle")
         )
 
         IconButton(
@@ -156,6 +159,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
+                .testTag("AgendaPrevDay")
         ) {
             Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = null)
         }
@@ -169,6 +173,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
+                .testTag("AgendaNextDay")
         ) {
             Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
         }

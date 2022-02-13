@@ -54,7 +54,6 @@ fun Empty(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty))
     val progress by animateLottieCompositionAsState(
         composition,
-        iterations = LottieConstants.IterateForever
     )
 
     LottieAnimation(
