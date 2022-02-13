@@ -87,7 +87,7 @@ fun AgendaScreen(
             },
             onCancel = {
                 viewModel.dismissDelete()
-            }
+            },
         )
     }
 
@@ -101,14 +101,14 @@ fun AgendaScreen(
                     .fillMaxWidth()
                     .navigationBarsWithImePadding()
                     .padding(AppTheme.dimens.contentMargin)
-                    .testTag("AgendaCreateTask")
+                    .testTag("AgendaCreateTask"),
             )
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
+                .statusBarsPadding(),
         ) {
             DayHeader(state, viewModel)
 
@@ -119,7 +119,7 @@ fun AgendaScreen(
                 selectedDay = state.selectedDay,
                 onSelectDay = {
                     viewModel.setSelectedDay(it)
-                }
+                },
             )
 
             when (val tasks = state.tasks) {
@@ -130,7 +130,9 @@ fun AgendaScreen(
                             viewModel.openTaskAction(task)
                         },
                         onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("AgendaTaskList"),
                     )
                 }
             }
@@ -145,7 +147,7 @@ private fun DayHeader(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         val selectedDayText = dayAsText(state.selectedDay)
         ScreenHeader(
@@ -154,12 +156,12 @@ private fun DayHeader(
                 .weight(1f)
                 .padding(
                     vertical = AppTheme.dimens.spacingXLarge,
-                    horizontal = AppTheme.dimens.spacingLarge
+                    horizontal = AppTheme.dimens.spacingLarge,
                 )
                 .clickable {
                     viewModel.setSelectedDay(LocalDate.now())
                 }
-                .testTag("AgendaTitle")
+                .testTag("AgendaTitle"),
         )
 
         IconButton(
@@ -171,7 +173,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
-                .testTag("AgendaPrevDay")
+                .testTag("AgendaPrevDay"),
         ) {
             Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = null)
         }
@@ -185,7 +187,7 @@ private fun DayHeader(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
-                .testTag("AgendaNextDay")
+                .testTag("AgendaNextDay"),
         ) {
             Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
         }

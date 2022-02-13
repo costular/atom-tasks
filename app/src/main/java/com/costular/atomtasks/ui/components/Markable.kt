@@ -36,7 +36,7 @@ fun Markable(
     width: Dp = 24.dp,
     height: Dp = 24.dp,
 ) {
-    val modifier = modifier
+    val lastModifier = modifier
         .width(width)
         .height(height)
         .border(
@@ -54,7 +54,7 @@ fun Markable(
         )
 
     if (isMarked) {
-        Box(modifier = modifier) {
+        Box(modifier = lastModifier) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -71,7 +71,7 @@ fun Markable(
             }
         }
     } else {
-        Box(modifier = modifier)
+        Box(modifier = lastModifier)
     }
 }
 
