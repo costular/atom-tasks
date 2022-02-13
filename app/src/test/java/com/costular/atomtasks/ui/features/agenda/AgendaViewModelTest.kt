@@ -108,7 +108,6 @@ class AgendaViewModelTest : MviViewModelTest() {
             }
         }
 
-
     @Test
     fun `should set delete task action to hidden when dismiss dialog`() =
         testBlocking {
@@ -160,5 +159,4 @@ class AgendaViewModelTest : MviViewModelTest() {
             )
         )
     }
-
 }

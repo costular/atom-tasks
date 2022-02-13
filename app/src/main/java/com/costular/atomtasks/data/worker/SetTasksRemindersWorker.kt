@@ -8,7 +8,6 @@ import com.costular.atomtasks.domain.interactor.GetTasksWithReminderInteractor
 import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.single
 import java.lang.Exception
 
 @HiltWorker
@@ -31,5 +30,4 @@ class SetTasksRemindersWorker @AssistedInject constructor(
         } catch (e: Exception) {
             Result.failure()
         }
-
 }

@@ -16,7 +16,6 @@ data class CreateTaskExpandedState(
     companion object {
         val Empty = CreateTaskExpandedState()
     }
-
 }
 
 sealed class TaskDataSelection {
@@ -26,5 +25,4 @@ sealed class TaskDataSelection {
     object Date : TaskDataSelection()
 
     object Reminder : TaskDataSelection()
-
 }

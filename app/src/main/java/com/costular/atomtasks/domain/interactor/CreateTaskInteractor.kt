@@ -1,8 +1,8 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.domain.Interactor
 import com.costular.atomtasks.domain.manager.ReminderManager
+import com.costular.atomtasks.domain.repository.TasksRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -33,6 +33,4 @@ class CreateTaskInteractor @Inject constructor(
             reminderManager.set(taskId, params.reminderTime.atDate(params.date))
         }
     }
-
-
 }

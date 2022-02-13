@@ -7,5 +7,4 @@ sealed class CreateTaskUiEvents : UiEvent {
     data class SaveTask(
         val taskResult: CreateTaskResult
     ) : CreateTaskUiEvents()
-
 }

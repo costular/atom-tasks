@@ -7,11 +7,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronLeft
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import java.time.LocalDate
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.ui.components.*
@@ -27,6 +26,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collect
+import java.time.LocalDate
 
 @Destination(start = true)
 @Composable
@@ -40,7 +40,6 @@ fun AgendaScreen(
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is AgendaUiEvents.CloseCreateTask -> {
-
                 }
             }
         }

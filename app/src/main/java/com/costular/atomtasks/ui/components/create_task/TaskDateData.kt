@@ -12,9 +12,10 @@ internal fun TaskDateData(
     date: LocalDate,
     onSelectDate: (LocalDate) -> Unit,
 ) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(AppTheme.dimens.contentMargin)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(AppTheme.dimens.contentMargin)
     ) {
         DatePicker(
             onDateSelected = onSelectDate,

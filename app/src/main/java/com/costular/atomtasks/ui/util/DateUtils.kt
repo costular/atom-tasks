@@ -26,5 +26,4 @@ object DateUtils {
             else -> DateTimeFormatters.dateFormatter.format(day)
         }
     }
-
 }

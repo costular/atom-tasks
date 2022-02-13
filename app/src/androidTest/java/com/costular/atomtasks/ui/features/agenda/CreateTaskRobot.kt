@@ -1,7 +1,10 @@
 package com.costular.atomtasks.ui.features.agenda
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import com.costular.atomtasks.ui.base.ComposeProvider
 import com.costular.atomtasks.ui.base.Robot
 
@@ -34,5 +37,4 @@ class CreateTaskRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule)
             .assertIsDisplayed()
             .performClick()
     }
-
 }

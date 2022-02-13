@@ -17,5 +17,4 @@ class TaskRepositoryModule {
     @Provides
     fun provideTaskRepository(localDataSource: TaskLocalDataSource): TasksRepository =
         DefaultTasksRepository(localDataSource)
-
 }

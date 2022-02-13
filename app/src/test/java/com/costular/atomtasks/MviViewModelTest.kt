@@ -19,5 +19,4 @@ abstract class MviViewModelTest {
     fun testBlocking(block: suspend () -> Unit) {
         coroutineTestDispatcher.runBlockingTest { block() }
     }
-
 }

@@ -51,9 +51,11 @@ private fun TaskReminderData(
         Row(
             Modifier
                 .fillMaxWidth()
-                .selectable(isEnabled,
+                .selectable(
+                    isEnabled,
                     role = Role.Switch,
-                    onClick = onToggleEnable),
+                    onClick = onToggleEnable
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(

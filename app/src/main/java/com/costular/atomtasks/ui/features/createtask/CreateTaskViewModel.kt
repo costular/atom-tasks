@@ -31,7 +31,8 @@ class CreateTaskViewModel @Inject constructor(
                     date,
                     reminder != null,
                     reminder
-                ))
+                )
+            )
                 .collect { status ->
                     when (status) {
                         is InvokeStarted -> {
@@ -47,5 +48,4 @@ class CreateTaskViewModel @Inject constructor(
                 }
         }
     }
-
 }

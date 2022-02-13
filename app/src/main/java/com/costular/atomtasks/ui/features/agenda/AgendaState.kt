@@ -26,7 +26,6 @@ data class AgendaState(
     companion object {
         val Empty = AgendaState()
     }
-
 }
 
 sealed class DeleteTaskAction {
@@ -36,9 +35,7 @@ sealed class DeleteTaskAction {
     data class Shown(
         val taskId: Long,
     ) : DeleteTaskAction()
-
 }
-
 
 sealed class EditTaskAction {
 
@@ -47,5 +44,4 @@ sealed class EditTaskAction {
     data class Shown(
         val taskId: Long,
     ) : EditTaskAction()
-
 }

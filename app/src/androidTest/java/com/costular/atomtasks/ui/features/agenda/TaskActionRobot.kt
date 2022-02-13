@@ -43,5 +43,4 @@ class TaskActionRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule)
         taskActionDone.assertIsDisplayed()
             .performClick()
     }
-
 }

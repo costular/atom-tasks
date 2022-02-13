@@ -140,5 +140,4 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
             assertThat(expectMostRecentItem()).isEqualTo(CreateTaskExpandedState.Empty)
         }
     }
-
 }

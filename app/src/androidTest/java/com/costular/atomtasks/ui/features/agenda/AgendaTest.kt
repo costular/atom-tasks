@@ -143,5 +143,4 @@ class AgendaTest : AndroidTest() {
             coVerify { taskRepository.markTask(id, !isDone) }
         }
     }
-
 }

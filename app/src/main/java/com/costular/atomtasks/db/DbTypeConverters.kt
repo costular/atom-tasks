@@ -24,5 +24,4 @@ object DbTypeConverters {
 
     @TypeConverter
     fun toInstant(input: String): Instant = Instant.parse(input)
-
 }

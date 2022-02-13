@@ -2,9 +2,20 @@ package com.costular.atomtasks.ui.features.agenda
 
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.SemanticsPropertyKey
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasParent
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onChildAt
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.ui.base.ComposeProvider
 import com.costular.atomtasks.ui.base.Robot
 
@@ -89,5 +100,4 @@ class AgendaRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
     // TODO: remove task
 
     // TODO: mark task as donde/undone via task action
-
 }

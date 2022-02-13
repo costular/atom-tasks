@@ -23,5 +23,4 @@ class NetModule {
     @Singleton
     fun provideAppScope(dispatcher: DispatcherProvider): CoroutineScope =
         CoroutineScope(dispatcher.main + SupervisorJob())
-
 }

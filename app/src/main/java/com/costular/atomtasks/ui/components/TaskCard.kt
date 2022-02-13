@@ -63,7 +63,6 @@ fun TaskCard(
             )
         )
 
-
         Row(
             modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically

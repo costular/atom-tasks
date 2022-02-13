@@ -1,6 +1,10 @@
 package com.costular.atomtasks.data.tasks
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
@@ -29,5 +33,4 @@ abstract class TasksDao {
 
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
     abstract suspend fun updateTaskDone(id: Long, isDone: Boolean)
-
 }

@@ -11,5 +11,4 @@ data class TextFieldState(
     companion object {
         val Empty: TextFieldState = TextFieldState()
     }
-
 }

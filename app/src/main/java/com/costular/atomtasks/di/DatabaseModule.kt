@@ -19,5 +19,4 @@ class DatabaseModule {
     fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
         Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomtasks.db")
             .build()
-
 }

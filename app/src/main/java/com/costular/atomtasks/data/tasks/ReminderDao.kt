@@ -17,5 +17,4 @@ abstract class ReminderDao {
 
     @Query("DELETE FROM reminders WHERE task_id = :taskId")
     abstract suspend fun removeReminder(taskId: Long)
-
 }

@@ -6,7 +6,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
-import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.lang.Exception
@@ -41,5 +40,4 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
             Result.failure()
         }
     }
-
 }
