@@ -48,7 +48,7 @@ fun ColumnScope.SettingSection(
 
 @Preview(showBackground = true)
 @Composable
-fun SettingSectionPreview() {
+private fun SettingSectionPreview() {
     Column {
         SettingSection(title = "Whatever") {
             Text(

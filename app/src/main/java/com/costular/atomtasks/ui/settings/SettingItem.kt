@@ -52,7 +52,7 @@ fun SettingItem(
 
 @Preview(showBackground = true)
 @Composable
-fun JustTitlePreview() {
+private fun JustTitlePreview() {
     SettingItem(
         title = {
             Text("This is a test with only a title, nothing else")
@@ -64,7 +64,7 @@ fun JustTitlePreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun TitleAndStartPreview() {
+private fun TitleAndStartPreview() {
     SettingItem(
         title = {
             Text("This is a test with start also")
@@ -80,7 +80,7 @@ fun TitleAndStartPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun TitleAndStartAndEndPreview() {
+private fun TitleAndStartAndEndPreview() {
     SettingItem(
         title = {
             Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd awdawdawd sdadad")
