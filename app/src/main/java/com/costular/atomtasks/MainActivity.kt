@@ -34,17 +34,17 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val systemUiController = rememberSystemUiController()
-            val useDarkIcons = MaterialTheme.colors.isLight
-
-            SideEffect {
-                systemUiController.setSystemBarsColor(
-                    Color.Transparent,
-                    darkIcons = useDarkIcons
-                )
-            }
-
             AtomRemindersTheme {
+                val systemUiController = rememberSystemUiController()
+                val useDarkIcons = MaterialTheme.colors.isLight
+
+                SideEffect {
+                    systemUiController.setSystemBarsColor(
+                        Color.Transparent,
+                        darkIcons = useDarkIcons
+                    )
+                }
+
                 ProvideWindowInsets {
                     Navigation()
                 }
