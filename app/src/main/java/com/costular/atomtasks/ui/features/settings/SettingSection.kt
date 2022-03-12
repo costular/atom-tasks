@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.ui.theme.AppTheme
 
 @Composable
-fun ColumnScope.SettingSection(
+fun SettingSection(
     title: String,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,

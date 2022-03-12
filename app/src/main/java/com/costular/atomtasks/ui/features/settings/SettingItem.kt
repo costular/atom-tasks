@@ -36,7 +36,7 @@ fun SettingItem(
     ) {
         if (start != null) {
             start()
-            Spacer(Modifier.width(AppTheme.dimens.contentMargin))
+            Spacer(Modifier.width(AppTheme.dimens.spacingXLarge))
         }
 
         Box(Modifier.weight(1f)) {
@@ -76,7 +76,6 @@ private fun TitleAndStartPreview() {
         modifier = Modifier.fillMaxWidth(),
     )
 }
-
 
 @Preview(showBackground = true)
 @Composable
