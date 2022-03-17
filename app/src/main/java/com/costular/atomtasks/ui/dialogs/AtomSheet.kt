@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.ui.components.BottomSheetDraggable
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
+import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @Composable
 fun AtomSheet(
@@ -30,7 +31,7 @@ fun AtomSheet(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Column(modifier) {
+    Column(modifier.navigationBarsWithImePadding()) {
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
