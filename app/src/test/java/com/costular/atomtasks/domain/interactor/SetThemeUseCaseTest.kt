@@ -4,7 +4,6 @@ import com.costular.atomtasks.domain.model.Theme
 import com.costular.atomtasks.domain.repository.SettingsRepository
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
