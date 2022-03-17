@@ -7,12 +7,12 @@ import android.content.Intent
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.costular.atomtasks.MainActivity
 import com.costular.atomtasks.R
 import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
 import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.ui.MainActivity
 import com.costular.atomtasks.ui.theme.Teal500
 import com.costular.atomtasks.ui.util.CHANNEL_REMINDERS
 

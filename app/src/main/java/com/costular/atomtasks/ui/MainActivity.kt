@@ -1,4 +1,4 @@
-package com.costular.atomtasks
+package com.costular.atomtasks.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
