@@ -22,6 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.ui.theme.AppTheme
 
+const val ExpandedArrowAngle = 180f
+const val CollapsedArrowAngle = 0f
+
 @Composable
 fun ExpandableChip(
     isExpanded: Boolean,
@@ -30,7 +33,7 @@ fun ExpandableChip(
     content: @Composable RowScope.() -> Unit,
 ) {
     val angle: Float by animateFloatAsState(
-        targetValue = if (isExpanded) 180f else 0F,
+        targetValue = if (isExpanded) ExpandedArrowAngle else CollapsedArrowAngle,
         animationSpec = tween(
             durationMillis = 300,
             delayMillis = 200,
