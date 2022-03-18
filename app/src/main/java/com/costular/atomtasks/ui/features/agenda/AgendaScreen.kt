@@ -14,6 +14,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronLeft
 import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +32,7 @@ import com.costular.atomtasks.ui.components.create_task.CreateTask
 import com.costular.atomtasks.ui.dialogs.RemoveTaskDialog
 import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
+import com.costular.atomtasks.ui.features.destinations.SettingsScreenDestination
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
@@ -110,7 +112,13 @@ fun AgendaScreen(
                 .fillMaxSize()
                 .statusBarsPadding(),
         ) {
-            DayHeader(state, viewModel)
+            DayHeader(
+                state = state,
+                viewModel = viewModel,
+                onOpenSettings = {
+                    navigator.navigate(SettingsScreenDestination)
+                },
+            )
 
             HorizontalCalendar(
                 from = state.calendarFromDate,
@@ -144,6 +152,7 @@ fun AgendaScreen(
 private fun DayHeader(
     state: AgendaState,
     viewModel: AgendaViewModel,
+    onOpenSettings: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -190,6 +199,18 @@ private fun DayHeader(
                 .testTag("AgendaNextDay"),
         ) {
             Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
+        }
+
+        IconButton(
+            enabled = state.isNextDaySelected,
+            onClick = {
+                onOpenSettings()
+            },
+            modifier = Modifier
+                .width(40.dp)
+                .height(40.dp),
+        ) {
+            Icon(imageVector = Icons.Outlined.Settings, contentDescription = null)
         }
     }
 }

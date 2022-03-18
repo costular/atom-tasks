@@ -1,17 +1,18 @@
-package com.costular.atomtasks
+package com.costular.atomtasks.ui
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.costular.atomtasks.domain.model.Theme
 import com.costular.atomtasks.ui.features.NavGraphs
 import com.costular.atomtasks.ui.features.agenda.AgendaScreen
 import com.costular.atomtasks.ui.features.createtask.CreateTaskScreen
@@ -19,36 +20,39 @@ import com.costular.atomtasks.ui.features.destinations.AgendaScreenDestination
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DestinationsScaffold
+import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+@Composable
+fun App() {
+    val viewModel: AppViewModel = hiltViewModel()
+    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AppState.Empty)
+    val isSystemDarkMode = isSystemInDarkTheme()
 
-        setContent {
-            AtomRemindersTheme {
-                val systemUiController = rememberSystemUiController()
-                val useDarkIcons = MaterialTheme.colors.isLight
+    val systemUiController = rememberSystemUiController()
+    val isDarkTheme = remember(state.theme) {
+        when (state.theme) {
+            is Theme.Light -> false
+            is Theme.Dark -> true
+            is Theme.System -> isSystemDarkMode
+        }
+    }
 
-                SideEffect {
-                    systemUiController.setSystemBarsColor(
-                        Color.Transparent,
-                        darkIcons = useDarkIcons
-                    )
-                }
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            Color.Transparent,
+            darkIcons = !isDarkTheme
+        )
+    }
 
-                ProvideWindowInsets {
-                    Navigation()
-                }
-            }
+    AtomRemindersTheme(darkTheme = isDarkTheme) {
+        ProvideWindowInsets {
+            Navigation()
         }
     }
 }
