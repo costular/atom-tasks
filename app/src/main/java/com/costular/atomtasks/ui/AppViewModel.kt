@@ -27,7 +27,6 @@ class AppViewModel @Inject constructor(
                 }
         }
     }
-
 }
 
 data class AppState(

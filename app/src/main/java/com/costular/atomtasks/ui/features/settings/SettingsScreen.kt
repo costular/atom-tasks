@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -16,9 +15,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.CalendarToday
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,8 +27,6 @@ import com.costular.atomtasks.R
 import com.costular.atomtasks.domain.model.Theme
 import com.costular.atomtasks.ui.components.AtomTopBar
 import com.costular.atomtasks.ui.features.destinations.ThemeSelectorScreenDestination
-import com.costular.atomtasks.ui.settings.SettingOption
-import com.costular.atomtasks.ui.settings.SettingSection
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
