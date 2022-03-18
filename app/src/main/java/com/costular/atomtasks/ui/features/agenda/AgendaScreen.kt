@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
+import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.components.HorizontalCalendar
 import com.costular.atomtasks.ui.components.ScreenHeader
 import com.costular.atomtasks.ui.components.TaskList
@@ -43,6 +44,7 @@ import java.time.LocalDate
 
 @Destination(start = true)
 @Composable
+@Suppress("LongMethod")
 fun AgendaScreen(
     navigator: DestinationsNavigator,
 ) {
@@ -121,20 +123,31 @@ fun AgendaScreen(
                 },
             )
 
-            when (val tasks = state.tasks) {
-                is Async.Success -> {
-                    TaskList(
-                        tasks = tasks.data,
-                        onClick = { task ->
-                            viewModel.openTaskAction(task)
-                        },
-                        onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("AgendaTaskList"),
-                    )
-                }
-            }
+            TasksContent(
+                state = state,
+                onOpenTask = viewModel::openTaskAction,
+                onMarkTask = viewModel::onMarkTask,
+            )
+        }
+    }
+}
+
+@Composable
+private fun TasksContent(
+    state: AgendaState,
+    onOpenTask: (Task) -> Unit,
+    onMarkTask: (Long, Boolean) -> Unit,
+) {
+    when (val tasks = state.tasks) {
+        is Async.Success -> {
+            TaskList(
+                tasks = tasks.data,
+                onClick = onOpenTask,
+                onMarkTask = onMarkTask,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("AgendaTaskList"),
+            )
         }
     }
 }
