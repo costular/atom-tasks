@@ -7,6 +7,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -103,21 +104,7 @@ private fun CreateTaskExpanded(
 ) {
     Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            OutlinedTextField(
-                value = state.name,
-                onValueChange = onValueChange,
-                placeholder = {
-                    Text(
-                        stringResource(R.string.agenda_create_task_name),
-                        style = MaterialTheme.typography.h6,
-                    )
-                },
-                modifier = Modifier
-                    .weight(1f)
-                    .testTag("CreateTaskInput"),
-                textStyle = MaterialTheme.typography.h6,
-                maxLines = 2,
-            )
+            CreateTaskInput(state.name, onValueChange)
 
             Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
 
@@ -126,66 +113,26 @@ private fun CreateTaskExpanded(
                 enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
                 exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
             ) {
-                FloatingActionButton(
-                    onClick = onSave,
-                    modifier = Modifier
-                        .size(48.dp)
-                        .testTag("CreateTaskSave"),
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 0.dp,
-                        pressedElevation = 0.dp,
-                        hoveredElevation = 0.dp,
-                        focusedElevation = 0.dp
-                    ),
-                ) {
-                    Icon(Icons.Outlined.Check, contentDescription = null)
-                }
+                SaveTaskButton(onSave = onSave)
             }
         }
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            ExpandableChip(
-                isExpanded = state.shouldShowDateSelection,
-                onClick = onClickDate,
-            ) {
-                Icon(
-                    Icons.Outlined.CalendarToday,
-                    contentDescription = null,
-                    modifier = Modifier.size(AppTheme.ChipIconSize)
-                )
-                Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-                Text(
-                    DateTimeFormatters.dateFormatter.format(state.date),
-                    style = MaterialTheme.typography.body1,
-                )
-            }
+            DateChip(
+                shouldShowDateSelection = state.shouldShowDateSelection,
+                date = state.date,
+                onClickDate = onClickDate
+            )
 
             Spacer(Modifier.width(16.dp))
 
-            ExpandableChip(
-                isExpanded = state.shouldShowReminderSelection,
-                onClick = onClickReminder,
-            ) {
-                Icon(
-                    Icons.Outlined.Alarm,
-                    contentDescription = null,
-                    modifier = Modifier.size(AppTheme.ChipIconSize)
-                )
-                Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-
-                val reminderText = if (state.reminder != null) {
-                    DateTimeFormatters.timeFormatter.format(state.reminder)
-                } else {
-                    stringResource(R.string.no_reminder)
-                }
-
-                Text(
-                    reminderText,
-                    style = MaterialTheme.typography.body1,
-                )
-            }
+            ReminderChip(
+                shouldShowReminderSelection = state.shouldShowReminderSelection,
+                reminder = state.reminder,
+                onClickReminder = onClickReminder
+            )
         }
 
         when {
@@ -194,7 +141,7 @@ private fun CreateTaskExpanded(
                     date = state.date,
                     onSelectDate = {
                         onSetDate(it)
-                    }
+                    },
                 )
             }
             state.shouldShowReminderSelection -> {
@@ -202,11 +149,104 @@ private fun CreateTaskExpanded(
                     reminder = state.reminder ?: LocalTime.now(),
                     onSelectReminder = {
                         onSetTime(it)
-                    }
+                    },
                 )
             }
         }
     }
+}
+
+@Composable
+private fun ReminderChip(
+    shouldShowReminderSelection: Boolean,
+    reminder: LocalTime?,
+    onClickReminder: () -> Unit,
+) {
+    ExpandableChip(
+        isExpanded = shouldShowReminderSelection,
+        onClick = onClickReminder,
+    ) {
+        Icon(
+            Icons.Outlined.Alarm,
+            contentDescription = null,
+            modifier = Modifier.size(AppTheme.ChipIconSize),
+        )
+        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+
+        val reminderText = if (reminder != null) {
+            DateTimeFormatters.timeFormatter.format(reminder)
+        } else {
+            stringResource(R.string.no_reminder)
+        }
+
+        Text(
+            reminderText,
+            style = MaterialTheme.typography.body1,
+        )
+    }
+}
+
+@Composable
+private fun DateChip(
+    shouldShowDateSelection: Boolean,
+    date: LocalDate,
+    onClickDate: () -> Unit,
+) {
+    ExpandableChip(
+        isExpanded = shouldShowDateSelection,
+        onClick = onClickDate,
+    ) {
+        Icon(
+            Icons.Outlined.CalendarToday,
+            contentDescription = null,
+            modifier = Modifier.size(AppTheme.ChipIconSize),
+        )
+        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+        Text(
+            DateTimeFormatters.dateFormatter.format(date),
+            style = MaterialTheme.typography.body1,
+        )
+    }
+}
+
+@Composable
+private fun SaveTaskButton(onSave: () -> Unit) {
+    FloatingActionButton(
+        onClick = onSave,
+        modifier = Modifier
+            .size(48.dp)
+            .testTag("CreateTaskSave"),
+        elevation = FloatingActionButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+            hoveredElevation = 0.dp,
+            focusedElevation = 0.dp,
+        ),
+    ) {
+        Icon(Icons.Outlined.Check, contentDescription = null)
+    }
+}
+
+@Composable
+private fun RowScope.CreateTaskInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                stringResource(R.string.agenda_create_task_name),
+                style = MaterialTheme.typography.h6,
+            )
+        },
+        modifier = Modifier.Companion
+            .weight(1f)
+            .testTag("CreateTaskInput"),
+        textStyle = MaterialTheme.typography.h6,
+        maxLines = 2,
+    )
 }
 
 @Preview(showBackground = true)
