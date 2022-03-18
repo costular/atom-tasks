@@ -47,7 +47,7 @@ fun AgendaScreen(
     navigator: DestinationsNavigator,
 ) {
     val viewModel: AgendaViewModel = hiltViewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(initial = AgendaState.Empty)
+    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
 
     LaunchedEffect(viewModel.uiEvents) {
         viewModel.uiEvents.collect { event ->
