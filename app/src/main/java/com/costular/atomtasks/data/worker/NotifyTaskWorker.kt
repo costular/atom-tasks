@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
+import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -50,6 +51,7 @@ class NotifyTaskWorker @AssistedInject constructor(
             notifManager.remindTask(task)
             Result.success()
         } catch (e: Exception) {
+            Timber.d(e)
             Result.failure()
         }
     }
