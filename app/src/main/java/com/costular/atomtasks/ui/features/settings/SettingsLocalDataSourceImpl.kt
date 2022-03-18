@@ -12,17 +12,17 @@ class SettingsLocalDataSourceImpl(
     private val dataStore: DataStore<Preferences>,
 ) : SettingsLocalDataSource {
 
-    private val THEME = stringPreferencesKey("theme")
+    private val preferenceTheme = stringPreferencesKey("theme")
     val theme: Flow<String> = dataStore.data
         .map { preferences ->
-            preferences[THEME] ?: Theme.SYSTEM
+            preferences[preferenceTheme] ?: Theme.SYSTEM
         }
 
     override fun observeTheme(): Flow<String> = theme
 
     override suspend fun setTheme(theme: String) {
         dataStore.edit { settings ->
-            settings[THEME] = theme
+            settings[preferenceTheme] = theme
         }
     }
 }
