@@ -40,6 +40,7 @@ import com.costular.atomtasks.ui.components.ExpandableChip
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateTimeFormatters
+import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
@@ -203,7 +204,7 @@ private fun DateChip(
         )
         Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
         Text(
-            DateTimeFormatters.dateFormatter.format(date),
+            dayAsText(date),
             style = MaterialTheme.typography.body1,
         )
     }
