@@ -10,6 +10,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.lang.Exception
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class SetTasksRemindersWorker @AssistedInject constructor(
     @Assisted appContext: Context,
