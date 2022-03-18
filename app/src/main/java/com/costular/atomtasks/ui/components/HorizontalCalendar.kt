@@ -113,8 +113,8 @@ private fun CalendarDay(
 @Composable
 private fun HorizontalCalendarPreview() {
     HorizontalCalendar(
-        from = LocalDate.now().minusDays(3),
-        until = LocalDate.now().plusDays(3),
+        from = LocalDate.now().minusDays(PreviewPrevDays),
+        until = LocalDate.now().plusDays(PreviewNextDays),
         onSelectDay = {}
     )
 }
@@ -124,3 +124,6 @@ private fun HorizontalCalendarPreview() {
 private fun CalendarDayPreview() {
     CalendarDay(date = LocalDate.now(), isSelected = false, onClick = {})
 }
+
+private const val PreviewPrevDays = 3L
+private const val PreviewNextDays = 3L
