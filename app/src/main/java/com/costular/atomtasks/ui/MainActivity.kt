@@ -34,63 +34,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val systemUiController = rememberSystemUiController()
-            val useDarkIcons = MaterialTheme.colors.isLight
-
-            SideEffect {
-                systemUiController.setSystemBarsColor(
-                    Color.Transparent,
-                    darkIcons = useDarkIcons
-                )
-            }
-
-            AtomRemindersTheme {
-                ProvideWindowInsets {
-                    Navigation()
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun Navigation() {
-    val scaffoldState = rememberScaffoldState()
-    val navController = rememberAnimatedNavController()
-
-    DestinationsScaffold(
-        scaffoldState = scaffoldState,
-        navController = navController,
-    ) { paddingValues ->
-        NavigationContent(
-            modifier = Modifier.padding(paddingValues),
-            navController = navController,
-        )
-    }
-}
-
-@Composable
-private fun NavigationContent(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
-) {
-    val navHostEngine = rememberAnimatedNavHostEngine()
-
-    DestinationsNavHost(
-        engine = navHostEngine,
-        navController = navController,
-        navGraph = NavGraphs.root,
-        modifier = modifier,
-    ) {
-        composable(AgendaScreenDestination) {
-            AgendaScreen(destinationsNavigator)
-        }
-        composable(CreateTaskScreenDestination) {
-            CreateTaskScreen(
-                text = navArgs.text,
-                date = navArgs.date,
-                navigator = destinationsNavigator
-            )
+            App()
         }
     }
 }
