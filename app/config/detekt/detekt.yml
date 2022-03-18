@@ -561,6 +561,7 @@ style:
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
+    ignoreAnnotated: ['Test']
   MayBeConst:
     active: true
   ModifierOrder:
