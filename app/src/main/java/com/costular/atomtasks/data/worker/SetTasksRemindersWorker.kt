@@ -9,6 +9,7 @@ import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.lang.Exception
+import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -29,6 +30,7 @@ class SetTasksRemindersWorker @AssistedInject constructor(
             }
             Result.success()
         } catch (e: Exception) {
+            Timber.d(e)
             Result.failure()
         }
 }
