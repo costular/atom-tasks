@@ -43,8 +43,9 @@ class NotifyTaskWorker @AssistedInject constructor(
             }
 
             if (task.isDone) {
-                throw IllegalStateException("Reminder is done so does not" +
-                    " makes sense to notify the reminder")
+                throw IllegalStateException(
+                    "Reminder is done so does not makes sense to notify the reminder",
+                )
             }
 
             notifManager.remindTask(task)
