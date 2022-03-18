@@ -61,8 +61,7 @@ fun AgendaScreen(
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
-            isDone = state.taskAction?.isDone
-                ?: false, // TODO: 12/1/22 improve this nullability logic
+            isDone = state.taskAction?.isDone ?: false,
             onDelete = {
                 viewModel.actionDelete(requireNotNull(state.taskAction).id)
             },
