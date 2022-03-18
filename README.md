@@ -15,6 +15,8 @@ _Atom tasks_ is an Android Application to create and organise your tasks.
 * Kotlin Coroutines
 * Hilt for dependency injection
 * Room persistance library
+* Ktlint
+* Detekt
 * [Compose Destinations](https://github.com/raamcosta/compose-destinations) on top of Jetpack Compose Navigation
 * MVI pattern design with `StateFlow`
 
