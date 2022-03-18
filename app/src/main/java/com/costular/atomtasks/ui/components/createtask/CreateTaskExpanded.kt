@@ -123,8 +123,8 @@ private fun CreateTaskExpanded(
 
             AnimatedVisibility(
                 visible = state.shouldShowSend,
-                enter = scaleIn(animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-                exit = scaleOut(animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+                enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+                exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
             ) {
                 FloatingActionButton(
                     onClick = onSave,
