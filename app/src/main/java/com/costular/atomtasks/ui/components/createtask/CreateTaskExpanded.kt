@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -30,6 +32,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -105,17 +109,12 @@ private fun CreateTaskExpanded(
 ) {
     Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            CreateTaskInput(state.name, onValueChange)
-
-            Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
-
-            AnimatedVisibility(
-                visible = state.shouldShowSend,
-                enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-                exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-            ) {
-                SaveTaskButton(onSave = onSave)
-            }
+            CreateTaskInput(
+                value = state.name,
+                onValueChange = onValueChange,
+                shouldShowSend = state.shouldShowSend,
+                onSave = onSave,
+            )
         }
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
@@ -124,7 +123,7 @@ private fun CreateTaskExpanded(
             DateChip(
                 shouldShowDateSelection = state.shouldShowDateSelection,
                 date = state.date,
-                onClickDate = onClickDate
+                onClickDate = onClickDate,
             )
 
             Spacer(Modifier.width(16.dp))
@@ -132,7 +131,7 @@ private fun CreateTaskExpanded(
             ReminderChip(
                 shouldShowReminderSelection = state.shouldShowReminderSelection,
                 reminder = state.reminder,
-                onClickReminder = onClickReminder
+                onClickReminder = onClickReminder,
             )
         }
 
@@ -211,27 +210,11 @@ private fun DateChip(
 }
 
 @Composable
-private fun SaveTaskButton(onSave: () -> Unit) {
-    FloatingActionButton(
-        onClick = onSave,
-        modifier = Modifier
-            .size(48.dp)
-            .testTag("CreateTaskSave"),
-        elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-            hoveredElevation = 0.dp,
-            focusedElevation = 0.dp,
-        ),
-    ) {
-        Icon(Icons.Outlined.Check, contentDescription = null)
-    }
-}
-
-@Composable
 private fun RowScope.CreateTaskInput(
     value: String,
     onValueChange: (String) -> Unit,
+    shouldShowSend: Boolean,
+    onSave: () -> Unit,
 ) {
     OutlinedTextField(
         value = value,
@@ -247,6 +230,23 @@ private fun RowScope.CreateTaskInput(
             .testTag("CreateTaskInput"),
         textStyle = MaterialTheme.typography.h6,
         maxLines = 2,
+        trailingIcon = {
+            AnimatedVisibility(
+                visible = shouldShowSend,
+                enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+                exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+            ) {
+                IconButton(
+                    onClick = onSave,
+                    modifier = Modifier
+                        .padding(AppTheme.dimens.spacingSmall)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colors.secondary),
+                ) {
+                    Icon(imageVector = Icons.Outlined.Check, contentDescription = null)
+                }
+            }
+        },
     )
 }
 
