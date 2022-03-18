@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
@@ -33,6 +34,8 @@ import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
+
+const val ReminderIconId = "reminder"
 
 @Composable
 fun TaskCard(
@@ -52,25 +55,7 @@ fun TaskCard(
             .padding(vertical = AppTheme.dimens.spacingSmall),
         color = MaterialTheme.colors.background
     ) {
-        val reminderIconId = "alarm"
-        val reminderInlineContent = mapOf(
-            Pair(
-                reminderIconId,
-                InlineTextContent(
-                    Placeholder(
-                        width = 16.sp,
-                        height = 16.sp,
-                        placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Alarm,
-                        contentDescription = null,
-                        tint = mediumColor,
-                    )
-                }
-            )
-        )
+        val reminderInlineContent = ReminderInline(mediumColor)
 
         Row(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -83,7 +68,9 @@ fun TaskCard(
                 contentColor = MaterialTheme.colors.primary,
                 onContentColor = MaterialTheme.colors.onPrimary
             )
-            Spacer(modifier = Modifier.width(16.dp))
+
+            Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))
+
             Column {
                 Text(
                     text = title,
@@ -94,7 +81,7 @@ fun TaskCard(
                 AnimatedVisibility(reminder != null && !isFinished) {
                     Row {
                         val alarmText = buildAnnotatedString {
-                            appendInlineContent(reminderIconId, "[alarm]")
+                            appendInlineContent(ReminderIconId, "[alarm]")
                             append(" ")
                             append(reminderAsText(requireNotNull(reminder)))
                         }
@@ -110,6 +97,26 @@ fun TaskCard(
         }
     }
 }
+
+@Composable
+private fun ReminderInline(mediumColor: Color) = mapOf(
+    Pair(
+        ReminderIconId,
+        InlineTextContent(
+            Placeholder(
+                width = 16.sp,
+                height = 16.sp,
+                placeholderVerticalAlign = PlaceholderVerticalAlign.Center,
+            ),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Alarm,
+                contentDescription = null,
+                tint = mediumColor,
+            )
+        },
+    ),
+)
 
 fun reminderAsText(reminder: Reminder): String =
     DateTimeFormatters.timeFormatter.format(reminder.time)
