@@ -12,6 +12,7 @@ import java.lang.Exception
 import java.lang.IllegalArgumentException
 import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,
