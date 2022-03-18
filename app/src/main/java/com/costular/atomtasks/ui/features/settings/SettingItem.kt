@@ -82,7 +82,7 @@ private fun TitleAndStartPreview() {
 private fun TitleAndStartAndEndPreview() {
     SettingItem(
         title = {
-            Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd awdawdawd sdadad")
+            Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd sdadad")
         },
         start = {
             Icon(Icons.Default.Search, null)
