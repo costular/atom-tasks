@@ -29,7 +29,8 @@ internal fun TaskReminderData(
     onSelectReminder: (LocalTime?) -> Unit,
     viewModel: TaskReminderDataViewModel = viewModel(),
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(TaskReminderDataState.Empty)
+    val state by rememberFlowWithLifecycle(viewModel.state)
+        .collectAsState(TaskReminderDataState.Empty)
 
     TaskReminderData(
         isEnabled = state.isEnabled,
