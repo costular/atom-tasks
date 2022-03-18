@@ -129,7 +129,6 @@ complexity:
   NamedArguments:
     active: false
     threshold: 3
-    ignoreArgumentsMatchingNames: false
   NestedBlockDepth:
     active: true
     threshold: 4
@@ -306,9 +305,10 @@ naming:
   FunctionNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    functionPattern: '[a-z][a-zA-Z0-9]*'
+    functionPattern: '([A-Za-z][a-zA-Z0-9]*)|(`.*`)'
     excludeClassPattern: '$^'
     ignoreOverridden: true
+    ignoreAnnotated: ['Composable']
   FunctionParameterNaming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
