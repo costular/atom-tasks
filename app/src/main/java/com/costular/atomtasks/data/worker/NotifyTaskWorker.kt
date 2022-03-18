@@ -14,6 +14,7 @@ import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class NotifyTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
