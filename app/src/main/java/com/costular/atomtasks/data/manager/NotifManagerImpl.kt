@@ -14,7 +14,7 @@ import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.theme.Teal500
-import com.costular.atomtasks.ui.util.CHANNEL_REMINDERS
+import com.costular.atomtasks.ui.util.ChannelReminders
 
 class NotifManagerImpl(private val context: Context) : NotifManager {
 
@@ -22,7 +22,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
         NotificationManagerCompat.from(context)
 
     override fun remindTask(task: Task) {
-        val builder = buildNotificationBase(CHANNEL_REMINDERS)
+        val builder = buildNotificationBase(ChannelReminders)
             .setContentTitle(context.getString(R.string.notification_reminder))
             .setContentText(task.name)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
