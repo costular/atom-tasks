@@ -1,6 +1,5 @@
 package com.costular.atomtasks.ui.util
 
-import android.annotation.SuppressLint
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
