@@ -17,6 +17,7 @@ import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class PostponeTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
