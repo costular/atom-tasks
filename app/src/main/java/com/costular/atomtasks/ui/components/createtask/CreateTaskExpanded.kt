@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.components.create_task
+package com.costular.atomtasks.ui.components.createtask
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring

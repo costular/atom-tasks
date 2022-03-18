@@ -27,7 +27,7 @@ import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.ui.components.HorizontalCalendar
 import com.costular.atomtasks.ui.components.ScreenHeader
 import com.costular.atomtasks.ui.components.TaskList
-import com.costular.atomtasks.ui.components.create_task.CreateTask
+import com.costular.atomtasks.ui.components.createtask.CreateTask
 import com.costular.atomtasks.ui.dialogs.RemoveTaskDialog
 import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
