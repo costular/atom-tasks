@@ -5,13 +5,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
@@ -52,7 +56,7 @@ fun DatePicker(
         initialSelection = listOf(currentDate),
         onSelectionChanged = {
             onDateSelected(it.first())
-        }
+        },
     )
 
     SelectableCalendar(
@@ -80,7 +84,7 @@ private fun HeaderMonth(
     ) {
         IconButton(
             modifier = Modifier.testTag("Decrement"),
-            onClick = { monthState.currentMonth = monthState.currentMonth.minusMonths(1) }
+            onClick = { monthState.currentMonth = monthState.currentMonth.minusMonths(1) },
         ) {
             Image(
                 imageVector = Icons.Default.KeyboardArrowLeft,
@@ -91,13 +95,13 @@ private fun HeaderMonth(
         Text(
             text = monthState.currentMonth.month.name.lowercase()
                 .replaceFirstChar { it.titlecase() },
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.h6,
         )
         Spacer(modifier = Modifier.width(AppTheme.dimens.spacingMedium))
         Text(text = monthState.currentMonth.year.toString(), style = MaterialTheme.typography.h6)
         IconButton(
             modifier = Modifier.testTag("Increment"),
-            onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) }
+            onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) },
         ) {
             Image(
                 imageVector = Icons.Default.KeyboardArrowRight,
@@ -122,7 +126,7 @@ private fun WeekHeader(
                     modifier = modifier
                         .weight(1f)
                         .wrapContentHeight(),
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body1,
                 )
             }
         }
@@ -138,13 +142,14 @@ private fun <T : SelectionState> CalendarDay(
     val selectionState = state.selectionState
 
     val isSelected = selectionState.isDateSelected(date)
+    val isToday = date == LocalDate.now()
 
     val backgroundColor =
         if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.background
     val contentColor = contentColorFor(backgroundColor)
     val contentAlpha = if (state.isFromCurrentMonth) ContentAlpha.high else ContentAlpha.disabled
 
-    Box(
+    Column(
         modifier = Modifier
             .aspectRatio(1f)
             .padding(2.dp)
@@ -153,12 +158,26 @@ private fun <T : SelectionState> CalendarDay(
             .clickable {
                 selectionState.onDateSelected(date)
             },
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = date.dayOfMonth.toString(),
             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.SemiBold),
             color = contentColor.copy(alpha = contentAlpha),
         )
+
+        if (isToday) {
+            val todayBackgroundColor =
+                if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
+            Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
+
+            Box(
+                modifier = Modifier
+                    .size(4.dp)
+                    .clip(CircleShape)
+                    .background(todayBackgroundColor),
+            )
+        }
     }
 }
