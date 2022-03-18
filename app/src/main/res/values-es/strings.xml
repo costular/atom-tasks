@@ -29,4 +29,10 @@
     <string name="notification_reminder_postpone">Posponer 1 hora</string>
     <string name="agenda_mark_as_done">Marcar como hecho</string>
     <string name="agenda_mark_as_undone">Marcar como no hecho</string>
+    <string name="settings">Ajustes</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_light">Claro</string>
+    <string name="settings_theme_dark">Oscuro</string>
+    <string name="settings_theme_system">Sistema</string>
+    <string name="settings_general_title">General</string>
 </resources>
