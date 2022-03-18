@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.components.create_task
+package com.costular.atomtasks.ui.components.createtask
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,8 @@ internal fun TaskReminderData(
     onSelectReminder: (LocalTime?) -> Unit,
     viewModel: TaskReminderDataViewModel = viewModel(),
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(TaskReminderDataState.Empty)
+    val state by rememberFlowWithLifecycle(viewModel.state)
+        .collectAsState(TaskReminderDataState.Empty)
 
     TaskReminderData(
         isEnabled = state.isEnabled,

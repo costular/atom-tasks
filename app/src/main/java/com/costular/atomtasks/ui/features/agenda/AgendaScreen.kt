@@ -25,10 +25,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
+import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.components.HorizontalCalendar
 import com.costular.atomtasks.ui.components.ScreenHeader
 import com.costular.atomtasks.ui.components.TaskList
-import com.costular.atomtasks.ui.components.create_task.CreateTask
+import com.costular.atomtasks.ui.components.createtask.CreateTask
 import com.costular.atomtasks.ui.dialogs.RemoveTaskDialog
 import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
@@ -45,11 +46,12 @@ import java.time.LocalDate
 
 @Destination(start = true)
 @Composable
+@Suppress("LongMethod")
 fun AgendaScreen(
     navigator: DestinationsNavigator,
 ) {
     val viewModel: AgendaViewModel = hiltViewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(initial = AgendaState.Empty)
+    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
 
     LaunchedEffect(viewModel.uiEvents) {
         viewModel.uiEvents.collect { event ->
@@ -63,8 +65,7 @@ fun AgendaScreen(
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
-            isDone = state.taskAction?.isDone
-                ?: false, // TODO: 12/1/22 improve this nullability logic
+            isDone = state.taskAction?.isDone ?: false,
             onDelete = {
                 viewModel.actionDelete(requireNotNull(state.taskAction).id)
             },
@@ -130,20 +131,31 @@ fun AgendaScreen(
                 },
             )
 
-            when (val tasks = state.tasks) {
-                is Async.Success -> {
-                    TaskList(
-                        tasks = tasks.data,
-                        onClick = { task ->
-                            viewModel.openTaskAction(task)
-                        },
-                        onMarkTask = { id, isMarked -> viewModel.onMarkTask(id, isMarked) },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("AgendaTaskList"),
-                    )
-                }
-            }
+            TasksContent(
+                state = state,
+                onOpenTask = viewModel::openTaskAction,
+                onMarkTask = viewModel::onMarkTask,
+            )
+        }
+    }
+}
+
+@Composable
+private fun TasksContent(
+    state: AgendaState,
+    onOpenTask: (Task) -> Unit,
+    onMarkTask: (Long, Boolean) -> Unit,
+) {
+    when (val tasks = state.tasks) {
+        is Async.Success -> {
+            TaskList(
+                tasks = tasks.data,
+                onClick = onOpenTask,
+                onMarkTask = onMarkTask,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("AgendaTaskList"),
+            )
         }
     }
 }

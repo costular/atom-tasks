@@ -54,8 +54,8 @@ fun AtomRemindersTheme(
     }
     val configuration = LocalConfiguration.current
     val dimensions = when {
-        configuration.screenWidthDp < 600 -> CompactDimensions
-        configuration.screenWidthDp < 840 -> MediumDimensions
+        configuration.screenWidthDp < SmallWidth -> CompactDimensions
+        configuration.screenWidthDp < MediumWidth -> MediumDimensions
         else -> ExpandedDimensions
     }
 
@@ -76,3 +76,6 @@ object AppTheme {
 
     val ChipIconSize = 18.dp
 }
+
+const val SmallWidth = 600
+const val MediumWidth = 840

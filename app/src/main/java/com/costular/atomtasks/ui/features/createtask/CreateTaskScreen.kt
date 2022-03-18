@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.domain.Async
-import com.costular.atomtasks.ui.components.create_task.CreateTaskExpanded
+import com.costular.atomtasks.ui.components.createtask.CreateTaskExpanded
 import com.costular.atomtasks.ui.features.createtask.CreateTaskState.Companion.Empty
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import com.google.accompanist.insets.navigationBarsWithImePadding

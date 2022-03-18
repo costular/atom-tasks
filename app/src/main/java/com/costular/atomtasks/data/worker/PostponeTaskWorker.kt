@@ -16,7 +16,9 @@ import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.LocalTime
+import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class PostponeTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -54,6 +56,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
+            Timber.d(e)
             Result.failure()
         }
     }

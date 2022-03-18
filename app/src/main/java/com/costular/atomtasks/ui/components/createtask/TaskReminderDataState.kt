@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.components.create_task
+package com.costular.atomtasks.ui.components.createtask
 
 data class TaskReminderDataState(
     val isEnabled: Boolean = true,
