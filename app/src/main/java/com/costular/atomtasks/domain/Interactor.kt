@@ -1,9 +1,13 @@
 package com.costular.atomtasks.domain
 
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.flow.flatMapLatest
 
 abstract class Interactor<in P> {
     operator fun invoke(params: P, timeoutMs: Long = defaultTimeoutMs): Flow<InvokeStatus> {
@@ -36,14 +40,6 @@ abstract class ResultInteractor<in P, R> {
 
     protected abstract suspend fun doWork(params: P): R
 }
-
-/*
-abstract class PagingInteractor<P : PagingInteractor.Parameters<T>, T : Any> : SubjectInteractor<P, PagingData<T>>() {
-    interface Parameters<T : Any> {
-        val pagingConfig: PagingConfig
-    }
-}
-*/
 
 abstract class SuspendingWorkInteractor<P : Any, T> : SubjectInteractor<P, T>() {
     override fun createObservable(params: P): Flow<T> = flow {

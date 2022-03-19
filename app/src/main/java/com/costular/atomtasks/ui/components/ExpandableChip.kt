@@ -4,12 +4,14 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -20,6 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.ui.theme.AppTheme
 
+const val ExpandedArrowAngle = 180f
+const val CollapsedArrowAngle = 0f
+
 @Composable
 fun ExpandableChip(
     isExpanded: Boolean,
@@ -28,7 +33,7 @@ fun ExpandableChip(
     content: @Composable RowScope.() -> Unit,
 ) {
     val angle: Float by animateFloatAsState(
-        targetValue = if (isExpanded) 180f else 0F,
+        targetValue = if (isExpanded) ExpandedArrowAngle else CollapsedArrowAngle,
         animationSpec = tween(
             durationMillis = 300,
             delayMillis = 200,
@@ -68,5 +73,4 @@ fun ExpandableChip(
             )
         }
     }
-
 }

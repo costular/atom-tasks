@@ -1,8 +1,8 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.domain.Interactor
 import com.costular.atomtasks.domain.manager.ReminderManager
+import com.costular.atomtasks.domain.repository.TasksRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class RemoveTaskInteractor @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val reminderManager: ReminderManager,
-): Interactor<RemoveTaskInteractor.Params>() {
+) : Interactor<RemoveTaskInteractor.Params>() {
 
     data class Params(val taskId: Long)
 
@@ -18,5 +18,4 @@ class RemoveTaskInteractor @Inject constructor(
         tasksRepository.removeTask(params.taskId)
         reminderManager.cancel(params.taskId)
     }
-
 }

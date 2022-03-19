@@ -34,5 +34,4 @@ class UpdateTaskReminderInteractorTest {
 
             coVerify { tasksRepository.updateTaskReminder(taskId, reminder) }
         }
-
 }

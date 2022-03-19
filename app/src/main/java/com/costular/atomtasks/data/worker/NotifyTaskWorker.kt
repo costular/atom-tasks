@@ -1,20 +1,20 @@
 package com.costular.atomtasks.data.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Logger
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
+import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class NotifyTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -43,15 +43,16 @@ class NotifyTaskWorker @AssistedInject constructor(
             }
 
             if (task.isDone) {
-                throw IllegalStateException("Reminder is done so does not makes sense to notify the reminder")
+                throw IllegalStateException(
+                    "Reminder is done so does not makes sense to notify the reminder",
+                )
             }
 
             notifManager.remindTask(task)
             Result.success()
         } catch (e: Exception) {
-            Log.e("WorkManager", e.toString())
+            Timber.d(e)
             Result.failure()
         }
     }
-
 }

@@ -23,5 +23,4 @@ class NotifyTaskReceiver : BroadcastReceiver() {
 
         WorkManager.getInstance(requireNotNull(context)).enqueue(request)
     }
-
 }

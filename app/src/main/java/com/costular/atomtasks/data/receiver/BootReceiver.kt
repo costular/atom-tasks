@@ -16,5 +16,4 @@ class BootReceiver : BroadcastReceiver() {
             WorkManager.getInstance(context).enqueue(request)
         }
     }
-
 }

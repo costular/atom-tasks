@@ -4,29 +4,25 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.costular.atomtasks.MainActivity
 import com.costular.atomtasks.R
 import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
 import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.ui.MainActivity
 import com.costular.atomtasks.ui.theme.Teal500
-import com.costular.atomtasks.ui.util.CHANNEL_REMINDERS
+import com.costular.atomtasks.ui.util.ChannelReminders
 
-@ExperimentalComposeUiApi
-@ExperimentalMaterialApi
 class NotifManagerImpl(private val context: Context) : NotifManager {
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
 
     override fun remindTask(task: Task) {
-        val builder = buildNotificationBase(CHANNEL_REMINDERS)
+        val builder = buildNotificationBase(ChannelReminders)
             .setContentTitle(context.getString(R.string.notification_reminder))
             .setContentText(task.name)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -95,5 +91,4 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
         const val REQUEST_ACTION_DONE = 21
         const val REQUEST_ACTION_POSTPONE = 22
     }
-
 }

@@ -8,7 +8,6 @@ import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.db.AtomRemindersDatabase
 import com.google.common.truth.Truth
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -20,7 +19,6 @@ import java.io.IOException
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
 
-@ExperimentalCoroutinesApi
 @ExperimentalTime
 @RunWith(AndroidJUnit4::class)
 class TaskDatabaseTest {
@@ -69,5 +67,4 @@ class TaskDatabaseTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

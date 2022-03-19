@@ -1,11 +1,9 @@
 package com.costular.atomtasks.data.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskReminderInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
@@ -18,7 +16,9 @@ import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.LocalTime
+import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class PostponeTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -56,8 +56,8 @@ class PostponeTaskWorker @AssistedInject constructor(
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
+            Timber.d(e)
             Result.failure()
         }
     }
-
 }

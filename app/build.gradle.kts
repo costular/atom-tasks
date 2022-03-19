@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -9,6 +11,9 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
 }
 
 android {
@@ -19,13 +24,23 @@ android {
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
         versionName = Config.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.di.AtomHiltRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
                 arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
+        }
+
+        packagingOptions {
+            // for JNA and JNA-platform
+            resources.excludes.add("META-INF/AL2.0")
+            resources.excludes.add("META-INF/LGPL2.1")
+            // for byte-buddy
+            resources.excludes.add("META-INF/licenses/ASM")
+            resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
+            resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
         }
     }
 
@@ -71,6 +86,34 @@ android {
         resources.excludes.add("META-INF/licenses/**")
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
     }
 }
 
@@ -124,6 +167,8 @@ dependencies {
     implementation(platform(Deps.firebaseBom))
     implementation(Deps.firebaseAnalytics)
     implementation(Deps.firebaseCrashlytics)
+    implementation(Deps.composeDestinations)
+    ksp(Deps.composeDestinationsKsp)
 
     testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
@@ -132,6 +177,9 @@ dependencies {
     testImplementation(Deps.truth)
     testImplementation(Deps.test)
     testImplementation(Deps.mockk)
+    testImplementation(Deps.robolectric)
+    testImplementation(Deps.composeUiTest)
+    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
@@ -140,8 +188,51 @@ dependencies {
     androidTestImplementation(Deps.androidTestRunner)
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
+    androidTestImplementation(Deps.composeUiTest)
+    androidTestImplementation(Deps.composeUiManifest)
+    androidTestImplementation(Deps.hiltAndroidTesting)
+    androidTestImplementation(Deps.mockkAndroid)
+    kaptAndroidTest(Deps.hiltCompiler)
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-Xinline-classes"
+    kotlinOptions.freeCompilerArgs +=
+        listOf(
+            "-Xinline-classes",
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi",
+            "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
+            "-Xuse-experimental=androidx.compose.ExperimentalComposeApi",
+            "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
+            "-Xuse-experimental=androidx.compose.runtime.ExperimentalComposeApi",
+            "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
+            "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
+            "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
+            "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+        )
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+    config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+}
+
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "1.8"
+}
+tasks.withType<DetektCreateBaselineTask>().configureEach {
+    jvmTarget = "1.8"
 }

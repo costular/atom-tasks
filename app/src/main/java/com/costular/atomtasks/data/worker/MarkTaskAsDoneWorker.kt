@@ -6,12 +6,13 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
-import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 @HiltWorker
 class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -38,8 +39,8 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: Exception) {
+            Timber.d(e)
             Result.failure()
         }
     }
-
 }

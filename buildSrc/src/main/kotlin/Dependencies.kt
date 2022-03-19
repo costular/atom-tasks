@@ -38,6 +38,8 @@ object Versions {
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
+    val composeDestinations = "1.2.1-beta"
+    val robolectric = "4.7.3"
 }
 
 
@@ -58,6 +60,7 @@ object Deps {
     val hiltNavigationCompose =
         "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}"
     val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
+    val hiltAndroidTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     val appInitializer = "androidx.startup:startup-runtime:${Versions.initializer}"
     val preferences = "androidx.preference:preference-ktx:${Versions.preferences}"
@@ -90,13 +93,19 @@ object Deps {
     val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
     val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics"
+    val composeDestinations = "io.github.raamcosta.compose-destinations:animations-core:${Versions.composeDestinations}"
+    val composeDestinationsKsp = "io.github.raamcosta.compose-destinations:ksp:${Versions.composeDestinations}"
+    val composeUiTest = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    val composeUiManifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose}"
 
     val junit = "junit:junit:4.13"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     val mockk = "io.mockk:mockk:${Versions.mockk}"
+    val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
     val truth = "androidx.test.ext:truth:${Versions.truth}"
     val test = "androidx.arch.core:core-testing:${Versions.testJetpack}"
     val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
     val androidTestRunner = "androidx.test:runner:${Versions.testRunner}"
     val androidTestRules = "androidx.test:rules:${Versions.testRunner}"
+    val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
 }

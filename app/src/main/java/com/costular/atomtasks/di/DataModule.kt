@@ -1,28 +1,21 @@
 package com.costular.atomtasks.di
 
-import android.content.Context
-import androidx.room.Room
+import com.costular.atomtasks.data.tasks.DefaultTasksLocalDataSource
+import com.costular.atomtasks.data.tasks.ReminderDao
+import com.costular.atomtasks.data.tasks.TaskLocalDataSource
+import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.db.AtomRemindersDatabase
-import com.costular.atomtasks.data.tasks.*
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.ui.common.validation.FieldValidator
 import com.costular.atomtasks.ui.common.validation.FieldValidatorDefault
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class DataModule {
-
-    @Singleton
-    @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
-        Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomtasks.db")
-            .build()
 
     @Singleton
     @Provides
@@ -42,11 +35,5 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideTaskRepository(localDataSource: TaskLocalDataSource): TasksRepository =
-        DefaultTasksRepository(localDataSource)
-
-    @Singleton
-    @Provides
     fun provideFieldValidator(): FieldValidator = FieldValidatorDefault()
-
 }

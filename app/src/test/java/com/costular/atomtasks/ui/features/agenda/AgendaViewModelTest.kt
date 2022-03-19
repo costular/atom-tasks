@@ -3,7 +3,6 @@ package com.costular.atomtasks.ui.features.agenda
 import app.cash.turbine.test
 import com.costular.atomtasks.MviViewModelTest
 import com.costular.atomtasks.domain.Async
-import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
@@ -25,7 +24,6 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     lateinit var sut: AgendaViewModel
 
-    private val createTaskInteractor: CreateTaskInteractor = mockk(relaxed = true)
     private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
@@ -33,7 +31,6 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Before
     fun setUp() {
         sut = AgendaViewModel(
-            createTaskInteractor,
             getTasksInteractor,
             updateTaskIsDoneInteractor,
             removeTaskInteractor,
@@ -111,7 +108,6 @@ class AgendaViewModelTest : MviViewModelTest() {
             }
         }
 
-
     @Test
     fun `should set delete task action to hidden when dismiss dialog`() =
         testBlocking {
@@ -163,5 +159,4 @@ class AgendaViewModelTest : MviViewModelTest() {
             )
         )
     }
-
 }

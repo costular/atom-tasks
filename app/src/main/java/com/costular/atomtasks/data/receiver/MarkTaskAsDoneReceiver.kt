@@ -7,7 +7,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.costular.atomtasks.data.worker.MarkTaskAsDoneWorker
-import com.costular.atomtasks.data.worker.PostponeTaskWorker
 
 class MarkTaskAsDoneReceiver : BroadcastReceiver() {
 

@@ -1,13 +1,22 @@
 package com.costular.atomtasks.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -104,8 +113,8 @@ private fun CalendarDay(
 @Composable
 private fun HorizontalCalendarPreview() {
     HorizontalCalendar(
-        from = LocalDate.now().minusDays(3),
-        until = LocalDate.now().plusDays(3),
+        from = LocalDate.now().minusDays(PreviewPrevDays),
+        until = LocalDate.now().plusDays(PreviewNextDays),
         onSelectDay = {}
     )
 }
@@ -115,3 +124,6 @@ private fun HorizontalCalendarPreview() {
 private fun CalendarDayPreview() {
     CalendarDay(date = LocalDate.now(), isSelected = false, onClick = {})
 }
+
+private const val PreviewPrevDays = 3L
+private const val PreviewNextDays = 3L
