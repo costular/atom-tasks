@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui
+package com.costular.atomtasks.ui.home
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
@@ -46,7 +46,7 @@ fun App() {
     SideEffect {
         systemUiController.setSystemBarsColor(
             Color.Transparent,
-            darkIcons = !isDarkTheme
+            darkIcons = !isDarkTheme,
         )
     }
 
@@ -64,6 +64,9 @@ private fun Navigation() {
 
     DestinationsScaffold(
         scaffoldState = scaffoldState,
+        bottomBar = {
+            AtomBottomNavigation(navController = navController)
+        },
         navController = navController,
     ) { paddingValues ->
         NavigationContent(
@@ -93,7 +96,7 @@ private fun NavigationContent(
             CreateTaskScreen(
                 text = navArgs.text,
                 date = navArgs.date,
-                navigator = destinationsNavigator
+                navigator = destinationsNavigator,
             )
         }
     }
