@@ -16,6 +16,7 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 fun DestinationsScaffold(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
+    bottomBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -28,6 +29,7 @@ fun DestinationsScaffold(
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
+            bottomBar = bottomBar,
             content = content
         )
     }
