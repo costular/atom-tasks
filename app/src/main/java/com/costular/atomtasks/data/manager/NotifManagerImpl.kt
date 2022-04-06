@@ -12,7 +12,7 @@ import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
 import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.ui.MainActivity
+import com.costular.atomtasks.ui.home.MainActivity
 import com.costular.atomtasks.ui.theme.Teal500
 import com.costular.atomtasks.ui.util.ChannelReminders
 
