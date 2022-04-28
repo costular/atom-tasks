@@ -31,6 +31,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +60,11 @@ fun CreateTaskExpanded(
     val viewModel: CreateTaskExpandedViewModel = viewModel()
     val state by
     rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
+    val focusRequester = FocusRequester()
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     LaunchedEffect(value) {
         viewModel.setName(value)
@@ -82,6 +89,7 @@ fun CreateTaskExpanded(
     CreateTaskExpanded(
         state = state,
         modifier = modifier,
+        focusRequester = focusRequester,
         onValueChange = { viewModel.setName(it) },
         onClickDate = { viewModel.selectTaskData(TaskDataSelection.Date) },
         onSetDate = { viewModel.setDate(it) },
@@ -97,6 +105,7 @@ fun CreateTaskExpanded(
 private fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
     onClickDate: () -> Unit,
     onSetDate: (LocalDate) -> Unit,
@@ -108,6 +117,7 @@ private fun CreateTaskExpanded(
         Row(verticalAlignment = Alignment.CenterVertically) {
             CreateTaskInput(
                 value = state.name,
+                focusRequester = focusRequester,
                 onValueChange = onValueChange,
                 shouldShowSend = state.shouldShowSend,
                 onSave = onSave,
@@ -209,6 +219,7 @@ private fun DateChip(
 @Composable
 private fun RowScope.CreateTaskInput(
     value: String,
+    focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
     shouldShowSend: Boolean,
     onSave: () -> Unit,
@@ -224,7 +235,8 @@ private fun RowScope.CreateTaskInput(
         },
         modifier = Modifier.Companion
             .weight(1f)
-            .testTag("CreateTaskInput"),
+            .testTag("CreateTaskInput")
+            .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.h6,
         maxLines = 2,
         trailingIcon = {
@@ -255,6 +267,7 @@ fun CreateTaskExpandedPreview() {
             state = CreateTaskExpandedState(
                 name = "🏃🏻‍♀️ Go out for running!",
             ),
+            focusRequester = FocusRequester(),
             onValueChange = {},
             onClickReminder = {},
             onClickDate = {},
