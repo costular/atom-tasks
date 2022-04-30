@@ -10,12 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.costular.atomtasks.ui.features.destinations.Destination
 import com.costular.atomtasks.ui.features.navDestination
 import com.google.accompanist.insets.navigationBarsPadding
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator.navigateUp
 import com.ramcosta.composedestinations.navigation.navigateTo
 
 @Composable
@@ -45,7 +43,7 @@ fun AtomBottomNavigation(
                         restoreState = true
                     }
                 },
-                icon = { Icon(destination.icon, contentDescription = stringResource(destination.label))},
+                icon = { Icon(destination.icon, contentDescription = stringResource(destination.label)) },
                 label = { Text(stringResource(destination.label)) },
             )
         }

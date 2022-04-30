@@ -2,8 +2,6 @@ package com.costular.atomtasks.ui.home
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.ui.graphics.vector.ImageVector
