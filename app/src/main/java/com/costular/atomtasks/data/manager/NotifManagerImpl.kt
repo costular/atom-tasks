@@ -1,9 +1,14 @@
 package com.costular.atomtasks.data.manager
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -22,22 +27,28 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
         NotificationManagerCompat.from(context)
 
     override fun remindTask(task: Task) {
+        val pendingIntentFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        } else {
+            FLAG_UPDATE_CURRENT
+        }
+
         val builder = buildNotificationBase(ChannelReminders)
             .setContentTitle(context.getString(R.string.notification_reminder))
             .setContentText(task.name)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(task.name)
+                    .bigText(task.name),
             )
             .setContentIntent(
                 PendingIntent.getActivity(
                     context,
                     REQUEST_OPEN_APP,
                     Intent(context, MainActivity::class.java),
-                    PendingIntent.FLAG_UPDATE_CURRENT,
+                    pendingIntentFlag,
                     null,
-                )
+                ),
             )
             .setAutoCancel(true)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
@@ -51,9 +62,9 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                         Intent(context, MarkTaskAsDoneReceiver::class.java).apply {
                             putExtra(MarkTaskAsDoneReceiver.PARAM_TASK_ID, task.id)
                         },
-                        PendingIntent.FLAG_CANCEL_CURRENT
-                    )
-                ).build()
+                        pendingIntentFlag,
+                    ),
+                ).build(),
             )
             .addAction(
                 NotificationCompat.Action.Builder(
@@ -65,9 +76,9 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                         Intent(context, PostponeTaskReceiver::class.java).apply {
                             putExtra(PostponeTaskReceiver.PARAM_TASK_ID, task.id)
                         },
-                        PendingIntent.FLAG_CANCEL_CURRENT
-                    )
-                ).build()
+                        pendingIntentFlag,
+                    ),
+                ).build(),
             )
 
         notify(task.id.toInt(), builder.build())
