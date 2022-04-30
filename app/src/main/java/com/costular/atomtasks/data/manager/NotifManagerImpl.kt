@@ -26,6 +26,26 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
 
+    init {
+        createNotificationChannels()
+    }
+
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = context.getString(R.string.notification_channel_reminders_title)
+            val descriptionText =
+                context.getString(R.string.notification_channel_reminders_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val reminders = NotificationChannel(ChannelReminders, name, importance).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(reminders)
+        }
+    }
+
     override fun remindTask(task: Task) {
         val pendingIntentFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
