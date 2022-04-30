@@ -35,4 +35,7 @@
     <string name="settings_theme_dark">Oscuro</string>
     <string name="settings_theme_system">Sistema</string>
     <string name="settings_general_title">General</string>
+    <string name="home_menu_agenda">Agenda</string>
+    <string name="home_menu_calendar">Calendario</string>
+    <string name="home_menu_settings">Ajustes</string>
 </resources>
