@@ -43,7 +43,12 @@ fun AtomBottomNavigation(
                         restoreState = true
                     }
                 },
-                icon = { Icon(destination.icon, contentDescription = stringResource(destination.label)) },
+                icon = {
+                    Icon(
+                        destination.icon,
+                        contentDescription = stringResource(destination.label),
+                    )
+                },
                 label = { Text(stringResource(destination.label)) },
             )
         }
