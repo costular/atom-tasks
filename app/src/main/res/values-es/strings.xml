@@ -20,6 +20,7 @@
     <string name="today">Hoy</string>
     <string name="create_task_date_in_the_past">La fecha no puede ser en pasado</string>
     <string name="remove_task_message">¿Estás seguro que quieres eliminar esta tarea?</string>
+    <string name="create_task_set_reminder">Recordatorio</string>
     <string name="no_reminder">Sin recordatorio</string>
     <string name="enable_reminder">Activar recordatorio</string>
     <string name="notification_channel_reminders_title">Recordatorios</string>
@@ -38,4 +39,5 @@
     <string name="home_menu_agenda">Agenda</string>
     <string name="home_menu_calendar">Calendario</string>
     <string name="home_menu_settings">Ajustes</string>
+    <string name="create_task_set_date">Selecciona una fecha</string>
 </resources>

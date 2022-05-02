@@ -30,6 +30,8 @@
 
     <string name="today">Today</string>
     <string name="create_task_date_in_the_past">Date cannot be in the past</string>
+    <string name="create_task_set_date">Choose a Date</string>
+    <string name="create_task_set_reminder">Set reminder</string>
     <string name="remove_task_message">Are you sure to remove this task?</string>
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>
