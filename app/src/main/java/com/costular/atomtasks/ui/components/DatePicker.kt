@@ -69,7 +69,7 @@ fun DatePicker(
         modifier = modifier,
         today = currentDate,
         calendarState = calendarState,
-        horizontalSwipeEnabled = false,
+        horizontalSwipeEnabled = true,
         monthHeader = { HeaderMonth(it) },
         weekHeader = { WeekHeader(it) },
         dayContent = { CalendarDay(it) },
