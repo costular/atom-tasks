@@ -2,6 +2,7 @@ package com.costular.atomtasks.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -150,40 +152,35 @@ private fun <T : SelectionState> CalendarDay(
     val isSelected = selectionState.isDateSelected(date)
     val isToday = date == LocalDate.now()
 
-    val backgroundColor =
-        if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.background
+    val backgroundColor = if (isSelected) {
+        MaterialTheme.colors.primary
+    } else {
+        MaterialTheme.colors.background
+    }
+    val borderColor = if (isToday) {
+        MaterialTheme.colors.onSurface
+    } else {
+        Color.Unspecified
+    }
     val contentColor = contentColorFor(backgroundColor)
     val contentAlpha = if (state.isFromCurrentMonth) ContentAlpha.high else ContentAlpha.disabled
 
-    Column(
-        modifier = Modifier
+    Box(
+        modifier = modifier
             .aspectRatio(1f)
             .padding(2.dp)
             .clip(MaterialTheme.shapes.small)
             .background(backgroundColor)
+            .border(1.dp, borderColor, shape = CircleShape)
             .clickable {
                 selectionState.onDateSelected(date)
             },
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = date.dayOfMonth.toString(),
             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.SemiBold),
             color = contentColor.copy(alpha = contentAlpha),
         )
-
-        if (isToday) {
-            val todayBackgroundColor =
-                if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary
-            Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
-
-            Box(
-                modifier = Modifier
-                    .size(4.dp)
-                    .clip(CircleShape)
-                    .background(todayBackgroundColor),
-            )
-        }
     }
 }
