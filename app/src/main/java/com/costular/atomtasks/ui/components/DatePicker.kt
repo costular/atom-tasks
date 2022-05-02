@@ -54,8 +54,14 @@ fun DatePicker(
 ) {
     val calendarState = rememberSelectableCalendarState(
         initialSelection = listOf(currentDate),
-        onSelectionChanged = {
-            onDateSelected(it.first())
+        confirmSelectionChange = { newDates: List<LocalDate> ->
+            newDates.firstOrNull()?.let {
+                onDateSelected(it)
+                true
+            } ?: run {
+                onDateSelected(currentDate)
+                false
+            }
         },
     )
 
