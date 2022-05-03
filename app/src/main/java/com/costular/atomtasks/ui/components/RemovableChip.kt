@@ -1,12 +1,15 @@
 package com.costular.atomtasks.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -66,12 +69,20 @@ fun RemovableChip(
             if (isSelected) {
                 Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
 
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(AppTheme.ChipIconSize),
-                )
+                CompositionLocalProvider(
+                    LocalMinimumTouchTargetEnforcement provides false,
+                ) {
+                    IconButton(
+                        onClick = onClear,
+                    ) {
+                        Image(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(AppTheme.ChipIconSize),
+                        )
+                    }
+                }
             }
         }
     }
