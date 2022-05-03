@@ -35,7 +35,6 @@ import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestinati
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -100,7 +99,6 @@ fun AgendaScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .navigationBarsPadding()
                     .padding(AppTheme.dimens.contentMargin)
                     .testTag("AgendaCreateTask"),
             )

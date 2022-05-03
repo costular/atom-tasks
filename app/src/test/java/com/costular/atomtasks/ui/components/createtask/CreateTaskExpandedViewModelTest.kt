@@ -66,48 +66,6 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose date selection when select date`() = testBlocking {
-        val dataSelection = TaskDataSelection.Date
-
-        sut.selectTaskData(dataSelection)
-
-        sut.state.test {
-            val lastState = expectMostRecentItem()
-            assertThat(lastState.taskDataSelection)
-                .isInstanceOf(dataSelection::class.java)
-            assertThat(lastState.shouldShowDateSelection).isTrue()
-        }
-    }
-
-    @Test
-    fun `should expose reminder selection when select reminder`() = testBlocking {
-        val reminderSelection = TaskDataSelection.Reminder
-
-        sut.selectTaskData(reminderSelection)
-
-        sut.state.test {
-            val lastState = expectMostRecentItem()
-            assertThat(lastState.taskDataSelection)
-                .isInstanceOf(reminderSelection::class.java)
-            assertThat(lastState.shouldShowReminderSelection).isTrue()
-        }
-    }
-
-    @Test
-    fun `should expose none data selection when select data selection already selected`() =
-        testBlocking {
-            val dataSelection = TaskDataSelection.Date
-
-            sut.selectTaskData(dataSelection)
-            sut.selectTaskData(dataSelection)
-
-            sut.state.test {
-                assertThat(expectMostRecentItem().taskDataSelection)
-                    .isInstanceOf(TaskDataSelection.None::class.java)
-            }
-        }
-
-    @Test
     fun `should send save event with according data when request save`() = testBlocking {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)

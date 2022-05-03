@@ -13,8 +13,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -22,8 +23,8 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
-import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Today
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,20 +36,23 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.R
-import com.costular.atomtasks.ui.components.ExpandableChip
+import com.costular.atomtasks.ui.components.RemovableChip
+import com.costular.atomtasks.ui.dialogs.DatePickerDialog
+import com.costular.atomtasks.ui.dialogs.timepicker.TimePickerDialog
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
-import com.costular.atomtasks.ui.util.DateTimeFormatters
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
+import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Suppress("MagicNumber")
 @Composable
 fun CreateTaskExpanded(
     value: String,
@@ -86,15 +90,36 @@ fun CreateTaskExpanded(
         }
     }
 
+    if (state.showSetDate) {
+        DatePickerDialog(
+            onDismiss = viewModel::closeSelectDate,
+            currentDate = state.date,
+            onDateSelected = viewModel::setDate,
+        )
+    }
+
+    if (state.showSetReminder) {
+        TimePickerDialog(
+            timeSuggestions = listOf(
+                LocalTime.of(9, 0),
+                LocalTime.of(12, 0),
+                LocalTime.of(14, 0),
+                LocalTime.of(18, 0),
+                LocalTime.of(20, 0),
+            ),
+            onTimeChange = viewModel::setReminder,
+            onCancel = viewModel::closeSelectReminder,
+        )
+    }
+
     CreateTaskExpanded(
         state = state,
         modifier = modifier,
         focusRequester = focusRequester,
-        onValueChange = { viewModel.setName(it) },
-        onClickDate = { viewModel.selectTaskData(TaskDataSelection.Date) },
-        onSetDate = { viewModel.setDate(it) },
-        onSetTime = { viewModel.setReminder(it) },
-        onClickReminder = { viewModel.selectTaskData(TaskDataSelection.Reminder) },
+        onValueChange = viewModel::setName,
+        onClickDate = viewModel::selectDate,
+        onClickReminder = viewModel::selectReminder,
+        onClearReminder = viewModel::clearReminder,
         onSave = {
             viewModel.requestSave()
         },
@@ -108,9 +133,8 @@ private fun CreateTaskExpanded(
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
     onClickDate: () -> Unit,
-    onSetDate: (LocalDate) -> Unit,
-    onSetTime: (LocalTime?) -> Unit,
     onClickReminder: () -> Unit,
+    onClearReminder: () -> Unit,
     onSave: () -> Unit,
 ) {
     Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
@@ -127,92 +151,30 @@ private fun CreateTaskExpanded(
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            DateChip(
-                shouldShowDateSelection = state.shouldShowDateSelection,
-                date = state.date,
-                onClickDate = onClickDate,
+            RemovableChip(
+                title = dayAsText(state.date),
+                icon = Icons.Outlined.Today,
+                isSelected = false,
+                onClick = onClickDate,
+                onClear = onClearReminder,
             )
 
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
 
-            ReminderChip(
-                shouldShowReminderSelection = state.shouldShowReminderSelection,
-                reminder = state.reminder,
-                onClickReminder = onClickReminder,
+            val reminderText = if (state.reminder != null) {
+                timeAsText(state.reminder)
+            } else {
+                stringResource(R.string.create_task_set_reminder)
+            }
+
+            RemovableChip(
+                title = reminderText,
+                icon = Icons.Outlined.Alarm,
+                isSelected = state.reminder != null,
+                onClick = onClickReminder,
+                onClear = onClearReminder,
             )
         }
-
-        when {
-            state.shouldShowDateSelection -> {
-                TaskDateData(
-                    date = state.date,
-                    onSelectDate = {
-                        onSetDate(it)
-                    },
-                )
-            }
-            state.shouldShowReminderSelection -> {
-                TaskReminderData(
-                    reminder = state.reminder ?: LocalTime.now(),
-                    onSelectReminder = {
-                        onSetTime(it)
-                    },
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ReminderChip(
-    shouldShowReminderSelection: Boolean,
-    reminder: LocalTime?,
-    onClickReminder: () -> Unit,
-) {
-    ExpandableChip(
-        isExpanded = shouldShowReminderSelection,
-        onClick = onClickReminder,
-    ) {
-        Icon(
-            Icons.Outlined.Alarm,
-            contentDescription = null,
-            modifier = Modifier.size(AppTheme.ChipIconSize),
-        )
-        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-
-        val reminderText = if (reminder != null) {
-            DateTimeFormatters.timeFormatter.format(reminder)
-        } else {
-            stringResource(R.string.no_reminder)
-        }
-
-        Text(
-            reminderText,
-            style = MaterialTheme.typography.body1,
-        )
-    }
-}
-
-@Composable
-private fun DateChip(
-    shouldShowDateSelection: Boolean,
-    date: LocalDate,
-    onClickDate: () -> Unit,
-) {
-    ExpandableChip(
-        isExpanded = shouldShowDateSelection,
-        onClick = onClickDate,
-    ) {
-        Icon(
-            Icons.Outlined.CalendarToday,
-            contentDescription = null,
-            modifier = Modifier.size(AppTheme.ChipIconSize),
-        )
-        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-        Text(
-            dayAsText(date),
-            style = MaterialTheme.typography.body1,
-        )
     }
 }
 
@@ -256,6 +218,14 @@ private fun RowScope.CreateTaskInput(
                 }
             }
         },
+        keyboardOptions = KeyboardOptions(
+            imeAction = if (shouldShowSend) ImeAction.Done else ImeAction.None,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                onSave()
+            },
+        ),
     )
 }
 
@@ -272,8 +242,7 @@ fun CreateTaskExpandedPreview() {
             onClickReminder = {},
             onClickDate = {},
             onSave = {},
-            onSetDate = {},
-            onSetTime = {},
+            onClearReminder = {},
         )
     }
 }
