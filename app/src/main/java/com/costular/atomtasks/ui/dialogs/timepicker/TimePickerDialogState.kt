@@ -9,5 +9,4 @@ data class TimePickerDialogState(
     companion object {
         val Empty = TimePickerDialogState()
     }
-
 }

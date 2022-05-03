@@ -20,5 +20,4 @@ class TimePickerDialogViewModel : MviViewModel<TimePickerDialogState>(TimePicker
             sendEvent(TimePickerUiEvents.Save(time))
         }
     }
-
 }

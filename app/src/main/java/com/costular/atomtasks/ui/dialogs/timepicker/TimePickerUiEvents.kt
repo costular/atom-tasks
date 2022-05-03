@@ -8,5 +8,4 @@ sealed class TimePickerUiEvents : UiEvent {
     data class Save(val time: LocalTime) : TimePickerUiEvents()
 
     object Cancel : TimePickerUiEvents()
-
 }

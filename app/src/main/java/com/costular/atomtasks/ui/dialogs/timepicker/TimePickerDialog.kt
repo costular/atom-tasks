@@ -103,6 +103,7 @@ fun TimePickerDialog(
     }
 }
 
+@Suppress("MagicNumber")
 @Preview
 @Composable
 fun TimePickerDialogPreview() {

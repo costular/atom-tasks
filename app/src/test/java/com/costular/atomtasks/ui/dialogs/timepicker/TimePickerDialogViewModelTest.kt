@@ -51,5 +51,4 @@ class TimePickerDialogViewModelTest : MviViewModelTest() {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

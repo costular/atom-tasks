@@ -2,7 +2,6 @@ package com.costular.atomtasks.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,13 +19,8 @@ import com.chargemap.compose.numberpicker.FullHours
 import com.chargemap.compose.numberpicker.HoursNumberPicker
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
-import com.costular.atomtasks.ui.util.DateTimeFormatters
-import com.costular.atomtasks.ui.util.DateUtils
 import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
 fun TimePicker(
@@ -81,6 +74,7 @@ fun TimeSuggestionChip(
     }
 }
 
+@Suppress("MagicNumber")
 @Preview(showBackground = true)
 @Composable
 fun TimePickerPreview() {
