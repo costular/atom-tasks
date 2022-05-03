@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2022-05-03
+### Added
+- New home bottom menu
+### Changed
+- Improved create task screen (new date picker and reminder picker)
+- Keyboard now opens automatically when opens create task screen and has proper IME action to create the task
+### Fixed
+- Fix minor UI issues with paddings
+
 ## [0.4.0] - 2022-03-19
 ### Added
 - Settings screen
