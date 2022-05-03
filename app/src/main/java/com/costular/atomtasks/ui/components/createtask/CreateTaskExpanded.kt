@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -34,6 +36,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -105,7 +108,7 @@ fun CreateTaskExpanded(
                 LocalTime.of(20, 0),
             ),
             onTimeChange = viewModel::setReminder,
-            onCancel = viewModel::closeSelectReminder
+            onCancel = viewModel::closeSelectReminder,
         )
     }
 
@@ -215,6 +218,14 @@ private fun RowScope.CreateTaskInput(
                 }
             }
         },
+        keyboardOptions = KeyboardOptions(
+            imeAction = if (shouldShowSend) ImeAction.Done else ImeAction.None,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                onSave()
+            },
+        ),
     )
 }
 
