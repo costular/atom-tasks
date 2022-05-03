@@ -100,7 +100,6 @@ fun AgendaScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .navigationBarsPadding()
                     .padding(AppTheme.dimens.contentMargin)
                     .testTag("AgendaCreateTask"),
             )
