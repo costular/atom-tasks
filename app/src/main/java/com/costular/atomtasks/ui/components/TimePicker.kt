@@ -6,53 +6,48 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chargemap.compose.numberpicker.FullHours
 import com.chargemap.compose.numberpicker.HoursNumberPicker
 import com.costular.atomtasks.ui.theme.AppTheme
-import com.costular.atomtasks.ui.util.DateTimeFormatters
+import com.costular.atomtasks.ui.theme.AtomRemindersTheme
+import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
 fun TimePicker(
     modifier: Modifier = Modifier,
     time: LocalTime = LocalTime.now(),
+    timeSuggestions: List<LocalTime> = emptyList(),
     onTimeChange: (LocalTime) -> Unit,
-    showTimeZone: Boolean = true,
-    showTime: Boolean = true,
     paddingValues: PaddingValues = PaddingValues(AppTheme.dimens.contentMargin),
 ) {
     Column(
         modifier = modifier.padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val locale = Locale.getDefault()
-        val zone = ZoneId.systemDefault()
-        val timezone = zone.getDisplayName(TextStyle.SHORT_STANDALONE, locale)
-        val timeFormatted = remember(time) { DateTimeFormatters.timeFormatter.format(time) }
+        if (timeSuggestions.isNotEmpty()) {
+            LazyRow(Modifier.fillMaxWidth()) {
+                items(timeSuggestions) {
+                    TimeSuggestionChip(
+                        time = it,
+                        onClick = {
+                            onTimeChange(it)
+                        },
+                    )
 
-        if (showTimeZone) {
-            Text(
-                timezone,
-                style = MaterialTheme.typography.caption
-            )
-            Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
-        }
+                    Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
+                }
+            }
 
-        if (showTime) {
-            Text(
-                timeFormatted,
-                style = MaterialTheme.typography.h6
-            )
             Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
         }
 
@@ -67,11 +62,32 @@ fun TimePicker(
     }
 }
 
+@Composable
+fun TimeSuggestionChip(
+    time: LocalTime,
+    onClick: () -> Unit,
+) {
+    Chip(onClick = onClick) {
+        Text(
+            text = timeAsText(time),
+        )
+    }
+}
+
+@Suppress("MagicNumber")
 @Preview(showBackground = true)
 @Composable
 fun TimePickerPreview() {
-    TimePicker(
-        modifier = Modifier.fillMaxWidth(),
-        onTimeChange = {}
-    )
+    AtomRemindersTheme {
+        TimePicker(
+            modifier = Modifier.fillMaxWidth(),
+            onTimeChange = {},
+            timeSuggestions = listOf(
+                LocalTime.of(9, 0),
+                LocalTime.of(11, 0),
+                LocalTime.of(18, 0),
+                LocalTime.of(21, 0),
+            ),
+        )
+    }
 }

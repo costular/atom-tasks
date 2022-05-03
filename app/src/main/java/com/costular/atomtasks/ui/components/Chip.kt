@@ -36,7 +36,7 @@ fun Chip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.small,
-    border: BorderStroke = BorderStroke(1.dp, MaterialTheme.colors.onSurface),
+    border: BorderStroke = BorderStroke(0.dp, Color.Unspecified),
     backgroundColor: Color = MaterialTheme.colors.surface,
     contentPadding: PaddingValues = PaddingValues(AppTheme.dimens.spacingMedium),
     content: @Composable RowScope.() -> Unit,

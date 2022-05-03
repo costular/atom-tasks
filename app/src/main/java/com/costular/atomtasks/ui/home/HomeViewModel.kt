@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui
+package com.costular.atomtasks.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.domain.interactor.GetThemeUseCase

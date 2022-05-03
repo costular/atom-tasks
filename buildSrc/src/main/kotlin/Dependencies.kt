@@ -33,7 +33,7 @@ object Versions {
     val preferencesDataStore = "1.0.0"
     val truth = "1.4.0"
     val turbine = "0.6.1"
-    val composeCalendar = "0.2.1"
+    val composeCalendar = "0.5.1"
     val numberPicker = "0.0.11"
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"

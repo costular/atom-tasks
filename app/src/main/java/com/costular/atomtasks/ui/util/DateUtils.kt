@@ -3,7 +3,9 @@ package com.costular.atomtasks.ui.util
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.costular.atomtasks.R
+import com.costular.atomtasks.ui.util.DateTimeFormatters.timeFormatter
 import java.time.LocalDate
+import java.time.LocalTime
 
 object DateUtils {
 
@@ -26,4 +28,8 @@ object DateUtils {
             else -> DateTimeFormatters.dateFormatter.format(day)
         }
     }
+
+    @Composable
+    fun timeAsText(time: LocalTime): String =
+        timeFormatter.format(time)
 }

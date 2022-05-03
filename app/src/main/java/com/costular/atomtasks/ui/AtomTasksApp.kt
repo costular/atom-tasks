@@ -1,15 +1,9 @@
 package com.costular.atomtasks.ui
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.costular.atomtasks.BuildConfig
-import com.costular.atomtasks.R
-import com.costular.atomtasks.ui.util.ChannelReminders
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,27 +17,11 @@ class AtomTasksApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         init()
-        createNotificationChannels()
     }
 
     private fun init() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
-    }
-
-    private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.notification_channel_reminders_title)
-            val descriptionText = getString(R.string.notification_channel_reminders_description)
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val reminders = NotificationChannel(ChannelReminders, name, importance).apply {
-                description = descriptionText
-            }
-
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(reminders)
         }
     }
 

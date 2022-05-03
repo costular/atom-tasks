@@ -15,33 +15,57 @@ class CreateTaskExpandedViewModel :
 
     fun setDate(localDate: LocalDate) {
         setState {
-            copy(date = localDate)
+            copy(date = localDate, showSetDate = false)
         }
     }
 
     fun setReminder(localTime: LocalTime?) {
         setState {
-            copy(reminder = localTime)
+            copy(reminder = localTime, showSetReminder = false)
         }
     }
 
-    fun selectTaskData(taskDataSelection: TaskDataSelection) {
-        val computedSelection = if (state.value.taskDataSelection == taskDataSelection) {
-            TaskDataSelection.None
-        } else {
-            taskDataSelection
-        }
-
+    fun selectDate() {
         setState {
-            copy(taskDataSelection = computedSelection)
+            copy(showSetDate = true)
+        }
+    }
+
+    fun closeSelectDate() {
+        setState {
+            copy(
+                showSetDate = false,
+            )
+        }
+    }
+
+    fun selectReminder() {
+        setState {
+            copy(
+                showSetReminder = true,
+            )
+        }
+    }
+
+    fun closeSelectReminder() {
+        setState {
+            copy(
+                showSetReminder = false,
+            )
+        }
+    }
+
+    fun clearReminder() {
+        setState {
+            copy(reminder = null)
         }
     }
 
     fun requestSave() {
         sendEvent(
             CreateTaskUiEvents.SaveTask(
-                state.value.asCreateTaskResult()
-            )
+                state.value.asCreateTaskResult(),
+            ),
         )
         setState {
             CreateTaskExpandedState.Empty
@@ -52,6 +76,6 @@ class CreateTaskExpandedViewModel :
         CreateTaskResult(
             name = name,
             date = date,
-            reminder = reminder
+            reminder = reminder,
         )
 }

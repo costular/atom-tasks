@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AtomTasks">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.home.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AtomTasks"
             android:windowSoftInputMode="adjustResize">
