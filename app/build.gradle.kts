@@ -180,7 +180,6 @@ dependencies {
     testImplementation(Deps.mockk)
     testImplementation(Deps.robolectric)
     testImplementation(Deps.composeUiTest)
-    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
@@ -190,10 +189,12 @@ dependencies {
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
     androidTestImplementation(Deps.composeUiTest)
-    androidTestImplementation(Deps.composeUiManifest)
     androidTestImplementation(Deps.hiltAndroidTesting)
     androidTestImplementation(Deps.mockkAndroid)
     kaptAndroidTest(Deps.hiltCompiler)
+    androidTestImplementation(Deps.testParameterInjector)
+
+    debugImplementation(Deps.composeUiManifest)
 }
 
 tasks.withType<KotlinCompile> {
