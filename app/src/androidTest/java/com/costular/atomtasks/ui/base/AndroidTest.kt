@@ -2,7 +2,7 @@ package com.costular.atomtasks.ui.base
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.costular.atomtasks.MainActivity
+import com.costular.atomtasks.ui.home.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
