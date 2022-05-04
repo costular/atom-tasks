@@ -41,6 +41,7 @@ object Versions {
     val composeDestinations = "1.2.1-beta"
     val robolectric = "4.7.3"
     val shot = "5.14.0"
+    val testParameterInjector = "1.8"
 }
 
 
@@ -109,4 +110,5 @@ object Deps {
     val androidTestRunner = "androidx.test:runner:${Versions.testRunner}"
     val androidTestRules = "androidx.test:rules:${Versions.testRunner}"
     val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
+    val testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:${Versions.testParameterInjector}"
 }
