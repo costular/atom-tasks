@@ -40,6 +40,7 @@ object Versions {
     val firebaseBom = "29.0.3"
     val composeDestinations = "1.2.1-beta"
     val robolectric = "4.7.3"
+    val shot = "5.14.0"
 }
 
 
