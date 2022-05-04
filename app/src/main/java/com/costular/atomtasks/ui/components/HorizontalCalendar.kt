@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateTimeFormatters.dayOfWeekFormatter
 import com.costular.atomtasks.ui.util.DateUtils
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ fun HorizontalCalendar(
     onSelectDay: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     selectedDay: LocalDate = LocalDate.now(),
-    lazyListState: LazyListState = rememberLazyListState()
+    lazyListState: LazyListState = rememberLazyListState(),
 ) {
     val coroutineScope = rememberCoroutineScope()
     val dates = DateUtils.datesBetween(from, until)
@@ -45,13 +46,13 @@ fun HorizontalCalendar(
         modifier = modifier.fillMaxWidth(),
         state = lazyListState,
         contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(dates) { item ->
             CalendarDay(
                 date = item,
                 isSelected = item == selectedDay,
-                onClick = { onSelectDay(item) }
+                onClick = { onSelectDay(item) },
             )
         }
     }
@@ -69,7 +70,7 @@ private fun CalendarDay(
     date: LocalDate,
     isSelected: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val day = date.dayOfMonth
     val weekDay = dayOfWeekFormatter.format(date.dayOfWeek)
@@ -88,22 +89,22 @@ private fun CalendarDay(
             .height(70.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClick() },
-        backgroundColor = backgroundColor
+        backgroundColor = backgroundColor,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = day.toString(),
                 color = contentColor,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.subtitle1,
             )
             Text(
                 text = weekDay,
                 color = contentColor.copy(alpha = ContentAlpha.medium),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
             )
         }
     }
@@ -112,17 +113,21 @@ private fun CalendarDay(
 @Preview
 @Composable
 private fun HorizontalCalendarPreview() {
-    HorizontalCalendar(
-        from = LocalDate.now().minusDays(PreviewPrevDays),
-        until = LocalDate.now().plusDays(PreviewNextDays),
-        onSelectDay = {}
-    )
+    AtomRemindersTheme {
+        HorizontalCalendar(
+            from = LocalDate.now().minusDays(PreviewPrevDays),
+            until = LocalDate.now().plusDays(PreviewNextDays),
+            onSelectDay = {},
+        )
+    }
 }
 
 @Preview()
 @Composable
 private fun CalendarDayPreview() {
-    CalendarDay(date = LocalDate.now(), isSelected = false, onClick = {})
+    AtomRemindersTheme {
+        CalendarDay(date = LocalDate.now(), isSelected = false, onClick = {})
+    }
 }
 
 private const val PreviewPrevDays = 3L
