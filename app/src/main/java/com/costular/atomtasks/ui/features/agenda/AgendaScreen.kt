@@ -95,7 +95,9 @@ fun AgendaScreen(
         bottomBar = {
             CreateTask(
                 onClick = {
-                    navigator.navigate(CreateTaskScreenDestination.route)
+                    navigator.navigate(
+                        CreateTaskScreenDestination(date = state.selectedDay.toString()),
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
