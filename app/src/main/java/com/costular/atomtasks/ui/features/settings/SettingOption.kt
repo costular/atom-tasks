@@ -56,7 +56,7 @@ fun SettingOption(
             }
         },
         end = {
-            Image(
+            Icon(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
