@@ -40,6 +40,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
+        dismissTaskAction()
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
     }
 
