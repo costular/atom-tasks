@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.settings
+package com.costular.atomtasks.ui.features.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

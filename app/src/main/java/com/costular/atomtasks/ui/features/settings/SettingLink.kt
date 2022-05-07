@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.ui.features.settings.SettingItem
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 
 @Composable
