@@ -53,47 +53,53 @@ fun SettingItem(
 @Preview(showBackground = true)
 @Composable
 private fun JustTitlePreview() {
-    SettingItem(
-        title = {
-            Text("This is a test with only a title, nothing else")
-        },
-        onClick = {},
-        modifier = Modifier.fillMaxWidth(),
-    )
+    AtomRemindersTheme {
+        SettingItem(
+            title = {
+                Text("This is a test with only a title, nothing else")
+            },
+            onClick = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TitleAndStartPreview() {
-    SettingItem(
-        title = {
-            Text("This is a test with start also")
-        },
-        start = {
-            Icon(Icons.Default.Search, null)
-        },
-        onClick = {},
-        modifier = Modifier.fillMaxWidth(),
-    )
+    AtomRemindersTheme {
+        SettingItem(
+            title = {
+                Text("This is a test with start also")
+            },
+            start = {
+                Icon(Icons.Default.Search, null)
+            },
+            onClick = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TitleAndStartAndEndPreview() {
-    SettingItem(
-        title = {
-            Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd sdadad")
-        },
-        start = {
-            Icon(Icons.Default.Search, null)
-        },
-        end = {
-            Switch(
-                checked = true,
-                onCheckedChange = { },
-            )
-        },
-        onClick = {},
-        modifier = Modifier.fillMaxWidth(),
-    )
+    AtomRemindersTheme {
+        SettingItem(
+            title = {
+                Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd sdadad")
+            },
+            start = {
+                Icon(Icons.Default.Search, null)
+            },
+            end = {
+                Switch(
+                    checked = true,
+                    onCheckedChange = { },
+                )
+            },
+            onClick = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
