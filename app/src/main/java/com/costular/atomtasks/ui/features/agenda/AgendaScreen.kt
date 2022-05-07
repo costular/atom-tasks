@@ -81,7 +81,7 @@ internal fun AgendaScreen(
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction.name,
-            isDone = state.taskAction.isDone ?: false,
+            isDone = state.taskAction.isDone,
             onDelete = {
                 actionDelete(requireNotNull(state.taskAction).id)
             },
