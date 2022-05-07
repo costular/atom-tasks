@@ -53,6 +53,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
       - name: 🤖 UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
