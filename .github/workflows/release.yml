@@ -47,8 +47,26 @@ jobs:
       - name: Unit tests
         run: ./gradlew test
 
+  ui_tests:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 🤖 UI tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
+
+      - name: 📸 Snapshot tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./verify_screenshots.sh
+
   build:
-    needs: [unit_tests]
+    needs: [unit_tests, ui_tests]
     runs-on: ubuntu-latest
     steps:
 
