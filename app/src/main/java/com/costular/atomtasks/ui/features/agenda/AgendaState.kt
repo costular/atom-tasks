@@ -19,10 +19,6 @@ data class AgendaState(
     val isPreviousDaySelected get() = calendarFromDate.isBefore(selectedDay)
     val isNextDaySelected get() = calendarUntilDate.isAfter(selectedDay)
 
-    fun makeActionIfPossible(body: (Task) -> Unit) {
-        taskAction?.let(body)
-    }
-
     companion object {
         val Empty = AgendaState()
     }

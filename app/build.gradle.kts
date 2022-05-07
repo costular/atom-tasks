@@ -14,6 +14,7 @@ plugins {
     id("com.google.devtools.ksp") version "1.5.31-1.0.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
+    id("shot")
 }
 
 android {
@@ -179,7 +180,6 @@ dependencies {
     testImplementation(Deps.mockk)
     testImplementation(Deps.robolectric)
     testImplementation(Deps.composeUiTest)
-    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
@@ -189,10 +189,12 @@ dependencies {
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
     androidTestImplementation(Deps.composeUiTest)
-    androidTestImplementation(Deps.composeUiManifest)
     androidTestImplementation(Deps.hiltAndroidTesting)
     androidTestImplementation(Deps.mockkAndroid)
     kaptAndroidTest(Deps.hiltCompiler)
+    androidTestImplementation(Deps.testParameterInjector)
+
+    debugImplementation(Deps.composeUiManifest)
 }
 
 tasks.withType<KotlinCompile> {
