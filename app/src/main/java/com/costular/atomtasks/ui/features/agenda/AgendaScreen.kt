@@ -50,15 +50,6 @@ fun AgendaScreen(
     val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
 
-    LaunchedEffect(viewModel.uiEvents) {
-        viewModel.uiEvents.collect { event ->
-            when (event) {
-                is AgendaUiEvents.CloseCreateTask -> {
-                }
-            }
-        }
-    }
-
     if (state.taskAction != null) {
         TaskActionDialog(
             taskName = state.taskAction?.name,
