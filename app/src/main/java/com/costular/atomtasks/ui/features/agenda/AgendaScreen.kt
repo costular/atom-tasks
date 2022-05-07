@@ -66,6 +66,7 @@ fun AgendaScreen(
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 internal fun AgendaScreen(
     state: AgendaState,
