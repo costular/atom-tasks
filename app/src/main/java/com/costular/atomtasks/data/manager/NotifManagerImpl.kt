@@ -78,7 +78,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                     context.getString(R.string.notification_reminder_done),
                     PendingIntent.getBroadcast(
                         context,
-                        REQUEST_ACTION_DONE,
+                        generateRandomRequestCode(),
                         Intent(context, MarkTaskAsDoneReceiver::class.java).apply {
                             putExtra(MarkTaskAsDoneReceiver.PARAM_TASK_ID, task.id)
                         },
@@ -92,7 +92,7 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
                     context.getString(R.string.notification_reminder_postpone),
                     PendingIntent.getBroadcast(
                         context,
-                        REQUEST_ACTION_POSTPONE,
+                        generateRandomRequestCode(),
                         Intent(context, PostponeTaskReceiver::class.java).apply {
                             putExtra(PostponeTaskReceiver.PARAM_TASK_ID, task.id)
                         },
@@ -117,9 +117,11 @@ class NotifManagerImpl(private val context: Context) : NotifManager {
             .setSmallIcon(R.drawable.ic_atom)
             .setColor(Teal500.toArgb())
 
+    private fun generateRandomRequestCode(): Int {
+        return (0..Int.MAX_VALUE).random()
+    }
+
     companion object {
         const val REQUEST_OPEN_APP = 20
-        const val REQUEST_ACTION_DONE = 21
-        const val REQUEST_ACTION_POSTPONE = 22
     }
 }
