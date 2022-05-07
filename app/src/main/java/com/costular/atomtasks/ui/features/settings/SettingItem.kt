@@ -17,10 +17,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.atomtasks.ui.theme.AppTheme
+import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 
 @Composable
 fun SettingItem(
@@ -38,18 +40,21 @@ fun SettingItem(
             .clickable { onClick() }
             .padding(AppTheme.dimens.contentMargin),
     ) {
-        if (start != null) {
-            start()
-            Spacer(Modifier.width(AppTheme.dimens.spacingXLarge))
-        }
+        val onSurface = MaterialTheme.colors.onSurface
+        CompositionLocalProvider(LocalContentColor provides onSurface) {
+            if (start != null) {
+                start()
+                Spacer(Modifier.width(AppTheme.dimens.spacingXLarge))
+            }
 
-        Box(Modifier.weight(1f)) {
-            title()
-        }
+            Box(Modifier.weight(1f)) {
+                title()
+            }
 
-        if (end != null) {
-            Spacer(Modifier.width(AppTheme.dimens.contentMargin))
-            end()
+            if (end != null) {
+                Spacer(Modifier.width(AppTheme.dimens.contentMargin))
+                end()
+            }
         }
     }
 }
