@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +43,7 @@ import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -63,6 +65,10 @@ fun DatePicker(
             }
         },
     )
+
+    LaunchedEffect(currentDate) {
+        calendarState.monthState.currentMonth = YearMonth.from(currentDate)
+    }
 
     SelectableCalendar(
         modifier = modifier,
