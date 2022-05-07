@@ -41,5 +41,4 @@ abstract class SnapshotTest : ScreenshotTest {
     }
 
     private enum class ThemeMode { LIGHT, DARK }
-
 }

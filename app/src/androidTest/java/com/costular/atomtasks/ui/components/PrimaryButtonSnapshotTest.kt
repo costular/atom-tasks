@@ -14,5 +14,4 @@ class PrimaryButtonSnapshotTest : SnapshotTest() {
             }
         }
     }
-
 }
