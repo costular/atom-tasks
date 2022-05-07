@@ -65,6 +65,11 @@ jobs:
           api-level: 29
           script: ./gradlew connectedCheck
 
+      - name: Decode google-services.json
+        env:
+          FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $FIREBASE_CONFIG > app/google-services.json
+
       - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
