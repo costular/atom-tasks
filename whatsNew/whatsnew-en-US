@@ -1,6 +1,7 @@
 ✨ Bug fixes and some new features like:
 - Enhanced create task screen
-- Keyboard now opens automatically when land on create task screen
-- New bottom menu
+- Added more days to horizontal calendar on Agenda
+- Fixed notification actions. Before was impossible to use different actions when having multiple reminder notifications
+- Improved colors
 
 New features coming soon 👀
