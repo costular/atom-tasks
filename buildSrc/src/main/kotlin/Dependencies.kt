@@ -34,7 +34,7 @@ object Versions {
     val truth = "1.4.0"
     val turbine = "0.6.1"
     val composeCalendar = "0.5.1"
-    val numberPicker = "0.0.11"
+    val numberPicker = "1.0.3"
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
