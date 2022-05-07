@@ -46,8 +46,8 @@ import java.time.LocalDate
 @Suppress("LongMethod")
 fun AgendaScreen(
     navigator: DestinationsNavigator,
+    viewModel: AgendaViewModel = hiltViewModel(),
 ) {
-    val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
 
     if (state.taskAction != null) {
