@@ -214,7 +214,11 @@ private fun RowScope.CreateTaskInput(
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colors.secondary),
                 ) {
-                    Icon(imageVector = Icons.Outlined.Check, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.onSecondary
+                    )
                 }
             }
         },
