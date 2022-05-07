@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.ui.features.settings.SettingItem
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 
 @Composable
@@ -54,7 +56,7 @@ fun SettingOption(
             }
         },
         end = {
-            Image(
+            Icon(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
