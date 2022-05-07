@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] 2022-05-07
+### Changed
+- Added more days to horizontal calendar on Agenda
+- Changed colors of settings screen
+- Upgraded time picker library version
+### Fixed
+- Pass selected date to date picker
+- Show selected date's month when open date picker
+- Tint save task button's icon properly
+- Notification actions. Before was impossible to use different actions when having multiple reminder notifications
+
 ## [0.5.0] - 2022-05-03
 ### Added
 - New home bottom menu
