@@ -68,7 +68,11 @@ jobs:
       - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 32
+          target: google_apis
+          api-level: 30
+          profile: Nexus 6
+          arch: arm64-v8a
+          force-avd-creation: false
           script: ./verify_screenshots.sh
 
   build:
