@@ -16,7 +16,7 @@ abstract class AndroidTest : ComposeProvider {
     override val composeTestRule = createComposeRule()
 
     @Before
-    fun setUp() {
+    open fun setUp() {
         hiltRule.inject()
     }
 }
