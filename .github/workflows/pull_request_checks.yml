@@ -75,5 +75,6 @@ jobs:
       - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          target: google_apis
           api-level: 32
           script: ./verify_screenshots.sh
