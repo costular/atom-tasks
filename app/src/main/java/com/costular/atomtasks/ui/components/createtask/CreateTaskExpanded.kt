@@ -127,7 +127,7 @@ fun CreateTaskExpanded(
 }
 
 @Composable
-private fun CreateTaskExpanded(
+internal fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
@@ -157,6 +157,7 @@ private fun CreateTaskExpanded(
                 isSelected = false,
                 onClick = onClickDate,
                 onClear = onClearReminder,
+                modifier = Modifier.testTag("CreateTaskExpandedDate")
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
@@ -173,6 +174,7 @@ private fun CreateTaskExpanded(
                 isSelected = state.reminder != null,
                 onClick = onClickReminder,
                 onClear = onClearReminder,
+                modifier = Modifier.testTag("CreateTaskExpandedReminder")
             )
         }
     }
@@ -212,7 +214,8 @@ private fun RowScope.CreateTaskInput(
                     modifier = Modifier
                         .padding(AppTheme.dimens.spacingSmall)
                         .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colors.secondary),
+                        .background(MaterialTheme.colors.secondary)
+                        .testTag("CreateTaskExpandedSave"),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Check,
