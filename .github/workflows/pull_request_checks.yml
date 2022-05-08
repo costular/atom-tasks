@@ -76,5 +76,5 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           target: google_apis
-          api-level: 32
+          api-level: 30
           script: ./verify_screenshots.sh
