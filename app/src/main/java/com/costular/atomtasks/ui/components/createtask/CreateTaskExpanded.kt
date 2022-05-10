@@ -100,6 +100,7 @@ fun CreateTaskExpanded(
 
     if (state.showSetReminder) {
         TimePickerDialog(
+            time = state.reminder ?: LocalTime.now(),
             timeSuggestions = listOf(
                 LocalTime.of(9, 0),
                 LocalTime.of(12, 0),
