@@ -55,7 +55,7 @@ fun TaskCard(
             .padding(vertical = AppTheme.dimens.spacingSmall),
         color = MaterialTheme.colors.background
     ) {
-        val reminderInlineContent = ReminderInline(mediumColor)
+        val reminderInlineContent = reminderInline(mediumColor)
 
         Row(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -99,7 +99,7 @@ fun TaskCard(
 }
 
 @Composable
-private fun ReminderInline(mediumColor: Color) = mapOf(
+private fun reminderInline(mediumColor: Color) = mapOf(
     Pair(
         ReminderIconId,
         InlineTextContent(
