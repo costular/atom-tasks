@@ -48,5 +48,6 @@
     <string name="settings_theme_system">System</string>
     <string name="settings_general_title">General</string>
     <string name="save">Save</string>
+    <string name="content_description_chip_clear">Clear</string>
 
 </resources>
