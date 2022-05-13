@@ -130,18 +130,15 @@ tasks.koverHtmlReport {
         "*.Manifest*.*",
         "android.*.*.*",
         "*.BuildConfig.*",
-        "*.Lambda$*.class",
-        "*.Lambda.class",
-        "*.*Lambda.class",
-        "*.*Lambda*.class",
         "*.*Module.*",
-        "*.*Dagger*.*",
-        "*.*_MembersInjector.class",
-        "*.Dagger*Component*.class",
-        "*.Dagger*Subcomponent*.class",
-        "*.*Module_*Factory.class",
+        "*Hilt*",
+        "*.*_MembersInjector",
+        "*.*_HiltComponents*",
+        "*.*_ComponentTreeDeps*",
         "*.*Destination",
-        "*.*Dao*"
+        "*.*Dao*",
+        "*.*Factory*",
+        "*.*Activity*"
         )
 }
 
