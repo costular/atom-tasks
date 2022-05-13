@@ -15,6 +15,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
     id("shot")
+    id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
 
 android {
@@ -120,6 +121,28 @@ kotlin {
 
 kapt {
     correctErrorTypes = true
+}
+
+tasks.koverHtmlReport {
+    excludes = listOf(
+        "*.R.class",
+        "*.R$*.class",
+        "*.Manifest*.*",
+        "android.*.*.*",
+        "*.BuildConfig.*",
+        "*.Lambda$*.class",
+        "*.Lambda.class",
+        "*.*Lambda.class",
+        "*.*Lambda*.class",
+        "*.*Module.*",
+        "*.*Dagger*.*",
+        "*.*_MembersInjector.class",
+        "*.Dagger*Component*.class",
+        "*.Dagger*Subcomponent*.class",
+        "*.*Module_*Factory.class",
+        "*.*Destination",
+        "*.*Dao*"
+        )
 }
 
 dependencies {
