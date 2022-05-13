@@ -75,5 +75,4 @@ class RemovableChipTest : AndroidTest() {
 
         verify { callback() }
     }
-
 }
