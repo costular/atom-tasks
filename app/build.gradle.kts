@@ -15,6 +15,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
     id("shot")
+    id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
 
 android {
@@ -122,6 +123,25 @@ kapt {
     correctErrorTypes = true
 }
 
+tasks.koverHtmlReport {
+    excludes = listOf(
+        "*.R.class",
+        "*.R$*.class",
+        "*.Manifest*.*",
+        "android.*.*.*",
+        "*.BuildConfig.*",
+        "*.*Module.*",
+        "*Hilt*",
+        "*.*_MembersInjector",
+        "*.*_HiltComponents*",
+        "*.*_ComponentTreeDeps*",
+        "*.*Destination",
+        "*.*Dao*",
+        "*.*Factory*",
+        "*.*Activity*",
+    )
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Deps.fragment)
@@ -213,14 +233,15 @@ tasks.withType<KotlinCompile> {
             "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
             "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
             "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
-            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
         )
 }
 
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    config =
+        files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }
 
 tasks.withType<Detekt>().configureEach {
