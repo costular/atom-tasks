@@ -41,4 +41,5 @@
     <string name="home_menu_settings">Ajustes</string>
     <string name="create_task_set_date">Selecciona una fecha</string>
     <string name="save">Guardar</string>
+    <string name="content_description_chip_clear">Limpiar</string>
 </resources>
