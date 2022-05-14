@@ -138,8 +138,8 @@ tasks.koverHtmlReport {
         "*.*Destination",
         "*.*Dao*",
         "*.*Factory*",
-        "*.*Activity*"
-        )
+        "*.*Activity*",
+    )
 }
 
 dependencies {
@@ -233,14 +233,15 @@ tasks.withType<KotlinCompile> {
             "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
             "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
             "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
-            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
         )
 }
 
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    config =
+        files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }
 
 tasks.withType<Detekt>().configureEach {
