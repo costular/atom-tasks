@@ -18,7 +18,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
-    private val notifManager: NotifManager
+    private val notifManager: NotifManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -33,8 +33,8 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
             updateTaskIsDoneInteractor.executeSync(
                 UpdateTaskIsDoneInteractor.Params(
                     taskId,
-                    true
-                )
+                    true,
+                ),
             )
 
             Result.success()

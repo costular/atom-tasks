@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Singleton
 class GetTasksInteractor @Inject constructor(
-    private val tasksRepository: TasksRepository
+    private val tasksRepository: TasksRepository,
 ) : SubjectInteractor<GetTasksInteractor.Params, List<Task>>() {
 
     data class Params(
-        val day: LocalDate? = null
+        val day: LocalDate? = null,
     )
 
     override fun createObservable(params: Params): Flow<List<Task>> =

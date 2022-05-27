@@ -10,13 +10,13 @@ import androidx.compose.ui.text.style.TextOverflow
 @Composable
 fun ScreenSubheader(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.subtitle1,
         modifier = modifier.fillMaxWidth(),
         maxLines = 2,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
     )
 }

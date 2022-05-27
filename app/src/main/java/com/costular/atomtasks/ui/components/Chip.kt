@@ -51,7 +51,7 @@ fun Chip(
     ) {
         Row(
             Modifier.padding(contentPadding),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 content()
@@ -68,7 +68,7 @@ private fun ChipPreview() {
             Icon(
                 imageVector = Icons.Default.CalendarToday,
                 contentDescription = null,
-                modifier = Modifier.size(AppTheme.ChipIconSize)
+                modifier = Modifier.size(AppTheme.ChipIconSize),
             )
             Spacer(Modifier.width(8.dp))
             Text(stringResource(R.string.today), style = MaterialTheme.typography.body1)

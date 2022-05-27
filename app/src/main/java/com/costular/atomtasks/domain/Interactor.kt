@@ -57,7 +57,7 @@ abstract class SubjectInteractor<P : Any, T> {
     private val paramState = MutableSharedFlow<P>(
         replay = 1,
         extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
     operator fun invoke(params: P) {

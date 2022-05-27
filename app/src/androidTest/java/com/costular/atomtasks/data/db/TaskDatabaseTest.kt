@@ -32,7 +32,7 @@ class TaskDatabaseTest {
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            AtomRemindersDatabase::class.java
+            AtomRemindersDatabase::class.java,
         )
             .setTransactionExecutor(testCoroutine.asExecutor())
             .setQueryExecutor(testCoroutine.asExecutor())
@@ -55,7 +55,7 @@ class TaskDatabaseTest {
             LocalDate.now(),
             "whatever",
             LocalDate.now(),
-            true
+            true,
         )
 
         // When

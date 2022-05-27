@@ -20,7 +20,7 @@ class ReminderManagerImplTest {
     @Before
     fun setUp() {
         reminderManager = ReminderManagerImpl(
-            InstrumentationRegistry.getInstrumentation().targetContext
+            InstrumentationRegistry.getInstrumentation().targetContext,
         )
     }
 
@@ -50,9 +50,9 @@ class ReminderManagerImplTest {
             TASK_ID.toInt(),
             Intent(
                 InstrumentationRegistry.getInstrumentation().targetContext,
-                NotifyTaskReceiver::class.java
+                NotifyTaskReceiver::class.java,
             ),
-            PendingIntent.FLAG_NO_CREATE
+            PendingIntent.FLAG_NO_CREATE,
         ) != null
 
     companion object {

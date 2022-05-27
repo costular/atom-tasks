@@ -53,20 +53,20 @@ fun TaskCard(
             .fillMaxWidth()
             .clickable { onOpen() }
             .padding(vertical = AppTheme.dimens.spacingSmall),
-        color = MaterialTheme.colors.background
+        color = MaterialTheme.colors.background,
     ) {
         val reminderInlineContent = reminderInline(mediumColor)
 
         Row(
             modifier = Modifier.padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Markable(
                 isMarked = isFinished,
                 borderColor = mediumColor,
                 onClick = { onMark() },
                 contentColor = MaterialTheme.colors.primary,
-                onContentColor = MaterialTheme.colors.onPrimary
+                onContentColor = MaterialTheme.colors.onPrimary,
             )
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))
@@ -75,8 +75,8 @@ fun TaskCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.h6.copy(
-                        textDecoration = if (isFinished) TextDecoration.LineThrough else null
-                    )
+                        textDecoration = if (isFinished) TextDecoration.LineThrough else null,
+                    ),
                 )
                 AnimatedVisibility(reminder != null && !isFinished) {
                     Row {
@@ -89,7 +89,7 @@ fun TaskCard(
                             text = alarmText,
                             style = MaterialTheme.typography.body2,
                             color = mediumColor,
-                            inlineContent = reminderInlineContent
+                            inlineContent = reminderInlineContent,
                         )
                     }
                 }
@@ -130,7 +130,7 @@ private fun TaskCardPreview() {
             isFinished = true,
             onMark = {},
             onOpen = {},
-            reminder = Reminder(1L, LocalTime.parse("10:00"), true, LocalDate.now())
+            reminder = Reminder(1L, LocalTime.parse("10:00"), true, LocalDate.now()),
         )
     }
 }

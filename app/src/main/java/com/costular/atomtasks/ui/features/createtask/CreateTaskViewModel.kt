@@ -30,8 +30,8 @@ class CreateTaskViewModel @Inject constructor(
                     name,
                     date,
                     reminder != null,
-                    reminder
-                )
+                    reminder,
+                ),
             )
                 .collect { status ->
                     when (status) {

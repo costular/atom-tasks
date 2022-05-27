@@ -62,7 +62,7 @@ fun AgendaScreen(
                 CreateTaskScreenDestination(date = state.selectedDay.toString()),
             )
         },
-        openTaskAction = viewModel::openTaskAction
+        openTaskAction = viewModel::openTaskAction,
     )
 }
 

@@ -25,8 +25,8 @@ class TaskCardTest : AndroidTest() {
                 title = text,
                 isFinished = false,
                 reminder = null,
-                onMark = { /*TODO*/ },
-                onOpen = { /*TODO*/ },
+                onMark = {},
+                onOpen = {},
             )
         }
 
@@ -42,7 +42,7 @@ class TaskCardTest : AndroidTest() {
             1L,
             reminderTime,
             true,
-            LocalDate.now()
+            LocalDate.now(),
         )
         val reminderText = reminderTime.toString()
 
@@ -51,8 +51,8 @@ class TaskCardTest : AndroidTest() {
                 title = text,
                 isFinished = false,
                 reminder = reminder,
-                onMark = { /*TODO*/ },
-                onOpen = { /*TODO*/ },
+                onMark = {},
+                onOpen = {},
             )
         }
 
@@ -70,7 +70,7 @@ class TaskCardTest : AndroidTest() {
                 isFinished = false,
                 reminder = null,
                 onMark = onMarkCallback,
-                onOpen = { /*TODO*/ },
+                onOpen = {},
             )
         }
 
@@ -92,7 +92,7 @@ class TaskCardTest : AndroidTest() {
                 title = text,
                 isFinished = true,
                 reminder = null,
-                onMark = { /*TODO*/ },
+                onMark = {},
                 onOpen = onClickCallback,
             )
         }

@@ -11,7 +11,7 @@ interface TasksRepository {
         name: String,
         date: LocalDate,
         reminderEnabled: Boolean,
-        reminderTime: LocalTime?
+        reminderTime: LocalTime?,
     ): Long
 
     fun getTaskById(id: Long): Flow<Task>

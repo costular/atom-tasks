@@ -26,7 +26,7 @@ class CreateTaskInteractorTest {
     fun setUp() {
         createTaskInteractor = CreateTaskInteractor(
             tasksRepository = tasksRepository,
-            reminderManager = reminderManager
+            reminderManager = reminderManager,
         )
     }
 
@@ -41,8 +41,8 @@ class CreateTaskInteractorTest {
                 name = name,
                 date = date,
                 reminderEnabled = true,
-                reminderTime = reminder
-            )
+                reminderTime = reminder,
+            ),
         )
 
         coEvery { tasksRepository.createTask(name, date, true, reminder) }
@@ -65,8 +65,8 @@ class CreateTaskInteractorTest {
                     name = name,
                     date = date,
                     reminderEnabled = true,
-                    reminderTime = reminder
-                )
+                    reminderTime = reminder,
+                ),
             )
 
             verify { reminderManager.set(taskId, reminder.atDate(date)) }

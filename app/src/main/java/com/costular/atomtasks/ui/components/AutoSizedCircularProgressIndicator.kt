@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.min
 @Composable
 fun AutoSizedCircularProgressIndicator(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colors.onPrimary
+    color: Color = MaterialTheme.colors.onPrimary,
 ) {
     BoxWithConstraints(modifier) {
         val diameter = with(LocalDensity.current) {
@@ -38,15 +38,17 @@ fun AutoSizedCircularProgressIndicator(
 
         CircularProgressIndicator(
             strokeWidth = (diameter * StrokeDiameterFraction).coerceAtLeast(1.dp),
-            color = color
+            color = color,
         )
     }
 }
 
 // Default stroke size
 private val DefaultStrokeWidth = 4.dp
+
 // Preferred diameter for CircularProgressIndicator
 private val DefaultDiameter = 40.dp
+
 // Internal padding added by CircularProgressIndicator
 private val InternalPadding = 4.dp
 

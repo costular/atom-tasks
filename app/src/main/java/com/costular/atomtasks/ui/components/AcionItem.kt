@@ -32,7 +32,7 @@ fun ActionItem(
             .fillMaxWidth()
             .clickable { onClick() }
             .padding(AppTheme.dimens.contentMargin),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(icon, contentDescription = null)
 
@@ -54,7 +54,7 @@ private fun ActionMenuItemPreview() {
         ActionItem(
             Icons.Outlined.Delete,
             "Remove",
-            onClick = {}
+            onClick = {},
         )
     }
 }

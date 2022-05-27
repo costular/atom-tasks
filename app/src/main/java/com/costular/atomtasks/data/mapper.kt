@@ -11,7 +11,7 @@ fun TaskAggregated.toDomain(): Task =
         name = task.name,
         task.createdAt,
         reminder?.toDomain(),
-        task.isDone
+        task.isDone,
     )
 
 fun ReminderEntity.toDomain(): Reminder = Reminder(

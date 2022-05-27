@@ -43,7 +43,7 @@ fun Markable(
         .border(
             width = borderWidth,
             color = borderColor,
-            shape = CircleShape
+            shape = CircleShape,
         )
         .selectable(
             isMarked,
@@ -51,7 +51,7 @@ fun Markable(
             role = Role.Checkbox,
             indication = rememberRipple(bounded = false),
             enabled = true,
-            onClick = onClick
+            onClick = onClick,
         )
         .testTag("Markable")
 
@@ -63,12 +63,12 @@ fun Markable(
                     .clip(CircleShape)
                     .background(contentColor)
                     .padding(4.dp),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    tint = onContentColor
+                    tint = onContentColor,
                 )
             }
         }
@@ -85,7 +85,7 @@ private fun MarkableMarkedPreview() {
         borderColor = Color.Black,
         onClick = {},
         contentColor = Color.Cyan,
-        onContentColor = Color.Black
+        onContentColor = Color.Black,
     )
 }
 
@@ -97,6 +97,6 @@ private fun MarkableUnmarkedPreview() {
         borderColor = Color.Black,
         onClick = {},
         contentColor = Color.Cyan,
-        onContentColor = Color.Black
+        onContentColor = Color.Black,
     )
 }

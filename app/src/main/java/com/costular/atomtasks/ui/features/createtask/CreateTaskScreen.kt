@@ -49,11 +49,11 @@ fun CreateTaskScreen(
             viewModel.createTask(
                 result.name,
                 result.date,
-                result.reminder
+                result.reminder,
             )
         },
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsWithImePadding()
+            .navigationBarsWithImePadding(),
     )
 }

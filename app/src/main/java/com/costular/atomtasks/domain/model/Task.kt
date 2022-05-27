@@ -7,5 +7,5 @@ data class Task(
     val name: String,
     val createdAt: LocalDate,
     val reminder: Reminder?,
-    val isDone: Boolean
+    val isDone: Boolean,
 )

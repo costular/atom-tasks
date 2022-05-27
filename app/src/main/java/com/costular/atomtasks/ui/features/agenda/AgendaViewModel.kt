@@ -60,7 +60,7 @@ class AgendaViewModel @Inject constructor(
         setState {
             copy(
                 taskAction = null,
-                deleteTaskAction = DeleteTaskAction.Shown(id)
+                deleteTaskAction = DeleteTaskAction.Shown(id),
             )
         }
     }

@@ -33,7 +33,7 @@ class DefaultTasksRepository(
                 requireNotNull(reminderTime),
                 date,
                 reminderEnabled,
-                taskId
+                taskId,
             )
             localDataSource.createReminderForTask(reminder)
         }

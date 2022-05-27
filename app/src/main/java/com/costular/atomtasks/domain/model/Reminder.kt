@@ -8,7 +8,7 @@ data class Reminder(
     val id: Long,
     val time: LocalTime,
     val isEnabled: Boolean,
-    val date: LocalDate?
+    val date: LocalDate?,
 ) {
 
     val isToday: Boolean get() = date == LocalDate.now()

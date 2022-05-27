@@ -40,8 +40,8 @@ class CreateTaskViewModelTest : MviViewModelTest() {
                     name,
                     date,
                     true,
-                    reminder
-                )
+                    reminder,
+                ),
             )
         } returns flow {
             emit(InvokeStarted)

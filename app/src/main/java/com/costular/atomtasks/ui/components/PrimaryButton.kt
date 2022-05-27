@@ -23,7 +23,7 @@ fun PrimaryButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
     colors: ButtonColors = ButtonDefaults.buttonColors(),
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Button(
         onClick,
@@ -33,7 +33,7 @@ fun PrimaryButton(
         elevation = elevation,
         colors = colors,
         contentPadding = PaddingValues(AppTheme.dimens.spacingLarge),
-        content = content
+        content = content,
     )
 }
 

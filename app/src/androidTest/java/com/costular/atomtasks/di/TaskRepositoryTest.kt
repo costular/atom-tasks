@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [TaskRepositoryModule::class]
+    replaces = [TaskRepositoryModule::class],
 )
 class TaskRepositoryTest {
 

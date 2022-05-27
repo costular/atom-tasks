@@ -13,11 +13,11 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.time.LocalDate
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDate
-import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 class AgendaViewModelTest : MviViewModelTest() {
@@ -62,7 +62,6 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose previous date as disabled when trying to set selected day out of from range`() =
         testBlocking {
-
             sut.setSelectedDay(sut.state.value.calendarFromDate)
 
             sut.state.test {
@@ -73,7 +72,6 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose next date as disabled when trying to set next day out of until range`() =
         testBlocking {
-
             sut.setSelectedDay(sut.state.value.calendarUntilDate)
 
             sut.state.test {
@@ -89,7 +87,13 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
 
-        coVerify { updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(expected.first().id, true)) }
+        coVerify {
+            updateTaskIsDoneInteractor(
+                UpdateTaskIsDoneInteractor.Params(
+                    expected.first().id, true,
+                ),
+            )
+        }
     }
 
     @Test
@@ -148,15 +152,15 @@ class AgendaViewModelTest : MviViewModelTest() {
                 "Task 1",
                 LocalDate.now(),
                 null,
-                false
+                false,
             ),
             Task(
                 2L,
                 "Task 2",
                 LocalDate.now(),
                 null,
-                false
-            )
+                false,
+            ),
         )
     }
 }
