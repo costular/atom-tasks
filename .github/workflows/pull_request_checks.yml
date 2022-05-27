@@ -70,7 +70,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.costular.atomtasks.ui
+          script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.costular.atomtasks.screenshots.ScreenshotTest
 
       - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
