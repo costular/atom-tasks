@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateTimeFormatters.dayOfWeekFormatter
 import com.costular.atomtasks.ui.util.DateUtils
-import kotlinx.coroutines.launch
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @Composable
 fun HorizontalCalendar(

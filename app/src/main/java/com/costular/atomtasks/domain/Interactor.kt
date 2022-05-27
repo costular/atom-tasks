@@ -1,13 +1,13 @@
 package com.costular.atomtasks.domain
 
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
-import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.flow.flatMapLatest
 
 abstract class Interactor<in P> {
     operator fun invoke(params: P, timeoutMs: Long = defaultTimeoutMs): Flow<InvokeStatus> {
@@ -57,7 +57,7 @@ abstract class SubjectInteractor<P : Any, T> {
     private val paramState = MutableSharedFlow<P>(
         replay = 1,
         extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 
     operator fun invoke(params: P) {

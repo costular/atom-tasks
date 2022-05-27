@@ -40,7 +40,7 @@ fun TaskActionDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = AppTheme.dimens.contentMargin)
+                    .padding(vertical = AppTheme.dimens.contentMargin),
             ) {
                 Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
@@ -68,14 +68,14 @@ fun TaskActionDialog(
                         icon = Icons.Outlined.Done,
                         text = stringResource(R.string.agenda_mark_as_done),
                         onClick = onDone,
-                        modifier = Modifier.testTag("TaskActionDone")
+                        modifier = Modifier.testTag("TaskActionDone"),
                     )
                 } else {
                     ActionItem(
                         icon = Icons.Outlined.Close,
                         text = stringResource(R.string.agenda_mark_as_undone),
                         onClick = onUndone,
-                        modifier = Modifier.testTag("TaskActionUndone")
+                        modifier = Modifier.testTag("TaskActionUndone"),
                     )
                 }
 
@@ -83,7 +83,7 @@ fun TaskActionDialog(
                     icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.agenta_delete_task),
                     onClick = onDelete,
-                    modifier = Modifier.testTag("TaskActionDelete")
+                    modifier = Modifier.testTag("TaskActionDelete"),
                 )
             }
         }

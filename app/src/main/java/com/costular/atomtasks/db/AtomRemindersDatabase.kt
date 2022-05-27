@@ -12,7 +12,7 @@ import com.costular.atomtasks.data.tasks.TasksDao
 @Database(
     entities = [TaskEntity::class, ReminderEntity::class],
     version = 4,
-    exportSchema = true
+    exportSchema = true,
 )
 abstract class AtomRemindersDatabase : RoomDatabase() {
 

@@ -48,9 +48,9 @@ import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
-import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.collect
 
 @Suppress("MagicNumber")
 @Composable
@@ -158,7 +158,7 @@ internal fun CreateTaskExpanded(
                 isSelected = false,
                 onClick = onClickDate,
                 onClear = onClearReminder,
-                modifier = Modifier.testTag("CreateTaskExpandedDate")
+                modifier = Modifier.testTag("CreateTaskExpandedDate"),
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
@@ -175,7 +175,7 @@ internal fun CreateTaskExpanded(
                 isSelected = state.reminder != null,
                 onClick = onClickReminder,
                 onClear = onClearReminder,
-                modifier = Modifier.testTag("CreateTaskExpandedReminder")
+                modifier = Modifier.testTag("CreateTaskExpandedReminder"),
             )
         }
     }
@@ -221,7 +221,7 @@ private fun RowScope.CreateTaskInput(
                     Icon(
                         imageVector = Icons.Outlined.Check,
                         contentDescription = null,
-                        tint = MaterialTheme.colors.onSecondary
+                        tint = MaterialTheme.colors.onSecondary,
                     )
                 }
             }

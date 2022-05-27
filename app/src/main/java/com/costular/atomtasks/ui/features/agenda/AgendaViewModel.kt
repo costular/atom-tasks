@@ -8,12 +8,12 @@ import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
+import javax.inject.Inject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import javax.inject.Inject
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
@@ -60,7 +60,7 @@ class AgendaViewModel @Inject constructor(
         setState {
             copy(
                 taskAction = null,
-                deleteTaskAction = DeleteTaskAction.Shown(id)
+                deleteTaskAction = DeleteTaskAction.Shown(id),
             )
         }
     }

@@ -52,6 +52,6 @@ fun BottomSheetDraggable() {
             .width(40.dp)
             .height(4.dp)
             .clip(MaterialTheme.shapes.small)
-            .background(MaterialTheme.colors.surface)
+            .background(MaterialTheme.colors.surface),
     )
 }

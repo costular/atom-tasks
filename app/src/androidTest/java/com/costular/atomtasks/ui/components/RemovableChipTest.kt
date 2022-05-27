@@ -32,8 +32,8 @@ class RemovableChipTest : AndroidTest() {
                 title = text,
                 icon = Icons.Default.Today,
                 isSelected = false,
-                onClick = { /*TODO*/ },
-                onClear = { /*TODO*/ },
+                onClick = {},
+                onClear = {},
             )
         }
 
@@ -48,8 +48,8 @@ class RemovableChipTest : AndroidTest() {
                 title = "whatever",
                 icon = Icons.Default.Today,
                 isSelected = true,
-                onClick = { /*TODO*/ },
-                onClear = { /*TODO*/ },
+                onClick = {},
+                onClear = {},
             )
         }
 
@@ -65,7 +65,7 @@ class RemovableChipTest : AndroidTest() {
                 title = "whatever",
                 icon = Icons.Default.Today,
                 isSelected = true,
-                onClick = { /*TODO*/ },
+                onClick = {},
                 onClear = callback,
             )
         }

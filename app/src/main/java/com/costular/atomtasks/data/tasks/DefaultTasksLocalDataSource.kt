@@ -1,8 +1,8 @@
 package com.costular.atomtasks.data.tasks
 
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.Flow
 
 class DefaultTasksLocalDataSource(
     private val tasksDao: TasksDao,

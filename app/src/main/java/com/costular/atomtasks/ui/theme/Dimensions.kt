@@ -9,7 +9,7 @@ class Dimensions(
     val spacingMedium: Dp,
     val spacingLarge: Dp,
     val spacingXLarge: Dp,
-    val spacingHuge: Dp
+    val spacingHuge: Dp,
 )
 
 val CompactDimensions = Dimensions(
@@ -18,7 +18,7 @@ val CompactDimensions = Dimensions(
     spacingMedium = 8.dp,
     spacingLarge = 16.dp,
     spacingXLarge = 24.dp,
-    spacingHuge = 32.dp
+    spacingHuge = 32.dp,
 )
 
 val MediumDimensions = Dimensions(

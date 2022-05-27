@@ -4,7 +4,7 @@
     package="com.costular.atomtasks">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name="com.costular.atomtasks.ui.AtomTasksApp"
@@ -29,17 +29,18 @@
 
         <receiver
             android:name=".data.receiver.BootReceiver"
+            android:directBootAware="true"
             android:enabled="true"
             android:exported="true"
-            android:directBootAware="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
             tools:targetApi="n">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <!--For HTC devices-->
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 

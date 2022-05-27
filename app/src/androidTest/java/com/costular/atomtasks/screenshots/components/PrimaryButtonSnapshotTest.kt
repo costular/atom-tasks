@@ -10,7 +10,7 @@ class PrimaryButtonSnapshotTest : SnapshotTest() {
     @Test
     fun primaryButton() {
         runScreenshotTest {
-            PrimaryButton(onClick = { /*TODO*/ }) {
+            PrimaryButton(onClick = {}) {
                 Text("Test me!")
             }
         }

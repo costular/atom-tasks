@@ -11,5 +11,5 @@ data class TaskEntity(
     @ColumnInfo(name = "created_at") val createdAt: LocalDate,
     val name: String,
     @ColumnInfo(name = "date") val day: LocalDate,
-    @ColumnInfo(name = "is_done") val isDone: Boolean = false
+    @ColumnInfo(name = "is_done") val isDone: Boolean = false,
 )

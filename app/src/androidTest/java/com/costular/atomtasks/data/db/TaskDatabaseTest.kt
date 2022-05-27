@@ -8,6 +8,9 @@ import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.db.AtomRemindersDatabase
 import com.google.common.truth.Truth
+import java.io.IOException
+import java.time.LocalDate
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -15,9 +18,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
-import java.time.LocalDate
-import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @RunWith(AndroidJUnit4::class)
@@ -32,7 +32,7 @@ class TaskDatabaseTest {
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            AtomRemindersDatabase::class.java
+            AtomRemindersDatabase::class.java,
         )
             .setTransactionExecutor(testCoroutine.asExecutor())
             .setQueryExecutor(testCoroutine.asExecutor())
@@ -55,7 +55,7 @@ class TaskDatabaseTest {
             LocalDate.now(),
             "whatever",
             LocalDate.now(),
-            true
+            true,
         )
 
         // When

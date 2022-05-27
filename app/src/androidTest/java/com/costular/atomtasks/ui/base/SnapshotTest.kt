@@ -23,12 +23,12 @@ abstract class SnapshotTest : ScreenshotTest {
     private lateinit var themeMode: ThemeMode
 
     fun runScreenshotTest(
-        content: @Composable () -> Unit
+        content: @Composable () -> Unit,
     ) {
         composeTestRule.setContent {
             AtomRemindersTheme(
                 darkTheme = themeMode == ThemeMode.DARK,
-                content = content
+                content = content,
             )
         }
 
@@ -36,7 +36,7 @@ abstract class SnapshotTest : ScreenshotTest {
 
         compareScreenshot(
             rule = composeTestRule,
-            name = name
+            name = name,
         )
     }
 

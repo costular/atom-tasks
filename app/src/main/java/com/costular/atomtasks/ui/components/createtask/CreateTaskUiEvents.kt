@@ -5,6 +5,6 @@ import com.costular.decorit.presentation.base.UiEvent
 sealed class CreateTaskUiEvents : UiEvent {
 
     data class SaveTask(
-        val taskResult: CreateTaskResult
+        val taskResult: CreateTaskResult,
     ) : CreateTaskUiEvents()
 }

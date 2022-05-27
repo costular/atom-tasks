@@ -27,6 +27,6 @@ fun RemoveTaskDialog(
             TextButton(onClick = onCancel) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

@@ -14,14 +14,14 @@ import com.costular.atomtasks.ui.theme.AppTheme
 @Composable
 fun TextFieldError(
     textError: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
         Spacer(modifier = Modifier.width(AppTheme.dimens.contentMargin))
         Text(
             text = textError,
             modifier = Modifier.fillMaxWidth(),
-            style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+            style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error),
         )
     }
 }

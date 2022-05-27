@@ -26,7 +26,7 @@ class CreateTaskInteractor @Inject constructor(
             params.name,
             params.date,
             params.reminderEnabled,
-            params.reminderTime
+            params.reminderTime,
         )
 
         if (params.reminderEnabled && params.reminderTime != null) {

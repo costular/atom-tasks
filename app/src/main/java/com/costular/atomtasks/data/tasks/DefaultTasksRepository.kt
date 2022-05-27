@@ -3,10 +3,10 @@ package com.costular.atomtasks.data.tasks
 import com.costular.atomtasks.data.toDomain
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.domain.repository.TasksRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DefaultTasksRepository(
     private val localDataSource: TaskLocalDataSource,
@@ -33,7 +33,7 @@ class DefaultTasksRepository(
                 requireNotNull(reminderTime),
                 date,
                 reminderEnabled,
-                taskId
+                taskId,
             )
             localDataSource.createReminderForTask(reminder)
         }

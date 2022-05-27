@@ -56,6 +56,6 @@ fun AtomOutlinedTextField(
         maxLines = maxLines,
         interactionSource = interactionSource,
         shape = shape,
-        colors = colors
+        colors = colors,
     )
 }

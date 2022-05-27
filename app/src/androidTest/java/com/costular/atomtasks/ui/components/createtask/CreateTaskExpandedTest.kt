@@ -22,8 +22,8 @@ class CreateTaskExpandedTest : AndroidTest() {
 
         givenCreateTaskExpanded(
             state = CreateTaskExpandedState(
-                name = taskName
-            )
+                name = taskName,
+            ),
         )
 
         createTaskExpanded {
@@ -37,8 +37,8 @@ class CreateTaskExpandedTest : AndroidTest() {
 
         givenCreateTaskExpanded(
             state = CreateTaskExpandedState(
-                name = taskName
-            )
+                name = taskName,
+            ),
         )
 
         createTaskExpanded {
@@ -52,8 +52,8 @@ class CreateTaskExpandedTest : AndroidTest() {
 
         givenCreateTaskExpanded(
             state = CreateTaskExpandedState(
-                date = date
-            )
+                date = date,
+            ),
         )
 
         createTaskExpanded {
@@ -67,8 +67,8 @@ class CreateTaskExpandedTest : AndroidTest() {
 
         givenCreateTaskExpanded(
             state = CreateTaskExpandedState(
-                reminder = reminder
-            )
+                reminder = reminder,
+            ),
         )
 
         createTaskExpanded {
@@ -81,7 +81,7 @@ class CreateTaskExpandedTest : AndroidTest() {
         givenCreateTaskExpanded(
             state = CreateTaskExpandedState(
                 name = "whatever",
-            )
+            ),
         )
 
         createTaskExpanded {

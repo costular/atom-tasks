@@ -8,8 +8,8 @@ import com.costular.atomtasks.ui.base.getString
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
 import java.time.LocalDate
+import org.junit.Test
 
 @HiltAndroidTest
 class AgendaTest : AndroidTest() {

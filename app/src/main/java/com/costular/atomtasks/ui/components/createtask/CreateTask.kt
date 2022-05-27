@@ -35,7 +35,7 @@ fun CreateTask(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(AppTheme.dimens.contentMargin)
+                .padding(AppTheme.dimens.contentMargin),
         ) {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(

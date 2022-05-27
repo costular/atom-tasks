@@ -26,13 +26,13 @@ private val LightColorPalette = lightColors(
     secondary = Yellow500,
     onPrimary = OnTeal500,
     onSecondary = OnYellow500,
-    surface = LightSurface
+    surface = LightSurface,
 )
 
 @Composable
 fun ProvideDimens(
     dimensions: Dimensions,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val dimensionSet = remember { dimensions }
     CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
@@ -45,7 +45,7 @@ private val LocalAppDimens = staticCompositionLocalOf {
 @Composable
 fun AtomRemindersTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
@@ -64,7 +64,7 @@ fun AtomRemindersTheme(
             colors = colors,
             typography = Typography,
             shapes = Shapes,
-            content = content
+            content = content,
         )
     }
 }

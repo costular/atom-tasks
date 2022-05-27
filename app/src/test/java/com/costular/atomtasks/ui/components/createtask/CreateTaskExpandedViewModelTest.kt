@@ -3,11 +3,11 @@ package com.costular.atomtasks.ui.components.createtask
 import app.cash.turbine.test
 import com.costular.atomtasks.MviViewModelTest
 import com.google.common.truth.Truth.assertThat
-import org.junit.Before
-import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
+import org.junit.Before
+import org.junit.Test
 
 @ExperimentalTime
 class CreateTaskExpandedViewModelTest : MviViewModelTest() {

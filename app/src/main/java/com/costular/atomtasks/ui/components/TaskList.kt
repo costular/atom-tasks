@@ -35,7 +35,7 @@ fun TaskList(
             modifier = modifier,
             state = listState,
             contentPadding = padding,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(tasks) { task ->
                 TaskCard(
@@ -43,7 +43,7 @@ fun TaskList(
                     onMark = { onMarkTask(task.id, !task.isDone) },
                     onOpen = { onClick(task) },
                     reminder = task.reminder,
-                    isFinished = task.isDone
+                    isFinished = task.isDone,
                 )
             }
         }

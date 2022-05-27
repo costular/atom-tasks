@@ -1,9 +1,9 @@
 package com.costular.atomtasks.domain.repository
 
 import com.costular.atomtasks.domain.model.Task
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.Flow
 
 interface TasksRepository {
 
@@ -11,7 +11,7 @@ interface TasksRepository {
         name: String,
         date: LocalDate,
         reminderEnabled: Boolean,
-        reminderTime: LocalTime?
+        reminderTime: LocalTime?,
     ): Long
 
     fun getTaskById(id: Long): Flow<Task>

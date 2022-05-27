@@ -8,8 +8,6 @@ import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
@@ -18,7 +16,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
-    private val notifManager: NotifManager
+    private val notifManager: NotifManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -33,8 +31,8 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
             updateTaskIsDoneInteractor.executeSync(
                 UpdateTaskIsDoneInteractor.Params(
                     taskId,
-                    true
-                )
+                    true,
+                ),
             )
 
             Result.success()
