@@ -12,7 +12,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.5.31-1.0.0"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
     id("shot")
 }
@@ -221,19 +220,6 @@ detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
     config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-}
-
-ktlint {
-    version.set("0.45.1")
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    enableExperimentalRules.set(true)
-    filter {
-        exclude("**/generated/**")
-        exclude("**.gradle.kts")
-        include("**/kotlin/**")
-    }
 }
 
 tasks.withType<Detekt>().configureEach {
