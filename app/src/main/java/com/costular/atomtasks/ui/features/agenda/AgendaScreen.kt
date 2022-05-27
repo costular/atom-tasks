@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.components.HorizontalCalendar

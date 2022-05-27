@@ -3,12 +3,12 @@ package com.costular.atomtasks.domain.interactor
 import com.costular.atomtasks.domain.repository.TasksRepository
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.time.LocalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalTime
 
 @ExperimentalCoroutinesApi
 class UpdateTaskReminderInteractorTest {

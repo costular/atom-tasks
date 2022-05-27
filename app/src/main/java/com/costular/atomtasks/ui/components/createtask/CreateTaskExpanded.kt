@@ -48,9 +48,9 @@ import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
-import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.collect
 
 @Suppress("MagicNumber")
 @Composable

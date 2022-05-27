@@ -10,12 +10,12 @@ import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
-import org.junit.Before
-import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.flow.flow
+import org.junit.Before
+import org.junit.Test
 
 @ExperimentalTime
 class CreateTaskViewModelTest : MviViewModelTest() {

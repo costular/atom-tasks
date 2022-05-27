@@ -8,11 +8,11 @@ import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.costular.atomtasks.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(

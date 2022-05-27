@@ -3,10 +3,10 @@ package com.costular.atomtasks.domain.interactor
 import com.costular.atomtasks.domain.SubjectInteractor
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.domain.repository.TasksRepository
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 
 @Singleton
 class GetTasksInteractor @Inject constructor(
