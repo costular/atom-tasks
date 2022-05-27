@@ -213,7 +213,7 @@ tasks.withType<KotlinCompile> {
             "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
             "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
             "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
-            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
         )
 }
 
@@ -221,6 +221,19 @@ detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
     config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+}
+
+ktlint {
+    version.set("0.45.1")
+    android.set(true)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    enableExperimentalRules.set(true)
+    filter {
+        exclude("**/generated/**")
+        exclude("**.gradle.kts")
+        include("**/kotlin/**")
+    }
 }
 
 tasks.withType<Detekt>().configureEach {
