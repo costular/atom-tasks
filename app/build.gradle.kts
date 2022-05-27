@@ -243,19 +243,6 @@ detekt {
         files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }
 
-ktlint {
-    version.set("0.45.1")
-    android.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    enableExperimentalRules.set(true)
-    filter {
-        exclude("**/generated/**")
-        exclude("**.gradle.kts")
-        include("**/kotlin/**")
-    }
-}
-
 tasks.withType<Detekt>().configureEach {
     reports {
         html.required.set(true) // observe findings in your browser with structure and code snippets
