@@ -2,4 +2,4 @@ package com.costular.atomtasks.screenshots
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 @Retention
-annotation class SnapshotTest
+annotation class ScreenshotTest
