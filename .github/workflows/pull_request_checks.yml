@@ -79,6 +79,7 @@ jobs:
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          target: default
           api-level: 29
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
@@ -91,13 +92,12 @@ jobs:
         with:
           api-level: 29
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          sdcard-path-or-size: 100M
           script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.costular.atomtasks.screenshots.ScreenshotTest
 
       - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          target: google_apis
+          target: default
           api-level: 29
           profile: Nexus 6
           arch: arm64-v8a
