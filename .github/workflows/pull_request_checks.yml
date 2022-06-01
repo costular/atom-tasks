@@ -83,6 +83,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
+          sdcard-path-or-size: 100M
           script: echo "Generated AVD snapshot for caching."
 
       - name: 🤖 UI tests
@@ -90,6 +91,7 @@ jobs:
         with:
           api-level: 29
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          sdcard-path-or-size: 100M
           script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.costular.atomtasks.screenshots.ScreenshotTest
 
       - name: 📸 Snapshot tests
@@ -101,4 +103,5 @@ jobs:
           arch: arm64-v8a
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           force-avd-creation: false
+          sdcard-path-or-size: 100M
           script: ./verify_screenshots.sh
