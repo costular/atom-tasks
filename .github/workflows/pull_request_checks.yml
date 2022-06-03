@@ -66,42 +66,22 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-29
-
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
+      - name: 📸 Snapshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          target: default
           api-level: 29
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
+          profile: pixel_4a
+          arch: arm64-v8a
+          channel: beta
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
           sdcard-path-or-size: 100M
-          script: echo "Generated AVD snapshot for caching."
+          script: ./verify_screenshots.sh
 
       - name: 🤖 UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
           script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.costular.atomtasks.screenshots.ScreenshotTest
-
-      - name: 📸 Snapshot tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          target: default
-          api-level: 29
-          profile: Nexus 6
-          arch: arm64-v8a
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          force-avd-creation: false
-          sdcard-path-or-size: 100M
-          script: ./verify_screenshots.sh
