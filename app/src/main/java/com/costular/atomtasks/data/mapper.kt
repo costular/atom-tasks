@@ -22,3 +22,11 @@ fun ReminderEntity.toDomain(): Reminder = Reminder(
     isEnabled,
     date,
 )
+
+fun Task.toTaskEntity(): TaskEntity = TaskEntity(
+    id = id,
+    createdAt = createdAt,
+    name = name,
+    day = day,
+    isDone = isDone,
+)
