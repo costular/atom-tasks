@@ -1,6 +1,10 @@
 package com.costular.atomtasks.ui.base
 
+import androidx.compose.foundation.background
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -28,8 +32,11 @@ abstract class SnapshotTest : ScreenshotTest {
         composeTestRule.setContent {
             AtomRemindersTheme(
                 darkTheme = themeMode == ThemeMode.DARK,
-                content = content,
-            )
+            ) {
+                Surface(color = MaterialTheme.colors.background) {
+                    content()
+                }
+            }
         }
 
         val name = "${testNameRule.methodName}_${themeMode.name.lowercase()}"
