@@ -46,7 +46,11 @@ class DefaultTasksLocalDataSource(
         reminderDao.updateReminder(taskId, time)
     }
 
-    override suspend fun updateTask(task: TaskEntity) {
-        reminderDao.update(task)
+    override suspend fun removeReminder(taskId: Long) {
+        reminderDao.removeReminder(taskId)
+    }
+
+    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
+        tasksDao.updateTask(taskId, day, name)
     }
 }

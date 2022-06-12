@@ -14,5 +14,6 @@ interface TaskLocalDataSource {
     suspend fun removeTask(taskId: Long)
     suspend fun markTask(taskId: Long, isDone: Boolean)
     suspend fun updateTaskReminder(taskId: Long, time: LocalTime)
-    suspend fun updateTask(task: TaskEntity)
+    suspend fun removeReminder(taskId: Long)
+    suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
 }

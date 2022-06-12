@@ -20,5 +20,5 @@ abstract class ReminderDao {
     abstract suspend fun removeReminder(taskId: Long)
 
     @Update
-    abstract suspend fun update(task: TaskEntity)
+    abstract suspend fun update(reminderEntity: ReminderEntity)
 }

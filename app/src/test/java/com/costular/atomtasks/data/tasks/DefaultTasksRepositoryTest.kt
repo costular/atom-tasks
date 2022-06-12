@@ -126,24 +126,8 @@ class DefaultTasksRepositoryTest {
         val taskDay = LocalDate.of(2022, 6, 4)
         val taskIsDone = true
 
-        val actual = Task(
-            id = taskId,
-            name = taskName,
-            createdAt = taskCreatedAt,
-            day = taskDay,
-            reminder = null,
-            isDone = taskIsDone,
-        )
-        val expected = TaskEntity(
-            id = taskId,
-            createdAt = taskCreatedAt,
-            name = taskName,
-            day = taskDay,
-            isDone = taskIsDone,
-        )
+        sut.updateTask(taskId, taskDay, taskName)
 
-        sut.updateTask(actual)
-
-        coVerify { localDataSource.updateTask(expected) }
+        coVerify { localDataSource.updateTask(taskId, taskDay, taskName) }
     }
 }

@@ -1,7 +1,6 @@
 package com.costular.atomtasks.data.tasks
 
 import com.costular.atomtasks.data.toDomain
-import com.costular.atomtasks.data.toTaskEntity
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.domain.repository.TasksRepository
 import java.time.LocalDate
@@ -65,7 +64,11 @@ class DefaultTasksRepository(
         localDataSource.updateTaskReminder(taskId, reminderTime)
     }
 
-    override suspend fun updateTask(task: Task) {
-        localDataSource.updateTask(task.toTaskEntity())
+    override suspend fun removeReminder(taskId: Long) {
+        localDataSource.removeReminder(taskId)
+    }
+
+    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
+        localDataSource.updateTask(taskId, day, name)
     }
 }
