@@ -48,7 +48,7 @@ class TaskDatabaseTest {
     }
 
     @Test
-    fun testAddTask() = testCoroutine.runBlockingTest {
+    fun shouldAddTask() = testCoroutine.runBlockingTest {
         // Given
         val task = TaskEntity(
             0L,
