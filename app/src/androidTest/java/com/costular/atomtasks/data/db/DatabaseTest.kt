@@ -9,7 +9,6 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.db.AtomRemindersDatabase
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import java.io.IOException
 import java.time.LocalDate
@@ -70,16 +69,16 @@ class DatabaseTest {
     @Test
     fun shouldUpdateTaskEntity() = testCoroutine.runBlockingTest {
         val taskEntity = fixtureTask(name = "whatever")
-
         val taskId = tasksDao.addTask(taskEntity)
 
         val newName = "Edited task's name"
-        val newTask = taskEntity.copy(id = taskId, name = newName)
+        val newDate = LocalDate.of(2022, 6, 13)
 
-        tasksDao.updateTask(newTask)
+        tasksDao.updateTask(taskId, newDate, newName)
         val actual = tasksDao.getTaskById(taskId).take(1).toList().first()
 
         assertThat(actual.task.name).isEqualTo(newName)
+        assertThat(actual.task.day).isEqualTo(newDate)
     }
 
     @Test
