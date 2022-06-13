@@ -122,9 +122,7 @@ class DefaultTasksRepositoryTest {
     fun `should call local data source update task when update task`() = runBlockingTest {
         val taskId = 10L
         val taskName = "Task name"
-        val taskCreatedAt = LocalDate.now()
         val taskDay = LocalDate.of(2022, 6, 4)
-        val taskIsDone = true
 
         sut.updateTask(taskId, taskDay, taskName)
 
