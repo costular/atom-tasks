@@ -36,7 +36,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             notifManager.removeTaskNotification(taskId)
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.observe().first()
+            val task = getTaskByIdInteractor.flow.first()
 
             if (task.reminder == null || (!task.reminder.isEnabled)) {
                 throw IllegalStateException("Task has no active reminder")

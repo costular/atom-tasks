@@ -50,7 +50,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose tasks when load succeed`() = testBlocking {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.observe() } returns flowOf(expected)
+        coEvery { getTasksInteractor.flow } returns flowOf(expected)
 
         sut.loadTasks()
 
@@ -82,7 +82,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should load task accordingly when mark task as done`() = testBlocking {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.observe() } returns flowOf(expected)
+        coEvery { getTasksInteractor.flow } returns flowOf(expected)
 
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
@@ -101,7 +101,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         testBlocking {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -117,7 +117,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         testBlocking {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -135,7 +135,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             val expected = emptyList<Task>()
             val taskId = DEFAULT_TASKS.first().id
             coEvery {
-                getTasksInteractor.observe()
+                getTasksInteractor.flow
             } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
 
             sut.loadTasks()

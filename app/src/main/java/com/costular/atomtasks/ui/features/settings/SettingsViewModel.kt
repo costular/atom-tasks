@@ -23,7 +23,7 @@ class SettingsViewModel @Inject constructor(
     fun observeTheme() {
         viewModelScope.launch {
             getThemeUseCase(Unit)
-            getThemeUseCase.observe()
+            getThemeUseCase.flow
                 .collect { theme ->
                     setState { copy(theme = theme) }
                 }
