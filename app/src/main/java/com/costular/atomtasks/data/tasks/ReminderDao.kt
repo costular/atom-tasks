@@ -8,17 +8,17 @@ import androidx.room.Update
 import java.time.LocalTime
 
 @Dao
-abstract class ReminderDao {
+interface ReminderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertReminder(reminderEntity: ReminderEntity)
 
     @Query("UPDATE reminders SET time = :time WHERE task_id = :taskId")
-    abstract suspend fun updateReminder(taskId: Long, time: LocalTime)
+    suspend fun updateReminder(taskId: Long, time: LocalTime)
 
     @Query("DELETE FROM reminders WHERE task_id = :taskId")
-    abstract suspend fun removeReminder(taskId: Long)
+    suspend fun removeReminder(taskId: Long)
 
     @Update
-    abstract suspend fun update(reminderEntity: ReminderEntity)
+    suspend fun update(reminderEntity: ReminderEntity)
 }
