@@ -11,7 +11,10 @@ import java.time.LocalTime
 interface ReminderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertReminder(reminderEntity: ReminderEntity)
+    suspend fun insertReminder(reminderEntity: ReminderEntity)
+
+    @Query("SELECT EXISTS(SELECT * FROM reminders WHERE task_id = :taskId)")
+    suspend fun reminderExistForTask(taskId: Long): Boolean
 
     @Query("UPDATE reminders SET time = :time WHERE task_id = :taskId")
     suspend fun updateReminder(taskId: Long, time: LocalTime)
