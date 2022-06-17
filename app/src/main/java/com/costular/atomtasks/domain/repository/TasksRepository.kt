@@ -19,7 +19,7 @@ interface TasksRepository {
     suspend fun getTasksWithReminder(): List<Task>
     suspend fun removeTask(taskId: Long)
     suspend fun markTask(taskId: Long, isDone: Boolean)
-    suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime)
+    suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime, reminderDate: LocalDate)
     suspend fun removeReminder(taskId: Long)
     suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
 }

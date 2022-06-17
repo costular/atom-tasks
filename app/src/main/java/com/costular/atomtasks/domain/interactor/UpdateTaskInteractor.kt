@@ -31,7 +31,7 @@ class UpdateTaskInteractor @Inject constructor(
             )
 
             if (reminderEnabled && reminderTime != null) {
-                tasksRepository.updateTaskReminder(taskId, reminderTime)
+                tasksRepository.updateTaskReminder(taskId, reminderTime, date)
                 reminderManager.set(taskId, reminderTime.atDate(date))
             } else {
                 tasksRepository.removeReminder(taskId)

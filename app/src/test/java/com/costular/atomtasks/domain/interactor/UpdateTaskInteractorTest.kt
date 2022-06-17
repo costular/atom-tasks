@@ -58,7 +58,7 @@ class UpdateTaskInteractorTest {
             ),
         )
 
-        coVerify { repository.updateTaskReminder(taskId, reminder) }
+        coVerify { repository.updateTaskReminder(taskId, reminder, newDay) }
     }
 
     @Test

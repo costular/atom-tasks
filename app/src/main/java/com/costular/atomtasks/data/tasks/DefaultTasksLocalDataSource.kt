@@ -13,8 +13,20 @@ class DefaultTasksLocalDataSource(
         return tasksDao.addTask(taskEntity)
     }
 
-    override suspend fun createReminderForTask(reminderEntity: ReminderEntity) {
-        reminderDao.insertReminder(reminderEntity)
+    override suspend fun createReminderForTask(
+        time: LocalTime,
+        date: LocalDate,
+        reminderEnabled: Boolean,
+        taskId: Long,
+    ) {
+        val reminder = ReminderEntity(
+            reminderId = 0L,
+            time = time,
+            date = date,
+            isEnabled = reminderEnabled,
+            taskId = taskId,
+        )
+        reminderDao.insertReminder(reminder)
     }
 
     override fun getTasks(day: LocalDate?): Flow<List<TaskAggregated>> {
@@ -42,8 +54,12 @@ class DefaultTasksLocalDataSource(
         tasksDao.updateTaskDone(taskId, isDone)
     }
 
-    override suspend fun updateTaskReminder(taskId: Long, time: LocalTime) {
-        reminderDao.updateReminder(taskId, time)
+    override suspend fun updateTaskReminder(taskId: Long, time: LocalTime, date: LocalDate) {
+        if (reminderDao.reminderExistForTask(taskId)) {
+            reminderDao.updateReminder(taskId, time)
+        } else {
+            createReminderForTask(time, date, true, taskId)
+        }
     }
 
     override suspend fun removeReminder(taskId: Long) {

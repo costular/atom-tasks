@@ -52,19 +52,23 @@ class DefaultTasksRepositoryTest {
             val taskName = "task name"
             val taskDate = LocalDate.of(2022, 6, 4)
             val taskReminderTime = LocalTime.of(9, 0)
+            val reminderEnabled = true
 
-            val reminderSlot = slot<ReminderEntity>()
-
-            sut.createTask(
+            val taskId = sut.createTask(
                 name = taskName,
                 date = taskDate,
-                reminderEnabled = true,
+                reminderEnabled = reminderEnabled,
                 reminderTime = taskReminderTime,
             )
 
-            coVerify { localDataSource.createReminderForTask(capture(reminderSlot)) }
-            assertThat(reminderSlot.captured.date).isEqualTo(taskDate)
-            assertThat(reminderSlot.captured.time).isEqualTo(taskReminderTime)
+            coVerify {
+                localDataSource.createReminderForTask(
+                    taskReminderTime,
+                    taskDate,
+                    reminderEnabled,
+                    taskId
+                )
+            }
         }
 
     @Test

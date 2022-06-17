@@ -48,6 +48,7 @@ class PostponeTaskWorker @AssistedInject constructor(
                 UpdateTaskReminderInteractor.Params(
                     taskId,
                     reminderTime,
+                    LocalDate.now(),
                 ),
             )
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
