@@ -66,7 +66,7 @@ class DefaultTasksRepositoryTest {
                     taskReminderTime,
                     taskDate,
                     reminderEnabled,
-                    taskId
+                    taskId,
                 )
             }
         }
