@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.domain.manager.ErrorLogger
 import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -17,6 +18,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val notifManager: NotifManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -37,7 +39,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }
