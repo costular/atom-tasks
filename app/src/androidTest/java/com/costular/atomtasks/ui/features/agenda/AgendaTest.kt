@@ -171,6 +171,7 @@ class AgendaTest : AndroidTest() {
                 deleteTask = {},
                 onCreateTask = {},
                 openTaskAction = {},
+                onEditAction = {},
             )
         }
     }
