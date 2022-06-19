@@ -31,6 +31,7 @@ import com.costular.atomtasks.ui.components.createtask.CreateTask
 import com.costular.atomtasks.ui.dialogs.RemoveTaskDialog
 import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
+import com.costular.atomtasks.ui.features.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
@@ -57,11 +58,13 @@ fun AgendaScreen(
         deleteTask = viewModel::deleteTask,
         dismissDelete = viewModel::dismissDelete,
         onCreateTask = {
-            navigator.navigate(
-                CreateTaskScreenDestination(date = state.selectedDay.toString()),
-            )
+            navigator.navigate(CreateTaskScreenDestination(date = state.selectedDay.toString()))
         },
         openTaskAction = viewModel::openTaskAction,
+        onEditAction = { taskId ->
+            viewModel.dismissTaskAction()
+            navigator.navigate(EditTaskScreenDestination(taskId = taskId))
+        },
     )
 }
 
@@ -77,6 +80,7 @@ internal fun AgendaScreen(
     dismissDelete: () -> Unit,
     onCreateTask: () -> Unit,
     openTaskAction: (Task) -> Unit,
+    onEditAction: (id: Long) -> Unit,
 ) {
     if (state.taskAction != null) {
         TaskActionDialog(
@@ -93,6 +97,9 @@ internal fun AgendaScreen(
             },
             onUndone = {
                 onMarkTask(requireNotNull(state.taskAction).id, false)
+            },
+            onEdit = {
+                onEditAction(requireNotNull(state.taskAction).id)
             },
         )
     }
