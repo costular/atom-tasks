@@ -16,15 +16,15 @@ interface TasksDao {
 
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    abstract fun observeAllTasks(): Flow<List<TaskAggregated>>
+    fun observeAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    abstract fun getAllTasks(): List<TaskAggregated>
+    fun getAllTasks(): List<TaskAggregated>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE date = :date ORDER BY is_done ASC")
-    abstract fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
+    fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
