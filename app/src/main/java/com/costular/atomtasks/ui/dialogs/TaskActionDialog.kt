@@ -85,7 +85,7 @@ fun TaskActionDialog(
                     icon = Icons.Outlined.Edit,
                     text = stringResource(R.string.agenda_edit_task),
                     onClick = onEdit,
-                    modifier = Modifier.testTag("TaskActionEdit")
+                    modifier = Modifier.testTag("TaskActionEdit"),
                 )
 
                 ActionItem(
