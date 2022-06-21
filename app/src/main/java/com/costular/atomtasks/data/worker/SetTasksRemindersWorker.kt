@@ -5,10 +5,10 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTasksWithReminderInteractor
+import com.costular.atomtasks.domain.manager.ErrorLogger
 import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -17,6 +17,7 @@ class SetTasksRemindersWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getTasksWithReminderInteractor: GetTasksWithReminderInteractor,
     private val reminderManager: ReminderManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result =
@@ -29,7 +30,7 @@ class SetTasksRemindersWorker @AssistedInject constructor(
             }
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
 }

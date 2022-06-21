@@ -14,15 +14,17 @@ interface TasksDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTask(taskEntity: TaskEntity): Long
 
-    @Query("SELECT * FROM tasks")
-    fun observeAllTasks(): Flow<List<TaskAggregated>>
-
-    @Query("SELECT * FROM tasks")
-    fun getAllTasks(): List<TaskAggregated>
+    @Transaction
+    @Query("SELECT * FROM tasks ORDER BY is_done ASC")
+    abstract fun observeAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
-    @Query("SELECT * FROM tasks WHERE date = :date")
-    fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
+    @Query("SELECT * FROM tasks ORDER BY is_done ASC")
+    abstract fun getAllTasks(): List<TaskAggregated>
+
+    @Transaction
+    @Query("SELECT * FROM tasks WHERE date = :date ORDER BY is_done ASC")
+    abstract fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
