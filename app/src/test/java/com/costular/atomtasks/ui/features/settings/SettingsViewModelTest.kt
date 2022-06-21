@@ -37,7 +37,7 @@ class SettingsViewModelTest : MviViewModelTest() {
     fun `should expose light theme in state when land on screen given light theme is set`() =
         testBlocking {
             val theme = Theme.Light
-            coEvery { getThemeUseCase.observe() } returns flowOf(theme)
+            coEvery { getThemeUseCase.flow } returns flowOf(theme)
 
             initialize()
 
@@ -50,7 +50,7 @@ class SettingsViewModelTest : MviViewModelTest() {
     fun `should expose dark theme in state when land on screen given dark theme is set`() =
         testBlocking {
             val theme = Theme.Dark
-            coEvery { getThemeUseCase.observe() } returns flowOf(theme)
+            coEvery { getThemeUseCase.flow } returns flowOf(theme)
 
             initialize()
 

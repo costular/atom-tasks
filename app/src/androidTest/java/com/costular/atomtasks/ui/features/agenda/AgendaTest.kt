@@ -60,6 +60,7 @@ class AgendaTest : AndroidTest() {
             createdAt = LocalDate.now(),
             reminder = null,
             isDone = true,
+            day = LocalDate.now(),
         )
 
         givenAgenda(
@@ -82,11 +83,12 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                1L,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
+                id = 1L,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
             ),
         )
 
@@ -108,11 +110,12 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                1L,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
+                id = 1L,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
             ),
         )
 
@@ -135,11 +138,12 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                id,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
+                id = id,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
             ),
         )
 
@@ -167,6 +171,7 @@ class AgendaTest : AndroidTest() {
                 deleteTask = {},
                 onCreateTask = {},
                 openTaskAction = {},
+                onEditAction = {},
             )
         }
     }

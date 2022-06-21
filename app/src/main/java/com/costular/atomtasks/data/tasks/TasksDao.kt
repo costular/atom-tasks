@@ -9,30 +9,33 @@ import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class TasksDao {
+interface TasksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun addTask(taskEntity: TaskEntity): Long
+    suspend fun addTask(taskEntity: TaskEntity): Long
 
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    abstract fun observeAllTasks(): Flow<List<TaskAggregated>>
+    fun observeAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    abstract fun getAllTasks(): List<TaskAggregated>
+    fun getAllTasks(): List<TaskAggregated>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE date = :date ORDER BY is_done ASC")
-    abstract fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
+    fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
-    abstract fun getTaskById(id: Long): Flow<TaskAggregated>
+    fun getTaskById(id: Long): Flow<TaskAggregated>
 
     @Query("DELETE FROM tasks WHERE id = :id")
-    abstract suspend fun removeTaskById(id: Long)
+    suspend fun removeTaskById(id: Long)
 
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
-    abstract suspend fun updateTaskDone(id: Long, isDone: Boolean)
+    suspend fun updateTaskDone(id: Long, isDone: Boolean)
+
+    @Query("UPDATE tasks SET name = :name, date = :day where id = :taskId")
+    suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
 }

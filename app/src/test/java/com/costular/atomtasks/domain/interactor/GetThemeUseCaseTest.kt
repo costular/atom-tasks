@@ -34,7 +34,7 @@ class GetThemeUseCaseTest {
             every { repository.observeTheme() } returns flowOf(theme)
 
             sut.invoke(Unit)
-            sut.observe().test {
+            sut.flow.test {
                 Truth.assertThat(awaitItem()).isEqualTo(theme)
                 cancelAndIgnoreRemainingEvents()
             }
@@ -47,7 +47,7 @@ class GetThemeUseCaseTest {
             every { repository.observeTheme() } returns flowOf(theme)
 
             sut.invoke(Unit)
-            sut.observe().test {
+            sut.flow.test {
                 Truth.assertThat(awaitItem()).isEqualTo(theme)
                 cancelAndIgnoreRemainingEvents()
             }
@@ -60,7 +60,7 @@ class GetThemeUseCaseTest {
             every { repository.observeTheme() } returns flowOf(theme)
 
             sut.invoke(Unit)
-            sut.observe().test {
+            sut.flow.test {
                 Truth.assertThat(awaitItem()).isEqualTo(theme)
                 cancelAndIgnoreRemainingEvents()
             }

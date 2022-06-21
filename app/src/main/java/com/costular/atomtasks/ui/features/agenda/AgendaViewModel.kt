@@ -33,7 +33,7 @@ class AgendaViewModel @Inject constructor(
 
     fun loadTasks() = viewModelScope.launch {
         getTasksInteractor(GetTasksInteractor.Params(day = state.value.selectedDay))
-        getTasksInteractor.observe()
+        getTasksInteractor.flow
             .onStart { setState { copy(tasks = Async.Loading) } }
             .catch { setState { copy(tasks = Async.Failure(it)) } }
             .collect { setState { copy(tasks = Async.Success(it)) } }

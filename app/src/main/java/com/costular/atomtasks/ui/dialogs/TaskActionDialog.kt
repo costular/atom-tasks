@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -31,6 +32,7 @@ fun TaskActionDialog(
     onDelete: () -> Unit,
     onDone: () -> Unit,
     onUndone: () -> Unit,
+    onEdit: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -78,6 +80,13 @@ fun TaskActionDialog(
                         modifier = Modifier.testTag("TaskActionUndone"),
                     )
                 }
+
+                ActionItem(
+                    icon = Icons.Outlined.Edit,
+                    text = stringResource(R.string.agenda_edit_task),
+                    onClick = onEdit,
+                    modifier = Modifier.testTag("TaskActionEdit"),
+                )
 
                 ActionItem(
                     icon = Icons.Outlined.Delete,

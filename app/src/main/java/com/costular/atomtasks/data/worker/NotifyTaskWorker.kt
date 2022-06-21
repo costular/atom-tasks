@@ -30,7 +30,7 @@ class NotifyTaskWorker @AssistedInject constructor(
             }
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.observe().first()
+            val task = getTaskByIdInteractor.flow.first()
 
             if (task.reminder == null) {
                 throw IllegalStateException("Reminder is null")
