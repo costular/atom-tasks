@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskReminderInteractor
+import com.costular.atomtasks.domain.manager.ErrorLogger
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
@@ -13,7 +14,6 @@ import dagger.assisted.AssistedInject
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -24,6 +24,7 @@ class PostponeTaskWorker @AssistedInject constructor(
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val notifManager: NotifManager,
     private val reminderManager: ReminderManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -53,7 +54,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }
