@@ -58,7 +58,7 @@ fun AgendaScreen(
         dismissDelete = viewModel::dismissDelete,
         onCreateTask = {
             navigator.navigate(
-                CreateTaskScreenDestination(date = state.selectedDay.toString()),
+                CreateTaskScreenDestination(date = state.selectedDay.toString(), text = null),
             )
         },
         openTaskAction = viewModel::openTaskAction,
