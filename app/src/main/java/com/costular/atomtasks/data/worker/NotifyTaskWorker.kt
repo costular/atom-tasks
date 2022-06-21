@@ -10,7 +10,6 @@ import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker

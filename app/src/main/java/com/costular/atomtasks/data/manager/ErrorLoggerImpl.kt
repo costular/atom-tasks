@@ -8,5 +8,4 @@ class ErrorLoggerImpl : ErrorLogger {
     override suspend fun logError(exception: Exception) {
         FirebaseCrashlytics.getInstance().recordException(exception)
     }
-
 }

@@ -14,7 +14,6 @@ import dagger.assisted.AssistedInject
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
