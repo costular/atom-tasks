@@ -32,6 +32,7 @@ class TaskListSnapshotTest : SnapshotTest() {
                         0L,
                         "Task 1",
                         LocalDate.now(),
+                        LocalDate.now(),
                         null,
                         true,
                     ),
@@ -39,6 +40,7 @@ class TaskListSnapshotTest : SnapshotTest() {
                         id = 0L,
                         name = "Task 2",
                         createdAt = LocalDate.now(),
+                        day = LocalDate.now(),
                         reminder = Reminder(
                             id = 1L,
                             time = LocalTime.of(9, 0),
@@ -51,6 +53,7 @@ class TaskListSnapshotTest : SnapshotTest() {
                         id = 0L,
                         name = "Task 3",
                         createdAt = LocalDate.now(),
+                        day = LocalDate.now(),
                         reminder = null,
                         isDone = false,
                     ),
