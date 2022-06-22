@@ -3,17 +3,17 @@ package com.costular.atomtasks.screenshots.components
 import androidx.compose.material.Text
 import com.costular.atomtasks.screenshots.ScreenshotTest
 import com.costular.atomtasks.ui.base.SnapshotTest
-import com.costular.atomtasks.ui.components.PrimaryButton
+import com.costular.atomtasks.ui.components.Chip
 import org.junit.Test
 
 @ScreenshotTest
-class PrimaryButtonSnapshotTest : SnapshotTest() {
+class ChipSnapshotTest : SnapshotTest() {
 
     @Test
-    fun primaryButton() {
+    fun chipText() {
         runScreenshotTest {
-            PrimaryButton(onClick = {}) {
-                Text("Test me!")
+            Chip(onClick = {}) {
+                Text("Chip test")
             }
         }
     }
