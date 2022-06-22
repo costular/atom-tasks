@@ -12,6 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
       - name: Ktlint 💅
         run: ./gradlew ktlintCheck
 
@@ -21,6 +24,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Detekt ♻️
         run: ./gradlew detekt
@@ -38,6 +44,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Decode google-services.json
         env:
@@ -58,6 +67,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -113,6 +125,9 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
       - name: Decode google-services.json
         env:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -155,6 +170,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Download artifact
         uses: actions/download-artifact@master
