@@ -17,7 +17,7 @@ fun DestinationsScaffold(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     bottomBar: @Composable () -> Unit,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     navController.navigatorProvider += bottomSheetNavigator
@@ -25,12 +25,12 @@ fun DestinationsScaffold(
     ModalBottomSheetLayout(
         sheetBackgroundColor = MaterialTheme.colors.background,
         bottomSheetNavigator = bottomSheetNavigator,
-        sheetShape = RoundedCornerShape(16.dp)
+        sheetShape = RoundedCornerShape(16.dp),
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
             bottomBar = bottomBar,
-            content = content
+            content = content,
         )
     }
 }

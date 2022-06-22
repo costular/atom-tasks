@@ -3,10 +3,10 @@ package com.costular.atomtasks.data.tasks
 import com.costular.atomtasks.data.toDomain
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.domain.repository.TasksRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DefaultTasksRepository(
     private val localDataSource: TaskLocalDataSource,
@@ -28,14 +28,12 @@ class DefaultTasksRepository(
         val taskId = localDataSource.createTask(taskEntity)
 
         if (reminderEnabled) {
-            val reminder = ReminderEntity(
-                0L,
+            localDataSource.createReminderForTask(
                 requireNotNull(reminderTime),
                 date,
                 reminderEnabled,
-                taskId
+                taskId,
             )
-            localDataSource.createReminderForTask(reminder)
         }
         return taskId
     }
@@ -60,7 +58,19 @@ class DefaultTasksRepository(
         localDataSource.markTask(taskId, isDone)
     }
 
-    override suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime) {
-        localDataSource.updateTaskReminder(taskId, reminderTime)
+    override suspend fun updateTaskReminder(
+        taskId: Long,
+        reminderTime: LocalTime,
+        reminderDate: LocalDate,
+    ) {
+        localDataSource.updateTaskReminder(taskId, reminderTime, reminderDate)
+    }
+
+    override suspend fun removeReminder(taskId: Long) {
+        localDataSource.removeReminder(taskId)
+    }
+
+    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
+        localDataSource.updateTask(taskId, day, name)
     }
 }

@@ -24,7 +24,7 @@ class ReminderManagerImpl(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
             localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-            buildPendingIntent(taskId)
+            buildPendingIntent(taskId),
         )
     }
 
@@ -42,6 +42,6 @@ class ReminderManagerImpl(
             Intent(context, NotifyTaskReceiver::class.java).apply {
                 putExtra("task_id", taskId)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT,
         )
 }

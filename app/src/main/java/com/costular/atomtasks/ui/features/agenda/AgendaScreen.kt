@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronLeft
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,13 +31,13 @@ import com.costular.atomtasks.ui.components.createtask.CreateTask
 import com.costular.atomtasks.ui.dialogs.RemoveTaskDialog
 import com.costular.atomtasks.ui.dialogs.TaskActionDialog
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
+import com.costular.atomtasks.ui.features.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.ui.theme.AppTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 
 @Destination(start = true)
@@ -46,36 +45,63 @@ import java.time.LocalDate
 @Suppress("LongMethod")
 fun AgendaScreen(
     navigator: DestinationsNavigator,
+    viewModel: AgendaViewModel = hiltViewModel(),
 ) {
-    val viewModel: AgendaViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
 
-    LaunchedEffect(viewModel.uiEvents) {
-        viewModel.uiEvents.collect { event ->
-            when (event) {
-                is AgendaUiEvents.CloseCreateTask -> {
-                }
-            }
-        }
-    }
+    AgendaScreen(
+        state = state,
+        onSelectDate = viewModel::setSelectedDay,
+        actionDelete = viewModel::actionDelete,
+        dismissTaskAction = viewModel::dismissTaskAction,
+        onMarkTask = viewModel::onMarkTask,
+        deleteTask = viewModel::deleteTask,
+        dismissDelete = viewModel::dismissDelete,
+        onCreateTask = {
+            navigator.navigate(
+                CreateTaskScreenDestination(date = state.selectedDay.toString(), text = null),
+            )
+        },
+        openTaskAction = viewModel::openTaskAction,
+        onEditAction = { taskId ->
+            viewModel.dismissTaskAction()
+            navigator.navigate(EditTaskScreenDestination(taskId = taskId))
+        },
+    )
+}
 
+@Suppress("LongMethod")
+@Composable
+internal fun AgendaScreen(
+    state: AgendaState,
+    onSelectDate: (LocalDate) -> Unit,
+    actionDelete: (id: Long) -> Unit,
+    dismissTaskAction: () -> Unit,
+    onMarkTask: (Long, Boolean) -> Unit,
+    deleteTask: (id: Long) -> Unit,
+    dismissDelete: () -> Unit,
+    onCreateTask: () -> Unit,
+    openTaskAction: (Task) -> Unit,
+    onEditAction: (id: Long) -> Unit,
+) {
     if (state.taskAction != null) {
         TaskActionDialog(
-            taskName = state.taskAction?.name,
-            isDone = state.taskAction?.isDone ?: false,
+            taskName = state.taskAction.name,
+            isDone = state.taskAction.isDone,
             onDelete = {
-                viewModel.actionDelete(requireNotNull(state.taskAction).id)
+                actionDelete(requireNotNull(state.taskAction).id)
             },
             onDismissRequest = {
-                viewModel.dismissTaskAction()
+                dismissTaskAction()
             },
             onDone = {
-                viewModel.dismissTaskAction()
-                viewModel.onMarkTask(requireNotNull(state.taskAction).id, true)
+                onMarkTask(requireNotNull(state.taskAction).id, true)
             },
             onUndone = {
-                viewModel.dismissTaskAction()
-                viewModel.onMarkTask(requireNotNull(state.taskAction).id, false)
+                onMarkTask(requireNotNull(state.taskAction).id, false)
+            },
+            onEdit = {
+                onEditAction(requireNotNull(state.taskAction).id)
             },
         )
     }
@@ -83,10 +109,10 @@ fun AgendaScreen(
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
         RemoveTaskDialog(
             onAccept = {
-                viewModel.deleteTask((state.deleteTaskAction as DeleteTaskAction.Shown).taskId)
+                deleteTask(state.deleteTaskAction.taskId)
             },
             onCancel = {
-                viewModel.dismissDelete()
+                dismissDelete()
             },
         )
     }
@@ -94,11 +120,7 @@ fun AgendaScreen(
     Scaffold(
         bottomBar = {
             CreateTask(
-                onClick = {
-                    navigator.navigate(
-                        CreateTaskScreenDestination(date = state.selectedDay.toString()),
-                    )
-                },
+                onClick = onCreateTask,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(AppTheme.dimens.contentMargin)
@@ -113,7 +135,7 @@ fun AgendaScreen(
         ) {
             DayHeader(
                 state = state,
-                viewModel = viewModel,
+                onSelectDate = onSelectDate,
             )
 
             HorizontalCalendar(
@@ -122,14 +144,14 @@ fun AgendaScreen(
                 modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
                 selectedDay = state.selectedDay,
                 onSelectDay = {
-                    viewModel.setSelectedDay(it)
+                    onSelectDate(it)
                 },
             )
 
             TasksContent(
                 state = state,
-                onOpenTask = viewModel::openTaskAction,
-                onMarkTask = viewModel::onMarkTask,
+                onOpenTask = openTaskAction,
+                onMarkTask = onMarkTask,
             )
         }
     }
@@ -158,7 +180,7 @@ private fun TasksContent(
 @Composable
 private fun DayHeader(
     state: AgendaState,
-    viewModel: AgendaViewModel,
+    onSelectDate: (LocalDate) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -174,7 +196,7 @@ private fun DayHeader(
                     horizontal = AppTheme.dimens.spacingLarge,
                 )
                 .clickable {
-                    viewModel.setSelectedDay(LocalDate.now())
+                    onSelectDate(LocalDate.now())
                 }
                 .testTag("AgendaTitle"),
         )
@@ -183,7 +205,7 @@ private fun DayHeader(
             enabled = state.isPreviousDaySelected,
             onClick = {
                 val newDay = state.selectedDay.minusDays(1)
-                viewModel.setSelectedDay(newDay)
+                onSelectDate(newDay)
             },
             modifier = Modifier
                 .width(40.dp)
@@ -197,7 +219,7 @@ private fun DayHeader(
             enabled = state.isNextDaySelected,
             onClick = {
                 val newDay = state.selectedDay.plusDays(1)
-                viewModel.setSelectedDay(newDay)
+                onSelectDate(newDay)
             },
             modifier = Modifier
                 .width(40.dp)

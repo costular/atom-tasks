@@ -11,9 +11,10 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
-    id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
+    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0-RC1"
+    id("shot")
+    id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
 
 android {
@@ -121,10 +122,28 @@ kapt {
     correctErrorTypes = true
 }
 
+tasks.koverHtmlReport {
+    excludes = listOf(
+        "*.R.class",
+        "*.R$*.class",
+        "*.Manifest*.*",
+        "android.*.*.*",
+        "*.BuildConfig.*",
+        "*.*Module.*",
+        "*Hilt*",
+        "*.*_MembersInjector",
+        "*.*_HiltComponents*",
+        "*.*_ComponentTreeDeps*",
+        "*.*Destination",
+        "*.*Dao*",
+        "*.*Factory*",
+        "*.*Activity*",
+    )
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Deps.fragment)
-    implementation(Deps.hilt)
     implementation(Deps.constraintLayout)
     implementation(Deps.material)
     implementation(Deps.core)
@@ -134,13 +153,15 @@ dependencies {
     implementation(Deps.coroutines)
     implementation(Deps.kotlin)
     implementation(Deps.timber)
+    implementation(Deps.hilt)
     kapt(Deps.hiltCompiler)
     kapt(Deps.hiltJetpackCompiler)
     implementation(Deps.hiltJetpackViewModel)
+    implementation(Deps.hiltWork)
+    implementation(Deps.hiltNavigationCompose)
     implementation(Deps.appInitializer)
     implementation(Deps.preferences)
     implementation(Deps.preferencesDataStore)
-    implementation(Deps.hiltWork)
     implementation(Deps.composeActivity)
     implementation(Deps.composeFoundation)
     implementation(Deps.composeRuntime)
@@ -149,8 +170,6 @@ dependencies {
     implementation(Deps.composeMaterialIcons)
     implementation(Deps.composeUi)
     implementation(Deps.composeUiTooling)
-    implementation(Deps.accompanistCoil)
-    implementation(Deps.hiltNavigationCompose)
     implementation(Deps.workManager)
     implementation(Deps.roomKtx)
     implementation(Deps.roomRuntinme)
@@ -179,7 +198,6 @@ dependencies {
     testImplementation(Deps.mockk)
     testImplementation(Deps.robolectric)
     testImplementation(Deps.composeUiTest)
-    testImplementation(Deps.composeUiManifest)
 
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
@@ -189,10 +207,12 @@ dependencies {
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.workManagerTesting)
     androidTestImplementation(Deps.composeUiTest)
-    androidTestImplementation(Deps.composeUiManifest)
     androidTestImplementation(Deps.hiltAndroidTesting)
     androidTestImplementation(Deps.mockkAndroid)
     kaptAndroidTest(Deps.hiltCompiler)
+    androidTestImplementation(Deps.testParameterInjector)
+
+    debugImplementation(Deps.composeUiManifest)
 }
 
 tasks.withType<KotlinCompile> {
@@ -211,14 +231,15 @@ tasks.withType<KotlinCompile> {
             "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
             "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
             "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
-            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
         )
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    buildUponDefaultConfig = true
+    allRules = false
+    config =
+        files("$projectDir/config/detekt/detekt.yml")
 }
 
 tasks.withType<Detekt>().configureEach {

@@ -3,7 +3,7 @@ package com.costular.atomtasks.core.net
 import kotlinx.coroutines.CoroutineDispatcher
 
 class TestDispatcherProvider(
-    private val testCoroutineDispatcher: CoroutineDispatcher
+    private val testCoroutineDispatcher: CoroutineDispatcher,
 ) : DispatcherProvider {
     override val io: CoroutineDispatcher = testCoroutineDispatcher
     override val main: CoroutineDispatcher = testCoroutineDispatcher

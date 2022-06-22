@@ -13,16 +13,16 @@ import com.costular.atomtasks.ui.features.destinations.SettingsScreenDestination
 enum class HomeNavigationDestination(
     val direction: DirectionDestination,
     val icon: ImageVector,
-    @StringRes val label: Int
+    @StringRes val label: Int,
 ) {
     Agenda(
         AgendaScreenDestination,
         Icons.Outlined.ViewAgenda,
-        R.string.home_menu_agenda
+        R.string.home_menu_agenda,
     ),
     Settings(
         SettingsScreenDestination,
         Icons.Outlined.Settings,
-        R.string.home_menu_settings
+        R.string.home_menu_settings,
     )
 }

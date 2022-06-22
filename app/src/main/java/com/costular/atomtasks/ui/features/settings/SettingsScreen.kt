@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.R
 import com.costular.atomtasks.domain.model.Theme
 import com.costular.atomtasks.ui.components.AtomTopBar

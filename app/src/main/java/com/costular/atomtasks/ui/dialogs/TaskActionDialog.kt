@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -31,6 +32,7 @@ fun TaskActionDialog(
     onDelete: () -> Unit,
     onDone: () -> Unit,
     onUndone: () -> Unit,
+    onEdit: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -40,7 +42,7 @@ fun TaskActionDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = AppTheme.dimens.contentMargin)
+                    .padding(vertical = AppTheme.dimens.contentMargin),
             ) {
                 Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
@@ -68,22 +70,29 @@ fun TaskActionDialog(
                         icon = Icons.Outlined.Done,
                         text = stringResource(R.string.agenda_mark_as_done),
                         onClick = onDone,
-                        modifier = Modifier.testTag("TaskActionDone")
+                        modifier = Modifier.testTag("TaskActionDone"),
                     )
                 } else {
                     ActionItem(
                         icon = Icons.Outlined.Close,
                         text = stringResource(R.string.agenda_mark_as_undone),
                         onClick = onUndone,
-                        modifier = Modifier.testTag("TaskActionUndone")
+                        modifier = Modifier.testTag("TaskActionUndone"),
                     )
                 }
+
+                ActionItem(
+                    icon = Icons.Outlined.Edit,
+                    text = stringResource(R.string.agenda_edit_task),
+                    onClick = onEdit,
+                    modifier = Modifier.testTag("TaskActionEdit"),
+                )
 
                 ActionItem(
                     icon = Icons.Outlined.Delete,
                     text = stringResource(R.string.agenta_delete_task),
                     onClick = onDelete,
-                    modifier = Modifier.testTag("TaskActionDelete")
+                    modifier = Modifier.testTag("TaskActionDelete"),
                 )
             }
         }

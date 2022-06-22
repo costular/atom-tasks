@@ -1,34 +1,42 @@
 package com.costular.atomtasks.ui.features.agenda
 
 import com.costular.atomtasks.R
+import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.domain.repository.TasksRepository
 import com.costular.atomtasks.ui.base.AndroidTest
 import com.costular.atomtasks.ui.base.getString
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.coEvery
-import io.mockk.coVerify
-import kotlinx.coroutines.flow.flowOf
-import org.junit.Test
+import io.mockk.mockk
+import io.mockk.verify
 import java.time.LocalDate
-import javax.inject.Inject
+import org.junit.Test
 
 @HiltAndroidTest
 class AgendaTest : AndroidTest() {
 
-    @Inject
-    lateinit var taskRepository: TasksRepository
+    private val toggleTask: (Long, Boolean) -> Unit = mockk(relaxed = true)
 
     @Test
-    fun shouldChangeSelectedDay_whenClickPrevDay() {
+    fun shouldShowYesterdayHeader_whenSelectedDayIsYesterday() {
+        givenAgenda(
+            state = AgendaState(
+                selectedDay = LocalDate.now().minusDays(1),
+            ),
+        )
+
         agenda {
-            goPrevDay()
             assertDayText(composeTestRule.getString(R.string.day_yesterday))
         }
     }
 
     @Test
-    fun shouldChangeSelectedDay_whenClickNextDay() {
+    fun shouldShowTomorrowHeader_whenSelectedDayIsTomorrow() {
+        givenAgenda(
+            state = AgendaState(
+                selectedDay = LocalDate.now().plusDays(1),
+            ),
+        )
+
         agenda {
             goNextDay()
             assertDayText(composeTestRule.getString(R.string.day_tomorrow))
@@ -36,46 +44,35 @@ class AgendaTest : AndroidTest() {
     }
 
     @Test
-    fun shouldChangeSelectedDayToToday_whenClickToday() {
+    fun shouldShowTodayHeader_whenSelectedDayIsToday() {
+        givenAgenda()
+
         agenda {
-            goNextDay()
-            goToday()
             assertDayText(composeTestRule.getString(R.string.today))
         }
     }
 
     @Test
-    fun shouldCreateATask_whenClickOnCreateNewTaskTypeAndThenSave() {
-        val taskName = "whatever"
-
-        agenda {
-            openCreateTask {
-                type(taskName)
-                assertSaveIsDisplayed()
-                save()
-            }
-        }
-
-        agenda {
-        }
-    }
-
-    @Test
     fun shouldShowTaskInList_whenLandOnScreen() {
-        val taskName = "this is a test :D"
-        val tasks = listOf(
-            Task(
-                1L,
-                taskName,
-                LocalDate.now(),
-                null,
-                true,
-            )
+        val task = Task(
+            id = 1L,
+            name = "this is a test :D",
+            createdAt = LocalDate.now(),
+            reminder = null,
+            isDone = true,
+            day = LocalDate.now(),
         )
-        coEvery { taskRepository.getTasks(LocalDate.now()) } returns flowOf(tasks)
+
+        givenAgenda(
+            state = AgendaState(
+                tasks = Async.Success(
+                    listOf(task),
+                ),
+            ),
+        )
 
         agenda {
-            taskHasText(0, taskName)
+            taskHasText(0, task.name)
         }
     }
 
@@ -86,14 +83,20 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                1L,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
-            )
+                id = 1L,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
+            ),
         )
-        coEvery { taskRepository.getTasks(LocalDate.now()) } returns flowOf(tasks)
+
+        givenAgenda(
+            state = AgendaState(
+                tasks = Async.Success(tasks),
+            ),
+        )
 
         agenda {
             taskIsDone(taskName, isDone)
@@ -107,14 +110,20 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                1L,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
-            )
+                id = 1L,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
+            ),
         )
-        coEvery { taskRepository.getTasks(LocalDate.now()) } returns flowOf(tasks)
+
+        givenAgenda(
+            state = AgendaState(
+                tasks = Async.Success(tasks),
+            ),
+        )
 
         agenda {
             taskIsDone(taskName, isDone)
@@ -129,18 +138,41 @@ class AgendaTest : AndroidTest() {
 
         val tasks = listOf(
             Task(
-                id,
-                taskName,
-                LocalDate.now(),
-                null,
-                isDone,
-            )
+                id = id,
+                name = taskName,
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = isDone,
+            ),
         )
-        coEvery { taskRepository.getTasks(LocalDate.now()) } returns flowOf(tasks)
+
+        givenAgenda(
+            state = AgendaState(
+                tasks = Async.Success(tasks),
+            ),
+        )
 
         agenda {
             toggleTask(taskName)
-            coVerify { taskRepository.markTask(id, !isDone) }
+            verify { toggleTask(id, !isDone) }
+        }
+    }
+
+    private fun givenAgenda(state: AgendaState = AgendaState.Empty) {
+        composeTestRule.setContent {
+            AgendaScreen(
+                state = state,
+                onSelectDate = {},
+                actionDelete = {},
+                dismissDelete = {},
+                dismissTaskAction = {},
+                onMarkTask = toggleTask,
+                deleteTask = {},
+                onCreateTask = {},
+                openTaskAction = {},
+                onEditAction = {},
+            )
         }
     }
 }

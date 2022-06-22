@@ -6,17 +6,14 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskReminderInteractor
+import com.costular.atomtasks.domain.manager.ErrorLogger
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.first
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.LocalTime
-import timber.log.Timber
+import kotlinx.coroutines.flow.first
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -27,6 +24,7 @@ class PostponeTaskWorker @AssistedInject constructor(
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val notifManager: NotifManager,
     private val reminderManager: ReminderManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -39,7 +37,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             notifManager.removeTaskNotification(taskId)
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.observe().first()
+            val task = getTaskByIdInteractor.flow.first()
 
             if (task.reminder == null || (!task.reminder.isEnabled)) {
                 throw IllegalStateException("Task has no active reminder")
@@ -50,13 +48,14 @@ class PostponeTaskWorker @AssistedInject constructor(
             updateTaskReminderInteractor(
                 UpdateTaskReminderInteractor.Params(
                     taskId,
-                    reminderTime
-                )
+                    reminderTime,
+                    LocalDate.now(),
+                ),
             )
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }

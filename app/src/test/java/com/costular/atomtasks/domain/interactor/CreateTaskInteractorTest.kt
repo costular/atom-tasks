@@ -5,13 +5,13 @@ import com.costular.atomtasks.domain.repository.TasksRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import java.time.LocalDate
+import java.time.LocalTime
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDate
-import java.time.LocalTime
-import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
@@ -26,7 +26,7 @@ class CreateTaskInteractorTest {
     fun setUp() {
         createTaskInteractor = CreateTaskInteractor(
             tasksRepository = tasksRepository,
-            reminderManager = reminderManager
+            reminderManager = reminderManager,
         )
     }
 
@@ -41,8 +41,8 @@ class CreateTaskInteractorTest {
                 name = name,
                 date = date,
                 reminderEnabled = true,
-                reminderTime = reminder
-            )
+                reminderTime = reminder,
+            ),
         )
 
         coEvery { tasksRepository.createTask(name, date, true, reminder) }
@@ -65,8 +65,8 @@ class CreateTaskInteractorTest {
                     name = name,
                     date = date,
                     reminderEnabled = true,
-                    reminderTime = reminder
-                )
+                    reminderTime = reminder,
+                ),
             )
 
             verify { reminderManager.set(taskId, reminder.atDate(date)) }

@@ -13,11 +13,11 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.time.LocalDate
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDate
-import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 class AgendaViewModelTest : MviViewModelTest() {
@@ -50,7 +50,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose tasks when load succeed`() = testBlocking {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.observe() } returns flowOf(expected)
+        coEvery { getTasksInteractor.flow } returns flowOf(expected)
 
         sut.loadTasks()
 
@@ -62,7 +62,6 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose previous date as disabled when trying to set selected day out of from range`() =
         testBlocking {
-
             sut.setSelectedDay(sut.state.value.calendarFromDate)
 
             sut.state.test {
@@ -73,7 +72,6 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose next date as disabled when trying to set next day out of until range`() =
         testBlocking {
-
             sut.setSelectedDay(sut.state.value.calendarUntilDate)
 
             sut.state.test {
@@ -84,12 +82,18 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should load task accordingly when mark task as done`() = testBlocking {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.observe() } returns flowOf(expected)
+        coEvery { getTasksInteractor.flow } returns flowOf(expected)
 
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
 
-        coVerify { updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(expected.first().id, true)) }
+        coVerify {
+            updateTaskIsDoneInteractor(
+                UpdateTaskIsDoneInteractor.Params(
+                    expected.first().id, true,
+                ),
+            )
+        }
     }
 
     @Test
@@ -97,7 +101,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         testBlocking {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -113,7 +117,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         testBlocking {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.observe() } returns flowOf(tasks)
+            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -131,7 +135,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             val expected = emptyList<Task>()
             val taskId = DEFAULT_TASKS.first().id
             coEvery {
-                getTasksInteractor.observe()
+                getTasksInteractor.flow
             } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
 
             sut.loadTasks()
@@ -147,16 +151,18 @@ class AgendaViewModelTest : MviViewModelTest() {
                 1L,
                 "Task 1",
                 LocalDate.now(),
+                LocalDate.now(),
                 null,
-                false
+                false,
             ),
             Task(
                 2L,
                 "Task 2",
                 LocalDate.now(),
+                LocalDate.now(),
                 null,
-                false
-            )
+                false,
+            ),
         )
     }
 }

@@ -1,8 +1,8 @@
 package com.costular.atomtasks.data.tasks
 
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.Flow
 
 class DefaultTasksLocalDataSource(
     private val tasksDao: TasksDao,
@@ -13,8 +13,20 @@ class DefaultTasksLocalDataSource(
         return tasksDao.addTask(taskEntity)
     }
 
-    override suspend fun createReminderForTask(reminderEntity: ReminderEntity) {
-        reminderDao.insertReminder(reminderEntity)
+    override suspend fun createReminderForTask(
+        time: LocalTime,
+        date: LocalDate,
+        reminderEnabled: Boolean,
+        taskId: Long,
+    ) {
+        val reminder = ReminderEntity(
+            reminderId = 0L,
+            time = time,
+            date = date,
+            isEnabled = reminderEnabled,
+            taskId = taskId,
+        )
+        reminderDao.insertReminder(reminder)
     }
 
     override fun getTasks(day: LocalDate?): Flow<List<TaskAggregated>> {
@@ -42,7 +54,19 @@ class DefaultTasksLocalDataSource(
         tasksDao.updateTaskDone(taskId, isDone)
     }
 
-    override suspend fun updateTaskReminder(taskId: Long, time: LocalTime) {
-        reminderDao.updateReminder(taskId, time)
+    override suspend fun updateTaskReminder(taskId: Long, time: LocalTime, date: LocalDate) {
+        if (reminderDao.reminderExistForTask(taskId)) {
+            reminderDao.updateReminder(taskId, time)
+        } else {
+            createReminderForTask(time, date, true, taskId)
+        }
+    }
+
+    override suspend fun removeReminder(taskId: Long) {
+        reminderDao.removeReminder(taskId)
+    }
+
+    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
+        tasksDao.updateTask(taskId, day, name)
     }
 }

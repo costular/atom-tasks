@@ -8,7 +8,7 @@ class FieldValidatorDefault : FieldValidator {
     ): TextFieldState {
         return TextFieldState(
             input,
-            textFieldValidation.mapNotNull { it.validate(input) }
+            textFieldValidation.mapNotNull { it.validate(input) },
         )
     }
 }

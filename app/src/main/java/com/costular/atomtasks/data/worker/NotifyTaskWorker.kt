@@ -5,14 +5,11 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.domain.manager.ErrorLogger
 import com.costular.atomtasks.domain.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -21,6 +18,7 @@ class NotifyTaskWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getTaskByIdInteractor: GetTaskByIdInteractor,
     private val notifManager: NotifManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -32,7 +30,7 @@ class NotifyTaskWorker @AssistedInject constructor(
             }
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.observe().first()
+            val task = getTaskByIdInteractor.flow.first()
 
             if (task.reminder == null) {
                 throw IllegalStateException("Reminder is null")
@@ -51,7 +49,7 @@ class NotifyTaskWorker @AssistedInject constructor(
             notifManager.remindTask(task)
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }

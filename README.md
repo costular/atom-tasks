@@ -24,7 +24,7 @@ _Atom tasks_ is an Android Application to create and organise your tasks.
 
 * This application tries to follow Clean Code & SOLID principles.
 * Atom tasks's code tries to write tests as much as possible in order to get a robust code.
-    * Not only unit tests, you will find also functional tests
+    * Not only unit tests, you will find also functional and snapshot tests
 * Even it is a production-ready application the objective of this project is to use the cutting-edge libraries and technologies.
 
 ## Contributing

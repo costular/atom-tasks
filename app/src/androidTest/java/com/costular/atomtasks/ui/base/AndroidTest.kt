@@ -1,8 +1,6 @@
 package com.costular.atomtasks.ui.base
 
-import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.costular.atomtasks.MainActivity
+import androidx.compose.ui.test.junit4.createComposeRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -15,10 +13,10 @@ abstract class AndroidTest : ComposeProvider {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    override val composeTestRule: ComposeTestRule = createAndroidComposeRule<MainActivity>()
+    override val composeTestRule = createComposeRule()
 
     @Before
-    fun setUp() {
+    open fun setUp() {
         hiltRule.inject()
     }
 }

@@ -48,9 +48,9 @@ import com.costular.atomtasks.ui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DateUtils.dayAsText
 import com.costular.atomtasks.ui.util.DateUtils.timeAsText
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
-import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.collect
 
 @Suppress("MagicNumber")
 @Composable
@@ -100,6 +100,7 @@ fun CreateTaskExpanded(
 
     if (state.showSetReminder) {
         TimePickerDialog(
+            time = state.reminder ?: LocalTime.now(),
             timeSuggestions = listOf(
                 LocalTime.of(9, 0),
                 LocalTime.of(12, 0),
@@ -127,7 +128,7 @@ fun CreateTaskExpanded(
 }
 
 @Composable
-private fun CreateTaskExpanded(
+internal fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
@@ -157,6 +158,7 @@ private fun CreateTaskExpanded(
                 isSelected = false,
                 onClick = onClickDate,
                 onClear = onClearReminder,
+                modifier = Modifier.testTag("CreateTaskExpandedDate"),
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
@@ -173,6 +175,7 @@ private fun CreateTaskExpanded(
                 isSelected = state.reminder != null,
                 onClick = onClickReminder,
                 onClear = onClearReminder,
+                modifier = Modifier.testTag("CreateTaskExpandedReminder"),
             )
         }
     }
@@ -212,12 +215,13 @@ private fun RowScope.CreateTaskInput(
                     modifier = Modifier
                         .padding(AppTheme.dimens.spacingSmall)
                         .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colors.secondary),
+                        .background(MaterialTheme.colors.secondary)
+                        .testTag("CreateTaskExpandedSave"),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Check,
                         contentDescription = null,
-                        tint = MaterialTheme.colors.onSecondary
+                        tint = MaterialTheme.colors.onSecondary,
                     )
                 }
             }
