@@ -3,6 +3,7 @@ package com.costular.atomtasks.domain.interactor
 import com.costular.atomtasks.domain.repository.TasksRepository
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -29,9 +30,10 @@ class UpdateTaskReminderInteractorTest {
         coroutineTest.runBlockingTest {
             val taskId = 100L
             val reminder = LocalTime.of(11, 0)
+            val newDate = LocalDate.now().plusDays(2)
 
-            sut.executeSync(UpdateTaskReminderInteractor.Params(taskId, reminder))
+            sut.executeSync(UpdateTaskReminderInteractor.Params(taskId, reminder, newDate))
 
-            coVerify { tasksRepository.updateTaskReminder(taskId, reminder) }
+            coVerify { tasksRepository.updateTaskReminder(taskId, reminder, newDate) }
         }
 }

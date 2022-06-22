@@ -28,14 +28,12 @@ class DefaultTasksRepository(
         val taskId = localDataSource.createTask(taskEntity)
 
         if (reminderEnabled) {
-            val reminder = ReminderEntity(
-                0L,
+            localDataSource.createReminderForTask(
                 requireNotNull(reminderTime),
                 date,
                 reminderEnabled,
                 taskId,
             )
-            localDataSource.createReminderForTask(reminder)
         }
         return taskId
     }
@@ -60,7 +58,19 @@ class DefaultTasksRepository(
         localDataSource.markTask(taskId, isDone)
     }
 
-    override suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime) {
-        localDataSource.updateTaskReminder(taskId, reminderTime)
+    override suspend fun updateTaskReminder(
+        taskId: Long,
+        reminderTime: LocalTime,
+        reminderDate: LocalDate,
+    ) {
+        localDataSource.updateTaskReminder(taskId, reminderTime, reminderDate)
+    }
+
+    override suspend fun removeReminder(taskId: Long) {
+        localDataSource.removeReminder(taskId)
+    }
+
+    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
+        localDataSource.updateTask(taskId, day, name)
     }
 }
