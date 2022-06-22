@@ -12,6 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
       - name: Ktlint 💅
         run: ./gradlew ktlintCheck
 
@@ -21,6 +24,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Detekt ♻️
         run: ./gradlew detekt
@@ -38,6 +44,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Decode google-services.json
         env:
@@ -59,24 +68,51 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-29
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          target: default
+          api-level: 29
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          sdcard-path-or-size: 100M
+          force-avd-creation: false
+          script: echo "Generated AVD snapshot for caching."
+
       - name: 🤖 UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.costular.atomtasks.ui
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=com.costular.atomtasks.screenshots.ScreenshotTest
 
-      - name: 📸 Snapshot tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          target: google_apis
-          api-level: 30
-          profile: Nexus 6
-          arch: arm64-v8a
-          force-avd-creation: false
-          script: ./verify_screenshots.sh
+
+      #- name: 📸 Snapshot tests
+      #  uses: reactivecircus/android-emulator-runner@v2
+      #  with:
+      #    target: google_apis
+      #    api-level: 30
+      #    profile: Nexus 6
+      #    arch: arm64-v8a
+      #    force-avd-creation: false
+      #    script: ./verify_screenshots.sh
 
   build:
-    needs: [unit_tests, ui_tests]
+    needs: [ unit_tests, ui_tests ]
     runs-on: ubuntu-latest
     steps:
 
@@ -88,6 +124,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Decode google-services.json
         env:
@@ -119,7 +158,7 @@ jobs:
           path: app/build/outputs/mapping/release/mapping.txt
 
   deploy-play-store:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
 
@@ -131,6 +170,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       - name: Download artifact
         uses: actions/download-artifact@master
