@@ -16,7 +16,7 @@ import org.junit.Test
 @ExperimentalTime
 class SettingsViewModelTest : MviViewModelTest() {
 
-    lateinit var sut: SettingsViewModel
+    lateinit var sut: com.costular.atomtasks.settings.SettingsViewModel
 
     private val getThemeUseCase: GetThemeUseCase = mockk(relaxed = true)
     private val setThemeUseCase: SetThemeUseCase = mockk(relaxed = true)
@@ -27,7 +27,7 @@ class SettingsViewModelTest : MviViewModelTest() {
     }
 
     private fun initialize() {
-        sut = SettingsViewModel(
+        sut = com.costular.atomtasks.settings.SettingsViewModel(
             getThemeUseCase = getThemeUseCase,
             setThemeUseCase = setThemeUseCase,
         )

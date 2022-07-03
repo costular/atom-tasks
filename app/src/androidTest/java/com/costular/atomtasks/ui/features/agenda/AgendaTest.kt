@@ -1,7 +1,6 @@
 package com.costular.atomtasks.ui.features.agenda
 
 import com.costular.atomtasks.R
-import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.base.AndroidTest
 import com.costular.atomtasks.ui.base.getString

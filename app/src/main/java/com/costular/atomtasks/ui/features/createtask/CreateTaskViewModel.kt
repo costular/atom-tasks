@@ -1,23 +1,21 @@
 package com.costular.atomtasks.ui.features.createtask
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.InvokeError
 import com.costular.atomtasks.domain.InvokeStarted
 import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
-import com.costular.atomtasks.ui.mvi.MviViewModel
+import com.costular.atomtasks.core_ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     private val createTaskInteractor: CreateTaskInteractor,
-) : MviViewModel<CreateTaskState>(CreateTaskState.Empty) {
+) : com.costular.atomtasks.core_ui.mvi.MviViewModel<CreateTaskState>(CreateTaskState.Empty) {
 
     fun createTask(
         name: String,

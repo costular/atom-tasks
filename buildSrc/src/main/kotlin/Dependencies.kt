@@ -43,7 +43,6 @@ object Versions {
 
 
 object Deps {
-    val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     val core = "androidx.core:core-ktx:${Versions.core}"

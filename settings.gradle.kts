@@ -7,3 +7,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AtomReminders"
 include(":app")
+include(":common-ui")
+include(":core")
+include(":data")
+include(":core-ui")
+include(":domain")
+include(":settings")

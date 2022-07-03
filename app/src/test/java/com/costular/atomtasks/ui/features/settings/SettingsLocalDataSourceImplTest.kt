@@ -39,12 +39,12 @@ class SettingsLocalDataSourceImplTest {
             produceFile = { testContext.preferencesDataStoreFile("TEST_DATASTORE") },
         )
 
-    lateinit var sut: SettingsLocalDataSource
+    lateinit var sut: com.costular.atomtasks.settings.SettingsLocalDataSource
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testCoroutineDispatcher)
-        sut = SettingsLocalDataSourceImpl(testDataStore)
+        sut = com.costular.atomtasks.settings.SettingsLocalDataSourceImpl(testDataStore)
     }
 
     @Test

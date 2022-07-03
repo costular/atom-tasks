@@ -1,12 +1,11 @@
 package com.costular.atomtasks.ui.features.agenda
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.ui.mvi.MviViewModel
+import com.costular.atomtasks.core_ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
@@ -20,7 +19,7 @@ class AgendaViewModel @Inject constructor(
     private val getTasksInteractor: GetTasksInteractor,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
-) : MviViewModel<AgendaState>(AgendaState()) {
+) : com.costular.atomtasks.core_ui.mvi.MviViewModel<AgendaState>(AgendaState()) {
 
     init {
         loadTasks()

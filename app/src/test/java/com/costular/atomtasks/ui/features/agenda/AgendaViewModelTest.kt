@@ -2,7 +2,6 @@ package com.costular.atomtasks.ui.features.agenda
 
 import app.cash.turbine.test
 import com.costular.atomtasks.MviViewModelTest
-import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor

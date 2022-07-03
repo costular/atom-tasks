@@ -1,6 +1,5 @@
 package com.costular.atomtasks.ui.features.agenda
 
-import com.costular.atomtasks.domain.Async
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.features.agenda.AgendaViewModel.Companion.DaysAfter
 import com.costular.atomtasks.ui.features.agenda.AgendaViewModel.Companion.DaysBefore

@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
-import com.costular.atomtasks.db.AtomRemindersDatabase
+import com.costular.atomtasks.data.database.AtomRemindersDatabase
 import com.google.common.truth.Truth
 import java.io.IOException
 import java.time.LocalDate
@@ -25,14 +25,14 @@ class TaskDatabaseTest {
 
     private val testCoroutine: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
-    private lateinit var db: AtomRemindersDatabase
+    private lateinit var db: com.costular.atomtasks.data.database.AtomRemindersDatabase
     private lateinit var tasksDao: TasksDao
 
     @Before
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            AtomRemindersDatabase::class.java,
+            com.costular.atomtasks.data.database.AtomRemindersDatabase::class.java,
         )
             .setTransactionExecutor(testCoroutine.asExecutor())
             .setQueryExecutor(testCoroutine.asExecutor())

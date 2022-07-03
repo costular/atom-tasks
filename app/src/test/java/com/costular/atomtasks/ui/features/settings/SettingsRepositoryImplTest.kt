@@ -18,11 +18,11 @@ class SettingsRepositoryImplTest {
 
     lateinit var sut: SettingsRepository
 
-    private val settingsLocalDataSource: SettingsLocalDataSource = mockk(relaxUnitFun = true)
+    private val settingsLocalDataSource: com.costular.atomtasks.settings.SettingsLocalDataSource = mockk(relaxUnitFun = true)
 
     @Before
     fun setUp() {
-        sut = SettingsRepositoryImpl(settingsLocalDataSource)
+        sut = com.costular.atomtasks.settings.SettingsRepositoryImpl(settingsLocalDataSource)
     }
 
     @Test

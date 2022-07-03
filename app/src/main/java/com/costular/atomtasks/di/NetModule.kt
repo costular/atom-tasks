@@ -1,7 +1,7 @@
 package com.costular.atomtasks.di
 
-import com.costular.atomtasks.core.net.AppDispatcherProvider
-import com.costular.atomtasks.core.net.DispatcherProvider
+import com.costular.core.net.AppDispatcherProvider
+import com.costular.core.net.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

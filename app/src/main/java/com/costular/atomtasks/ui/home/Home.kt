@@ -18,7 +18,7 @@ import com.costular.atomtasks.ui.features.agenda.AgendaScreen
 import com.costular.atomtasks.ui.features.createtask.CreateTaskScreen
 import com.costular.atomtasks.ui.features.destinations.AgendaScreenDestination
 import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
-import com.costular.atomtasks.ui.theme.AtomRemindersTheme
+import com.costular.commonui.theme.AtomRemindersTheme
 import com.costular.atomtasks.ui.util.DestinationsScaffold
 import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
 import com.google.accompanist.insets.ProvideWindowInsets

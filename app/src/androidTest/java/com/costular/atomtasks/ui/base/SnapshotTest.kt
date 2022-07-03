@@ -2,7 +2,7 @@ package com.costular.atomtasks.ui.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.costular.atomtasks.ui.theme.AtomRemindersTheme
+import com.costular.commonui.theme.AtomRemindersTheme
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.karumi.shot.ScreenshotTest

@@ -13,7 +13,6 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.6.10-1.0.4"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
-    id("shot")
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
 
@@ -142,7 +141,11 @@ tasks.koverHtmlReport {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":core"))
+    implementation(project(":common-ui"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     implementation(Deps.fragment)
     implementation(Deps.constraintLayout)
     implementation(Deps.material)
@@ -150,8 +153,6 @@ dependencies {
     implementation(Deps.appCompat)
     implementation(Deps.lifecycleRuntimeKtx)
     implementation(Deps.viewModel)
-    implementation(Deps.coroutines)
-    implementation(Deps.kotlin)
     implementation(Deps.timber)
     implementation(Deps.hilt)
     kapt(Deps.hiltCompiler)
@@ -160,29 +161,9 @@ dependencies {
     implementation(Deps.hiltWork)
     implementation(Deps.hiltNavigationCompose)
     implementation(Deps.appInitializer)
-    implementation(Deps.preferences)
-    implementation(Deps.preferencesDataStore)
-    implementation(Deps.composeActivity)
-    implementation(Deps.composeFoundation)
-    implementation(Deps.composeRuntime)
-    implementation(Deps.composeLayout)
-    implementation(Deps.composeMaterial)
-    implementation(Deps.composeMaterialIcons)
-    implementation(Deps.composeUi)
-    implementation(Deps.composeUiTooling)
-    implementation(Deps.workManager)
-    implementation(Deps.roomKtx)
-    implementation(Deps.roomRuntinme)
-    implementation(Deps.accompanistPager)
-    implementation(Deps.accompanistPagerIndicators)
-    implementation(Deps.materialDialogsDatetime)
-    implementation(Deps.composeCalendar)
+
     kapt(Deps.roomCompiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    implementation(Deps.numberPicker)
-    implementation(Deps.lottie)
-    implementation(Deps.accompanistSystemUi)
-    implementation(Deps.accompanistInsetsUi)
     implementation(platform(Deps.firebaseBom))
     implementation(Deps.firebaseAnalytics)
     implementation(Deps.firebaseCrashlytics)
