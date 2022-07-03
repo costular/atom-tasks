@@ -14,7 +14,7 @@ insert_final_newline = true
 indent_size = 4
 
 [*.{kt,kts}]
-disabled_rules = experimental:argument-list-wrapping,import-ordering
+disabled_rules = experimental:argument-list-wrapping,import-ordering,package-name
 ij_kotlin_imports_layout = *
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
