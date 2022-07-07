@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.RadioButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,23 +26,16 @@ import com.costular.atomtasks.domain.model.Theme
 import com.costular.commonui.dialogs.AtomSheet
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
-import com.ramcosta.composedestinations.result.ResultBackNavigator
-import com.ramcosta.composedestinations.spec.DestinationStyle
 
-@Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
 fun ThemeSelectorScreen(
     selectedTheme: String,
-    resultNavigator: ResultBackNavigator<String>,
-    navigator: DestinationsNavigator,
+    onSelectTheme: (String) -> Unit,
+    onNavigateUp: () -> Unit,
 ) {
     AtomSheet(
         title = stringResource(R.string.settings_theme_title),
-        onNavigateUp = { navigator.navigateUp() },
+        onNavigateUp = onNavigateUp,
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             ThemeItem(
@@ -51,7 +43,7 @@ fun ThemeSelectorScreen(
                 theme = Theme.Light,
                 isSelected = selectedTheme == Theme.LIGHT,
                 onCheck = {
-                    resultNavigator.navigateBack(Theme.LIGHT)
+                    onSelectTheme(Theme.LIGHT)
                 },
             )
 
@@ -60,7 +52,7 @@ fun ThemeSelectorScreen(
                 theme = Theme.Dark,
                 isSelected = selectedTheme == Theme.DARK,
                 onCheck = {
-                    resultNavigator.navigateBack(Theme.DARK)
+                    onSelectTheme(Theme.DARK)
                 },
             )
 
@@ -69,7 +61,7 @@ fun ThemeSelectorScreen(
                 theme = Theme.System,
                 isSelected = selectedTheme == Theme.SYSTEM,
                 onCheck = {
-                    resultNavigator.navigateBack(Theme.SYSTEM)
+                    onSelectTheme(Theme.SYSTEM)
                 },
             )
         }
@@ -126,8 +118,8 @@ fun ThemeSelectorPreview() {
     AtomRemindersTheme {
         ThemeSelectorScreen(
             selectedTheme = Theme.LIGHT,
-            navigator = EmptyDestinationsNavigator,
-            resultNavigator = EmptyResultBackNavigator(),
+            onSelectTheme = {},
+            onNavigateUp = {},
         )
     }
 }
