@@ -28,7 +28,7 @@ import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 
 @Composable
-fun ThemeSelectorScreen(
+fun ThemeSelectorDialog(
     selectedTheme: String,
     onSelectTheme: (String) -> Unit,
     onNavigateUp: () -> Unit,
@@ -116,7 +116,7 @@ private fun parseThemeIconDrawable(theme: Theme): Int = when (theme) {
 @Composable
 fun ThemeSelectorPreview() {
     AtomRemindersTheme {
-        ThemeSelectorScreen(
+        ThemeSelectorDialog(
             selectedTheme = Theme.LIGHT,
             onSelectTheme = {},
             onNavigateUp = {},
