@@ -1,7 +1,7 @@
 package com.costular.atomtasks.di
 
 import android.content.Context
-import com.costular.atomtasks.data.manager.NotifManagerImpl
+import com.costular.atomtasks.data.NotifManagerImpl
 import com.costular.atomtasks.data.manager.ReminderManagerImpl
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.manager.ReminderManager

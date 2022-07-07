@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data.manager
+package com.costular.atomtasks.data
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -17,8 +17,8 @@ import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
 import com.costular.atomtasks.domain.manager.NotifManager
 import com.costular.atomtasks.domain.model.Task
 import com.costular.atomtasks.ui.home.MainActivity
-import com.costular.atomtasks.ui.theme.Teal500
 import com.costular.atomtasks.ui.util.ChannelReminders
+import com.costular.commonui.theme.Teal500
 
 class NotifManagerImpl(private val context: Context) : NotifManager {
 
