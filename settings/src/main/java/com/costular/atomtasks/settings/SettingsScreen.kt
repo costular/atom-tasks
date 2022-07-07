@@ -21,30 +21,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.domain.model.Theme
 import com.costular.commonui.components.AtomTopBar
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import com.ramcosta.composedestinations.result.EmptyResultRecipient
-import com.ramcosta.composedestinations.result.ResultRecipient
+
+interface SettingsNavigator {
+    fun navigateUp()
+}
+
+object EmptySettingsNavigator : SettingsNavigator {
+    override fun navigateUp() {}
+}
 
 @Destination
 @Composable
 fun SettingsScreen(
-    navigator: DestinationsNavigator,
-    resultRecipient: ResultRecipient<ThemeSelectorScreenDestination, String>,
+    navigator: SettingsNavigator,
 ) {
     val scrollState = rememberScrollState()
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(SettingsState.Empty)
-
-    resultRecipient.onResult { theme ->
-        viewModel.setTheme(Theme.fromString(theme))
-    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -78,7 +76,7 @@ fun SettingsScreen(
             GeneralSection(
                 theme = state.theme,
                 onSelectTheme = {
-                    navigator.navigate(ThemeSelectorScreenDestination(state.theme.asString()))
+                    state.theme.asString()
                 },
             )
 
@@ -103,6 +101,6 @@ private fun DateTimeSection() {
 @Composable
 private fun SettingsScreenPreview() {
     AtomRemindersTheme {
-        SettingsScreen(EmptyDestinationsNavigator, EmptyResultRecipient())
+        SettingsScreen(EmptySettingsNavigator)
     }
 }
