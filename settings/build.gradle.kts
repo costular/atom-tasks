@@ -72,4 +72,6 @@ dependencies {
     implementation(Deps.composeCalendar)
     implementation(Deps.accompanistPager)
     implementation(Deps.accompanistPagerIndicators)
+
+    testImplementation(project(":core-testing"))
 }
