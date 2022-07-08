@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.data.settings
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,13 +13,11 @@ import javax.inject.Singleton
 @Module
 class SettingsModule {
 
-    @Singleton
     @Provides
     fun provideSettingsLocalDataSource(
         dataStore: DataStore<Preferences>,
     ): SettingsLocalDataSource = SettingsLocalDataSourceImpl(dataStore)
 
-    @Singleton
     @Provides
     fun provideSettingsRepository(
         settingsLocalDataSource: SettingsLocalDataSource,

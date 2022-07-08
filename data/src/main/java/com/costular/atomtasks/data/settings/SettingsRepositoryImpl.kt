@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.data.settings
 
 import com.costular.atomtasks.domain.model.Theme
 import com.costular.atomtasks.domain.repository.SettingsRepository

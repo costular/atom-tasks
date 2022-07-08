@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.data.settings
 
 import kotlinx.coroutines.flow.Flow
 
