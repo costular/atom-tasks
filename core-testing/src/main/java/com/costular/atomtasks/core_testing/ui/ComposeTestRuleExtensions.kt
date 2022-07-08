@@ -1,10 +1,10 @@
-package com.costular.atomtasks.ui.base
+package com.costular.atomtasks.core_testing.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 
-internal val ComposeTestRule.resources
+val ComposeTestRule.resources
     get() =
         if (this is AndroidComposeTestRule<*, *>) {
             activity.resources
@@ -12,5 +12,5 @@ internal val ComposeTestRule.resources
             throw IllegalStateException("Resources are only available using AndroidComposeTestRule")
         }
 
-internal fun ComposeTestRule.getString(@StringRes stringId: Int): String =
+fun ComposeTestRule.getString(@StringRes stringId: Int): String =
     resources.getString(stringId)
