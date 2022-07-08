@@ -35,7 +35,7 @@ object Versions {
     val lottie = "4.2.2"
     val androidJunit = "1.1.3"
     val firebaseBom = "29.0.3"
-    val composeDestinations = "1.5.12-beta"
+    val composeDestinations = "1.5.13-beta"
     val robolectric = "4.7.3"
     val shot = "5.14.0"
     val testParameterInjector = "1.8"
