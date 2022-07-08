@@ -35,7 +35,7 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateUp() {}
 }
 
-@Destination
+@Destination(start = true)
 @Composable
 fun SettingsScreen(
     navigator: SettingsNavigator,
