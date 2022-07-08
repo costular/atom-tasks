@@ -1,7 +1,9 @@
-package com.costular.commonui.dialogs.timepicker
+package com.costular.common_ui
 
 import app.cash.turbine.test
-import com.costular.atomtasks.MviViewModelTest
+import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.commonui.dialogs.timepicker.TimePickerDialogViewModel
+import com.costular.commonui.dialogs.timepicker.TimePickerUiEvents
 import com.google.common.truth.Truth
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime

@@ -1,7 +1,7 @@
-package com.costular.atomtasks.ui.features.settings
+package com.costular.atomtasks.settings
 
 import app.cash.turbine.test
-import com.costular.atomtasks.MviViewModelTest
+import com.costular.atomtasks.core_testing.MviViewModelTest
 import com.costular.atomtasks.domain.interactor.GetThemeUseCase
 import com.costular.atomtasks.domain.interactor.SetThemeUseCase
 import com.costular.atomtasks.domain.model.Theme
@@ -16,7 +16,7 @@ import org.junit.Test
 @ExperimentalTime
 class SettingsViewModelTest : MviViewModelTest() {
 
-    lateinit var sut: com.costular.atomtasks.settings.SettingsViewModel
+    lateinit var sut: SettingsViewModel
 
     private val getThemeUseCase: GetThemeUseCase = mockk(relaxed = true)
     private val setThemeUseCase: SetThemeUseCase = mockk(relaxed = true)
@@ -27,7 +27,7 @@ class SettingsViewModelTest : MviViewModelTest() {
     }
 
     private fun initialize() {
-        sut = com.costular.atomtasks.settings.SettingsViewModel(
+        sut = SettingsViewModel(
             getThemeUseCase = getThemeUseCase,
             setThemeUseCase = setThemeUseCase,
         )
