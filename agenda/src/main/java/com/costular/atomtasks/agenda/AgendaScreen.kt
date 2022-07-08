@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.features.agenda
+package com.costular.atomtasks.agenda
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,27 +22,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.costular.atomtasks.core_ui.utils.DateUtils.dayAsText
+import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.ui.components.HorizontalCalendar
-import com.costular.atomtasks.ui.components.ScreenHeader
-import com.costular.atomtasks.ui.components.TaskList
-import com.costular.atomtasks.components.createtask.CreateTask
+import com.costular.commonui.components.HorizontalCalendar
+import com.costular.commonui.components.ScreenHeader
+import com.costular.commonui.components.TaskList
+import com.costular.commonui.components.createtask.CreateTask
 import com.costular.commonui.dialogs.RemoveTaskDialog
 import com.costular.commonui.dialogs.TaskActionDialog
-import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
 import com.costular.commonui.theme.AppTheme
-import com.costular.atomtasks.core_ui.utils.DateUtils.dayAsText
-import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
+import com.costular.core.Async
 import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.time.LocalDate
+
+interface AgendaNavigator {
+    fun navigateToCreateTask(
+        date: String,
+        text: String?,
+    )
+}
 
 @Destination(start = true)
 @Composable
 @Suppress("LongMethod")
 fun AgendaScreen(
-    navigator: DestinationsNavigator,
+    navigator: AgendaNavigator,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
@@ -56,9 +62,7 @@ fun AgendaScreen(
         deleteTask = viewModel::deleteTask,
         dismissDelete = viewModel::dismissDelete,
         onCreateTask = {
-            navigator.navigate(
-                CreateTaskScreenDestination(date = state.selectedDay.toString(), text = null),
-            )
+            navigator.navigateToCreateTask(date = state.selectedDay.toString(), text = null)
         },
         openTaskAction = viewModel::openTaskAction,
     )
@@ -164,6 +168,9 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
             )
         }
+        is Async.Failure -> TODO()
+        Async.Loading -> TODO()
+        Async.Uninitialized -> TODO()
     }
 }
 

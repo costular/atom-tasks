@@ -1,11 +1,11 @@
-package com.costular.atomtasks.ui.features.agenda
+package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.core.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject

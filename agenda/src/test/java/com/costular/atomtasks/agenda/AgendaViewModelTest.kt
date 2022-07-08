@@ -1,13 +1,15 @@
-package com.costular.atomtasks.ui.features.agenda
+package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.MviViewModelTest
 import com.costular.atomtasks.domain.interactor.GetTasksInteractor
 import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.ui.features.agenda.DeleteTaskAction.Hidden
-import com.costular.atomtasks.ui.features.agenda.DeleteTaskAction.Shown
+import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
+import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
+import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.core.Async
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -21,7 +23,7 @@ import org.junit.Test
 @ExperimentalTime
 class AgendaViewModelTest : MviViewModelTest() {
 
-    lateinit var sut: AgendaViewModel
+    lateinit var sut: com.costular.atomtasks.agenda.AgendaViewModel
 
     private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
@@ -29,7 +31,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Before
     fun setUp() {
-        sut = AgendaViewModel(
+        sut = com.costular.atomtasks.agenda.AgendaViewModel(
             getTasksInteractor,
             updateTaskIsDoneInteractor,
             removeTaskInteractor,
