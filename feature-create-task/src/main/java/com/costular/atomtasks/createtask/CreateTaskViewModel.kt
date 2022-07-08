@@ -1,11 +1,11 @@
-package com.costular.atomtasks.ui.features.createtask
+package com.costular.atomtasks.createtask
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.InvokeError
-import com.costular.atomtasks.domain.InvokeStarted
-import com.costular.atomtasks.domain.InvokeSuccess
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.core.Async
+import com.costular.core.InvokeError
+import com.costular.core.InvokeStarted
+import com.costular.core.InvokeSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime

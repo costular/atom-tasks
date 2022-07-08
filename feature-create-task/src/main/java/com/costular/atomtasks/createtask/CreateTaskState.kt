@@ -1,4 +1,6 @@
-package com.costular.atomtasks.ui.features.createtask
+package com.costular.atomtasks.createtask
+
+import com.costular.core.Async
 
 data class CreateTaskState(
     val savingTask: Async<Unit> = Async.Uninitialized,
