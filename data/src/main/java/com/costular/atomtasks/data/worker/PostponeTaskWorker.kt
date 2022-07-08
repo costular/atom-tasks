@@ -38,7 +38,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
             val task = getTaskByIdInteractor.observe().first()
 
-            if (task.reminder == null || (!task.reminder.isEnabled)) {
+            if (task.reminder == null || (task.reminder?.isEnabled == false)) {
                 throw IllegalStateException("Task has no active reminder")
             }
 

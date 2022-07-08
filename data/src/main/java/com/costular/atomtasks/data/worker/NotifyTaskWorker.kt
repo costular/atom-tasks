@@ -35,7 +35,7 @@ class NotifyTaskWorker @AssistedInject constructor(
                 throw IllegalStateException("Reminder is null")
             }
 
-            if (!task.reminder.isToday || !task.reminder.isNow || !task.reminder.isEnabled) {
+            if (task.reminder?.isToday == false || task.reminder?.isEnabled == false) {
                 throw IllegalStateException("Reminder is not valid")
             }
 

@@ -23,8 +23,8 @@ class SetTasksRemindersWorker @AssistedInject constructor(
         try {
             val tasks = getTasksWithReminderInteractor.executeSync(Unit)
             tasks.forEach { task ->
-                if (task.reminder != null) {
-                    reminderManager.set(task.id, task.reminder.localDateTime)
+                task.reminder?.let { reminder ->
+                    reminderManager.set(task.id, reminder.localDateTime)
                 }
             }
             Result.success()
