@@ -4,8 +4,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.costular.atomtasks.ui.base.ComposeProvider
-import com.costular.atomtasks.ui.base.Robot
+import com.costular.atomtasks.core_testing.ui.ComposeProvider
+import com.costular.atomtasks.core_testing.ui.Robot
 
 fun ComposeProvider.taskActions(func: TaskActionRobot.() -> Unit) =
     TaskActionRobot(composeTestRule).apply(func)

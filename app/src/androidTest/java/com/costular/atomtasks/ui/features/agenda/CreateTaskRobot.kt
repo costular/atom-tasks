@@ -5,8 +5,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.costular.atomtasks.ui.base.ComposeProvider
-import com.costular.atomtasks.ui.base.Robot
+import com.costular.atomtasks.core_testing.ui.ComposeProvider
+import com.costular.atomtasks.core_testing.ui.Robot
 
 fun ComposeProvider.createTask(func: CreateTaskRobot.() -> Unit) =
     CreateTaskRobot(composeTestRule).apply(func)

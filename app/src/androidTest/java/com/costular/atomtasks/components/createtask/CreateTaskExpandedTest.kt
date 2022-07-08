@@ -2,8 +2,8 @@ package com.costular.atomtasks.components.createtask
 
 import androidx.compose.ui.focus.FocusRequester
 import com.costular.atomtasks.R
-import com.costular.atomtasks.ui.base.AndroidTest
-import com.costular.atomtasks.ui.base.getString
+import com.costular.atomtasks.core_testing.android.AndroidTest
+import com.costular.atomtasks.core_testing.android.getString
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
@@ -12,7 +12,7 @@ import java.time.LocalTime
 import org.junit.Test
 
 @HiltAndroidTest
-class CreateTaskExpandedTest : AndroidTest() {
+class CreateTaskExpandedTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
 
     private val save: () -> Unit = mockk(relaxed = true)
 

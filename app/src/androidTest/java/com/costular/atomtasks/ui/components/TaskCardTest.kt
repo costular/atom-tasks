@@ -5,7 +5,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.domain.model.Reminder
-import com.costular.atomtasks.ui.base.AndroidTest
+import com.costular.atomtasks.core_testing.android.AndroidTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
@@ -14,7 +14,7 @@ import java.time.LocalTime
 import org.junit.Test
 
 @HiltAndroidTest
-class TaskCardTest : AndroidTest() {
+class TaskCardTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
 
     @Test
     fun shouldShowText() {

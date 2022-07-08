@@ -7,15 +7,15 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.R
-import com.costular.atomtasks.ui.base.AndroidTest
-import com.costular.atomtasks.ui.base.getString
+import com.costular.atomtasks.core_testing.android.AndroidTest
+import com.costular.atomtasks.core_testing.android.getString
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
 @HiltAndroidTest
-class RemovableChipTest : AndroidTest() {
+class RemovableChipTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
 
     private val clearButton by lazy {
         composeTestRule.onNodeWithContentDescription(

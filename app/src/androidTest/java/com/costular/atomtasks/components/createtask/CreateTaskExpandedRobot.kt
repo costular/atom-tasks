@@ -9,13 +9,13 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.costular.atomtasks.ui.base.ComposeProvider
-import com.costular.atomtasks.ui.base.Robot
+import com.costular.atomtasks.core_testing.android.ComposeProvider
+import com.costular.atomtasks.core_testing.android.Robot
 
-fun ComposeProvider.createTaskExpanded(func: CreateTaskExpandedRobot.() -> Unit) =
+fun com.costular.atomtasks.core_testing.android.ComposeProvider.createTaskExpanded(func: CreateTaskExpandedRobot.() -> Unit) =
     CreateTaskExpandedRobot(composeTestRule)
 
-class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
+class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : com.costular.atomtasks.core_testing.android.Robot(composeTestRule) {
 
     private val input by lazy { composeTestRule.onNodeWithTag("CreateTaskInput") }
     private val save by lazy { composeTestRule.onNodeWithTag("CreateTaskExpandedSave") }
