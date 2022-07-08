@@ -1,4 +1,4 @@
-package com.costular.atomtasks
+package com.costular.atomtasks.core_testing
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
