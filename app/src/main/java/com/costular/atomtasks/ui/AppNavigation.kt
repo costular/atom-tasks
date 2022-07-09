@@ -74,24 +74,6 @@ object NavGraphs {
     }
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
-@ExperimentalAnimationApi
-@Composable
-internal fun AppNavigation(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
-) {
-    DestinationsNavHost(
-        engine = rememberAnimatedNavHostEngine(),
-        navController = navController,
-        navGraph = NavGraphs.root,
-        modifier = modifier,
-        dependenciesContainerBuilder = {
-            dependency(currentNavigator())
-        },
-    )
-}
-
 @Stable
 @Composable
 fun NavController.currentScreenAsState(): State<NavGraphSpec> {
@@ -127,5 +109,23 @@ fun DestinationScope<*>.currentNavigator(): AppNavigator {
     return AppNavigator(
         destination,
         navController,
+    )
+}
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
+@ExperimentalAnimationApi
+@Composable
+internal fun AppNavigation(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+) {
+    DestinationsNavHost(
+        engine = rememberAnimatedNavHostEngine(),
+        navController = navController,
+        navGraph = NavGraphs.root,
+        modifier = modifier,
+        dependenciesContainerBuilder = {
+            dependency(currentNavigator())
+        },
     )
 }
