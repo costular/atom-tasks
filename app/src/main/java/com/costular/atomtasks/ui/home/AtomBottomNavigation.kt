@@ -49,7 +49,7 @@ private fun HomeNavigationItemIcon(
 ) {
     Crossfade(targetState = selected) {
         Icon(
-            imageVector = destination.icon,
+            imageVector = if (selected) destination.selectedIcon else destination.icon,
             contentDescription = stringResource(destination.contentDescriptionResId),
         )
     }
