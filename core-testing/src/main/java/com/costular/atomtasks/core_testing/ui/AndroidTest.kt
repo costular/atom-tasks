@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.base
+package com.costular.atomtasks.core_testing.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import dagger.hilt.android.testing.HiltAndroidRule

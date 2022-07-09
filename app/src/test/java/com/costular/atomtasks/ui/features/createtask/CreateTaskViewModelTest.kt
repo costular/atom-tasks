@@ -2,6 +2,7 @@ package com.costular.atomtasks.ui.features.createtask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.MviViewModelTest
+import com.costular.atomtasks.createtask.CreateTaskViewModel
 import com.costular.atomtasks.domain.InvokeError
 import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
 import com.google.common.truth.Truth.assertThat

@@ -25,7 +25,7 @@ internal fun GeneralSection(
             onSelectTheme = onSelectTheme,
             onNavigateUp = {
                 showThemeDialog = false
-            }
+            },
         )
     }
 

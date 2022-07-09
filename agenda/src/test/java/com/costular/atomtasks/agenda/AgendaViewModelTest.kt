@@ -9,7 +9,6 @@ import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.core_testing.MviViewModelTest
 import com.costular.core.Async
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
