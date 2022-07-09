@@ -32,7 +32,7 @@ class DataStoreModule {
                 produceNewData = { emptyPreferences() },
             ),
             produceFile = { appContext.preferencesDataStoreFile(PREFERENCES_NAME) },
-            scope = CoroutineScope(dispatcherProvider.io + SupervisorJob())
+            scope = CoroutineScope(dispatcherProvider.io + SupervisorJob()),
         )
 
     private companion object {
