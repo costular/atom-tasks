@@ -37,17 +37,20 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import java.time.LocalDate
 
-interface AgendaNavigator {
-    fun navigateToCreateTask(
-        date: String,
-        text: String?,
+@Destination
+@Composable
+fun AgendaScreen(
+    navigator: AgendaNavigator,
+) {
+    AgendaScreen(
+        navigator = navigator,
+        viewModel = hiltViewModel(),
     )
 }
 
-@Destination(start = true)
 @Composable
 @Suppress("LongMethod")
-fun AgendaScreen(
+internal fun AgendaScreen(
     navigator: AgendaNavigator,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
@@ -70,7 +73,7 @@ fun AgendaScreen(
 
 @Suppress("LongMethod")
 @Composable
-internal fun AgendaScreen(
+fun AgendaScreen(
     state: AgendaState,
     onSelectDate: (LocalDate) -> Unit,
     actionDelete: (id: Long) -> Unit,
@@ -168,9 +171,9 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
             )
         }
-        is Async.Failure -> TODO()
-        Async.Loading -> TODO()
-        Async.Uninitialized -> TODO()
+        is Async.Failure -> {}
+        Async.Loading -> {}
+        Async.Uninitialized -> {}
     }
 }
 

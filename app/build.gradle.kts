@@ -11,7 +11,6 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
 }
@@ -95,28 +94,6 @@ android {
     }
 }
 
-kotlin {
-    sourceSets {
-        debug {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        release {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
-    }
-}
-
-kotlin {
-    sourceSets {
-        debug {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        release {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
-    }
-}
-
 kapt {
     correctErrorTypes = true
 }
@@ -141,13 +118,21 @@ tasks.koverHtmlReport {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core-ui"))
     implementation(project(":common-ui"))
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":agenda"))
+    implementation(project(":feature-create-task"))
+    implementation(project(":settings"))
 
     implementation(Deps.fragment)
+    implementation(Deps.composeUi)
+    implementation(Deps.composeMaterial)
     implementation(Deps.constraintLayout)
+    implementation(Deps.composeMaterialIcons)
+    implementation(Deps.accompanistSystemUi)
+    implementation(Deps.accompanistInsetsUi)
     implementation(Deps.material)
     implementation(Deps.core)
     implementation(Deps.appCompat)
@@ -168,7 +153,6 @@ dependencies {
     implementation(Deps.firebaseAnalytics)
     implementation(Deps.firebaseCrashlytics)
     implementation(Deps.composeDestinations)
-    ksp(Deps.composeDestinationsKsp)
 
     testImplementation(Deps.androidJunit)
     testImplementation(Deps.junit)
@@ -180,6 +164,7 @@ dependencies {
     testImplementation(Deps.robolectric)
     testImplementation(Deps.composeUiTest)
 
+    androidTestImplementation(project(":core-testing"))
     androidTestImplementation(Deps.androidJunit)
     androidTestImplementation(Deps.coroutinesTest)
     androidTestImplementation(Deps.truth)
@@ -192,8 +177,6 @@ dependencies {
     androidTestImplementation(Deps.mockkAndroid)
     kaptAndroidTest(Deps.hiltCompiler)
     androidTestImplementation(Deps.testParameterInjector)
-
-    debugImplementation(Deps.composeUiManifest)
 }
 
 tasks.withType<KotlinCompile> {

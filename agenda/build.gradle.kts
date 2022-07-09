@@ -64,6 +64,8 @@ dependencies {
     implementation(Deps.hiltNavigationCompose)
     implementation(Deps.hiltJetpackViewModel)
     kapt(Deps.hiltJetpackCompiler)
+    implementation(Deps.hilt)
+    kapt(Deps.hiltCompiler)
     implementation(Deps.composeDestinations)
     ksp(Deps.composeDestinationsKsp)
 

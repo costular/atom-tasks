@@ -66,6 +66,8 @@ dependencies {
     kapt(Deps.hiltJetpackCompiler)
     implementation(Deps.composeDestinations)
     ksp(Deps.composeDestinationsKsp)
+    implementation(Deps.hilt)
+    kapt(Deps.hiltCompiler)
 
     implementation(Deps.numberPicker)
     implementation(Deps.lottie)

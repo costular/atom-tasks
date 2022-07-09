@@ -1,6 +1,8 @@
 package com.costular.atomtasks.ui.home
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -11,22 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.ui.features.NavGraphs
-import com.costular.atomtasks.ui.features.agenda.AgendaScreen
-import com.costular.atomtasks.ui.features.createtask.CreateTaskScreen
-import com.costular.atomtasks.ui.features.destinations.AgendaScreenDestination
-import com.costular.atomtasks.ui.features.destinations.CreateTaskScreenDestination
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.atomtasks.ui.AppNavigation
+import com.costular.atomtasks.ui.currentScreenAsState
 import com.costular.atomtasks.ui.util.DestinationsScaffold
-import com.costular.atomtasks.ui.util.rememberFlowWithLifecycle
+import com.costular.commonui.theme.AtomRemindersTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
-import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.navigation.navigate
 
 @Composable
 fun App() {
@@ -52,52 +49,41 @@ fun App() {
 
     AtomRemindersTheme(darkTheme = isDarkTheme) {
         ProvideWindowInsets {
-            Navigation()
+            Home()
         }
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun Navigation() {
+private fun Home() {
     val scaffoldState = rememberScaffoldState()
     val navController = rememberAnimatedNavController()
+    val currentSelectedItem by navController.currentScreenAsState()
 
     DestinationsScaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            AtomBottomNavigation(navController = navController)
+            AtomBottomNavigation(
+                selectedNavigation = currentSelectedItem,
+                onNavigationSelected = { selected ->
+                    navController.navigate(selected) {
+                        launchSingleTop = true
+                        restoreState = true
+
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
         },
         navController = navController,
     ) { paddingValues ->
-        NavigationContent(
+        AppNavigation(
             modifier = Modifier.padding(paddingValues),
             navController = navController,
         )
-    }
-}
-
-@Composable
-private fun NavigationContent(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
-) {
-    val navHostEngine = rememberAnimatedNavHostEngine()
-
-    DestinationsNavHost(
-        engine = navHostEngine,
-        navController = navController,
-        navGraph = NavGraphs.root,
-        modifier = modifier,
-    ) {
-        composable(AgendaScreenDestination) {
-            AgendaScreen(destinationsNavigator)
-        }
-        composable(CreateTaskScreenDestination) {
-            CreateTaskScreen(
-                text = navArgs.text,
-                date = navArgs.date,
-                navigator = destinationsNavigator,
-            )
-        }
     }
 }

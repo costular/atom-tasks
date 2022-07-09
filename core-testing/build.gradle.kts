@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":data"))
 
     implementation(Deps.hilt)
+    implementation(Deps.hiltAndroidTesting)
     kapt(Deps.hiltCompiler)
 
     api(Deps.androidJunit)
