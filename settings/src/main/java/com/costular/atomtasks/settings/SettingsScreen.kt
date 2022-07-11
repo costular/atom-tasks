@@ -21,28 +21,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
+import com.costular.atomtasks.domain.model.Theme
+import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.commonui.components.AtomTopBar
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.EmptyResultRecipient
+import com.ramcosta.composedestinations.result.ResultRecipient
+import com.ramcosta.composedestinations.result.getOr
 
 interface SettingsNavigator {
     fun navigateUp()
+    fun navigateToSelectTheme(theme: String)
 }
 
 object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateUp() {}
+    override fun navigateToSelectTheme(theme: String) {}
 }
 
 @Destination(start = true)
 @Composable
 fun SettingsScreen(
     navigator: SettingsNavigator,
+    resultRecipient: ResultRecipient<ThemeSelectorScreenDestination, String>,
 ) {
     val scrollState = rememberScrollState()
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(SettingsState.Empty)
+
+    resultRecipient.onNavResult {
+        it.getOr { null }?.let { theme ->
+            viewModel.setTheme(Theme.fromString(theme))
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -76,7 +90,7 @@ fun SettingsScreen(
             GeneralSection(
                 theme = state.theme,
                 onSelectTheme = {
-                    state.theme.asString()
+                    navigator.navigateToSelectTheme(state.theme.asString())
                 },
             )
 
@@ -101,6 +115,9 @@ private fun DateTimeSection() {
 @Composable
 private fun SettingsScreenPreview() {
     AtomRemindersTheme {
-        SettingsScreen(EmptySettingsNavigator)
+        SettingsScreen(
+            EmptySettingsNavigator,
+            EmptyResultRecipient(),
+        )
     }
 }

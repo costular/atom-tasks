@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import com.costular.atomtasks.agenda.destinations.AgendaScreenDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.destinations.SettingsScreenDestination
+import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.atomtasks.ui.home.AppNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -56,6 +57,7 @@ object NavGraphs {
         override val destinationsByRoute: Map<String, DestinationSpec<*>> =
             listOf<DestinationSpec<*>>(
                 SettingsScreenDestination,
+                ThemeSelectorScreenDestination,
             ).associateBy { it.route }
     }
 

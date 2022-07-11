@@ -26,16 +26,24 @@ import com.costular.atomtasks.domain.model.Theme
 import com.costular.commonui.dialogs.AtomSheet
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
+import com.ramcosta.composedestinations.result.ResultBackNavigator
+import com.ramcosta.composedestinations.spec.DestinationStyle
 
+
+@Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
-fun ThemeSelectorDialog(
+fun ThemeSelectorScreen(
     selectedTheme: String,
-    onSelectTheme: (String) -> Unit,
-    onNavigateUp: () -> Unit,
+    resultNavigator: ResultBackNavigator<String>,
+    navigator: DestinationsNavigator,
 ) {
     AtomSheet(
         title = stringResource(R.string.settings_theme_title),
-        onNavigateUp = onNavigateUp,
+        onNavigateUp = { navigator.navigateUp() },
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             ThemeItem(
@@ -43,7 +51,7 @@ fun ThemeSelectorDialog(
                 theme = Theme.Light,
                 isSelected = selectedTheme == Theme.LIGHT,
                 onCheck = {
-                    onSelectTheme(Theme.LIGHT)
+                    resultNavigator.navigateBack(Theme.LIGHT)
                 },
             )
 
@@ -52,7 +60,7 @@ fun ThemeSelectorDialog(
                 theme = Theme.Dark,
                 isSelected = selectedTheme == Theme.DARK,
                 onCheck = {
-                    onSelectTheme(Theme.DARK)
+                    resultNavigator.navigateBack(Theme.DARK)
                 },
             )
 
@@ -61,7 +69,7 @@ fun ThemeSelectorDialog(
                 theme = Theme.System,
                 isSelected = selectedTheme == Theme.SYSTEM,
                 onCheck = {
-                    onSelectTheme(Theme.SYSTEM)
+                    resultNavigator.navigateBack(Theme.SYSTEM)
                 },
             )
         }
@@ -116,10 +124,10 @@ private fun parseThemeIconDrawable(theme: Theme): Int = when (theme) {
 @Composable
 fun ThemeSelectorPreview() {
     AtomRemindersTheme {
-        ThemeSelectorDialog(
+        ThemeSelectorScreen(
             selectedTheme = Theme.LIGHT,
-            onSelectTheme = {},
-            onNavigateUp = {},
+            navigator = EmptyDestinationsNavigator,
+            resultNavigator = EmptyResultBackNavigator(),
         )
     }
 }

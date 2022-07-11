@@ -15,20 +15,8 @@ import com.costular.atomtasks.domain.model.Theme
 @Composable
 internal fun GeneralSection(
     theme: Theme,
-    onSelectTheme: (String) -> Unit,
+    onSelectTheme: () -> Unit,
 ) {
-    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-
-    if (showThemeDialog) {
-        ThemeSelectorDialog(
-            selectedTheme = theme.asString(),
-            onSelectTheme = onSelectTheme,
-            onNavigateUp = {
-                showThemeDialog = false
-            },
-        )
-    }
-
     SettingSection(
         stringResource(R.string.settings_general_title),
         modifier = Modifier.fillMaxWidth(),
@@ -37,7 +25,7 @@ internal fun GeneralSection(
             title = stringResource(R.string.settings_theme_title),
             option = parseTheme(theme),
             icon = Icons.Outlined.Palette,
-            onClick = { showThemeDialog = true },
+            onClick = onSelectTheme,
         )
     }
 }
