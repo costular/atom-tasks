@@ -124,7 +124,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":agenda"))
     implementation(project(":feature-create-task"))
-    implementation(project(":settings"))
+    implementation(project(":feature-settings"))
 
     implementation(Deps.fragment)
     implementation(Deps.composeUi)
