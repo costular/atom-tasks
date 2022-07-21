@@ -122,7 +122,7 @@ dependencies {
     implementation(project(":common-ui"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":agenda"))
+    implementation(project(":feature-agenda"))
     implementation(project(":feature-create-task"))
     implementation(project(":feature-settings"))
 
