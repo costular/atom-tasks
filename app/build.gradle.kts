@@ -3,16 +3,15 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(GradlePlugins.android)
+    id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id(GradlePlugins.kotlinParcelize)
-    id(GradlePlugins.hilt)
-    id("com.github.ben-manes.versions") version "0.39.0"
+    id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -78,7 +77,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     packagingOptions {
@@ -126,57 +125,57 @@ dependencies {
     implementation(project(":feature-create-task"))
     implementation(project(":feature-settings"))
 
-    implementation(Deps.fragment)
-    implementation(Deps.composeUi)
-    implementation(Deps.composeMaterial)
-    implementation(Deps.constraintLayout)
-    implementation(Deps.composeMaterialIcons)
-    implementation(Deps.accompanistSystemUi)
-    implementation(Deps.accompanistInsetsUi)
-    implementation(Deps.material)
-    implementation(Deps.core)
-    implementation(Deps.appCompat)
-    implementation(Deps.lifecycleRuntimeKtx)
-    implementation(Deps.viewModel)
-    implementation(Deps.timber)
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
-    kapt(Deps.hiltJetpackCompiler)
-    implementation(Deps.hiltJetpackViewModel)
-    implementation(Deps.hiltWork)
-    implementation(Deps.hiltNavigationCompose)
-    implementation(Deps.appInitializer)
+    implementation(libs.fragment)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.compose.material.icons)
+    implementation(libs.accompanist.systemui)
+    implementation(libs.accompanist.insetsui)
+    implementation(libs.material)
+    implementation(libs.androidx.core)
+    implementation(libs.appcompat)
+    implementation(libs.lifecycle.runtime)
+    implementation(libs.viewmodel)
+    implementation(libs.timber)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.jetpack.compiler)
+    implementation(libs.hilt.jetpack.viewmodel)
+    implementation(libs.hilt.work)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.startup)
 
-    kapt(Deps.roomCompiler)
+    kapt(libs.room.compiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    implementation(platform(Deps.firebaseBom))
-    implementation(Deps.firebaseAnalytics)
-    implementation(Deps.firebaseCrashlytics)
-    implementation(Deps.composeDestinations)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.compose.destinations)
 
-    testImplementation(Deps.androidJunit)
-    testImplementation(Deps.junit)
-    testImplementation(Deps.coroutinesTest)
-    testImplementation(Deps.turbine)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.test)
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.robolectric)
-    testImplementation(Deps.composeUiTest)
+    testImplementation(libs.android.junit)
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
+    testImplementation(libs.androidx.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test)
 
     androidTestImplementation(project(":core-testing"))
-    androidTestImplementation(Deps.androidJunit)
-    androidTestImplementation(Deps.coroutinesTest)
-    androidTestImplementation(Deps.truth)
-    androidTestImplementation(Deps.turbine)
-    androidTestImplementation(Deps.androidTestRunner)
-    androidTestImplementation(Deps.androidTestRules)
-    androidTestImplementation(Deps.workManagerTesting)
-    androidTestImplementation(Deps.composeUiTest)
-    androidTestImplementation(Deps.hiltAndroidTesting)
-    androidTestImplementation(Deps.mockkAndroid)
-    kaptAndroidTest(Deps.hiltCompiler)
-    androidTestImplementation(Deps.testParameterInjector)
+    androidTestImplementation(libs.android.junit)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.work.testing)
+    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.mockk.android)
+    kaptAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.testparameterinjector)
 }
 
 tasks.withType<KotlinCompile> {

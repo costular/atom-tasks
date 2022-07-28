@@ -1,5 +1,5 @@
 plugins {
-    id(GradlePlugins.kotlin)
+    id("kotlin")
     kotlin("kapt")
 }
 

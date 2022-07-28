@@ -1,6 +1,6 @@
 plugins {
-    id(GradlePlugins.androidLibrary)
-    id(GradlePlugins.kotlinAndroid)
+    id("com.android.library")
+    id("kotlin-android")
     kotlin("kapt")
     id("com.google.devtools.ksp") version "1.6.10-1.0.4"
 }
@@ -26,7 +26,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     ksp {
@@ -50,30 +50,30 @@ dependencies {
     implementation(project(":common-ui"))
     implementation(project(":data"))
 
-    implementation(Deps.composeActivity)
-    implementation(Deps.composeFoundation)
-    implementation(Deps.composeRuntime)
-    implementation(Deps.composeLayout)
-    implementation(Deps.composeMaterial)
-    implementation(Deps.composeMaterialIcons)
-    implementation(Deps.composeUi)
-    implementation(Deps.composeUiTooling)
-    implementation(Deps.accompanistSystemUi)
-    implementation(Deps.accompanistInsetsUi)
-    implementation(Deps.viewModel)
-    implementation(Deps.hiltNavigationCompose)
-    implementation(Deps.hiltJetpackViewModel)
-    kapt(Deps.hiltJetpackCompiler)
-    implementation(Deps.composeDestinations)
-    ksp(Deps.composeDestinationsKsp)
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.layout)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.icons)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.accompanist.systemui)
+    implementation(libs.accompanist.insetsui)
+    implementation(libs.viewmodel)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.jetpack.viewmodel)
+    kapt(libs.hilt.jetpack.compiler)
+    implementation(libs.compose.destinations)
+    ksp(libs.compose.destinations.ksp)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
-    implementation(Deps.numberPicker)
-    implementation(Deps.lottie)
-    implementation(Deps.composeCalendar)
-    implementation(Deps.accompanistPager)
-    implementation(Deps.accompanistPagerIndicators)
+    implementation(libs.numberpicker)
+    implementation(libs.lottie)
+    implementation(libs.composecalendar)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     testImplementation(project(":core-testing"))
 }

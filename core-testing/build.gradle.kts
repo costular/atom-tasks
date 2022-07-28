@@ -1,6 +1,6 @@
 plugins {
-    id(GradlePlugins.androidLibrary)
-    id(GradlePlugins.kotlinAndroid)
+    id("com.android.library")
+    id("kotlin-android")
     kotlin("kapt")
 }
 
@@ -25,18 +25,18 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
 
-    implementation(Deps.hilt)
-    implementation(Deps.hiltAndroidTesting)
-    kapt(Deps.hiltCompiler)
+    implementation(libs.hilt)
+    implementation(libs.hilt.android.testing)
+    kapt(libs.hilt.compiler)
 
-    api(Deps.androidJunit)
-    api(Deps.junit)
-    api(Deps.coroutinesTest)
-    api(Deps.turbine)
-    api(Deps.truth)
-    api(Deps.test)
-    api(Deps.mockk)
-    api(Deps.robolectric)
-    api(Deps.composeUiTest)
-    debugApi(Deps.composeUiManifest)
+    api(libs.android.junit)
+    api(libs.junit)
+    api(libs.coroutines.test)
+    api(libs.turbine)
+    api(libs.truth)
+    api(libs.androidx.test)
+    api(libs.mockk)
+    api(libs.robolectric)
+    api(libs.compose.ui.test)
+    debugApi(libs.compose.ui.manifest)
 }

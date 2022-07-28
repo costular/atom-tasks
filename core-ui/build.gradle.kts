@@ -1,6 +1,6 @@
 plugins {
-    id(GradlePlugins.androidLibrary)
-    id(GradlePlugins.kotlinAndroid)
+    id("com.android.library")
+    id("kotlin-android")
     kotlin("kapt")
 }
 
@@ -25,31 +25,31 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
     api(project(":core"))
 
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
-    implementation(Deps.core)
-    implementation(Deps.composeRuntime)
-    implementation(Deps.composeUi)
-    implementation(Deps.composeMaterial)
-    implementation(Deps.composeDestinations)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.core)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.compose.destinations)
 
-    implementation(Deps.lifecycleRuntimeKtx)
-    implementation(Deps.hiltNavigationCompose)
-    implementation(Deps.viewModel)
+    implementation(libs.lifecycle.runtime)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.viewmodel)
 
-    testImplementation(Deps.androidJunit)
-    testImplementation(Deps.junit)
-    testImplementation(Deps.coroutinesTest)
-    testImplementation(Deps.turbine)
-    testImplementation(Deps.truth)
-    testImplementation(Deps.test)
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.composeUiTest)
+    testImplementation(libs.android.junit)
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
+    testImplementation(libs.androidx.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.compose.ui.test)
 }

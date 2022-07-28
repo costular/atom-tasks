@@ -1,7 +1,7 @@
 plugins {
-    id(GradlePlugins.kotlin)
+    id("kotlin")
 }
 
 dependencies {
-    api(Deps.coroutines)
+    api(libs.coroutines)
 }
