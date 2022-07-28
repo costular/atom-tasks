@@ -1,9 +1,11 @@
 package com.costular.atomtasks.ui.features.agenda
 
-import com.costular.atomtasks.R
+import com.costular.atomtasks.agenda.AgendaScreen
+import com.costular.atomtasks.agenda.AgendaState
+import com.costular.atomtasks.core_testing.ui.AndroidTest
+import com.costular.atomtasks.core_testing.ui.getString
 import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.ui.base.AndroidTest
-import com.costular.atomtasks.ui.base.getString
+import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
