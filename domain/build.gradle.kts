@@ -1,6 +1,8 @@
 plugins {
     id("kotlin")
     kotlin("kapt")
+    id("atomtasks.detekt")
+    id("atomtasks.ktlint")
 }
 
 dependencies {

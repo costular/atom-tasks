@@ -1,31 +1,28 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.google.devtools.ksp") version "1.6.10-1.0.4"
+    id("atomtasks.android.library")
+    alias(libs.plugins.ksp)
     kotlin("kapt")
+    id("atomtasks.detekt")
+    id("atomtasks.ktlint")
+    id("atomtasks.android.library.jacoco")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = Config.compileVersion
     defaultConfig {
-        minSdk = Config.minSdk
-    }
+        // The schemas directory contains a schema file for each version of the Room database.
+        // This is required to enable Room auto migrations.
+        // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration.
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
     }
 }
 
-
 dependencies {
     implementation(project(":core-ui"))
-    api(project(":domain"))
 
     api(libs.room.runtime)
     implementation(libs.room.ktx)
@@ -46,4 +43,13 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
+
+    androidTestImplementation(":core-testing")
+    androidTestImplementation(libs.android.junit)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.test)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.junit)
 }

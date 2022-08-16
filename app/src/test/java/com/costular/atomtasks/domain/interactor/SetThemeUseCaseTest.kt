@@ -1,7 +1,8 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.domain.repository.SettingsRepository
+import com.costular.atomtasks.data.settings.SetThemeUseCase
+import com.costular.atomtasks.data.settings.SettingsRepository
+import com.costular.atomtasks.data.settings.Theme
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestCoroutineScope

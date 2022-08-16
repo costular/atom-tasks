@@ -1,28 +1,24 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("atomtasks.android.application")
     kotlin("kapt")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("io.gitlab.arturbosch.detekt") version "1.20.0-RC1"
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("dagger.hilt.android.plugin")
+    id("atomtasks.detekt")
+    id("atomtasks.ktlint")
+    id("jacoco")
 }
 
 android {
-    compileSdk = Config.compileVersion
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = Config.versionCode
-        versionName = Config.versionName
-        testInstrumentationRunner = "com.costular.atomtasks.di.AtomHiltRunner"
+        versionCode = 7
+        versionName = "0.6.0"
+        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -63,23 +59,6 @@ android {
         }
     }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-
     packagingOptions {
         resources.excludes.add("META-INF/licenses/**")
         resources.excludes.add("META-INF/AL2.0")
@@ -97,30 +76,16 @@ kapt {
     correctErrorTypes = true
 }
 
-tasks.koverHtmlReport {
-    excludes = listOf(
-        "*.R.class",
-        "*.R$*.class",
-        "*.Manifest*.*",
-        "android.*.*.*",
-        "*.BuildConfig.*",
-        "*.*Module.*",
-        "*Hilt*",
-        "*.*_MembersInjector",
-        "*.*_HiltComponents*",
-        "*.*_ComponentTreeDeps*",
-        "*.*Destination",
-        "*.*Dao*",
-        "*.*Factory*",
-        "*.*Activity*",
-    )
+configurations {
+    androidTestImplementation {
+        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+    }
 }
 
 dependencies {
     implementation(project(":core-ui"))
     implementation(project(":common-ui"))
     implementation(project(":data"))
-    implementation(project(":domain"))
     implementation(project(":feature-agenda"))
     implementation(project(":feature-create-task"))
     implementation(project(":feature-settings"))
@@ -140,14 +105,12 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-    kapt(libs.hilt.jetpack.compiler)
-    implementation(libs.hilt.jetpack.viewmodel)
+    kapt(libs.hilt.androidx.compiler)
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.startup)
 
     kapt(libs.room.compiler)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
@@ -176,47 +139,4 @@ dependencies {
     androidTestImplementation(libs.mockk.android)
     kaptAndroidTest(libs.hilt.compiler)
     androidTestImplementation(libs.testparameterinjector)
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs +=
-        listOf(
-            "-Xinline-classes",
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
-            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi",
-            "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
-            "-Xuse-experimental=androidx.compose.ExperimentalComposeApi",
-            "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
-            "-Xuse-experimental=androidx.compose.runtime.ExperimentalComposeApi",
-            "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-            "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
-            "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
-            "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi",
-            "-Xuse-experimental=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
-        )
-}
-
-detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    config =
-        files("$projectDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-}
-
-tasks.withType<Detekt>().configureEach {
-    reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
-    }
-}
-
-tasks.withType<Detekt>().configureEach {
-    jvmTarget = "1.8"
-}
-tasks.withType<DetektCreateBaselineTask>().configureEach {
-    jvmTarget = "1.8"
 }

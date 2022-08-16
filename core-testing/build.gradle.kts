@@ -1,24 +1,11 @@
 plugins {
-    id("com.android.library")
+    id("atomtasks.android.library")
     id("kotlin-android")
     kotlin("kapt")
-}
-
-android {
-    compileSdk = Config.compileVersion
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+    id("atomtasks.detekt")
+    id("atomtasks.ktlint")
+    id("atomtasks.android.library.jacoco")
+    id("dagger.hilt.android.plugin")
 }
 
 dependencies {
@@ -27,6 +14,7 @@ dependencies {
 
     implementation(libs.hilt)
     implementation(libs.hilt.android.testing)
+    implementation(libs.androidx.test.runner)
     kapt(libs.hilt.compiler)
 
     api(libs.android.junit)

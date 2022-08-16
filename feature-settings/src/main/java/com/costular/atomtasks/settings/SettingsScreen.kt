@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.domain.model.Theme
+import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.commonui.components.AtomTopBar
 import com.costular.commonui.theme.AppTheme

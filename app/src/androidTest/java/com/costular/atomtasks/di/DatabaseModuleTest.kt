@@ -3,6 +3,7 @@ package com.costular.atomtasks.di
 import android.content.Context
 import androidx.room.Room
 import com.costular.atomtasks.data.database.AtomRemindersDatabase
+import com.costular.atomtasks.data.di.DatabaseModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext

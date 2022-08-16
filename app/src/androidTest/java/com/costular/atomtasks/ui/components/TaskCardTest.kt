@@ -4,7 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.costular.atomtasks.domain.model.Reminder
+import com.costular.atomtasks.data.tasks.Reminder
 import com.costular.atomtasks.core_testing.android.AndroidTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk

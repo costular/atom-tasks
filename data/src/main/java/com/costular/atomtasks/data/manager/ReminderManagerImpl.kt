@@ -7,11 +7,10 @@ import android.content.Intent
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.getSystemService
 import com.costular.atomtasks.data.receiver.NotifyTaskReceiver
-import com.costular.atomtasks.domain.manager.ReminderManager
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-class ReminderManagerImpl(
+internal class ReminderManagerImpl(
     private val context: Context,
 ) : ReminderManager {
 

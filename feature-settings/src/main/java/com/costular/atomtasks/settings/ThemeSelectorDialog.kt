@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.atomtasks.domain.model.Theme
+import com.costular.atomtasks.data.settings.Theme
 import com.costular.commonui.dialogs.AtomSheet
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
@@ -32,7 +32,6 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
-
 
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable

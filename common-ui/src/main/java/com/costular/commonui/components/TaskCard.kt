@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.costular.atomtasks.domain.model.Reminder
+import com.costular.atomtasks.data.tasks.Reminder
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.costular.core.util.DateTimeFormatters
@@ -130,7 +130,12 @@ private fun TaskCardPreview() {
             isFinished = true,
             onMark = {},
             onOpen = {},
-            reminder = Reminder(1L, LocalTime.parse("10:00"), true, LocalDate.now()),
+            reminder = Reminder(
+                1L,
+                LocalTime.parse("10:00"),
+                true,
+                LocalDate.now(),
+            ),
         )
     }
 }

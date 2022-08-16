@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -21,7 +23,6 @@ include(":common-ui")
 include(":core")
 include(":data")
 include(":core-ui")
-include(":domain")
 include(":feature-settings")
 include(":feature-agenda")
 include(":core-testing")

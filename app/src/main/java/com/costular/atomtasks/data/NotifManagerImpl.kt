@@ -14,13 +14,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
 import com.costular.atomtasks.data.receiver.PostponeTaskReceiver
-import com.costular.atomtasks.domain.manager.NotifManager
-import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.data.manager.NotifManager
+import com.costular.atomtasks.data.tasks.Task
 import com.costular.atomtasks.ui.home.MainActivity
 import com.costular.atomtasks.ui.util.ChannelReminders
 import com.costular.commonui.theme.Teal500
 
-class NotifManagerImpl(private val context: Context) : NotifManager {
+internal class NotifManagerImpl(private val context: Context) : NotifManager {
 
     private val notificationManager: NotificationManagerCompat =
         NotificationManagerCompat.from(context)

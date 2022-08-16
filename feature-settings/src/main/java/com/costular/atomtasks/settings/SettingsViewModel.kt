@@ -1,10 +1,9 @@
 package com.costular.atomtasks.settings
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.interactor.GetThemeUseCase
-import com.costular.atomtasks.domain.interactor.SetThemeUseCase
-import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.atomtasks.data.settings.GetThemeUseCase
+import com.costular.atomtasks.data.settings.SetThemeUseCase
+import com.costular.atomtasks.data.settings.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect

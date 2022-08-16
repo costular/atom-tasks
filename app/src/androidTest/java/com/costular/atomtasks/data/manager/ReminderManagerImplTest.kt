@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import androidx.test.platform.app.InstrumentationRegistry
 import com.costular.atomtasks.data.receiver.NotifyTaskReceiver
-import com.costular.atomtasks.domain.manager.ReminderManager
 import com.google.common.truth.Truth.assertThat
 import java.time.LocalDateTime
 import org.junit.After

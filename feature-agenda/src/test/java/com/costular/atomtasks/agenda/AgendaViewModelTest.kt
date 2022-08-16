@@ -1,13 +1,13 @@
 package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.domain.interactor.GetTasksInteractor
-import com.costular.atomtasks.domain.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.domain.interactor.UpdateTaskIsDoneInteractor
-import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.data.tasks.GetTasksInteractor
+import com.costular.atomtasks.data.tasks.RemoveTaskInteractor
+import com.costular.atomtasks.data.tasks.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.atomtasks.data.tasks.Task
 import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery

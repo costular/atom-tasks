@@ -1,6 +1,7 @@
 package com.costular.atomtasks.domain.interactor
 
-import com.costular.atomtasks.domain.repository.TasksRepository
+import com.costular.atomtasks.data.tasks.TasksRepository
+import com.costular.atomtasks.data.tasks.UpdateTaskReminderInteractor
 import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.LocalTime

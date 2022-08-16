@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.costular.atomtasks.domain.interactor.GetTaskByIdInteractor
-import com.costular.atomtasks.domain.interactor.UpdateTaskReminderInteractor
-import com.costular.atomtasks.domain.manager.NotifManager
-import com.costular.atomtasks.domain.manager.ReminderManager
+import com.costular.atomtasks.data.tasks.GetTaskByIdInteractor
+import com.costular.atomtasks.data.tasks.UpdateTaskReminderInteractor
+import com.costular.atomtasks.data.manager.NotifManager
+import com.costular.atomtasks.data.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.LocalDate

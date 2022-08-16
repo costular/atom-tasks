@@ -10,7 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.costular.atomtasks.domain.model.Theme
+import com.costular.atomtasks.data.settings.Theme
 
 @Composable
 internal fun GeneralSection(

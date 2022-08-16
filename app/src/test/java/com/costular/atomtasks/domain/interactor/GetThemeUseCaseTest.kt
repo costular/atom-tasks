@@ -1,8 +1,9 @@
 package com.costular.atomtasks.domain.interactor
 
 import app.cash.turbine.test
-import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.domain.repository.SettingsRepository
+import com.costular.atomtasks.data.settings.GetThemeUseCase
+import com.costular.atomtasks.data.settings.SettingsRepository
+import com.costular.atomtasks.data.settings.Theme
 import com.google.common.truth.Truth
 import io.mockk.every
 import io.mockk.mockk

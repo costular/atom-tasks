@@ -7,7 +7,7 @@ class KtlintConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with (target) {
-            pluginManager.apply("")
+            pluginManager.apply("org.jlleitschuh.gradle.ktlint")
 
             extensions.configure<KtlintExtension> {
                 version.set("0.45.1")

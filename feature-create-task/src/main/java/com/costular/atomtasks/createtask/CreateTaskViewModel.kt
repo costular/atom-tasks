@@ -1,7 +1,7 @@
 package com.costular.atomtasks.createtask
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.interactor.CreateTaskInteractor
+import com.costular.atomtasks.data.tasks.CreateTaskInteractor
 import com.costular.core.Async
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted

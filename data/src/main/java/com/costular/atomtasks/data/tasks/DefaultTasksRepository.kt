@@ -1,8 +1,6 @@
 package com.costular.atomtasks.data.tasks
 
 import com.costular.atomtasks.data.toDomain
-import com.costular.atomtasks.domain.model.Task
-import com.costular.atomtasks.domain.repository.TasksRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow

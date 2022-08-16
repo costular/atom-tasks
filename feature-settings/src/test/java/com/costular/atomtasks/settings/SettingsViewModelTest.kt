@@ -2,9 +2,9 @@ package com.costular.atomtasks.settings
 
 import app.cash.turbine.test
 import com.costular.atomtasks.core_testing.MviViewModelTest
-import com.costular.atomtasks.domain.interactor.GetThemeUseCase
-import com.costular.atomtasks.domain.interactor.SetThemeUseCase
-import com.costular.atomtasks.domain.model.Theme
+import com.costular.atomtasks.data.settings.GetThemeUseCase
+import com.costular.atomtasks.data.settings.SetThemeUseCase
+import com.costular.atomtasks.data.settings.Theme
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

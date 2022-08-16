@@ -1,11 +1,9 @@
 package com.costular.atomtasks.data.settings
 
-import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingsRepositoryImpl(
+internal class SettingsRepositoryImpl(
     private val settingsLocalDataSource: SettingsLocalDataSource,
 ) : SettingsRepository {
 

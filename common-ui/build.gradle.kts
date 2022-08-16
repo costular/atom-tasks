@@ -1,37 +1,17 @@
 plugins {
-    id("com.android.library")
+    id("atomtasks.android.library")
+    id("atomtasks.android.library.compose")
     id("kotlin-android")
     kotlin("kapt")
-}
-
-android {
-    compileSdk = Config.compileVersion
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
+    id("atomtasks.detekt")
+    id("atomtasks.ktlint")
+    id("atomtasks.android.library.jacoco")
+    id("dagger.hilt.android.plugin")
 }
 
 dependencies {
     api(project(":core-ui"))
-    implementation(project(":domain"))
+    implementation(projects.data)
 
     implementation(libs.compose.activity)
     implementation(libs.compose.foundation)
@@ -44,9 +24,10 @@ dependencies {
     implementation(libs.accompanist.systemui)
     implementation(libs.accompanist.insetsui)
     implementation(libs.viewmodel)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.hilt.jetpack.viewmodel)
-    kapt(libs.hilt.jetpack.compiler)
+    kapt(libs.hilt.androidx.compiler)
 
     implementation(libs.numberpicker)
     implementation(libs.lottie)

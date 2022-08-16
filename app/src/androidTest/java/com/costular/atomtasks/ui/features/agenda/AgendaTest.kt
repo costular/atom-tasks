@@ -4,7 +4,7 @@ import com.costular.atomtasks.agenda.AgendaScreen
 import com.costular.atomtasks.agenda.AgendaState
 import com.costular.atomtasks.core_testing.ui.AndroidTest
 import com.costular.atomtasks.core_testing.ui.getString
-import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.data.tasks.Task
 import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk

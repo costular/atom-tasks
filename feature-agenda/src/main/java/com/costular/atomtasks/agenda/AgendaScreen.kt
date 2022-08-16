@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core_ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.data.tasks.Task
 import com.costular.commonui.components.HorizontalCalendar
 import com.costular.commonui.components.ScreenHeader
 import com.costular.commonui.components.TaskList

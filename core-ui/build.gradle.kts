@@ -1,32 +1,11 @@
 plugins {
-    id("com.android.library")
+    id("atomtasks.android.library")
+    id("atomtasks.android.library.compose")
     id("kotlin-android")
     kotlin("kapt")
-}
-
-android {
-    compileSdk = Config.compileVersion
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
+    id("atomtasks.detekt")
+    id("atomtasks.android.library.jacoco")
+    id("dagger.hilt.android.plugin")
 }
 
 dependencies {

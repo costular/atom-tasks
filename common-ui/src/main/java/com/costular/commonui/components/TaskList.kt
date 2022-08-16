@@ -15,7 +15,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.costular.atomtasks.domain.model.Task
+import com.costular.atomtasks.data.tasks.Task
 import com.costular.commonui.theme.AppTheme
 import com.costular.common_ui.R
 

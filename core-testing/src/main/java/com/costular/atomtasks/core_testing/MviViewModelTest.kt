@@ -1,7 +1,7 @@
 package com.costular.atomtasks.core_testing
 
 import com.costular.core.net.DispatcherProvider
-import com.costular.core.net.TestDispatcherProvider
+import com.costular.atomtasks.core_testing.net.TestDispatcherProvider
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
