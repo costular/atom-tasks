@@ -138,5 +138,4 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockk.android)
     kaptAndroidTest(libs.hilt.compiler)
-    androidTestImplementation(libs.testparameterinjector)
 }
