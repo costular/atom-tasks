@@ -19,6 +19,12 @@ android {
     }
 }
 
+configurations {
+    androidTestImplementation {
+        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+    }
+}
+
 dependencies {
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)

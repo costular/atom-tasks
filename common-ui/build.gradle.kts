@@ -9,6 +9,12 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+configurations {
+    androidTestImplementation {
+        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+    }
+}
+
 dependencies {
     api(project(":core-ui"))
     implementation(projects.data)
