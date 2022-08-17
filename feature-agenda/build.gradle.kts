@@ -28,4 +28,16 @@ dependencies {
     implementation(libs.composecalendar)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
+
+    androidTestImplementation(projects.coreTesting)
+    androidTestImplementation(libs.android.junit)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.mockk.android)
+    kaptAndroidTest(libs.hilt.compiler)
 }

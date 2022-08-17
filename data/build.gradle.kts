@@ -44,7 +44,7 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
 
-    androidTestImplementation(":core-testing")
+    androidTestImplementation(projects.coreTesting)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.coroutines.test)
     androidTestImplementation(libs.turbine)
@@ -52,4 +52,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test)
     androidTestImplementation(libs.mockk)
     androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.hilt.android.testing)
 }
