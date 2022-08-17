@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.components
+package com.costular.common_ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Today
@@ -6,16 +6,17 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.costular.atomtasks.R
-import com.costular.atomtasks.core_testing.android.AndroidTest
-import com.costular.atomtasks.core_testing.android.getString
+import com.costular.atomtasks.core_testing.ui.AndroidTest
+import com.costular.atomtasks.core_testing.ui.getString
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
+import com.costular.atomtasks.core_ui.R
+import com.costular.commonui.components.RemovableChip
 
 @HiltAndroidTest
-class RemovableChipTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
+class RemovableChipTest : AndroidTest() {
 
     private val clearButton by lazy {
         composeTestRule.onNodeWithContentDescription(

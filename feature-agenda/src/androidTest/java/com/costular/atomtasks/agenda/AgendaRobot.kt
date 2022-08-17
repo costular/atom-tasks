@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.features.agenda
+package com.costular.atomtasks.agenda
 
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties

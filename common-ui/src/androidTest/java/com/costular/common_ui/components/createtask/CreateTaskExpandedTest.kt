@@ -1,18 +1,20 @@
-package com.costular.atomtasks.components.createtask
+package com.costular.common_ui.components.createtask
 
 import androidx.compose.ui.focus.FocusRequester
-import com.costular.atomtasks.R
-import com.costular.atomtasks.core_testing.android.AndroidTest
-import com.costular.atomtasks.core_testing.android.getString
+import com.costular.atomtasks.core_testing.ui.AndroidTest
+import com.costular.atomtasks.core_testing.ui.getString
+import com.costular.commonui.components.createtask.CreateTaskExpanded
+import com.costular.commonui.components.createtask.CreateTaskExpandedState
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime
 import org.junit.Test
+import com.costular.atomtasks.core_ui.R
 
 @HiltAndroidTest
-class CreateTaskExpandedTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
+class CreateTaskExpandedTest : AndroidTest() {
 
     private val save: () -> Unit = mockk(relaxed = true)
 

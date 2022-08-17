@@ -1,11 +1,12 @@
-package com.costular.atomtasks.ui.components
+package com.costular.common_ui.components
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.costular.atomtasks.core_testing.ui.AndroidTest
 import com.costular.atomtasks.data.tasks.Reminder
-import com.costular.atomtasks.core_testing.android.AndroidTest
+import com.costular.commonui.components.TaskCard
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
@@ -14,7 +15,7 @@ import java.time.LocalTime
 import org.junit.Test
 
 @HiltAndroidTest
-class TaskCardTest : com.costular.atomtasks.core_testing.android.AndroidTest() {
+class TaskCardTest : AndroidTest() {
 
     @Test
     fun shouldShowText() {

@@ -1,4 +1,4 @@
-package com.costular.atomtasks.components.createtask
+package com.costular.common_ui.components.createtask
 
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
@@ -9,15 +9,14 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.costular.atomtasks.core_testing.android.ComposeProvider
-import com.costular.atomtasks.core_testing.android.Robot
+import com.costular.atomtasks.core_testing.ui.ComposeProvider
+import com.costular.atomtasks.core_testing.ui.Robot
 
-fun com.costular.atomtasks.core_testing.android.ComposeProvider.createTaskExpanded(
+fun ComposeProvider.createTaskExpanded(
     func: CreateTaskExpandedRobot.() -> Unit,
-) =
-    CreateTaskExpandedRobot(composeTestRule)
+) = CreateTaskExpandedRobot(composeTestRule)
 
-class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : com.costular.atomtasks.core_testing.android.Robot(composeTestRule) {
+class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
     private val input by lazy { composeTestRule.onNodeWithTag("CreateTaskInput") }
     private val save by lazy { composeTestRule.onNodeWithTag("CreateTaskExpandedSave") }
