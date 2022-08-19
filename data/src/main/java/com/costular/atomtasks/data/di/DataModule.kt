@@ -4,8 +4,6 @@ import com.costular.atomtasks.data.tasks.DefaultTasksLocalDataSource
 import com.costular.atomtasks.data.tasks.ReminderDao
 import com.costular.atomtasks.data.tasks.TaskLocalDataSource
 import com.costular.atomtasks.data.tasks.TasksDao
-import com.costular.atomtasks.ui.common.validation.FieldValidator
-import com.costular.atomtasks.ui.common.validation.FieldValidatorDefault
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +19,4 @@ object DataModule {
         reminderDao: ReminderDao,
     ): TaskLocalDataSource =
         DefaultTasksLocalDataSource(tasksDao, reminderDao)
-
-    @Provides
-    fun provideFieldValidator(): FieldValidator = FieldValidatorDefault()
 }
