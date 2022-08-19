@@ -19,7 +19,7 @@ class AppViewModel @Inject constructor(
     private fun getTheme() {
         viewModelScope.launch {
             getThemeUseCase(Unit)
-            getThemeUseCase.observe()
+            getThemeUseCase.flow
                 .collect { theme ->
                     setState { copy(theme = theme) }
                 }

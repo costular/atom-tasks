@@ -79,18 +79,20 @@ fun TaskCard(
                     ),
                 )
                 AnimatedVisibility(reminder != null && !isFinished) {
-                    Row {
-                        val alarmText = buildAnnotatedString {
-                            appendInlineContent(ReminderIconId, "[alarm]")
-                            append(" ")
-                            append(reminderAsText(requireNotNull(reminder)))
+                    if (reminder != null) {
+                        Row {
+                            val alarmText = buildAnnotatedString {
+                                appendInlineContent(ReminderIconId, "[alarm]")
+                                append(" ")
+                                append(reminderAsText(reminder))
+                            }
+                            Text(
+                                text = alarmText,
+                                style = MaterialTheme.typography.body2,
+                                color = mediumColor,
+                                inlineContent = reminderInlineContent,
+                            )
                         }
-                        Text(
-                            text = alarmText,
-                            style = MaterialTheme.typography.body2,
-                            color = mediumColor,
-                            inlineContent = reminderInlineContent,
-                        )
                     }
                 }
             }

@@ -13,7 +13,6 @@ import dagger.assisted.AssistedInject
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -24,6 +23,7 @@ class PostponeTaskWorker @AssistedInject constructor(
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val notifManager: NotifManager,
     private val reminderManager: ReminderManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -36,7 +36,7 @@ class PostponeTaskWorker @AssistedInject constructor(
             notifManager.removeTaskNotification(taskId)
 
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.observe().first()
+            val task = getTaskByIdInteractor.flow.first()
 
             if (task.reminder == null || (task.reminder?.isEnabled == false)) {
                 throw IllegalStateException("Task has no active reminder")
@@ -48,12 +48,13 @@ class PostponeTaskWorker @AssistedInject constructor(
                 UpdateTaskReminderInteractor.Params(
                     taskId,
                     reminderTime,
+                    LocalDate.now(),
                 ),
             )
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }

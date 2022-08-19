@@ -53,8 +53,8 @@ internal class NotifManagerImpl(private val context: Context) : NotifManager {
         }
 
         val builder = buildNotificationBase(ChannelReminders)
-            .setContentTitle(context.getString(R.string.notification_reminder))
-            .setContentText(task.name)
+            .setContentTitle(task.name)
+            .setContentText(context.getString(R.string.notification_reminder))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setStyle(
                 NotificationCompat.BigTextStyle()

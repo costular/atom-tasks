@@ -11,9 +11,10 @@ class UpdateTaskReminderInteractor @Inject constructor(
     data class Params(
         val taskId: Long,
         val time: LocalTime,
+        val date: LocalDate,
     )
 
     override suspend fun doWork(params: Params) {
-        tasksRepository.updateTaskReminder(params.taskId, params.time)
+        tasksRepository.updateTaskReminder(params.taskId, params.time, params.date)
     }
 }

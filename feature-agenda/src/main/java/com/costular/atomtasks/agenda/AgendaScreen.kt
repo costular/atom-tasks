@@ -68,6 +68,10 @@ internal fun AgendaScreen(
             navigator.navigateToCreateTask(date = state.selectedDay.toString(), text = null)
         },
         openTaskAction = viewModel::openTaskAction,
+        onEditAction = { taskId ->
+            viewModel.dismissTaskAction()
+            navigator.navigate(EditTaskScreenDestination(taskId = taskId))
+        },
     )
 }
 
@@ -83,6 +87,7 @@ fun AgendaScreen(
     dismissDelete: () -> Unit,
     onCreateTask: () -> Unit,
     openTaskAction: (Task) -> Unit,
+    onEditAction: (id: Long) -> Unit,
 ) {
     if (state.taskAction != null) {
         TaskActionDialog(
@@ -99,6 +104,9 @@ fun AgendaScreen(
             },
             onUndone = {
                 onMarkTask(requireNotNull(state.taskAction).id, false)
+            },
+            onEdit = {
+                onEditAction(requireNotNull(state.taskAction).id)
             },
         )
     }

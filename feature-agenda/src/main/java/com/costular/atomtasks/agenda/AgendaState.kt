@@ -11,7 +11,6 @@ data class AgendaState(
     val tasks: Async<List<Task>> = Async.Uninitialized,
     val taskAction: Task? = null,
     val deleteTaskAction: DeleteTaskAction = DeleteTaskAction.Hidden,
-    val editTaskAction: EditTaskAction = EditTaskAction.Hidden,
 ) {
     val calendarFromDate: LocalDate = LocalDate.now().minusDays(DaysBefore.toLong())
     val calendarUntilDate: LocalDate = LocalDate.now().plusDays(DaysAfter.toLong())
@@ -31,13 +30,4 @@ sealed class DeleteTaskAction {
     data class Shown(
         val taskId: Long,
     ) : DeleteTaskAction()
-}
-
-sealed class EditTaskAction {
-
-    object Hidden : EditTaskAction()
-
-    data class Shown(
-        val taskId: Long,
-    ) : EditTaskAction()
 }

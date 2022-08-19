@@ -66,11 +66,26 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: 🤖 UI tests
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-29
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          target: default
           api-level: 29
-          script: ./gradlew app:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.costular.atomtasks.ui
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          sdcard-path-or-size: 100M
+          force-avd-creation: false
+          script: echo "Generated AVD snapshot for caching."
 
       - name: 📸 Snapshot tests
         run: ./gradlew verifyPaparazziDebug

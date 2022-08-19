@@ -8,7 +8,6 @@ import com.costular.atomtasks.data.tasks.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.data.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 @HiltWorker
@@ -17,6 +16,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val notifManager: NotifManager,
+    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -37,7 +37,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: Exception) {
-            Timber.d(e)
+            errorLogger.logError(e)
             Result.failure()
         }
     }
