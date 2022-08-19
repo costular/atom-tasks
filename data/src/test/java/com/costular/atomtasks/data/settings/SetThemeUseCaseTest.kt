@@ -1,4 +1,4 @@
-package com.costular.atomtasks.domain.interactor
+package com.costular.atomtasks.data.settings
 
 import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.SettingsRepository

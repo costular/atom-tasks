@@ -1,4 +1,4 @@
-package com.costular.atomtasks.domain.interactor
+package com.costular.atomtasks.data.settings
 
 import app.cash.turbine.test
 import com.costular.atomtasks.data.settings.GetThemeUseCase

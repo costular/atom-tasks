@@ -1,4 +1,4 @@
-package com.costular.atomtasks.domain.interactor
+package com.costular.atomtasks.data.tasks
 
 import com.costular.atomtasks.data.tasks.TasksRepository
 import com.costular.atomtasks.data.tasks.UpdateTaskReminderInteractor
