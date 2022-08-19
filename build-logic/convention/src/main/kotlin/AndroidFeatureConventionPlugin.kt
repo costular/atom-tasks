@@ -17,7 +17,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension>() {
                 defaultConfig {
-                    testInstrumentationRunner = "com.costular.atomtasks.di.AtomHiltRunner"
+                    testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
                 }
             }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

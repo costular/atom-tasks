@@ -123,6 +123,5 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
-    testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test)
 }

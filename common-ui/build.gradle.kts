@@ -9,9 +9,9 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-configurations {
-    androidTestImplementation {
-        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+android {
+    defaultConfig {
+        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
     }
 }
 
@@ -42,6 +42,13 @@ dependencies {
     implementation(libs.accompanist.pager.indicators)
 
     testImplementation(projects.coreTesting)
+    testImplementation(libs.android.junit)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+
+    testImplementation(projects.coreTesting)
     androidTestImplementation(projects.coreTesting)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.coroutines.test)
@@ -53,4 +60,5 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockk.android)
     kaptAndroidTest(libs.hilt.compiler)
+    debugImplementation(libs.compose.ui.manifest)
 }

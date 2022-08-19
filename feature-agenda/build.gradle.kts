@@ -17,11 +17,18 @@ android {
         arg("compose-destinations.mode", "destinations")
         arg("compose-destinations.moduleName", "agenda")
     }
+    libraryVariants.all {
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
 }
 
 configurations {
     androidTestImplementation {
-        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+        exclude(group = "io.mockk", module = "mockk-agent-jvm")
     }
 }
 
@@ -35,6 +42,13 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
 
+    testImplementation(projects.coreTesting)
+    testImplementation(libs.android.junit)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+
     androidTestImplementation(projects.coreTesting)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.coroutines.test)
@@ -45,5 +59,6 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockk.android)
+    debugImplementation(libs.compose.ui.manifest)
     kaptAndroidTest(libs.hilt.compiler)
 }
