@@ -1,18 +1,16 @@
 package com.costular.atomtasks.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.domain.interactor.GetThemeUseCase
-import com.costular.atomtasks.domain.model.Theme
-import com.costular.atomtasks.ui.mvi.MviViewModel
+import com.costular.atomtasks.data.settings.GetThemeUseCase
+import com.costular.atomtasks.data.settings.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
     private val getThemeUseCase: GetThemeUseCase,
-) : MviViewModel<AppState>(AppState.Empty) {
+) : com.costular.atomtasks.coreui.mvi.MviViewModel<AppState>(AppState.Empty) {
 
     init {
         getTheme()
