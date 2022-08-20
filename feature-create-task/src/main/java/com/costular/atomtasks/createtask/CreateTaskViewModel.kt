@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     private val createTaskInteractor: CreateTaskInteractor,
-) : com.costular.atomtasks.core_ui.mvi.MviViewModel<CreateTaskState>(CreateTaskState.Empty) {
+) : com.costular.atomtasks.coreui.mvi.MviViewModel<CreateTaskState>(CreateTaskState.Empty) {
 
     fun createTask(
         name: String,

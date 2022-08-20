@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chargemap.compose.numberpicker.FullHours
 import com.chargemap.compose.numberpicker.HoursNumberPicker
-import com.costular.atomtasks.core_ui.utils.DateUtils.timeAsText
+import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import java.time.LocalTime

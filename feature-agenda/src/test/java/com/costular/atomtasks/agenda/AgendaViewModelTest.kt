@@ -6,7 +6,7 @@ import com.costular.atomtasks.data.tasks.RemoveTaskInteractor
 import com.costular.atomtasks.data.tasks.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
-import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.atomtasks.coretesting.MviViewModelTest
 import com.costular.atomtasks.data.tasks.Task
 import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat

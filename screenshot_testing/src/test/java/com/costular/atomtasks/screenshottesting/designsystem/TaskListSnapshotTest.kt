@@ -40,7 +40,7 @@ class TaskListSnapshotTest {
     fun emptyTaskList() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             GeneratedTaskList(tasks = emptyList())
         }
@@ -50,7 +50,7 @@ class TaskListSnapshotTest {
     fun taskList() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             GeneratedTaskList(
                 tasks = listOf(

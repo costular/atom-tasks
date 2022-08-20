@@ -30,7 +30,7 @@ class ScreenSubheaderSnapshotTest {
     fun subheader() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             ScreenSubheader(text = "Screen subheader")
         }

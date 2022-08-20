@@ -14,7 +14,6 @@ object TaskModule {
 
     @Provides
     fun providesTaskRepository(
-        taskLocalDataSource: TaskLocalDataSource
+        taskLocalDataSource: TaskLocalDataSource,
     ): TasksRepository = DefaultTasksRepository(taskLocalDataSource)
-
 }

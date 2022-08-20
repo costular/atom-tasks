@@ -1,6 +1,6 @@
 package com.costular.commonui.components.createtask
 
-import com.costular.atomtasks.core_ui.mvi.UiEvent
+import com.costular.atomtasks.coreui.mvi.UiEvent
 
 sealed class CreateTaskUiEvents : UiEvent {
 

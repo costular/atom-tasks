@@ -4,8 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.paparazzi.Paparazzi
 import com.costular.atomtasks.screenshottesting.utils.FontSize
@@ -42,7 +40,7 @@ class ChipSnapshotTest {
         ) {
             Chip(
                 onClick = {},
-                border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(AlphaDivider))
+                border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(AlphaDivider)),
             ) {
                 Text(text = "Chip test")
             }

@@ -1,7 +1,7 @@
 package com.costular.atomtasks.ui.features.edittask
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.atomtasks.coreui.mvi.MviViewModel
 import com.costular.atomtasks.data.tasks.GetTaskByIdInteractor
 import com.costular.atomtasks.data.tasks.UpdateTaskInteractor
 import com.costular.core.Async
@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 

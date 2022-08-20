@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AppViewModel @Inject constructor(
     private val getThemeUseCase: GetThemeUseCase,
-) : com.costular.atomtasks.core_ui.mvi.MviViewModel<AppState>(AppState.Empty) {
+) : com.costular.atomtasks.coreui.mvi.MviViewModel<AppState>(AppState.Empty) {
 
     init {
         getTheme()

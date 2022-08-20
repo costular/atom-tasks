@@ -1,6 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
-
 plugins {
     id("atomtasks.android.application")
     kotlin("kapt")
@@ -18,7 +15,7 @@ android {
         applicationId = "com.costular.atomtasks"
         versionCode = 7
         versionName = "0.6.0"
-        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {

@@ -15,6 +15,6 @@ object ReminderManagerModule {
 
     @Provides
     fun providesReminderManager(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): ReminderManager = ReminderManagerImpl(context)
 }

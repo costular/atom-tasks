@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.costular.common_ui.R
+import com.costular.commonui.R
 
 @Composable
 fun RemoveTaskDialog(

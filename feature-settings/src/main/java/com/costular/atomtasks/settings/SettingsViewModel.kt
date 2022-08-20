@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel @Inject constructor(
     private val getThemeUseCase: GetThemeUseCase,
     private val setThemeUseCase: SetThemeUseCase,
-) : com.costular.atomtasks.core_ui.mvi.MviViewModel<SettingsState>(SettingsState.Empty) {
+) : com.costular.atomtasks.coreui.mvi.MviViewModel<SettingsState>(SettingsState.Empty) {
 
     init {
         observeTheme()

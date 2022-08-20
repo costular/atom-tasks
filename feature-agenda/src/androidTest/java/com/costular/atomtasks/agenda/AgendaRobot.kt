@@ -16,8 +16,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.costular.atomtasks.core_testing.ui.ComposeProvider
-import com.costular.atomtasks.core_testing.ui.Robot
+import com.costular.atomtasks.coretesting.ui.ComposeProvider
+import com.costular.atomtasks.coretesting.ui.Robot
 
 fun ComposeProvider.agenda(func: AgendaRobot.() -> Unit) = AgendaRobot(composeTestRule).apply(func)
 

@@ -33,7 +33,7 @@ class TaskSnapshotTest {
     fun taskTest() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             TaskCard(
                 title = "This is a test!",
@@ -49,7 +49,7 @@ class TaskSnapshotTest {
     fun taskDoneTest() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             TaskCard(
                 title = "this is a finished test!",
@@ -65,7 +65,7 @@ class TaskSnapshotTest {
     fun taskWithReminder() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             TaskCard(
                 title = "This is a task with reminder",
@@ -86,7 +86,7 @@ class TaskSnapshotTest {
     fun taskFinishedWithReminder() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             TaskCard(
                 title = "This is a task with reminder",

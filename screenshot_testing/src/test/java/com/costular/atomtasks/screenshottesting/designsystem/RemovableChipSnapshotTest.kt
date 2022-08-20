@@ -32,7 +32,7 @@ class RemovableChipSnapshotTest {
     fun removableChipUnselected() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             RemovableChip(
                 title = "Reminder",
@@ -48,7 +48,7 @@ class RemovableChipSnapshotTest {
     fun removableChipSelected() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             RemovableChip(
                 title = "Reminder",

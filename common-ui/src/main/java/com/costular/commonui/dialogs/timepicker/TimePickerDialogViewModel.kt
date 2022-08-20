@@ -1,9 +1,9 @@
 package com.costular.commonui.dialogs.timepicker
 
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.atomtasks.coreui.mvi.MviViewModel
 import java.time.LocalTime
 
-class TimePickerDialogViewModel : com.costular.atomtasks.core_ui.mvi.MviViewModel<TimePickerDialogState>(TimePickerDialogState.Empty) {
+class TimePickerDialogViewModel : MviViewModel<TimePickerDialogState>(TimePickerDialogState.Empty) {
 
     fun setTime(time: LocalTime) {
         setState {

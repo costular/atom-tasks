@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.costular.common_ui.R
+import com.costular.commonui.R
 
 val Lato = FontFamily(
     Font(R.font.lato_regular),

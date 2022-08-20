@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class OutlinedTextFieldSnapshotTest{
+class OutlinedTextFieldSnapshotTest {
 
     @TestParameter
     private lateinit var fontScale: FontSize
@@ -32,7 +32,7 @@ class OutlinedTextFieldSnapshotTest{
     fun outlinedTextField() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             AtomOutlinedTextField(
                 value = "Input text...",
@@ -46,7 +46,7 @@ class OutlinedTextFieldSnapshotTest{
     fun emptyOutlinedTextField() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat()
+            fontScale = fontScale.asFloat(),
         ) {
             AtomOutlinedTextField(
                 value = "",

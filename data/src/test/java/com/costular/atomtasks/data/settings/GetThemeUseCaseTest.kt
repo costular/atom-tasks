@@ -1,9 +1,6 @@
 package com.costular.atomtasks.data.settings
 
 import app.cash.turbine.test
-import com.costular.atomtasks.data.settings.GetThemeUseCase
-import com.costular.atomtasks.data.settings.SettingsRepository
-import com.costular.atomtasks.data.settings.Theme
 import com.google.common.truth.Truth
 import io.mockk.every
 import io.mockk.mockk

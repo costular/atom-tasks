@@ -1,7 +1,7 @@
 package com.costular.atomtasks.settings
 
 import app.cash.turbine.test
-import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.atomtasks.coretesting.MviViewModelTest
 import com.costular.atomtasks.data.settings.GetThemeUseCase
 import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.Theme

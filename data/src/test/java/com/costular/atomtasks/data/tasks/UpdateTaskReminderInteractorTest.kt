@@ -1,7 +1,5 @@
 package com.costular.atomtasks.data.tasks
 
-import com.costular.atomtasks.data.tasks.TasksRepository
-import com.costular.atomtasks.data.tasks.UpdateTaskReminderInteractor
 import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.LocalDate

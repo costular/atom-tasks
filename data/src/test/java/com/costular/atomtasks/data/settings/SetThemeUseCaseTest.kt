@@ -1,8 +1,5 @@
 package com.costular.atomtasks.data.settings
 
-import com.costular.atomtasks.data.settings.SetThemeUseCase
-import com.costular.atomtasks.data.settings.SettingsRepository
-import com.costular.atomtasks.data.settings.Theme
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestCoroutineScope

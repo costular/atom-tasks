@@ -9,7 +9,7 @@ import com.costular.atomtasks.data.manager.NotifManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker
 class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,

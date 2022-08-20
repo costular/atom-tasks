@@ -11,7 +11,7 @@ plugins {
 
 android {
     defaultConfig {
-        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
     }
 }
 

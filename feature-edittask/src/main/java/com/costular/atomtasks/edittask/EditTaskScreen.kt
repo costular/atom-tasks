@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
+import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.commonui.components.createtask.CreateTaskExpanded
 import com.costular.core.Async
 import com.google.accompanist.insets.navigationBarsWithImePadding

@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.atomtasks.core_ui.utils.DateUtils
+import com.costular.atomtasks.coreui.utils.DateUtils
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.costular.core.util.DateTimeFormatters.dayOfWeekFormatter
 import java.time.LocalDate

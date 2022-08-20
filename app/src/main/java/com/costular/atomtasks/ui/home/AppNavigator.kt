@@ -7,10 +7,8 @@ import com.costular.atomtasks.settings.SettingsNavigator
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.atomtasks.ui.features.edittask.destinations.EditTaskScreenDestination
 import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.spec.DestinationSpec
 
 class AppNavigator(
-    private val currentDestination: DestinationSpec<*>,
     private val navController: NavController,
 ) : SettingsNavigator, AgendaNavigator {
 

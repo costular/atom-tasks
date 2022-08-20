@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
-import com.costular.common_ui.R
+import com.costular.commonui.R
 import com.costular.commonui.components.DatePicker
 import com.costular.commonui.theme.AppTheme
 import java.time.LocalDate

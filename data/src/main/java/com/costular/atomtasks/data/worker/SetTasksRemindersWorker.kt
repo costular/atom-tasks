@@ -9,7 +9,7 @@ import com.costular.atomtasks.data.manager.ReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker
 class SetTasksRemindersWorker @AssistedInject constructor(
     @Assisted appContext: Context,

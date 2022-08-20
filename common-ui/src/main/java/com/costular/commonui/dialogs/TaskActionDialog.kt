@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
-import com.costular.common_ui.R
+import com.costular.commonui.R
 import com.costular.commonui.components.ActionItem
 import com.costular.commonui.theme.AlphaDivider
 import com.costular.commonui.theme.AppTheme

@@ -17,7 +17,7 @@ android {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
 
-        testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
     }
 }
 

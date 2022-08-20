@@ -23,8 +23,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
-import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
-import com.costular.common_ui.R
+import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
+import com.costular.commonui.R
 import com.costular.commonui.components.TimePicker
 import java.time.LocalTime
 

@@ -1,8 +1,6 @@
 package com.costular.atomtasks.data.tasks
 
-import com.costular.atomtasks.data.tasks.CreateTaskInteractor
 import com.costular.atomtasks.data.manager.ReminderManager
-import com.costular.atomtasks.data.tasks.TasksRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify

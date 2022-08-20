@@ -1,7 +1,7 @@
 package com.costular.atomtasks.createtask
 
 import app.cash.turbine.test
-import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.atomtasks.coretesting.MviViewModelTest
 import com.costular.atomtasks.data.tasks.CreateTaskInteractor
 import com.costular.core.Async
 import com.costular.core.InvokeError

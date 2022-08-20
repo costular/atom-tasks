@@ -40,10 +40,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.costular.atomtasks.core_ui.utils.DateUtils.dayAsText
-import com.costular.atomtasks.core_ui.utils.DateUtils.timeAsText
-import com.costular.atomtasks.core_ui.utils.rememberFlowWithLifecycle
-import com.costular.common_ui.R
+import com.costular.atomtasks.coreui.utils.DateUtils.dayAsText
+import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
+import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
+import com.costular.commonui.R
 import com.costular.commonui.components.RemovableChip
 import com.costular.commonui.dialogs.DatePickerDialog
 import com.costular.commonui.dialogs.timepicker.TimePickerDialog

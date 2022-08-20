@@ -1,7 +1,7 @@
 package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.atomtasks.coreui.mvi.MviViewModel
 import com.costular.atomtasks.data.tasks.GetTasksInteractor
 import com.costular.atomtasks.data.tasks.RemoveTaskInteractor
 import com.costular.atomtasks.data.tasks.Task

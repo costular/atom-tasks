@@ -1,6 +1,6 @@
 package com.costular.commonui.components.createtask
 
-import com.costular.atomtasks.core_ui.mvi.MviViewModel
+import com.costular.atomtasks.coreui.mvi.MviViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 

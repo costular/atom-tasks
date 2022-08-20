@@ -17,7 +17,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.costular.atomtasks.data.tasks.Task
 import com.costular.commonui.theme.AppTheme
-import com.costular.common_ui.R
+import com.costular.commonui.R
 
 @Composable
 fun TaskList(

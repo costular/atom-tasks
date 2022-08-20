@@ -1,7 +1,7 @@
 package com.costular.atomtasks.edittask
 
 import app.cash.turbine.test
-import com.costular.atomtasks.core_testing.MviViewModelTest
+import com.costular.atomtasks.coretesting.MviViewModelTest
 import com.costular.atomtasks.data.tasks.GetTaskByIdInteractor
 import com.costular.atomtasks.data.tasks.UpdateTaskInteractor
 import com.costular.atomtasks.data.util.taskToday
@@ -18,7 +18,6 @@ import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test

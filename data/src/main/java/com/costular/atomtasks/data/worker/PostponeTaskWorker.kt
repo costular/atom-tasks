@@ -14,7 +14,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.first
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker
 class PostponeTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,

@@ -1,7 +1,7 @@
 package com.costular.atomtasks.agenda
 
-import com.costular.atomtasks.core_testing.ui.AndroidTest
-import com.costular.atomtasks.core_testing.ui.getString
+import com.costular.atomtasks.coretesting.ui.AndroidTest
+import com.costular.atomtasks.coretesting.ui.getString
 import com.costular.atomtasks.data.tasks.Task
 import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -9,7 +9,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 import org.junit.Test
-import com.costular.atomtasks.core_ui.R
 
 @HiltAndroidTest
 class AgendaTest : AndroidTest() {
