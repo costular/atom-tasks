@@ -4,6 +4,7 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.Reminder
 import com.costular.atomtasks.data.tasks.Task
+import com.costular.atomtasks.data.tasks.TaskEntity
 
 fun TaskAggregated.toDomain(): Task =
     Task(

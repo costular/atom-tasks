@@ -16,7 +16,6 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val notifManager: NotifManager,
-    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -37,7 +36,6 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: Exception) {
-            errorLogger.logError(e)
             Result.failure()
         }
     }

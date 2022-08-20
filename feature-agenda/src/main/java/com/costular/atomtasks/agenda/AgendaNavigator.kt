@@ -5,4 +5,8 @@ interface AgendaNavigator {
         date: String,
         text: String?,
     )
+
+    fun navigateToEditTask(
+        taskId: Long,
+    )
 }

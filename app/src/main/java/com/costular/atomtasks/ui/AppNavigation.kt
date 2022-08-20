@@ -16,6 +16,7 @@ import com.costular.atomtasks.agenda.destinations.AgendaScreenDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.destinations.SettingsScreenDestination
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
+import com.costular.atomtasks.ui.features.edittask.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.ui.home.AppNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -61,6 +62,17 @@ object NavGraphs {
             ).associateBy { it.route }
     }
 
+    val editTask = object : NavGraphSpec {
+        override val route: String = "edittasks"
+
+        override val startRoute: Route = EditTaskScreenDestination
+
+        override val destinationsByRoute: Map<String, DestinationSpec<*>> =
+            listOf<DestinationSpec<*>>(
+                EditTaskScreenDestination,
+            ).associateBy { it.route }
+    }
+
     val root = object : NavGraphSpec {
         override val route: String = "root"
 
@@ -72,6 +84,7 @@ object NavGraphs {
             agenda,
             createTask,
             settings,
+            editTask,
         )
     }
 }

@@ -16,7 +16,6 @@ class SetTasksRemindersWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getTasksWithReminderInteractor: GetTasksWithReminderInteractor,
     private val reminderManager: ReminderManager,
-    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result =
@@ -29,7 +28,6 @@ class SetTasksRemindersWorker @AssistedInject constructor(
             }
             Result.success()
         } catch (e: Exception) {
-            errorLogger.logError(e)
             Result.failure()
         }
 }

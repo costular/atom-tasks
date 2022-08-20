@@ -70,7 +70,7 @@ internal fun AgendaScreen(
         openTaskAction = viewModel::openTaskAction,
         onEditAction = { taskId ->
             viewModel.dismissTaskAction()
-            navigator.navigate(EditTaskScreenDestination(taskId = taskId))
+            navigator.navigateToEditTask(taskId)
         },
     )
 }

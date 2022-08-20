@@ -17,7 +17,6 @@ class NotifyTaskWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getTaskByIdInteractor: GetTaskByIdInteractor,
     private val notifManager: NotifManager,
-    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -48,7 +47,6 @@ class NotifyTaskWorker @AssistedInject constructor(
             notifManager.remindTask(task)
             Result.success()
         } catch (e: Exception) {
-            errorLogger.logError(e)
             Result.failure()
         }
     }

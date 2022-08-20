@@ -23,7 +23,6 @@ class PostponeTaskWorker @AssistedInject constructor(
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val notifManager: NotifManager,
     private val reminderManager: ReminderManager,
-    private val errorLogger: ErrorLogger,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -54,7 +53,6 @@ class PostponeTaskWorker @AssistedInject constructor(
             reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
-            errorLogger.logError(e)
             Result.failure()
         }
     }

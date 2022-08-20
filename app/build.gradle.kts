@@ -89,6 +89,7 @@ dependencies {
     implementation(project(":feature-agenda"))
     implementation(project(":feature-create-task"))
     implementation(project(":feature-settings"))
+    implementation(projects.featureEdittask)
 
     implementation(libs.fragment)
     implementation(libs.compose.ui)

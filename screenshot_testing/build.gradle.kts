@@ -17,7 +17,9 @@ androidComponents {
 dependencies {
     implementation(projects.commonUi)
 
+    testImplementation(projects.data)
     testImplementation(libs.compose.ui)
+    testImplementation(libs.compose.material.icons)
     testImplementation(libs.compose.runtime)
     testImplementation(libs.compose.material)
     testImplementation(libs.testparameterinjector)

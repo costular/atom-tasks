@@ -5,6 +5,7 @@ import com.costular.atomtasks.agenda.AgendaNavigator
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.SettingsNavigator
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
+import com.costular.atomtasks.ui.features.edittask.destinations.EditTaskScreenDestination
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DestinationSpec
 
@@ -15,6 +16,10 @@ class AppNavigator(
 
     override fun navigateToCreateTask(date: String, text: String?) {
         navController.navigate(CreateTaskScreenDestination(text = text, date = date))
+    }
+
+    override fun navigateToEditTask(taskId: Long) {
+        navController.navigate(EditTaskScreenDestination(taskId))
     }
 
     override fun navigateUp() {
