@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronLeft
 import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,7 +34,6 @@ import com.costular.commonui.dialogs.RemoveTaskDialog
 import com.costular.commonui.dialogs.TaskActionDialog
 import com.costular.commonui.theme.AppTheme
 import com.costular.core.Async
-import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import java.time.LocalDate
 
@@ -75,6 +75,7 @@ internal fun AgendaScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("LongMethod")
 @Composable
 fun AgendaScreen(
@@ -123,20 +124,17 @@ fun AgendaScreen(
     }
 
     Scaffold(
-        bottomBar = {
+        floatingActionButton = {
             CreateTask(
                 onClick = onCreateTask,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(AppTheme.dimens.contentMargin)
                     .testTag("AgendaCreateTask"),
             )
         },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             DayHeader(
                 state = state,

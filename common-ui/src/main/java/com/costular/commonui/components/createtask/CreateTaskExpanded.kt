@@ -19,13 +19,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -181,7 +182,7 @@ internal fun CreateTaskExpanded(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun RowScope.CreateTaskInput(
     value: String,
@@ -196,14 +197,14 @@ private fun RowScope.CreateTaskInput(
         placeholder = {
             Text(
                 stringResource(R.string.agenda_create_task_name),
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.bodyLarge,
             )
         },
         modifier = Modifier.Companion
             .weight(1f)
             .testTag("CreateTaskInput")
             .focusRequester(focusRequester),
-        textStyle = MaterialTheme.typography.h6,
+        textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 2,
         trailingIcon = {
             AnimatedVisibility(
@@ -216,13 +217,13 @@ private fun RowScope.CreateTaskInput(
                     modifier = Modifier
                         .padding(AppTheme.dimens.spacingSmall)
                         .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colors.secondary)
+                        .background(MaterialTheme.colorScheme.secondary)
                         .testTag("CreateTaskExpandedSave"),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Check,
                         contentDescription = null,
-                        tint = MaterialTheme.colors.onSecondary,
+                        tint = MaterialTheme.colorScheme.onSecondary,
                     )
                 }
             }

@@ -1,7 +1,7 @@
 package com.costular.atomtasks.screenshottesting.utils
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalDensity

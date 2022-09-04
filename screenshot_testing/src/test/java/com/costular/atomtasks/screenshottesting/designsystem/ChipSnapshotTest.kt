@@ -2,8 +2,8 @@ package com.costular.atomtasks.screenshottesting.designsystem
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.ui.unit.dp
 import app.cash.paparazzi.Paparazzi
 import com.costular.atomtasks.screenshottesting.utils.FontSize

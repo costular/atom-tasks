@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -37,7 +37,7 @@ fun Chip(
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke = BorderStroke(0.dp, Color.Unspecified),
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentPadding: PaddingValues = PaddingValues(AppTheme.dimens.spacingMedium),
     content: @Composable RowScope.() -> Unit,
 ) {
@@ -71,7 +71,7 @@ private fun ChipPreview() {
                 modifier = Modifier.size(AppTheme.ChipIconSize),
             )
             Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.today), style = MaterialTheme.typography.body1)
+            Text(stringResource(R.string.today), style = MaterialTheme.typography.labelLarge)
         }
     }
 }

@@ -11,8 +11,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalMinimumTouchTargetEnforcement
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
@@ -39,15 +39,15 @@ fun RemovableChip(
     modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (isSelected) {
-        MaterialTheme.colors.primary
+        MaterialTheme.colorScheme.primary
     } else {
-        MaterialTheme.colors.surface
+        MaterialTheme.colorScheme.surface
     }
 
     val contentColor = if (isSelected) {
-        MaterialTheme.colors.onPrimary
+        MaterialTheme.colorScheme.onPrimary
     } else {
-        MaterialTheme.colors.onSurface
+        MaterialTheme.colorScheme.onSurface
     }
 
     Chip(

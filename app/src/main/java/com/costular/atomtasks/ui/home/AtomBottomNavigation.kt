@@ -1,16 +1,14 @@
 package com.costular.atomtasks.ui.home
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 @Composable
@@ -19,13 +17,12 @@ fun AtomBottomNavigation(
     onNavigationSelected: (NavGraphSpec) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    BottomNavigation(
-        modifier = modifier.navigationBarsPadding(),
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp,
+    NavigationBar(
+        modifier = modifier,
+        containerColor = MaterialTheme.colorScheme.background,
     ) {
         HomeNavigationDestination.values().forEach { destination ->
-            BottomNavigationItem(
+            NavigationBarItem(
                 selected = selectedNavigation == destination.screen,
                 onClick = {
                     onNavigationSelected(destination.screen)

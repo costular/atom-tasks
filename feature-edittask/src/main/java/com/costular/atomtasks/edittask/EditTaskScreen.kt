@@ -35,23 +35,22 @@ fun EditTaskScreen(
         viewModel.loadTask(taskId)
     }
 
-    when (val task = state.taskState) {
-        is TaskState.Success -> {
-            CreateTaskExpanded(
-                value = task.name,
-                date = task.date,
-                onSave = { result ->
-                    viewModel.editTask(
-                        result.name,
-                        result.date,
-                        result.reminder,
-                    )
-                },
-                reminder = task.reminder,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsWithImePadding(),
-            )
-        }
+    val task = state.taskState
+    if (task is TaskState.Success) {
+        CreateTaskExpanded(
+            value = task.name,
+            date = task.date,
+            onSave = { result ->
+                viewModel.editTask(
+                    result.name,
+                    result.date,
+                    result.reminder,
+                )
+            },
+            reminder = task.reminder,
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsWithImePadding(),
+        )
     }
 }

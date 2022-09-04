@@ -2,9 +2,10 @@ package com.costular.atomtasks.ui.util
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -13,11 +14,10 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DestinationsScaffold(
     navController: NavHostController,
-    scaffoldState: ScaffoldState,
     bottomBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -25,12 +25,13 @@ fun DestinationsScaffold(
     navController.navigatorProvider += bottomSheetNavigator
 
     ModalBottomSheetLayout(
-        sheetBackgroundColor = MaterialTheme.colors.background,
         bottomSheetNavigator = bottomSheetNavigator,
-        sheetShape = RoundedCornerShape(16.dp),
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+        sheetContentColor = MaterialTheme.colorScheme.onSurface,
+        scrimColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f),
     ) {
         Scaffold(
-            scaffoldState = scaffoldState,
             bottomBar = bottomBar,
             content = content,
         )

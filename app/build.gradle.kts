@@ -90,11 +90,10 @@ dependencies {
 
     implementation(libs.fragment)
     implementation(libs.compose.ui)
-    implementation(libs.compose.material)
-    implementation(libs.constraintlayout)
+    implementation(libs.compose.material3)
     implementation(libs.compose.material.icons)
+    implementation(libs.constraintlayout)
     implementation(libs.accompanist.systemui)
-    implementation(libs.accompanist.insetsui)
     implementation(libs.material)
     implementation(libs.androidx.core)
     implementation(libs.appcompat)
