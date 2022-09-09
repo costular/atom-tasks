@@ -17,7 +17,7 @@ import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.currentScreenAsState
-import com.costular.atomtasks.ui.util.DestinationsScaffold
+import com.costular.atomtasks.coreui.DestinationsScaffold
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController

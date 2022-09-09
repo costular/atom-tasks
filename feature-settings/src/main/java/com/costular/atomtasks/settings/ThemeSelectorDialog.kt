@@ -101,6 +101,7 @@ private fun ThemeItem(
             text = parseTheme(theme),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
