@@ -35,18 +35,6 @@ fun ClearableChip(
     onClear: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val backgroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surface
-    }
-
-    val contentColor = if (isSelected) {
-        MaterialTheme.colorScheme.onPrimary
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
-
     InputChip(
         modifier = modifier,
         onClick = onClick,
