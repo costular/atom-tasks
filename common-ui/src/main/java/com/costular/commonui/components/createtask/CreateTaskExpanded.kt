@@ -15,18 +15,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,7 +39,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.coreui.utils.DateUtils.dayAsText
@@ -139,12 +139,14 @@ internal fun CreateTaskExpanded(
     onClearReminder: () -> Unit,
     onSave: () -> Unit,
 ) {
-    Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
+    Column(modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             CreateTaskInput(
                 value = state.name,
                 focusRequester = focusRequester,
                 onValueChange = onValueChange,
+            )
+            SaveButton(
                 shouldShowSend = state.shouldShowSend,
                 onSave = onSave,
             )
@@ -188,8 +190,6 @@ private fun RowScope.CreateTaskInput(
     value: String,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
-    shouldShowSend: Boolean,
-    onSave: () -> Unit,
 ) {
     OutlinedTextField(
         value = value,
@@ -206,37 +206,35 @@ private fun RowScope.CreateTaskInput(
             .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 2,
-        trailingIcon = {
-            AnimatedVisibility(
-                visible = shouldShowSend,
-                enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-                exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-            ) {
-                IconButton(
-                    onClick = onSave,
-                    modifier = Modifier
-                        .padding(AppTheme.dimens.spacingSmall)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .testTag("CreateTaskExpandedSave"),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Check,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondary,
-                    )
-                }
-            }
-        },
-        keyboardOptions = KeyboardOptions(
-            imeAction = if (shouldShowSend) ImeAction.Done else ImeAction.None,
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                onSave()
-            },
-        ),
     )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun SaveButton(
+    shouldShowSend: Boolean,
+    onSave: () -> Unit,
+) {
+    AnimatedVisibility(
+        visible = shouldShowSend,
+        enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+        exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+    ) {
+        IconButton(
+            onClick = onSave,
+            modifier = Modifier
+                .padding(AppTheme.dimens.spacingSmall)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.secondary)
+                .testTag("CreateTaskExpandedSave"),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Check,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondary,
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
