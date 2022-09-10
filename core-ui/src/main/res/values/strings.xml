@@ -49,5 +49,6 @@
     <string name="settings_general_title">General</string>
     <string name="save">Save</string>
     <string name="content_description_chip_clear">Clear</string>
+    <string name="agenda_edit_title">Edit task</string>
 
 </resources>
