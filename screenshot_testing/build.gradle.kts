@@ -21,6 +21,7 @@ dependencies {
     testImplementation(libs.compose.ui)
     testImplementation(libs.compose.runtime)
     testImplementation(libs.compose.material3)
+    testImplementation(libs.compose.material.icons)
     testImplementation(libs.testparameterinjector)
 }
 
