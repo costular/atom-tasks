@@ -1,7 +1,6 @@
 package com.costular.commonui.dialogs
 
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,7 +18,7 @@ fun RemoveTaskDialog(
             Text(stringResource(R.string.remove_task_message))
         },
         confirmButton = {
-            Button(onClick = onAccept) {
+            TextButton(onClick = onAccept) {
                 Text(stringResource(R.string.delete))
             }
         },
