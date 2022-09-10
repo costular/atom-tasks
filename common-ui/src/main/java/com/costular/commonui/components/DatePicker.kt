@@ -15,14 +15,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -109,7 +109,10 @@ private fun HeaderMonth(
             style = MaterialTheme.typography.headlineSmall,
         )
         Spacer(modifier = Modifier.width(AppTheme.dimens.spacingMedium))
-        Text(text = monthState.currentMonth.year.toString(), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = monthState.currentMonth.year.toString(),
+            style = MaterialTheme.typography.headlineSmall,
+        )
         IconButton(
             modifier = Modifier.testTag("Increment"),
             onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) },
@@ -156,12 +159,12 @@ private fun <T : SelectionState> CalendarDay(
     val isToday = date == LocalDate.now()
 
     val backgroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary
+        MaterialTheme.colorScheme.surfaceVariant
     } else {
         MaterialTheme.colorScheme.surface
     }
     val borderColor = if (isToday) {
-        MaterialTheme.colorScheme.onSurface
+        MaterialTheme.colorScheme.onSurfaceVariant
     } else {
         Color.Unspecified
     }
@@ -172,7 +175,7 @@ private fun <T : SelectionState> CalendarDay(
         modifier = modifier
             .aspectRatio(1f)
             .padding(2.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(CircleShape)
             .background(backgroundColor)
             .border(1.dp, borderColor, shape = CircleShape)
             .clickable {
