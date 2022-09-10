@@ -74,7 +74,7 @@ fun ClearableChip(
                         onClick = onClear,
                         modifier = Modifier.size(AppTheme.ChipIconSize),
                     ) {
-                        Image(
+                        Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = stringResource(
                                 R.string.content_description_chip_clear,
