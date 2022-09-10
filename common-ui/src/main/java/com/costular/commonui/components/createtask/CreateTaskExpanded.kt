@@ -19,14 +19,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,7 +45,7 @@ import com.costular.atomtasks.coreui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.commonui.R
-import com.costular.commonui.components.RemovableChip
+import com.costular.commonui.components.ClearableChip
 import com.costular.commonui.dialogs.DatePickerDialog
 import com.costular.commonui.dialogs.timepicker.TimePickerDialog
 import com.costular.commonui.theme.AppTheme
@@ -153,7 +153,7 @@ internal fun CreateTaskExpanded(
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            RemovableChip(
+            ClearableChip(
                 title = dayAsText(state.date),
                 icon = Icons.Outlined.Today,
                 isSelected = false,
@@ -170,7 +170,7 @@ internal fun CreateTaskExpanded(
                 stringResource(R.string.create_task_set_reminder)
             }
 
-            RemovableChip(
+            ClearableChip(
                 title = reminderText,
                 icon = Icons.Outlined.Alarm,
                 isSelected = state.reminder != null,

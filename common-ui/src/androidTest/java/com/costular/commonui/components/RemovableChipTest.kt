@@ -28,7 +28,7 @@ class RemovableChipTest : AndroidTest() {
         val text = "whatever just testing"
 
         composeTestRule.setContent {
-            RemovableChip(
+            ClearableChip(
                 title = text,
                 icon = Icons.Default.Today,
                 isSelected = false,
@@ -44,7 +44,7 @@ class RemovableChipTest : AndroidTest() {
     @Test
     fun shouldShowClearButton_whenChipIsSelected() {
         composeTestRule.setContent {
-            RemovableChip(
+            ClearableChip(
                 title = "whatever",
                 icon = Icons.Default.Today,
                 isSelected = true,
@@ -61,7 +61,7 @@ class RemovableChipTest : AndroidTest() {
         val callback: () -> Unit = mockk(relaxed = true)
 
         composeTestRule.setContent {
-            RemovableChip(
+            ClearableChip(
                 title = "whatever",
                 icon = Icons.Default.Today,
                 isSelected = true,

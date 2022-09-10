@@ -1,11 +1,13 @@
 package com.costular.atomtasks.coreui
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
@@ -24,6 +26,7 @@ fun DestinationsScaffold(
     navController.navigatorProvider += bottomSheetNavigator
 
     ModalBottomSheetLayout(
+        modifier = Modifier.imePadding(),
         bottomSheetNavigator = bottomSheetNavigator,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetBackgroundColor = MaterialTheme.colorScheme.surface,
