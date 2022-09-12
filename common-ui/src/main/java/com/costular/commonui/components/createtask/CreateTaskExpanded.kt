@@ -1,40 +1,28 @@
 package com.costular.commonui.components.createtask
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
@@ -46,6 +34,7 @@ import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.commonui.R
 import com.costular.commonui.components.ClearableChip
+import com.costular.commonui.components.PrimaryButton
 import com.costular.commonui.dialogs.DatePickerDialog
 import com.costular.commonui.dialogs.timepicker.TimePickerDialog
 import com.costular.commonui.theme.AppTheme
@@ -139,18 +128,12 @@ internal fun CreateTaskExpanded(
     onClearReminder: () -> Unit,
     onSave: () -> Unit,
 ) {
-    Column(modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CreateTaskInput(
-                value = state.name,
-                focusRequester = focusRequester,
-                onValueChange = onValueChange,
-            )
-            SaveButton(
-                shouldShowSend = state.shouldShowSend,
-                onSave = onSave,
-            )
-        }
+    Column(modifier.padding(AppTheme.dimens.contentMargin)) {
+        CreateTaskInput(
+            value = state.name,
+            focusRequester = focusRequester,
+            onValueChange = onValueChange,
+        )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
@@ -181,12 +164,20 @@ internal fun CreateTaskExpanded(
                 modifier = Modifier.testTag("CreateTaskExpandedReminder"),
             )
         }
+
+        Spacer(Modifier.height(AppTheme.dimens.spacingHuge))
+
+        SaveButton(
+            isEnabled = state.shouldShowSend,
+            onSave = onSave,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RowScope.CreateTaskInput(
+private fun CreateTaskInput(
     value: String,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
@@ -201,7 +192,7 @@ private fun RowScope.CreateTaskInput(
             )
         },
         modifier = Modifier.Companion
-            .weight(1f)
+            .fillMaxWidth()
             .testTag("CreateTaskInput")
             .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge,
@@ -209,31 +200,24 @@ private fun RowScope.CreateTaskInput(
     )
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SaveButton(
-    shouldShowSend: Boolean,
+    isEnabled: Boolean,
     onSave: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    AnimatedVisibility(
-        visible = shouldShowSend,
-        enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-        exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
+    PrimaryButton(
+        onClick = onSave,
+        modifier = modifier.testTag("CreateTaskExpandedSave"),
+        enabled = isEnabled,
     ) {
-        IconButton(
-            onClick = onSave,
-            modifier = Modifier
-                .padding(AppTheme.dimens.spacingSmall)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.secondary)
-                .testTag("CreateTaskExpandedSave"),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Check,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondary,
-            )
-        }
+        Icon(
+            imageVector = Icons.Outlined.Check,
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(stringResource(R.string.save))
     }
 }
 

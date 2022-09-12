@@ -7,12 +7,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.createtask.CreateTaskState.Companion.Empty
 import com.costular.commonui.components.createtask.CreateTaskExpanded
-import com.costular.commonui.dialogs.AtomSheet
 import com.costular.core.Async
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ramcosta.composedestinations.annotation.Destination
@@ -44,23 +42,18 @@ fun CreateTaskScreen(
         }
     }
 
-    AtomSheet(
-        title = stringResource(R.string.agenda_create_new_task),
-        onNavigateUp = { navigator.navigateUp() },
-    ) {
-        CreateTaskExpanded(
-            value = text ?: "",
-            date = localDate,
-            onSave = { result ->
-                viewModel.createTask(
-                    result.name,
-                    result.date,
-                    result.reminder,
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsWithImePadding(),
-        )
-    }
+    CreateTaskExpanded(
+        value = text ?: "",
+        date = localDate,
+        onSave = { result ->
+            viewModel.createTask(
+                result.name,
+                result.date,
+                result.reminder,
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsWithImePadding(),
+    )
 }
