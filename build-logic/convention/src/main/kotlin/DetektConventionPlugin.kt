@@ -3,7 +3,10 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 
 class DetektConventionPlugin : Plugin<Project> {
@@ -32,6 +35,11 @@ class DetektConventionPlugin : Plugin<Project> {
             }
             tasks.withType<DetektCreateBaselineTask>().configureEach {
                 jvmTarget = "1.8"
+            }
+
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            dependencies {
+                add("detektPlugins", libs.findLibrary("twitter.composeLintRules").get())
             }
         }
     }
