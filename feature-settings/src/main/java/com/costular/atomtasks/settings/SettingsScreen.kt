@@ -66,7 +66,7 @@ fun SettingsScreen(
                         text = stringResource(R.string.settings),
                     )
                 },
-                windowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp)
+                windowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
             )
         },
     ) { contentPadding ->

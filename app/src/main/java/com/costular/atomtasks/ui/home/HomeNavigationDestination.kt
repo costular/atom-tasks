@@ -33,4 +33,3 @@ enum class HomeNavigationDestination(
         contentDescriptionResId = R.string.home_menu_settings,
     )
 }
-
