@@ -159,12 +159,12 @@ private fun <T : SelectionState> CalendarDay(
     val isToday = date == LocalDate.now()
 
     val backgroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.surfaceVariant
+        MaterialTheme.colorScheme.primaryContainer
     } else {
         MaterialTheme.colorScheme.surface
     }
     val borderColor = if (isToday) {
-        MaterialTheme.colorScheme.onSurfaceVariant
+        MaterialTheme.colorScheme.onPrimaryContainer
     } else {
         Color.Unspecified
     }
