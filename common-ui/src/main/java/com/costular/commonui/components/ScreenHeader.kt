@@ -1,8 +1,8 @@
 package com.costular.commonui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -14,7 +14,7 @@ fun ScreenHeader(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.h4,
+        style = MaterialTheme.typography.headlineLarge,
         modifier = modifier.fillMaxWidth(),
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,

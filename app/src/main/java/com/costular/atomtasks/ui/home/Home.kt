@@ -4,7 +4,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -18,9 +17,8 @@ import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.currentScreenAsState
-import com.costular.atomtasks.ui.util.DestinationsScaffold
+import com.costular.atomtasks.coreui.DestinationsScaffold
 import com.costular.commonui.theme.AtomRemindersTheme
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.navigation.navigate
@@ -48,21 +46,17 @@ fun App() {
     }
 
     AtomRemindersTheme(darkTheme = isDarkTheme) {
-        ProvideWindowInsets {
-            Home()
-        }
+        Home()
     }
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun Home() {
-    val scaffoldState = rememberScaffoldState()
     val navController = rememberAnimatedNavController()
     val currentSelectedItem by navController.currentScreenAsState()
 
     DestinationsScaffold(
-        scaffoldState = scaffoldState,
         bottomBar = {
             AtomBottomNavigation(
                 selectedNavigation = currentSelectedItem,

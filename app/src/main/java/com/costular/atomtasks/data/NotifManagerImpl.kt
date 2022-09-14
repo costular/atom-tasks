@@ -9,7 +9,6 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.costular.atomtasks.data.receiver.MarkTaskAsDoneReceiver
@@ -18,7 +17,6 @@ import com.costular.atomtasks.data.manager.NotifManager
 import com.costular.atomtasks.data.tasks.Task
 import com.costular.atomtasks.ui.home.MainActivity
 import com.costular.atomtasks.ui.util.ChannelReminders
-import com.costular.commonui.theme.Teal500
 
 internal class NotifManagerImpl(private val context: Context) : NotifManager {
 
@@ -114,7 +112,7 @@ internal class NotifManagerImpl(private val context: Context) : NotifManager {
     private fun buildNotificationBase(channel: String): NotificationCompat.Builder =
         NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.drawable.ic_atom)
-            .setColor(Teal500.toArgb())
+            .setColor(R.color.primary)
 
     private fun generateRandomRequestCode(): Int {
         return (0..Int.MAX_VALUE).random()

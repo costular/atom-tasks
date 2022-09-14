@@ -2,7 +2,7 @@ package com.costular.commonui.components
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.min
 @Composable
 fun AutoSizedCircularProgressIndicator(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colors.onPrimary,
+    color: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     BoxWithConstraints(modifier) {
         val diameter = with(LocalDensity.current) {

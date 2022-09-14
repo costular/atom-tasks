@@ -1,6 +1,6 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import app.cash.paparazzi.Paparazzi
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory

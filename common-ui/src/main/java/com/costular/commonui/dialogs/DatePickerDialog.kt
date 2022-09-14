@@ -2,9 +2,9 @@ package com.costular.commonui.dialogs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,13 +23,12 @@ fun DatePickerDialog(
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Surface(
-            color = MaterialTheme.colors.background,
             shape = MaterialTheme.shapes.medium,
         ) {
             Column(modifier = Modifier.padding(AppTheme.dimens.contentMargin)) {
                 Text(
                     text = stringResource(R.string.create_task_set_date),
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.titleLarge,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier

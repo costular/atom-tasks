@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.settings.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -36,12 +36,12 @@ fun SettingItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .background(MaterialTheme.colors.surface)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable { onClick() }
             .padding(AppTheme.dimens.contentMargin),
     ) {
-        val onSurface = MaterialTheme.colors.onSurface
-        CompositionLocalProvider(LocalContentColor provides onSurface) {
+        val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+        CompositionLocalProvider(LocalContentColor provides onSurfaceVariant) {
             if (start != null) {
                 start()
                 Spacer(Modifier.width(AppTheme.dimens.spacingXLarge))

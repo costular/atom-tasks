@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.Palette
@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.settings.components.SettingItem
 import com.costular.commonui.theme.AtomRemindersTheme
 
 @Composable
@@ -34,14 +35,14 @@ fun SettingOption(
                 painter = rememberVectorPainter(icon),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
             )
         },
         title = {
             Column {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodyLarge,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                 )
@@ -50,7 +51,7 @@ fun SettingOption(
 
                 Text(
                     text = option,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         },

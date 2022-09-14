@@ -16,7 +16,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
-    implementation(libs.compose.material)
+    implementation(libs.compose.material3)
     implementation(libs.compose.destinations)
 
     implementation(libs.lifecycle.runtime)

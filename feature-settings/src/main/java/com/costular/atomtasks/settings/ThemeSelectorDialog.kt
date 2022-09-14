@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,8 +99,9 @@ private fun ThemeItem(
 
         Text(
             text = parseTheme(theme),
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))

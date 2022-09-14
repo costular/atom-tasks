@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.costular.commonui.components.BottomSheetDraggable
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
-import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @Composable
 fun AtomSheet(
@@ -31,7 +30,7 @@ fun AtomSheet(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Column(modifier.navigationBarsWithImePadding()) {
+    Column(modifier) {
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -44,12 +43,25 @@ fun AtomSheet(
                 .height(56.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(onClick = onNavigateUp) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = null)
-            }
+            val startModifier = Modifier
+                .weight(1f)
+                .padding(start = AppTheme.dimens.contentMargin)
 
             if (title != null) {
-                AtomSheetTitle(text = title)
+                AtomSheetTitle(
+                    text = title,
+                    modifier = startModifier,
+                )
+            } else {
+                Spacer(modifier = startModifier)
+            }
+
+            IconButton(onClick = onNavigateUp) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
             }
         }
 
@@ -67,9 +79,10 @@ private fun AtomSheetTitle(
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.titleLarge,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
+        color = MaterialTheme.colorScheme.onSurface,
     )
 }
 

@@ -47,7 +47,7 @@ jobs:
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
       - name: Unit tests
-        run: ./gradlew test
+        run: ./gradlew test -x :screenshot_testing:test
 
   ui_tests:
     runs-on: macos-latest
@@ -112,5 +112,5 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: 📸 Snapshot tests
-        run: ./gradlew verifyPaparazziDebug
+      #- name: 📸 Snapshot tests
+      #  run: ./gradlew verifyPaparazziDebug

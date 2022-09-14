@@ -1,50 +1,40 @@
 package com.costular.commonui.components.createtask
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.coreui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.commonui.R
-import com.costular.commonui.components.RemovableChip
+import com.costular.commonui.components.ClearableChip
+import com.costular.commonui.components.PrimaryButton
 import com.costular.commonui.dialogs.DatePickerDialog
 import com.costular.commonui.dialogs.timepicker.TimePickerDialog
 import com.costular.commonui.theme.AppTheme
@@ -138,21 +128,17 @@ internal fun CreateTaskExpanded(
     onClearReminder: () -> Unit,
     onSave: () -> Unit,
 ) {
-    Column(modifier = modifier.padding(AppTheme.dimens.contentMargin)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CreateTaskInput(
-                value = state.name,
-                focusRequester = focusRequester,
-                onValueChange = onValueChange,
-                shouldShowSend = state.shouldShowSend,
-                onSave = onSave,
-            )
-        }
+    Column(modifier.padding(AppTheme.dimens.contentMargin)) {
+        CreateTaskInput(
+            value = state.name,
+            focusRequester = focusRequester,
+            onValueChange = onValueChange,
+        )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            RemovableChip(
+            ClearableChip(
                 title = dayAsText(state.date),
                 icon = Icons.Outlined.Today,
                 isSelected = false,
@@ -169,7 +155,7 @@ internal fun CreateTaskExpanded(
                 stringResource(R.string.create_task_set_reminder)
             }
 
-            RemovableChip(
+            ClearableChip(
                 title = reminderText,
                 icon = Icons.Outlined.Alarm,
                 isSelected = state.reminder != null,
@@ -178,17 +164,23 @@ internal fun CreateTaskExpanded(
                 modifier = Modifier.testTag("CreateTaskExpandedReminder"),
             )
         }
+
+        Spacer(Modifier.height(AppTheme.dimens.spacingHuge))
+
+        SaveButton(
+            isEnabled = state.shouldShowSend,
+            onSave = onSave,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RowScope.CreateTaskInput(
+private fun CreateTaskInput(
     value: String,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
-    shouldShowSend: Boolean,
-    onSave: () -> Unit,
 ) {
     OutlinedTextField(
         value = value,
@@ -196,46 +188,37 @@ private fun RowScope.CreateTaskInput(
         placeholder = {
             Text(
                 stringResource(R.string.agenda_create_task_name),
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.bodyLarge,
             )
         },
         modifier = Modifier.Companion
-            .weight(1f)
+            .fillMaxWidth()
             .testTag("CreateTaskInput")
             .focusRequester(focusRequester),
-        textStyle = MaterialTheme.typography.h6,
+        textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 2,
-        trailingIcon = {
-            AnimatedVisibility(
-                visible = shouldShowSend,
-                enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-                exit = scaleOut(spring(dampingRatio = Spring.DampingRatioMediumBouncy)),
-            ) {
-                IconButton(
-                    onClick = onSave,
-                    modifier = Modifier
-                        .padding(AppTheme.dimens.spacingSmall)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colors.secondary)
-                        .testTag("CreateTaskExpandedSave"),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Check,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.onSecondary,
-                    )
-                }
-            }
-        },
-        keyboardOptions = KeyboardOptions(
-            imeAction = if (shouldShowSend) ImeAction.Done else ImeAction.None,
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                onSave()
-            },
-        ),
     )
+}
+
+@Composable
+fun SaveButton(
+    isEnabled: Boolean,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    PrimaryButton(
+        onClick = onSave,
+        modifier = modifier.testTag("CreateTaskExpandedSave"),
+        enabled = isEnabled,
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Check,
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(stringResource(R.string.save))
+    }
 }
 
 @Preview(showBackground = true)

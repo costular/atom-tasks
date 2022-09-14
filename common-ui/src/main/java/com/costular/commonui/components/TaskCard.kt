@@ -12,9 +12,9 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.runtime.Composable
@@ -46,14 +46,13 @@ fun TaskCard(
     onOpen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val mediumColor = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.medium)
+    val mediumColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ContentAlpha.medium)
 
     Surface(
         modifier
             .fillMaxWidth()
             .clickable { onOpen() }
             .padding(vertical = AppTheme.dimens.spacingSmall),
-        color = MaterialTheme.colors.background,
     ) {
         val reminderInlineContent = reminderInline(mediumColor)
 
@@ -65,8 +64,8 @@ fun TaskCard(
                 isMarked = isFinished,
                 borderColor = mediumColor,
                 onClick = { onMark() },
-                contentColor = MaterialTheme.colors.primary,
-                onContentColor = MaterialTheme.colors.onPrimary,
+                contentColor = MaterialTheme.colorScheme.primary,
+                onContentColor = MaterialTheme.colorScheme.onPrimary,
             )
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))
@@ -74,7 +73,7 @@ fun TaskCard(
             Column {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.h6.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         textDecoration = if (isFinished) TextDecoration.LineThrough else null,
                     ),
                 )
@@ -88,7 +87,7 @@ fun TaskCard(
                             }
                             Text(
                                 text = alarmText,
-                                style = MaterialTheme.typography.body2,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = mediumColor,
                                 inlineContent = reminderInlineContent,
                             )

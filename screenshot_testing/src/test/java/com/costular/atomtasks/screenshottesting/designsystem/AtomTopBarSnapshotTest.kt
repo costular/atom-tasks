@@ -1,12 +1,13 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.Modifier
 import app.cash.paparazzi.Paparazzi
 import com.costular.atomtasks.screenshottesting.utils.FontSize
@@ -34,6 +35,7 @@ class AtomTopBarSnapshotTest {
     @get:Rule
     val paparazzi: Paparazzi = PaparazziFactory.create()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Test
     fun atomTopBarWithBackIconAndText() {
         paparazzi.screenshot(
@@ -54,6 +56,7 @@ class AtomTopBarSnapshotTest {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Test
     fun atomTopBarWithBackIconTitleAndActions() {
         paparazzi.screenshot(

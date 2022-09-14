@@ -6,14 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -48,7 +48,7 @@ fun TaskActionDialog(
 
                 Text(
                     text = taskName ?: "",
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = AppTheme.dimens.contentMargin)
@@ -62,7 +62,7 @@ fun TaskActionDialog(
                         .fillMaxWidth()
                         .padding(top = AppTheme.dimens.spacingLarge)
                         .padding(bottom = AppTheme.dimens.spacingSmall),
-                    color = MaterialTheme.colors.onSurface.copy(alpha = AlphaDivider),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDivider),
                 )
 
                 if (!isDone) {

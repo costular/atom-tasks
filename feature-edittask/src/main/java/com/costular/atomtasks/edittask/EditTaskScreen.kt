@@ -6,9 +6,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
+import com.costular.atomtasks.edittask.R
 import com.costular.commonui.components.createtask.CreateTaskExpanded
+import com.costular.commonui.dialogs.AtomSheet
 import com.costular.core.Async
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ramcosta.composedestinations.annotation.Destination
@@ -35,8 +38,12 @@ fun EditTaskScreen(
         viewModel.loadTask(taskId)
     }
 
-    when (val task = state.taskState) {
-        is TaskState.Success -> {
+    val task = state.taskState
+    if (task is TaskState.Success) {
+        AtomSheet(
+            title = stringResource(R.string.agenda_edit_task),
+            onNavigateUp = { navigator.navigateUp() },
+        ) {
             CreateTaskExpanded(
                 value = task.name,
                 date = task.date,

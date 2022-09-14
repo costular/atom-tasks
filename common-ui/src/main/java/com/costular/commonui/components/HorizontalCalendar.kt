@@ -13,10 +13,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -75,21 +75,27 @@ private fun CalendarDay(
     val day = date.dayOfMonth
     val weekDay = dayOfWeekFormatter.format(date.dayOfWeek)
 
-    val backgroundColor = if (isSelected) {
-        MaterialTheme.colors.primary
+    val cardColors = if (isSelected) {
+        CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        )
     } else {
-        MaterialTheme.colors.surface
+        CardDefaults.elevatedCardColors()
     }
-    val contentColor =
-        if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
 
-    Card(
+    val contentColor = if (isSelected) {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
+    ElevatedCard(
         modifier = modifier
             .width(60.dp)
             .height(70.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClick() },
-        backgroundColor = backgroundColor,
+        colors = cardColors,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -98,13 +104,13 @@ private fun CalendarDay(
         ) {
             Text(
                 text = day.toString(),
+                style = MaterialTheme.typography.titleMedium,
                 color = contentColor,
-                style = MaterialTheme.typography.subtitle1,
             )
             Text(
                 text = weekDay,
-                color = contentColor.copy(alpha = ContentAlpha.medium),
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyMedium,
+                color = contentColor,
             )
         }
     }

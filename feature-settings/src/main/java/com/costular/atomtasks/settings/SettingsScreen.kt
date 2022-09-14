@@ -2,23 +2,22 @@ package com.costular.atomtasks.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
@@ -26,7 +25,6 @@ import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestinati
 import com.costular.commonui.components.AtomTopBar
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
-import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.EmptyResultRecipient
 import com.ramcosta.composedestinations.result.ResultRecipient
@@ -42,6 +40,7 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateToSelectTheme(theme: String) = Unit
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true)
 @Composable
 fun SettingsScreen(
@@ -67,15 +66,7 @@ fun SettingsScreen(
                         text = stringResource(R.string.settings),
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
-                modifier = Modifier.statusBarsPadding(),
+                windowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
             )
         },
     ) { contentPadding ->

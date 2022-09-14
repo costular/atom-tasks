@@ -15,14 +15,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -99,24 +99,27 @@ private fun HeaderMonth(
         ) {
             Image(
                 imageVector = Icons.Default.KeyboardArrowLeft,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 contentDescription = "Previous",
             )
         }
         Text(
             text = monthState.currentMonth.month.name.lowercase()
                 .replaceFirstChar { it.titlecase() },
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.headlineSmall,
         )
         Spacer(modifier = Modifier.width(AppTheme.dimens.spacingMedium))
-        Text(text = monthState.currentMonth.year.toString(), style = MaterialTheme.typography.h6)
+        Text(
+            text = monthState.currentMonth.year.toString(),
+            style = MaterialTheme.typography.headlineSmall,
+        )
         IconButton(
             modifier = Modifier.testTag("Increment"),
             onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) },
         ) {
             Image(
                 imageVector = Icons.Default.KeyboardArrowRight,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 contentDescription = "Next",
             )
         }
@@ -137,7 +140,7 @@ private fun WeekHeader(
                     modifier = modifier
                         .weight(1f)
                         .wrapContentHeight(),
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
@@ -156,12 +159,12 @@ private fun <T : SelectionState> CalendarDay(
     val isToday = date == LocalDate.now()
 
     val backgroundColor = if (isSelected) {
-        MaterialTheme.colors.primary
+        MaterialTheme.colorScheme.primaryContainer
     } else {
-        MaterialTheme.colors.background
+        MaterialTheme.colorScheme.surface
     }
     val borderColor = if (isToday) {
-        MaterialTheme.colors.onSurface
+        MaterialTheme.colorScheme.onPrimaryContainer
     } else {
         Color.Unspecified
     }
@@ -172,7 +175,7 @@ private fun <T : SelectionState> CalendarDay(
         modifier = modifier
             .aspectRatio(1f)
             .padding(2.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(CircleShape)
             .background(backgroundColor)
             .border(1.dp, borderColor, shape = CircleShape)
             .clickable {
@@ -182,7 +185,7 @@ private fun <T : SelectionState> CalendarDay(
     ) {
         Text(
             text = date.dayOfMonth.toString(),
-            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.SemiBold),
+            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
             color = contentColor.copy(alpha = contentAlpha),
         )
     }
