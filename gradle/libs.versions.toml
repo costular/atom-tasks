@@ -28,7 +28,7 @@ junit5 = "5.9.0"
 
 ksp = "1.7.10-1.0.6"
 jacoco = "0.8.7"
-composeLintRules = "0.0.6"
+composeLintRules = "0.0.9"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
