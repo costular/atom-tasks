@@ -25,6 +25,7 @@ import com.costular.commonui.components.ActionItem
 import com.costular.commonui.theme.AlphaDivider
 import com.costular.commonui.theme.AppTheme
 
+@Suppress("ModifierMissing")
 @Composable
 fun TaskActionDialog(
     taskName: String?,

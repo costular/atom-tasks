@@ -24,8 +24,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.navigation.navigate
 
 @Composable
-fun App() {
-    val viewModel: AppViewModel = hiltViewModel()
+fun App(
+    viewModel: AppViewModel = hiltViewModel()
+) {
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AppState.Empty)
     val isSystemDarkMode = isSystemInDarkTheme()
 

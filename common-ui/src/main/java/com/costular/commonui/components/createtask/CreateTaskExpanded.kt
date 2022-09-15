@@ -42,7 +42,7 @@ import com.costular.commonui.theme.AtomRemindersTheme
 import java.time.LocalDate
 import java.time.LocalTime
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "ViewModelInjection")
 @Composable
 fun CreateTaskExpanded(
     value: String,
@@ -120,13 +120,13 @@ fun CreateTaskExpanded(
 @Composable
 internal fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
-    modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
     onClickDate: () -> Unit,
     onClickReminder: () -> Unit,
     onClearReminder: () -> Unit,
     onSave: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier.padding(AppTheme.dimens.contentMargin)) {
         CreateTaskInput(

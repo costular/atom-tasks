@@ -12,9 +12,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BottomSheetDraggable() {
+fun BottomSheetDraggable(modifier: Modifier = Modifier) {
     Box(
-        Modifier
+        modifier
             .width(40.dp)
             .height(4.dp)
             .clip(RoundedCornerShape(16.dp))

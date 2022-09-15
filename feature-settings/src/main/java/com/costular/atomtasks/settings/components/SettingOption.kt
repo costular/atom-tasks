@@ -28,6 +28,7 @@ fun SettingOption(
     option: String,
     icon: ImageVector,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     SettingItem(
         start = {
@@ -63,6 +64,7 @@ fun SettingOption(
             )
         },
         onClick = onClick,
+        modifier = modifier,
     )
 }
 

@@ -15,6 +15,7 @@ import com.costular.commonui.components.DatePicker
 import com.costular.commonui.theme.AppTheme
 import java.time.LocalDate
 
+@Suppress("ModifierMissing")
 @Composable
 fun DatePickerDialog(
     onDismiss: () -> Unit,

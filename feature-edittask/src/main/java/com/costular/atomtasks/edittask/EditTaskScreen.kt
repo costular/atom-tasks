@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.features.edittask
+package com.costular.atomtasks.edittask
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.edittask.R
+import com.costular.atomtasks.ui.features.edittask.EditTaskState
+import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
+import com.costular.atomtasks.ui.features.edittask.TaskState
 import com.costular.commonui.components.createtask.CreateTaskExpanded
 import com.costular.commonui.dialogs.AtomSheet
 import com.costular.core.Async
@@ -18,6 +20,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+@Suppress("ModifierMissing")
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
 fun EditTaskScreen(

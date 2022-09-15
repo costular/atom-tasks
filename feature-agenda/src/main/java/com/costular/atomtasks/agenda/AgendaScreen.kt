@@ -76,7 +76,7 @@ internal fun AgendaScreen(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Suppress("LongMethod")
+@Suppress("LongMethod", "ModifierMissing")
 @Composable
 fun AgendaScreen(
     state: AgendaState,

@@ -40,6 +40,7 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateToSelectTheme(theme: String) = Unit
 }
 
+@Suppress("ModifierMissing", "ViewModelInjection")
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true)
 @Composable

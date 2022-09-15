@@ -26,10 +26,10 @@ import java.time.LocalTime
 
 @Composable
 fun TimePicker(
+    onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
     time: LocalTime = LocalTime.now(),
     timeSuggestions: List<LocalTime> = emptyList(),
-    onTimeChange: (LocalTime) -> Unit,
     paddingValues: PaddingValues = PaddingValues(AppTheme.dimens.contentMargin),
 ) {
     Column(
@@ -69,8 +69,10 @@ fun TimePicker(
 fun TimeSuggestionChip(
     time: LocalTime,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     AssistChip(
+        modifier = modifier,
         onClick = onClick,
         label = {
             Text(

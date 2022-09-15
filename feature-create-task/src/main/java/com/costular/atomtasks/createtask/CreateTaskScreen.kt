@@ -18,6 +18,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
 import java.time.LocalDate
 
+@Suppress("ModifierMissing", "ViewModelInjection")
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
 fun CreateTaskScreen(

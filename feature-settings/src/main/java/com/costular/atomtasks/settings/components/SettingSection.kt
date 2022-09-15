@@ -39,9 +39,9 @@ fun SettingSection(
                 .clip(RoundedCornerShape(16.dp)),
             content = content,
         )
-    }
 
-    Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+    }
 }
 
 @Preview(showBackground = true)

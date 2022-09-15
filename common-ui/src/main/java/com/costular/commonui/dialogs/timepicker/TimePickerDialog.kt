@@ -30,11 +30,11 @@ import java.time.LocalTime
 
 @Composable
 fun TimePickerDialog(
+    onTimeChange: (LocalTime) -> Unit,
+    onCancel: () -> Unit,
     modifier: Modifier = Modifier,
     time: LocalTime = LocalTime.now(),
     timeSuggestions: List<LocalTime> = emptyList(),
-    onTimeChange: (LocalTime) -> Unit,
-    onCancel: () -> Unit,
     paddingValues: PaddingValues = PaddingValues(AppTheme.dimens.contentMargin),
     viewModel: TimePickerDialogViewModel = hiltViewModel(),
 ) {

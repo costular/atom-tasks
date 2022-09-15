@@ -33,6 +33,7 @@ import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+@Suppress("ModifierMissing")
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
 fun ThemeSelectorScreen(
