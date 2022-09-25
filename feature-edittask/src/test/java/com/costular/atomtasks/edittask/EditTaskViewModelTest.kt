@@ -2,9 +2,9 @@ package com.costular.atomtasks.edittask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.coretesting.MviViewModelTest
-import com.costular.atomtasks.data.tasks.GetTaskByIdInteractor
-import com.costular.atomtasks.data.tasks.UpdateTaskInteractor
 import com.costular.atomtasks.data.util.taskToday
+import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskInteractor
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
 import com.costular.atomtasks.ui.features.edittask.TaskState
 import com.costular.core.Async
@@ -17,12 +17,10 @@ import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalTime::class)
 class EditTaskViewModelTest : MviViewModelTest() {
 
     lateinit var sut: EditTaskViewModel

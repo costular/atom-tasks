@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.hilt.work)
     implementation(libs.timber)
 
+    testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)

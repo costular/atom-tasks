@@ -6,14 +6,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.cash.paparazzi.Paparazzi
-import com.costular.atomtasks.data.tasks.Reminder
-import com.costular.atomtasks.data.tasks.Task
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory
 import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
+import com.costular.atomtasks.tasks.Reminder
+import com.costular.atomtasks.tasks.Task
 import com.costular.commonui.components.TaskList
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
@@ -91,7 +91,7 @@ class TaskListSnapshotTest {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun GeneratedTaskList(tasks: List<Task>) {
+    private fun GeneratedTaskList(tasks: List<com.costular.atomtasks.tasks.Task>) {
         Scaffold {
             TaskList(
                 tasks = tasks,

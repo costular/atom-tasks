@@ -1,7 +1,7 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import app.cash.paparazzi.Paparazzi
-import com.costular.atomtasks.data.tasks.Reminder
+import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory
 import com.costular.atomtasks.screenshottesting.utils.Theme
@@ -70,7 +70,7 @@ class TaskSnapshotTest {
             TaskCard(
                 title = "This is a task with reminder",
                 isFinished = false,
-                reminder = Reminder(
+                reminder = com.costular.atomtasks.tasks.Reminder(
                     0L,
                     LocalTime.of(9, 0),
                     true,
@@ -91,7 +91,7 @@ class TaskSnapshotTest {
             TaskCard(
                 title = "This is a task with reminder",
                 isFinished = true,
-                reminder = Reminder(
+                reminder = com.costular.atomtasks.tasks.Reminder(
                     0L,
                     LocalTime.of(9, 0),
                     true,

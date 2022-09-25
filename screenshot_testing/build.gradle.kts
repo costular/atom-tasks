@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.commonUi)
 
     testImplementation(projects.data)
+    testImplementation(projects.common.tasks)
     testImplementation(libs.compose.ui)
     testImplementation(libs.compose.runtime)
     testImplementation(libs.compose.material3)

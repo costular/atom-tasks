@@ -86,6 +86,7 @@ dependencies {
     implementation(project(":feature-agenda"))
     implementation(project(":feature-create-task"))
     implementation(project(":feature-settings"))
+    implementation(projects.common.tasks)
     implementation(projects.featureEdittask)
 
     implementation(libs.fragment)
@@ -106,6 +107,7 @@ dependencies {
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.startup)
+    implementation(libs.work)
 
     kapt(libs.room.compiler)
     implementation(platform(libs.firebase.bom))

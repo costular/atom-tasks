@@ -5,7 +5,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.coretesting.ui.AndroidTest
-import com.costular.atomtasks.data.tasks.Reminder
+import com.costular.atomtasks.tasks.Reminder
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
@@ -38,7 +38,7 @@ class TaskCardTest : AndroidTest() {
     fun shouldShowReminder_whenReminderIsSet() {
         val text = "whatever"
         val reminderTime = LocalTime.of(9, 0)
-        val reminder = Reminder(
+        val reminder = com.costular.atomtasks.tasks.Reminder(
             1L,
             reminderTime,
             true,

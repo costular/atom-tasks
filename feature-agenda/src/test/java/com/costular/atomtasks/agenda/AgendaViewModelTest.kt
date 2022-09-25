@@ -1,13 +1,12 @@
 package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.data.tasks.GetTasksInteractor
-import com.costular.atomtasks.data.tasks.RemoveTaskInteractor
-import com.costular.atomtasks.data.tasks.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.coretesting.MviViewModelTest
-import com.costular.atomtasks.data.tasks.Task
+import com.costular.atomtasks.tasks.GetTasksInteractor
+import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -22,7 +21,7 @@ import org.junit.Test
 @ExperimentalTime
 class AgendaViewModelTest : MviViewModelTest() {
 
-    lateinit var sut: com.costular.atomtasks.agenda.AgendaViewModel
+    lateinit var sut: AgendaViewModel
 
     private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
@@ -30,7 +29,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Before
     fun setUp() {
-        sut = com.costular.atomtasks.agenda.AgendaViewModel(
+        sut = AgendaViewModel(
             getTasksInteractor,
             updateTaskIsDoneInteractor,
             removeTaskInteractor,
@@ -132,7 +131,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should load empty tasks when remove given there is only one existing task`() =
         testBlocking {
-            val expected = emptyList<Task>()
+            val expected = emptyList<com.costular.atomtasks.tasks.Task>()
             val taskId = DEFAULT_TASKS.first().id
             coEvery {
                 getTasksInteractor.flow
@@ -147,7 +146,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     companion object {
         val DEFAULT_TASKS = listOf(
-            Task(
+            com.costular.atomtasks.tasks.Task(
                 1L,
                 "Task 1",
                 LocalDate.now(),
@@ -155,7 +154,7 @@ class AgendaViewModelTest : MviViewModelTest() {
                 null,
                 false,
             ),
-            Task(
+            com.costular.atomtasks.tasks.Task(
                 2L,
                 "Task 2",
                 LocalDate.now(),
