@@ -4,8 +4,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import com.costular.atomtasks.data.tasks.TaskEntity
-import com.costular.atomtasks.data.tasks.TasksDao
+import com.costular.atomtasks.tasks.TaskEntity
+import com.costular.atomtasks.tasks.TasksDao
 import com.google.common.truth.Truth
 import java.io.IOException
 import java.time.LocalDate
@@ -25,7 +25,7 @@ class TaskDatabaseTest {
     private val testCoroutine: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     private lateinit var db: AtomRemindersDatabase
-    private lateinit var tasksDao: TasksDao
+    private lateinit var tasksDao: com.costular.atomtasks.tasks.TasksDao
 
     @Before
     fun setUp() {
@@ -49,7 +49,7 @@ class TaskDatabaseTest {
     @Test
     fun testAddTask() = testCoroutine.runBlockingTest {
         // Given
-        val task = TaskEntity(
+        val task = com.costular.atomtasks.tasks.TaskEntity(
             0L,
             LocalDate.now(),
             "whatever",

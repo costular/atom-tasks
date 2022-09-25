@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.data.tasks.Task
+import com.costular.atomtasks.tasks.Task
 import com.costular.commonui.components.HorizontalCalendar
 import com.costular.commonui.components.ScreenHeader
 import com.costular.commonui.components.TaskList
@@ -87,7 +87,7 @@ fun AgendaScreen(
     deleteTask: (id: Long) -> Unit,
     dismissDelete: () -> Unit,
     onCreateTask: () -> Unit,
-    openTaskAction: (Task) -> Unit,
+    openTaskAction: (com.costular.atomtasks.tasks.Task) -> Unit,
     onEditAction: (id: Long) -> Unit,
 ) {
     if (state.taskAction != null) {
@@ -163,7 +163,7 @@ fun AgendaScreen(
 @Composable
 private fun TasksContent(
     state: AgendaState,
-    onOpenTask: (Task) -> Unit,
+    onOpenTask: (com.costular.atomtasks.tasks.Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
 ) {
     when (val tasks = state.tasks) {

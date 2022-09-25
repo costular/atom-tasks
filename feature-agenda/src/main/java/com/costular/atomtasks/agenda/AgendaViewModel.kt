@@ -2,10 +2,9 @@ package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.coreui.mvi.MviViewModel
-import com.costular.atomtasks.data.tasks.GetTasksInteractor
-import com.costular.atomtasks.data.tasks.RemoveTaskInteractor
-import com.costular.atomtasks.data.tasks.Task
-import com.costular.atomtasks.data.tasks.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.tasks.GetTasksInteractor
+import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.core.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -17,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
-    private val getTasksInteractor: GetTasksInteractor,
+    private val getTasksInteractor: com.costular.atomtasks.tasks.GetTasksInteractor,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
 ) : MviViewModel<AgendaState>(AgendaState()) {
@@ -44,7 +43,7 @@ class AgendaViewModel @Inject constructor(
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
     }
 
-    fun openTaskAction(task: Task) {
+    fun openTaskAction(task: com.costular.atomtasks.tasks.Task) {
         setState {
             copy(taskAction = task)
         }

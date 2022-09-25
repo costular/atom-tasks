@@ -2,7 +2,7 @@ package com.costular.atomtasks.agenda
 
 import com.costular.atomtasks.coretesting.ui.AndroidTest
 import com.costular.atomtasks.coretesting.ui.getString
-import com.costular.atomtasks.data.tasks.Task
+import com.costular.atomtasks.tasks.Task
 import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
@@ -53,7 +53,7 @@ class AgendaTest : AndroidTest() {
 
     @Test
     fun shouldShowTaskInList_whenLandOnScreen() {
-        val task = Task(
+        val task = com.costular.atomtasks.tasks.Task(
             id = 1L,
             name = "this is a test :D",
             createdAt = LocalDate.now(),
@@ -81,7 +81,7 @@ class AgendaTest : AndroidTest() {
         val isDone = true
 
         val tasks = listOf(
-            Task(
+            com.costular.atomtasks.tasks.Task(
                 id = 1L,
                 name = taskName,
                 createdAt = LocalDate.now(),
@@ -108,7 +108,7 @@ class AgendaTest : AndroidTest() {
         val isDone = false
 
         val tasks = listOf(
-            Task(
+            com.costular.atomtasks.tasks.Task(
                 id = 1L,
                 name = taskName,
                 createdAt = LocalDate.now(),
@@ -136,7 +136,7 @@ class AgendaTest : AndroidTest() {
         val isDone = false
 
         val tasks = listOf(
-            Task(
+            com.costular.atomtasks.tasks.Task(
                 id = id,
                 name = taskName,
                 createdAt = LocalDate.now(),

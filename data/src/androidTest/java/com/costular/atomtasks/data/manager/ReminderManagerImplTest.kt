@@ -3,7 +3,7 @@ package com.costular.atomtasks.data.manager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.test.platform.app.InstrumentationRegistry
-import com.costular.atomtasks.data.receiver.NotifyTaskReceiver
+import com.costular.atomtasks.tasks.receiver.NotifyTaskReceiver
 import com.google.common.truth.Truth.assertThat
 import java.time.LocalDateTime
 import org.junit.After
@@ -14,11 +14,11 @@ import org.junit.Test
 @Ignore("For some reason WorkManager is failing while running these test on GitHub Actions")
 class ReminderManagerImplTest {
 
-    lateinit var reminderManager: ReminderManager
+    lateinit var reminderManager: com.costular.atomtasks.tasks.manager.ReminderManager
 
     @Before
     fun setUp() {
-        reminderManager = ReminderManagerImpl(
+        reminderManager = com.costular.atomtasks.tasks.manager.ReminderManagerImpl(
             InstrumentationRegistry.getInstrumentation().targetContext,
         )
     }
@@ -49,7 +49,7 @@ class ReminderManagerImplTest {
             TASK_ID.toInt(),
             Intent(
                 InstrumentationRegistry.getInstrumentation().targetContext,
-                NotifyTaskReceiver::class.java,
+                com.costular.atomtasks.tasks.receiver.NotifyTaskReceiver::class.java,
             ),
             PendingIntent.FLAG_NO_CREATE,
         ) != null

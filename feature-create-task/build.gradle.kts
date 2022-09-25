@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.tasks)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
 

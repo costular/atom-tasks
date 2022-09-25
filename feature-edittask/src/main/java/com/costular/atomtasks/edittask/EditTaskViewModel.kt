@@ -2,8 +2,8 @@ package com.costular.atomtasks.ui.features.edittask
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.coreui.mvi.MviViewModel
-import com.costular.atomtasks.data.tasks.GetTaskByIdInteractor
-import com.costular.atomtasks.data.tasks.UpdateTaskInteractor
+import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskInteractor
 import com.costular.core.Async
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted

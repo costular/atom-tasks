@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
 
+    implementation(projects.common.tasks)
     implementation(libs.numberpicker)
     implementation(libs.lottie)
     implementation(libs.composecalendar)
