@@ -31,9 +31,13 @@ dependencies {
     implementation(libs.accompanist.pager.indicators)
 
     testImplementation(projects.coreTesting)
+    testImplementation(projects.coreUi)
     testImplementation(libs.android.junit)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.truth)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test)
+    debugImplementation(libs.compose.ui.manifest)
 }
