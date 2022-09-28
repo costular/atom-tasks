@@ -9,16 +9,14 @@ buildscript {
         classpath(libs.androidGradle)
         classpath(libs.kotlinGradle)
         classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.hilt.get()}")
-        classpath("com.google.gms:google-services:4.3.10")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.7.1")
+        classpath("com.google.gms:google-services:4.3.14")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.2")
     }
 }
 
 plugins {
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.5.1"
-    id("com.android.library") version "7.2.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
 }
 
 tasks.register("clean", Delete::class) {
