@@ -8,6 +8,7 @@ import io.mockk.mockk
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -81,5 +82,56 @@ class SettingsRepositoryImplTest {
         sut.setTheme(theme)
 
         coVerify { settingsLocalDataSource.setTheme(Theme.SYSTEM) }
+    }
+
+    @Test
+    fun `should return true when local data source has move undone tasks enabled`() = runTest {
+        givenMoveUndoneTasksEnabled()
+
+        sut.observeMoveUndoneTaskTomorrow().test {
+            assertThat(awaitItem()).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should return false when local data source has move undone tasks disabled`() = runTest {
+        givenMoveUndoneTasksDisabled()
+
+        sut.observeMoveUndoneTaskTomorrow().test {
+            assertThat(awaitItem()).isFalse()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should set move undone tasks enabled with true input`() = runTest {
+        val expected = true
+
+        sut.setMoveUndoneTaskTomorrow(expected)
+
+        coVerify { settingsLocalDataSource.setMoveUndoneTaskTomorrow(expected) }
+    }
+
+    @Test
+    fun `should set move undone tasks disabled with false input`() = runTest {
+        val expected = false
+
+        sut.setMoveUndoneTaskTomorrow(expected)
+
+        coVerify { settingsLocalDataSource.setMoveUndoneTaskTomorrow(expected) }
+    }
+
+
+    private fun givenMoveUndoneTasksEnabled() {
+        every {
+            settingsLocalDataSource.observeMoveUndoneTaskTomorrow()
+        } returns flowOf(true)
+    }
+
+    private fun givenMoveUndoneTasksDisabled() {
+        every {
+            settingsLocalDataSource.observeMoveUndoneTaskTomorrow()
+        } returns flowOf(false)
     }
 }

@@ -44,6 +44,7 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.testparameterinjector)
 
     androidTestImplementation(projects.coreTesting)
     androidTestImplementation(libs.android.junit)

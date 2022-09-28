@@ -8,10 +8,16 @@ internal class SettingsRepositoryImpl(
 ) : SettingsRepository {
 
     override fun observeTheme(): Flow<Theme> =
-        settingsLocalDataSource.observeTheme()
-            .map { Theme.fromString(it) }
+        settingsLocalDataSource.observeTheme().map { Theme.fromString(it) }
 
     override suspend fun setTheme(theme: Theme) {
         settingsLocalDataSource.setTheme(theme.asString())
+    }
+
+    override fun observeMoveUndoneTaskTomorrow(): Flow<Boolean> =
+        settingsLocalDataSource.observeMoveUndoneTaskTomorrow()
+
+    override suspend fun setMoveUndoneTaskTomorrow(isEnabled: Boolean) {
+        settingsLocalDataSource.setMoveUndoneTaskTomorrow(isEnabled)
     }
 }
