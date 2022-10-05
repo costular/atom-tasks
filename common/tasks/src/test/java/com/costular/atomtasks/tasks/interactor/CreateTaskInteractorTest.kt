@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.tasks.TasksRepository
-import com.costular.atomtasks.tasks.manager.ReminderManager
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -20,13 +20,13 @@ class CreateTaskInteractorTest {
     private lateinit var createTaskInteractor: CreateTaskInteractor
 
     private val tasksRepository: TasksRepository = mockk(relaxed = true)
-    private val reminderManager: ReminderManager = mockk(relaxed = true)
+    private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         createTaskInteractor = CreateTaskInteractor(
             tasksRepository = tasksRepository,
-            reminderManager = reminderManager,
+            taskReminderManager = taskReminderManager,
         )
     }
 
@@ -69,6 +69,6 @@ class CreateTaskInteractorTest {
                 ),
             )
 
-            verify { reminderManager.set(taskId, reminder.atDate(date)) }
+            verify { taskReminderManager.set(taskId, reminder.atDate(date)) }
         }
 }

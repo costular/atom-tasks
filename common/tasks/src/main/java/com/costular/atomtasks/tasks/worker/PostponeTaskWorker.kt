@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.tasks.manager.TaskNotificationManager
-import com.costular.atomtasks.tasks.manager.ReminderManager
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskReminderInteractor
 import dagger.assisted.Assisted
@@ -22,7 +22,7 @@ class PostponeTaskWorker @AssistedInject constructor(
     private val getTaskByIdInteractor: GetTaskByIdInteractor,
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val taskNotificationManager: TaskNotificationManager,
-    private val reminderManager: ReminderManager,
+    private val taskReminderManager: TaskReminderManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -50,7 +50,7 @@ class PostponeTaskWorker @AssistedInject constructor(
                     LocalDate.now(),
                 ),
             )
-            reminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
+            taskReminderManager.set(task.id, reminderTime.atDate(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
             Result.failure()

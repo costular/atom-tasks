@@ -1,8 +1,8 @@
 package com.costular.atomtasks.tasks.di
 
 import android.content.Context
-import com.costular.atomtasks.tasks.manager.ReminderManager
-import com.costular.atomtasks.tasks.manager.ReminderManagerImpl
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
+import com.costular.atomtasks.tasks.manager.TaskReminderManagerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +16,5 @@ object ReminderManagerModule {
     @Provides
     fun providesReminderManager(
         @ApplicationContext context: Context,
-    ): ReminderManager = ReminderManagerImpl(context)
+    ): TaskReminderManager = TaskReminderManagerImpl(context)
 }
