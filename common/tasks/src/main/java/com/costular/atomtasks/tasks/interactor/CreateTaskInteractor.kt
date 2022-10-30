@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.Interactor
-import com.costular.atomtasks.tasks.manager.ReminderManager
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.TasksRepository
 import java.time.LocalDate
 import java.time.LocalTime
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class CreateTaskInteractor @Inject constructor(
     private val tasksRepository: TasksRepository,
-    private val reminderManager: ReminderManager,
+    private val taskReminderManager: TaskReminderManager,
 ) : Interactor<CreateTaskInteractor.Params>() {
 
     data class Params(
@@ -28,7 +28,7 @@ class CreateTaskInteractor @Inject constructor(
         )
 
         if (params.reminderEnabled && params.reminderTime != null) {
-            reminderManager.set(taskId, params.reminderTime.atDate(params.date))
+            taskReminderManager.set(taskId, params.reminderTime.atDate(params.date))
         }
     }
 }

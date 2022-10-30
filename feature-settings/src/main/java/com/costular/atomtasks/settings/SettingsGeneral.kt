@@ -4,11 +4,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.costular.atomtasks.data.settings.Theme
+import com.costular.atomtasks.settings.components.SettingOption
 
 @Composable
 internal fun GeneralSection(

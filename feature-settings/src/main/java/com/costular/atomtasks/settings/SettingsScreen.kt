@@ -1,16 +1,15 @@
 package com.costular.atomtasks.settings
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,9 +25,9 @@ import com.costular.commonui.components.AtomTopBar
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.result.EmptyResultRecipient
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr
+import org.jetbrains.annotations.VisibleForTesting
 
 interface SettingsNavigator {
     fun navigateUp()
@@ -40,14 +39,12 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateToSelectTheme(theme: String) = Unit
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true)
 @Composable
 fun SettingsScreen(
     navigator: SettingsNavigator,
     resultRecipient: ResultRecipient<ThemeSelectorScreenDestination, String>,
 ) {
-    val scrollState = rememberScrollState()
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(SettingsState.Empty)
 
@@ -57,6 +54,20 @@ fun SettingsScreen(
         }
     }
 
+    SettingsScreen(
+        state = state,
+        navigator = navigator,
+    )
+}
+
+@Composable
+@VisibleForTesting
+@OptIn(ExperimentalMaterial3Api::class)
+fun SettingsScreen(
+    scrollState: ScrollState = rememberScrollState(),
+    state: SettingsState,
+    navigator: SettingsNavigator,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -84,22 +95,8 @@ fun SettingsScreen(
                     navigator.navigateToSelectTheme(state.theme.asString())
                 },
             )
-
-            SectionSpacer()
-
-            DateTimeSection()
         }
     }
-}
-
-@Composable
-private fun SectionSpacer() {
-    Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
-}
-
-@Composable
-private fun DateTimeSection() {
-    // TODO
 }
 
 @Preview(showBackground = true)
@@ -107,8 +104,8 @@ private fun DateTimeSection() {
 private fun SettingsScreenPreview() {
     AtomRemindersTheme {
         SettingsScreen(
-            EmptySettingsNavigator,
-            EmptyResultRecipient(),
+            state = SettingsState(),
+            navigator = EmptySettingsNavigator,
         )
     }
 }

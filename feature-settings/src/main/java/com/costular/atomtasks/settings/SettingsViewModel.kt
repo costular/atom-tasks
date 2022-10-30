@@ -1,6 +1,7 @@
 package com.costular.atomtasks.settings
 
 import androidx.lifecycle.viewModelScope
+import com.costular.atomtasks.coreui.mvi.MviViewModel
 import com.costular.atomtasks.data.settings.GetThemeUseCase
 import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.Theme
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel @Inject constructor(
     private val getThemeUseCase: GetThemeUseCase,
     private val setThemeUseCase: SetThemeUseCase,
-) : com.costular.atomtasks.coreui.mvi.MviViewModel<SettingsState>(SettingsState.Empty) {
+) : MviViewModel<SettingsState>(SettingsState.Empty) {
 
     init {
         observeTheme()

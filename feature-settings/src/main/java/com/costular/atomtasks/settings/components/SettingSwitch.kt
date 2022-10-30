@@ -1,6 +1,6 @@
 package com.costular.atomtasks.settings
 
-import androidx.compose.material.Switch
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

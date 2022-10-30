@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.costular.atomtasks.tasks.manager.ReminderManager
 import com.costular.atomtasks.tasks.interactor.GetTasksWithReminderInteractor
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -15,7 +15,7 @@ class SetTasksRemindersWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val getTasksWithReminderInteractor: GetTasksWithReminderInteractor,
-    private val reminderManager: ReminderManager,
+    private val taskReminderManager: TaskReminderManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result =
@@ -23,7 +23,7 @@ class SetTasksRemindersWorker @AssistedInject constructor(
             val tasks = getTasksWithReminderInteractor.executeSync(Unit)
             tasks.forEach { task ->
                 task.reminder?.let { reminder ->
-                    reminderManager.set(task.id, reminder.localDateTime)
+                    taskReminderManager.set(task.id, reminder.localDateTime)
                 }
             }
             Result.success()

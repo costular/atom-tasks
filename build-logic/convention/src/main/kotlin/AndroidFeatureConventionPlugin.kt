@@ -19,6 +19,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 defaultConfig {
                     testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
                 }
+
+                testOptions {
+                    unitTests {
+                        isIncludeAndroidResources = true
+                    }
+                }
             }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 

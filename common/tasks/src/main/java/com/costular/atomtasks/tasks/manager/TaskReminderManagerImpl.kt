@@ -11,9 +11,9 @@ import com.costular.atomtasks.tasks.receiver.NotifyTaskReceiver
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-internal class ReminderManagerImpl(
+internal class TaskReminderManagerImpl(
     private val context: Context,
-) : ReminderManager {
+) : TaskReminderManager {
 
     private val alarmManager = context.getSystemService<AlarmManager>()
 
