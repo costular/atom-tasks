@@ -3,7 +3,9 @@
     package="com.costular.atomtasks.tasks">
 
     <application>
-        <receiver android:name="com.costular.atomtasks.tasks.receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".receiver.NotifyTaskReceiver" />
+        <receiver android:name=".receiver.PostponeTaskReceiver" />
     </application>
 
 
