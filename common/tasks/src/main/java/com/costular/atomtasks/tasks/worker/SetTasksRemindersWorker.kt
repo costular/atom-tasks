@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.costular.atomtasks.tasks.manager.ReminderManager
 import com.costular.atomtasks.tasks.interactor.GetTasksWithReminderInteractor
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

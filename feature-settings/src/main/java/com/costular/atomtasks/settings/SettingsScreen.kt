@@ -2,10 +2,8 @@ package com.costular.atomtasks.settings
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -59,7 +57,6 @@ fun SettingsScreen(
     SettingsScreen(
         state = state,
         navigator = navigator,
-        onChangeMoveUndoneTask = viewModel::setMoveUndoneTaskTomorrow,
     )
 }
 
@@ -70,7 +67,6 @@ fun SettingsScreen(
     scrollState: ScrollState = rememberScrollState(),
     state: SettingsState,
     navigator: SettingsNavigator,
-    onChangeMoveUndoneTask: (Boolean) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -99,25 +95,8 @@ fun SettingsScreen(
                     navigator.navigateToSelectTheme(state.theme.asString())
                 },
             )
-
-            SectionSpacer()
-
-            TasksSection(
-                moveUndoneTasksToTomorrowAutomatically = state.moveUndoneTasksTomorrowAutomatically,
-                onChangeUndoneTasks = onChangeMoveUndoneTask,
-            )
         }
     }
-}
-
-@Composable
-private fun SectionSpacer() {
-    Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
-}
-
-@Composable
-private fun DateTimeSection() {
-    // TODO
 }
 
 @Preview(showBackground = true)
@@ -127,7 +106,6 @@ private fun SettingsScreenPreview() {
         SettingsScreen(
             state = SettingsState(),
             navigator = EmptySettingsNavigator,
-            onChangeMoveUndoneTask = {}
         )
     }
 }

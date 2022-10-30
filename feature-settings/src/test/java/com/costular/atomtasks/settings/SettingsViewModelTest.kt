@@ -2,9 +2,7 @@ package com.costular.atomtasks.settings
 
 import app.cash.turbine.test
 import com.costular.atomtasks.coretesting.MviViewModelTest
-import com.costular.atomtasks.data.settings.GetMoveUndoneTaskTomorrowUseCase
 import com.costular.atomtasks.data.settings.GetThemeUseCase
-import com.costular.atomtasks.data.settings.SetMoveUndoneTaskTomorrowUseCase
 import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.Theme
 import com.google.common.truth.Truth.assertThat
@@ -22,10 +20,6 @@ class SettingsViewModelTest : MviViewModelTest() {
 
     private val getThemeUseCase: GetThemeUseCase = mockk(relaxed = true)
     private val setThemeUseCase: SetThemeUseCase = mockk(relaxed = true)
-    private val getMoveUndoneTaskTomorrowUseCase: GetMoveUndoneTaskTomorrowUseCase =
-        mockk(relaxed = true)
-    private val setMoveUndoneTaskTomorrowUseCase: SetMoveUndoneTaskTomorrowUseCase =
-        mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -36,9 +30,7 @@ class SettingsViewModelTest : MviViewModelTest() {
         sut = SettingsViewModel(
             getThemeUseCase = getThemeUseCase,
             setThemeUseCase = setThemeUseCase,
-            getMoveUndoneTaskTomorrowUseCase = getMoveUndoneTaskTomorrowUseCase,
-            setMoveUndoneTaskTomorrowUseCase = setMoveUndoneTaskTomorrowUseCase,
-            )
+        )
     }
 
     @Test

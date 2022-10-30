@@ -122,7 +122,6 @@ class SettingsRepositoryImplTest {
         coVerify { settingsLocalDataSource.setMoveUndoneTaskTomorrow(expected) }
     }
 
-
     private fun givenMoveUndoneTasksEnabled() {
         every {
             settingsLocalDataSource.observeMoveUndoneTaskTomorrow()
