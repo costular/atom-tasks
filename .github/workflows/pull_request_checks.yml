@@ -112,5 +112,5 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      #- name: 📸 Snapshot tests
-      #  run: ./gradlew verifyPaparazziDebug
+      - name: 📸 Snapshot tests
+        run: ./gradlew verifyPaparazziDebug

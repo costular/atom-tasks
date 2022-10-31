@@ -27,7 +27,7 @@ dependencies {
 }
 
 tasks.named("check") {
-    // dependsOn("verifyPaparazziDemoDebug")
+    dependsOn("verifyPaparazziDemoDebug")
 }
 
 tasks.withType<Test>().configureEach {

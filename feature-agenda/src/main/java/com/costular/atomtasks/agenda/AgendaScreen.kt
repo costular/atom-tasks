@@ -28,7 +28,7 @@ import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.tasks.Task
 import com.costular.commonui.components.HorizontalCalendar
 import com.costular.commonui.components.ScreenHeader
-import com.costular.commonui.components.TaskList
+import com.costular.atomtasks.tasks.TaskList
 import com.costular.commonui.components.createtask.CreateTask
 import com.costular.commonui.dialogs.RemoveTaskDialog
 import com.costular.commonui.dialogs.TaskActionDialog
@@ -87,7 +87,7 @@ fun AgendaScreen(
     deleteTask: (id: Long) -> Unit,
     dismissDelete: () -> Unit,
     onCreateTask: () -> Unit,
-    openTaskAction: (com.costular.atomtasks.tasks.Task) -> Unit,
+    openTaskAction: (Task) -> Unit,
     onEditAction: (id: Long) -> Unit,
 ) {
     if (state.taskAction != null) {
@@ -163,7 +163,7 @@ fun AgendaScreen(
 @Composable
 private fun TasksContent(
     state: AgendaState,
-    onOpenTask: (com.costular.atomtasks.tasks.Task) -> Unit,
+    onOpenTask: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
 ) {
     when (val tasks = state.tasks) {
@@ -174,6 +174,7 @@ private fun TasksContent(
                 onMarkTask = onMarkTask,
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = AppTheme.dimens.contentMargin)
                     .testTag("AgendaTaskList"),
             )
         }

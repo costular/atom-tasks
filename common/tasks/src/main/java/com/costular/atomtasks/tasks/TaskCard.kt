@@ -1,22 +1,22 @@
-package com.costular.commonui.components
+package com.costular.atomtasks.tasks
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,9 +26,8 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.costular.atomtasks.tasks.Reminder
+import com.costular.commonui.components.Markable
 import com.costular.commonui.theme.AppTheme
 import com.costular.commonui.theme.AtomRemindersTheme
 import com.costular.core.util.DateTimeFormatters
@@ -48,16 +47,14 @@ fun TaskCard(
 ) {
     val mediumColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ContentAlpha.medium)
 
-    Surface(
-        modifier
-            .fillMaxWidth()
-            .clickable { onOpen() }
-            .padding(vertical = AppTheme.dimens.spacingSmall),
+    ElevatedCard(
+        modifier = modifier.clickable { onOpen() },
+        colors = CardDefaults.cardColors(),
     ) {
         val reminderInlineContent = reminderInline(mediumColor)
 
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(AppTheme.dimens.spacingLarge),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Markable(
