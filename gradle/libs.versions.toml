@@ -22,7 +22,7 @@ hiltJetpackViewModel = "1.0.0-alpha03"
 accompanist = "0.23.1"
 workManager = "2.7.1"
 room = "2.4.0"
-paparazzi = "1.0.0"
+paparazzi = "1.1.0"
 composeDestinations = "1.7.17-beta"
 junit5 = "5.9.0"
 
@@ -100,4 +100,4 @@ detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0-RC1"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+paparazzi = { id = "dev.chrisbanes.paparazzi", version = "1.1.0-sdk33-alpha02" } # TODO: remove when SDK33 is available https://github.com/cashapp/paparazzi/issues/604
