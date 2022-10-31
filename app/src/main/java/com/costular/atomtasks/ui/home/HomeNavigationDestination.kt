@@ -2,27 +2,34 @@ package com.costular.atomtasks.ui.home
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ViewAgenda
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.costular.atomtasks.R
-import com.costular.atomtasks.ui.features.destinations.AgendaScreenDestination
-import com.costular.atomtasks.ui.features.destinations.DirectionDestination
-import com.costular.atomtasks.ui.features.destinations.SettingsScreenDestination
+import com.costular.atomtasks.ui.NavGraphs
+import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 enum class HomeNavigationDestination(
-    val direction: DirectionDestination,
+    val screen: NavGraphSpec,
+    @StringRes val contentDescriptionResId: Int,
     val icon: ImageVector,
-    @StringRes val label: Int,
+    val selectedIcon: ImageVector,
+    @StringRes val labelResId: Int,
 ) {
     Agenda(
-        AgendaScreenDestination,
-        Icons.Outlined.ViewAgenda,
-        R.string.home_menu_agenda,
+        screen = NavGraphs.agenda,
+        contentDescriptionResId = R.string.home_menu_agenda,
+        icon = Icons.Outlined.ViewAgenda,
+        selectedIcon = Icons.Filled.ViewAgenda,
+        labelResId = R.string.home_menu_agenda,
     ),
     Settings(
-        SettingsScreenDestination,
-        Icons.Outlined.Settings,
-        R.string.home_menu_settings,
+        screen = NavGraphs.settings,
+        icon = Icons.Outlined.Settings,
+        selectedIcon = Icons.Filled.Settings,
+        labelResId = R.string.home_menu_settings,
+        contentDescriptionResId = R.string.home_menu_settings,
     )
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.costular.atomtasks.tasks">
+
+    <application>
+        <receiver android:name=".receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".receiver.NotifyTaskReceiver" />
+        <receiver android:name=".receiver.PostponeTaskReceiver" />
+    </application>
+
+
+</manifest>
