@@ -13,8 +13,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        versionCode = 7
-        versionName = "0.6.0"
+        versionCode = 9
+        versionName = "0.8.0"
         testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
 
         javaCompileOptions {
