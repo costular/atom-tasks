@@ -14,7 +14,7 @@ import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
 import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.tasks.Task
-import com.costular.commonui.components.TaskList
+import com.costular.atomtasks.tasks.TaskList
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate

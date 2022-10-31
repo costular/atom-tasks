@@ -8,7 +8,7 @@ import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
-import com.costular.commonui.components.TaskCard
+import com.costular.atomtasks.tasks.TaskCard
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
@@ -70,7 +70,7 @@ class TaskSnapshotTest {
             TaskCard(
                 title = "This is a task with reminder",
                 isFinished = false,
-                reminder = com.costular.atomtasks.tasks.Reminder(
+                reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
                     true,
@@ -91,7 +91,7 @@ class TaskSnapshotTest {
             TaskCard(
                 title = "This is a task with reminder",
                 isFinished = true,
-                reminder = com.costular.atomtasks.tasks.Reminder(
+                reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
                     true,
