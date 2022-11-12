@@ -27,9 +27,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.costular.commonui.components.Markable
-import com.costular.commonui.theme.AppTheme
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.components.Markable
+import com.costular.designsystem.theme.AppTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 import com.costular.core.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime

@@ -21,9 +21,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
-import com.costular.commonui.components.AtomTopBar
-import com.costular.commonui.theme.AppTheme
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.components.AtomTopBar
+import com.costular.designsystem.theme.AppTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr

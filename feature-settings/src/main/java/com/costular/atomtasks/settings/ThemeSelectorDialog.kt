@@ -23,9 +23,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.data.settings.Theme
-import com.costular.commonui.dialogs.AtomSheet
-import com.costular.commonui.theme.AppTheme
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.dialogs.AtomSheet
+import com.costular.designsystem.theme.AppTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator

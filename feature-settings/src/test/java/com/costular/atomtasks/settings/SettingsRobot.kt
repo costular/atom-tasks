@@ -1,6 +1,6 @@
 package com.costular.atomtasks.settings
 
-import com.costular.commonui.R as R0
+import com.costular.designsystem.R as R0
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithText

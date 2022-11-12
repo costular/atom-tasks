@@ -10,8 +10,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.edittask.R
-import com.costular.commonui.components.createtask.CreateTaskExpanded
-import com.costular.commonui.dialogs.AtomSheet
+import com.costular.designsystem.components.createtask.CreateTaskExpanded
+import com.costular.designsystem.dialogs.AtomSheet
 import com.costular.core.Async
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ramcosta.composedestinations.annotation.Destination

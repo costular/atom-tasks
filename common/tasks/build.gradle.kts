@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.commonUi)
+    implementation(projects.coreDesignsystem)
     implementation(projects.data)
 
     implementation(libs.compose.activity)

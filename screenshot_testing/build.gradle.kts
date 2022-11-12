@@ -15,7 +15,7 @@ androidComponents {
 }
 
 dependencies {
-    implementation(projects.commonUi)
+    implementation(projects.coreDesignsystem)
 
     testImplementation(projects.data)
     testImplementation(projects.common.tasks)

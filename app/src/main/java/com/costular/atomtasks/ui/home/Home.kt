@@ -18,7 +18,7 @@ import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.currentScreenAsState
 import com.costular.atomtasks.coreui.DestinationsScaffold
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.navigation.navigate

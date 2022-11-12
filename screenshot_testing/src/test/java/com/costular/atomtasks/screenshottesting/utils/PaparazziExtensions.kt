@@ -7,7 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import app.cash.paparazzi.Paparazzi
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 
 internal fun Paparazzi.screenshot(
     name: String? = null,

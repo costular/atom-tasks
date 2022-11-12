@@ -17,9 +17,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.costular.commonui.R
-import com.costular.commonui.theme.AppTheme
-import com.costular.commonui.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AppTheme
+import com.costular.designsystem.theme.AtomRemindersTheme
 import java.time.LocalDate
 
 @Composable

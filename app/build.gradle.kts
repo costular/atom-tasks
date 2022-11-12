@@ -81,7 +81,7 @@ configurations {
 
 dependencies {
     implementation(project(":core-ui"))
-    implementation(project(":common-ui"))
+    implementation(project(":core-designsystem"))
     implementation(project(":data"))
     implementation(project(":feature-agenda"))
     implementation(project(":feature-create-task"))

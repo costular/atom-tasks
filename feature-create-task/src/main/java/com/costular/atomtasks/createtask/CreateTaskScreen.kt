@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.createtask.CreateTaskState.Companion.Empty
-import com.costular.commonui.components.createtask.CreateTaskExpanded
+import com.costular.designsystem.components.createtask.CreateTaskExpanded
 import com.costular.core.Async
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ramcosta.composedestinations.annotation.Destination
