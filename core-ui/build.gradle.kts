@@ -17,7 +17,9 @@ dependencies {
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
+    implementation(libs.material.windowSizeClass)
     implementation(libs.compose.destinations)
+    implementation(libs.compose.ui.tooling)
 
     implementation(libs.lifecycle.runtime)
     implementation(libs.hilt.navigation.compose)

@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.composecalendar)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
+    implementation(libs.material.windowSizeClass)
 
     testImplementation(projects.coreTesting)
     testImplementation(libs.android.junit)

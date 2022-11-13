@@ -28,6 +28,7 @@ junit5 = "5.9.0"
 
 ksp = "1.7.10-1.0.6"
 jacoco = "0.8.7"
+materialWindowSizeClass = "1.1.0-alpha02"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -37,6 +38,7 @@ viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+material-windowSizeClass = { module = "androidx.compose.material3:material3-window-size-class", version.ref  = "materialWindowSizeClass" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-androidx-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltAndroidx" }
