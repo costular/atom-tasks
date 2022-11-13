@@ -1,6 +1,7 @@
 package com.costular.atomtasks.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
@@ -60,6 +61,7 @@ fun DestinationScope<*>.currentNavigator(): AppNavigator {
 @Composable
 internal fun AppNavigation(
     navController: NavHostController,
+    windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
 ) {
     DestinationsNavHost(
@@ -69,6 +71,7 @@ internal fun AppNavigation(
         modifier = modifier,
         dependenciesContainerBuilder = {
             dependency(currentNavigator())
+            dependency(windowSizeClass)
         },
     )
 }
