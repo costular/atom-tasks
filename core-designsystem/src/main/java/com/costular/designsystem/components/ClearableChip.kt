@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.designsystem.R
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -78,7 +78,7 @@ fun ClearableChip(
 @Preview
 @Composable
 fun RemovableChipPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         ClearableChip(
             title = "1 May 2022",
             icon = Icons.Default.CalendarToday,
@@ -92,7 +92,7 @@ fun RemovableChipPreview() {
 @Preview
 @Composable
 fun RemovableChipSelectedPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         ClearableChip(
             title = "1 May 2022",
             icon = Icons.Default.CalendarToday,

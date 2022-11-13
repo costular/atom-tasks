@@ -23,7 +23,7 @@ import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.designsystem.components.AtomTopBar
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr
@@ -102,7 +102,7 @@ fun SettingsScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SettingsScreenPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingsScreen(
             state = SettingsState(),
             navigator = EmptySettingsNavigator,

@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun SettingItem(
@@ -65,7 +65,7 @@ fun SettingItem(
 @Preview(showBackground = true)
 @Composable
 private fun JustTitlePreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingItem(
             title = {
                 Text("This is a test with only a title, nothing else")
@@ -79,7 +79,7 @@ private fun JustTitlePreview() {
 @Preview(showBackground = true)
 @Composable
 private fun TitleAndStartPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingItem(
             title = {
                 Text("This is a test with start also")
@@ -96,7 +96,7 @@ private fun TitleAndStartPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun TitleAndStartAndEndPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingItem(
             title = {
                 Text("This is a test with start and end wadwadawdaw daw daw daw awdaw dawd sdadad")
@@ -119,7 +119,7 @@ private fun TitleAndStartAndEndPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun TitleWithDescriptionAndEndPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingItem(
             title = {
                 Column {

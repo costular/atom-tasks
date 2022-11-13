@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.designsystem.R
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun CreateTask(
@@ -33,7 +33,7 @@ fun CreateTask(
 @Preview(showBackground = true)
 @Composable
 fun CreateTaskPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         CreateTask(modifier = Modifier.fillMaxWidth(), onClick = {})
     }
 }

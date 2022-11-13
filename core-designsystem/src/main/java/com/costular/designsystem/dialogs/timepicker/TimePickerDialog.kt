@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.designsystem.R
 import com.costular.designsystem.components.TimePicker
@@ -105,7 +105,7 @@ fun TimePickerDialog(
 @Preview
 @Composable
 fun TimePickerDialogPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         TimePickerDialog(
             time = LocalTime.of(9, 0),
             timeSuggestions = listOf(

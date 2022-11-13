@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.coreui.utils.DateUtils
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.costular.core.util.DateTimeFormatters.dayOfWeekFormatter
 import java.time.LocalDate
 import kotlinx.coroutines.launch
@@ -119,7 +119,7 @@ private fun CalendarDay(
 @Preview
 @Composable
 private fun HorizontalCalendarPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         HorizontalCalendar(
             from = LocalDate.now().minusDays(PreviewPrevDays),
             until = LocalDate.now().plusDays(PreviewNextDays),
@@ -131,7 +131,7 @@ private fun HorizontalCalendarPreview() {
 @Preview()
 @Composable
 private fun CalendarDayPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         CalendarDay(date = LocalDate.now(), isSelected = false, onClick = {})
     }
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun SettingOption(
@@ -68,7 +68,7 @@ fun SettingOption(
 @Preview(showBackground = true)
 @Composable
 private fun SettingOptionPrev() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingOption(
             title = "Theme",
             option = "Light",

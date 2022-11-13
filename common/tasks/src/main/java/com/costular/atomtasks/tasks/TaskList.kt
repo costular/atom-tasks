@@ -18,7 +18,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 
 @Composable
@@ -78,7 +78,7 @@ fun TaskListEmpty() {
 @Preview
 @Composable
 fun TaskList() {
-    AtomRemindersTheme {
+    AtomTheme {
         TaskList(
             modifier = Modifier.fillMaxWidth(),
             tasks = listOf(

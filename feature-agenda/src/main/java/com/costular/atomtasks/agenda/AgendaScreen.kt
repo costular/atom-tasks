@@ -38,7 +38,7 @@ import com.costular.designsystem.components.createtask.CreateTask
 import com.costular.designsystem.dialogs.RemoveTaskDialog
 import com.costular.designsystem.dialogs.TaskActionDialog
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import java.time.LocalDate
 import java.time.LocalTime
@@ -254,7 +254,7 @@ private fun DayHeader(
 fun AgendaPreview() {
     val windowSizeClass = generateWindowSizeClass()
 
-    AtomRemindersTheme {
+    AtomTheme {
         AgendaScreen(
             state = AgendaState(
                 tasks = Async.Success(

@@ -4,7 +4,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -23,7 +22,7 @@ import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.currentScreenAsState
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.navigation.navigate
@@ -52,7 +51,7 @@ fun App(
         )
     }
 
-    AtomRemindersTheme(darkTheme = isDarkTheme) {
+    AtomTheme(darkTheme = isDarkTheme) {
         Home(windowSizeClass = windowSizeClass)
     }
 }
@@ -97,7 +96,7 @@ private fun Home(
 private fun HomePreview() {
     val windowSizeClass = generateWindowSizeClass()
 
-    AtomRemindersTheme {
+    AtomTheme {
         Home(
             windowSizeClass = windowSizeClass,
         )

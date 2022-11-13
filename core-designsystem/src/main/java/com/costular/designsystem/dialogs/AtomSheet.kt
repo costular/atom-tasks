@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.designsystem.components.BottomSheetDraggable
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun AtomSheet(
@@ -89,7 +89,7 @@ private fun AtomSheetTitle(
 @Preview(showBackground = true)
 @Composable
 fun AtomSheetPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         AtomSheet(
             title = "Test",
             content = {

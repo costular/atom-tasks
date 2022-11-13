@@ -21,7 +21,7 @@ import com.chargemap.compose.numberpicker.FullHours
 import com.chargemap.compose.numberpicker.HoursNumberPicker
 import com.costular.atomtasks.coreui.utils.DateUtils.timeAsText
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalTime
 
 @Composable
@@ -84,7 +84,7 @@ fun TimeSuggestionChip(
 @Preview(showBackground = true)
 @Composable
 fun TimePickerPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         TimePicker(
             modifier = Modifier.fillMaxWidth(),
             onTimeChange = {},

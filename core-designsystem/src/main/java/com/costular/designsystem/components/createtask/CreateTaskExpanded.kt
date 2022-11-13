@@ -38,7 +38,7 @@ import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.timepicker.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -224,7 +224,7 @@ fun SaveButton(
 @Preview(showBackground = true)
 @Composable
 fun CreateTaskExpandedPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         CreateTaskExpanded(
             state = CreateTaskExpandedState(
                 name = "🏃🏻‍♀️ Go out for running!",

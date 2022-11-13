@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.costular.core.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
@@ -122,7 +122,7 @@ fun reminderAsText(reminder: Reminder): String =
 @Preview(showBackground = true)
 @Composable
 private fun TaskCardPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         TaskCard(
             title = "Run every morning!",
             isFinished = true,

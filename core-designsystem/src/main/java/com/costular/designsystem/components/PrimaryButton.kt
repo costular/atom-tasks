@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun PrimaryButton(
@@ -40,7 +40,7 @@ fun PrimaryButton(
 @Preview
 @Composable
 fun PrimaryButtonPrev() {
-    AtomRemindersTheme {
+    AtomTheme {
         PrimaryButton(onClick = {}) {
             Text("Click me!")
         }

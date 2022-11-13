@@ -89,7 +89,7 @@ private val LocalAppDimens = staticCompositionLocalOf {
 }
 
 @Composable
-fun AtomRemindersTheme(
+fun AtomTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {

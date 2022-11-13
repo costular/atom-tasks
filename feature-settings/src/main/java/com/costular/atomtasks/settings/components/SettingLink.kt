@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.settings.components.SettingItem
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun SettingLink(
@@ -55,7 +55,7 @@ fun SettingLink(
 @Preview(showBackground = true)
 @Composable
 private fun SettingOptionPrev() {
-    AtomRemindersTheme {
+    AtomTheme {
         SettingLink(
             title = "GitHub repository",
             icon = Icons.Outlined.Code,

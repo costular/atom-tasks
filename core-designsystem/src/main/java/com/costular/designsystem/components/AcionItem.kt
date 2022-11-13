@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.designsystem.theme.AppTheme
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun ActionItem(
@@ -50,7 +50,7 @@ fun ActionItem(
 @Preview(showBackground = true)
 @Composable
 private fun ActionMenuItemPreview() {
-    AtomRemindersTheme {
+    AtomTheme {
         ActionItem(
             Icons.Outlined.Delete,
             "Remove",

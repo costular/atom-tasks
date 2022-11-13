@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.atomtasks.settings.components.SettingItem
-import com.costular.designsystem.theme.AtomRemindersTheme
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun SettingSwitch(
@@ -38,7 +38,7 @@ private fun SettingSwitchPreview() {
         mutableStateOf(true)
     }
 
-    AtomRemindersTheme {
+    AtomTheme {
         SettingSwitch(
             title = {
                 Text("This is a checkbox sample")
