@@ -153,9 +153,11 @@ fun AgendaScreen(
             )
 
             HorizontalCalendar(
-                from = state.calendarFromDate,
-                until = state.calendarUntilDate,
-                modifier = Modifier.padding(bottom = AppTheme.dimens.spacingXLarge),
+                modifier = Modifier.padding(
+                    start = AppTheme.dimens.spacingLarge,
+                    end = AppTheme.dimens.spacingLarge,
+                    bottom = AppTheme.dimens.spacingXLarge,
+                ),
                 selectedDay = state.selectedDay,
                 onSelectDay = {
                     onSelectDate(it)

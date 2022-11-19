@@ -9,4 +9,6 @@ dependencies {
     api(libs.coroutines)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    testImplementation(libs.truth)
 }
