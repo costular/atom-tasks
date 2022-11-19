@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.core.util.DateTimeFormatters.dayOfWeekFormatter
+import com.costular.core.util.DateTimeFormatters.shortDayOfWeekFormatter
 import com.costular.core.util.WeekUtil
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
@@ -57,7 +58,7 @@ private fun RowScope.CalendarDay(
     modifier: Modifier = Modifier,
 ) {
     val day = date.dayOfMonth
-    val weekDay = dayOfWeekFormatter.format(date.dayOfWeek)
+    val weekDay = shortDayOfWeekFormatter.format(date.dayOfWeek)
 
     val cardColors = if (isSelected) {
         CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
