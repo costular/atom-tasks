@@ -80,12 +80,12 @@ private fun RowScope.CalendarDay(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = day.toString(),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
                 text = weekDay,
                 style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = day.toString(),
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }
