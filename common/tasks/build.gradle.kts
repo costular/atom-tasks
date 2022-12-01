@@ -23,7 +23,6 @@ dependencies {
     implementation(libs.accompanist.insetsui)
     implementation(libs.viewmodel)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.lottie)
     implementation(libs.work)
     implementation(libs.hilt.work)
     kapt(libs.hilt.androidx.compiler)

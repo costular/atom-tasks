@@ -38,8 +38,7 @@ dependencies {
 
     implementation(projects.common.tasks)
     implementation(libs.numberpicker)
-    implementation(libs.lottie)
-    implementation(libs.composecalendar)
+    implementation(libs.calendar)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.material.windowSizeClass)

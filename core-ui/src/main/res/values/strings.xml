@@ -35,6 +35,8 @@
     <string name="remove_task_message">Are you sure to remove this task?</string>
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>
+    <string name="task_list_empty_title">No tasks</string>
+    <string name="task_list_empty_description">Create a task and start organizing your life!</string>
 
     <string name="notification_channel_reminders_title">Reminders</string>
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>
