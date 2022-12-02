@@ -11,7 +11,8 @@ object DateTimeFormatters {
     val fullDayOfWeekFormatter =
         DateTimeFormatter.ofPattern("EEEE", Locale.getDefault())
     val dateFormatter =
-        DateTimeFormatter.ofPattern("d MMM", Locale.getDefault())
+        DateTimeFormatter.ofPattern("d MMM YY", Locale.getDefault())
     val timeFormatter =
         DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
+    val monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
 }

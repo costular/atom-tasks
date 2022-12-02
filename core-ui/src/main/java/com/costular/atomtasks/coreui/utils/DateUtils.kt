@@ -10,16 +10,6 @@ import java.time.LocalTime
 
 object DateUtils {
 
-    fun datesBetween(start: LocalDate, end: LocalDate): List<LocalDate> {
-        var localStart = start
-        val dates = mutableListOf<LocalDate>()
-        while (!localStart.isAfter(end)) {
-            dates.add(localStart)
-            localStart = localStart.plusDays(1)
-        }
-        return dates
-    }
-
     @Composable
     fun dayAsText(day: LocalDate): String {
         return when (day) {

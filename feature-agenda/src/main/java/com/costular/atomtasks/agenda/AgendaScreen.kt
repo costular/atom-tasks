@@ -1,5 +1,8 @@
 package com.costular.atomtasks.agenda
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,19 +11,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ChevronLeft
-import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +40,7 @@ import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.tasks.Task
 import com.costular.atomtasks.tasks.TaskList
 import com.costular.core.Async
+import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
 import com.costular.designsystem.components.createtask.CreateTask
@@ -39,6 +48,7 @@ import com.costular.designsystem.dialogs.RemoveTaskDialog
 import com.costular.designsystem.dialogs.TaskActionDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
+import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import java.time.LocalDate
 import java.time.LocalTime
@@ -57,7 +67,6 @@ fun AgendaScreen(
 }
 
 @Composable
-@Suppress("LongMethod")
 internal fun AgendaScreen(
     navigator: AgendaNavigator,
     windowSizeClass: WindowSizeClass,
@@ -69,6 +78,7 @@ internal fun AgendaScreen(
         state = state,
         windowSizeClass = windowSizeClass,
         onSelectDate = viewModel::setSelectedDay,
+        onSelectToday = viewModel::setSelectedDayToday,
         actionDelete = viewModel::actionDelete,
         dismissTaskAction = viewModel::dismissTaskAction,
         onMarkTask = viewModel::onMarkTask,
@@ -82,6 +92,7 @@ internal fun AgendaScreen(
             viewModel.dismissTaskAction()
             navigator.navigateToEditTask(taskId)
         },
+        onToggleExpandCollapse = viewModel::toggleHeader,
     )
 }
 
@@ -92,6 +103,7 @@ fun AgendaScreen(
     state: AgendaState,
     windowSizeClass: WindowSizeClass,
     onSelectDate: (LocalDate) -> Unit,
+    onSelectToday: () -> Unit,
     actionDelete: (id: Long) -> Unit,
     dismissTaskAction: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
@@ -100,6 +112,7 @@ fun AgendaScreen(
     onCreateTask: () -> Unit,
     openTaskAction: (Task) -> Unit,
     onEditAction: (id: Long) -> Unit,
+    onToggleExpandCollapse: () -> Unit,
 ) {
     if (state.taskAction != null) {
         TaskActionDialog(
@@ -135,6 +148,16 @@ fun AgendaScreen(
     }
 
     Scaffold(
+        topBar = {
+            AgendaHeader(
+                state = state,
+                onSelectDate = onSelectDate,
+                isExpanded = state.isHeaderExpanded,
+                onToggleExpandCollapse = onToggleExpandCollapse,
+                modifier = Modifier.fillMaxWidth(),
+                onSelectToday = onSelectToday,
+            )
+        },
         floatingActionButton = {
             CreateTask(
                 onClick = onCreateTask,
@@ -143,33 +166,13 @@ fun AgendaScreen(
                     .testTag("AgendaCreateTask"),
             )
         },
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            DayHeader(
-                state = state,
-                onSelectDate = onSelectDate,
-            )
-
-            HorizontalCalendar(
-                modifier = Modifier.padding(
-                    start = AppTheme.dimens.spacingLarge,
-                    end = AppTheme.dimens.spacingLarge,
-                    bottom = AppTheme.dimens.spacingXLarge,
-                ),
-                selectedDay = state.selectedDay,
-                onSelectDay = {
-                    onSelectDate(it)
-                },
-            )
-
-            TasksContent(
-                state = state,
-                onOpenTask = openTaskAction,
-                onMarkTask = onMarkTask,
-            )
-        }
+    ) { padding ->
+        TasksContent(
+            state = state,
+            onOpenTask = openTaskAction,
+            onMarkTask = onMarkTask,
+            modifier = Modifier.padding(padding),
+        )
     }
 }
 
@@ -178,6 +181,7 @@ private fun TasksContent(
     state: AgendaState,
     onOpenTask: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     when (val tasks = state.tasks) {
         is Async.Success -> {
@@ -185,9 +189,10 @@ private fun TasksContent(
                 tasks = tasks.data,
                 onClick = onOpenTask,
                 onMarkTask = onMarkTask,
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .padding(horizontal = AppTheme.dimens.contentMargin)
+                    .padding(top = AppTheme.dimens.spacingLarge)
                     .testTag("AgendaTaskList"),
             )
         }
@@ -198,55 +203,90 @@ private fun TasksContent(
 }
 
 @Composable
-private fun DayHeader(
+private fun AgendaHeader(
+    modifier: Modifier = Modifier,
     state: AgendaState,
     onSelectDate: (LocalDate) -> Unit,
+    onSelectToday: () -> Unit,
+    isExpanded: Boolean,
+    onToggleExpandCollapse: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
+        shadowElevation = 4.dp,
     ) {
-        val selectedDayText = dayAsText(state.selectedDay)
-        ScreenHeader(
-            text = selectedDayText,
-            modifier = Modifier
-                .weight(1f)
-                .padding(
-                    vertical = AppTheme.dimens.spacingXLarge,
-                    horizontal = AppTheme.dimens.spacingLarge,
-                )
-                .clickable {
-                    onSelectDate(LocalDate.now())
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val selectedDayText = dayAsText(state.selectedDay)
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onToggleExpandCollapse() },
+                ) {
+                    ScreenHeader(
+                        text = selectedDayText,
+                        modifier = Modifier
+                            .padding(
+                                top = AppTheme.dimens.spacingLarge,
+                                bottom = AppTheme.dimens.spacingLarge,
+                                start = AppTheme.dimens.spacingLarge,
+                            ),
+                    )
+
+                    val degrees by animateFloatAsState(
+                        targetValue = if (isExpanded) 180f else 0f,
+                        animationSpec = tween(
+                            durationMillis = 200,
+                            easing = FastOutSlowInEasing,
+                        )
+                    )
+
+                    IconButton(onClick = { onToggleExpandCollapse() }) {
+                        Icon(
+                            imageVector = Icons.Default.ExpandMore,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(degrees)
+                        )
+                    }
                 }
-                .testTag("AgendaTitle"),
-        )
 
-        IconButton(
-            enabled = state.isPreviousDaySelected,
-            onClick = {
-                val newDay = state.selectedDay.minusDays(1)
-                onSelectDate(newDay)
-            },
-            modifier = Modifier
-                .width(40.dp)
-                .height(40.dp)
-                .testTag("AgendaPrevDay"),
-        ) {
-            Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = null)
-        }
+                IconButton(
+                    onClick = onSelectToday,
+                    modifier = Modifier
+                        .padding(end = AppTheme.dimens.spacingLarge)
+                        .width(40.dp)
+                        .height(40.dp),
+                ) {
+                    Icon(imageVector = Icons.Outlined.Today, contentDescription = null)
+                }
+            }
 
-        IconButton(
-            enabled = state.isNextDaySelected,
-            onClick = {
-                val newDay = state.selectedDay.plusDays(1)
-                onSelectDate(newDay)
-            },
-            modifier = Modifier
-                .width(40.dp)
-                .height(40.dp)
-                .testTag("AgendaNextDay"),
-        ) {
-            Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = null)
+            if (isExpanded) {
+                DatePicker(
+                    modifier = Modifier
+                        .supportWideScreen(480.dp)
+                        .padding(horizontal = AppTheme.dimens.contentMargin)
+                        .padding(bottom = AppTheme.dimens.spacingMedium),
+                    selectedDay = state.selectedDay,
+                    onDateSelected = onSelectDate,
+                )
+            } else {
+                HorizontalCalendar(
+                    modifier = Modifier.padding(
+                        start = AppTheme.dimens.spacingLarge,
+                        end = AppTheme.dimens.spacingLarge,
+                        bottom = AppTheme.dimens.spacingLarge,
+                    ),
+                    selectedDay = state.selectedDay,
+                    onSelectDay = onSelectDate,
+                )
+            }
         }
     }
 }
@@ -292,9 +332,11 @@ fun AgendaPreview() {
             ),
             windowSizeClass = windowSizeClass,
             onSelectDate = {},
+            onSelectToday = {},
             actionDelete = {},
             dismissTaskAction = {},
             onMarkTask = { _, _ -> },
+            onToggleExpandCollapse = {},
             deleteTask = {},
             dismissDelete = {},
             onCreateTask = {},

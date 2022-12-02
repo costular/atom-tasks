@@ -15,7 +15,7 @@ fun ScreenHeader(
     Text(
         text = text,
         style = MaterialTheme.typography.headlineLarge,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
     )

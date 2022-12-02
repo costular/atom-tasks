@@ -37,7 +37,7 @@ fun DatePickerDialog(
                 )
 
                 DatePicker(
-                    currentDate = currentDate,
+                    selectedDay = currentDate,
                     onDateSelected = onDateSelected,
                 )
             }

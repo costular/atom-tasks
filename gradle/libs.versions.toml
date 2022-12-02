@@ -71,7 +71,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 materialdialogs-datetime = "io.github.vanpra.compose-material-dialogs:datetime:0.6.1"
-composecalendar = "io.github.boguszpawlowski.composecalendar:composecalendar:0.5.1"
+calendar = "com.kizitonwose.calendar:compose:2.0.4"
 numberpicker = "com.chargemap.compose:numberpicker:1.0.3"
 android-junit = "androidx.test.ext:junit-ktx:1.1.3"
 firebase-bom = "com.google.firebase:firebase-bom:29.0.3"

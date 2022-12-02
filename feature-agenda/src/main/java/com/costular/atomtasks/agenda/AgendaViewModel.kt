@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
-    private val getTasksInteractor: com.costular.atomtasks.tasks.GetTasksInteractor,
+    private val getTasksInteractor: GetTasksInteractor,
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
 ) : MviViewModel<AgendaState>(AgendaState()) {
@@ -25,8 +25,12 @@ class AgendaViewModel @Inject constructor(
         loadTasks()
     }
 
+    fun setSelectedDayToday() {
+        setSelectedDay(LocalDate.now())
+    }
+
     fun setSelectedDay(localDate: LocalDate) = viewModelScope.launch {
-        setState { copy(selectedDay = localDate) }
+        setState { copy(selectedDay = localDate, isHeaderExpanded = false) }
         loadTasks()
     }
 
@@ -76,6 +80,10 @@ class AgendaViewModel @Inject constructor(
 
     fun dismissDelete() {
         hideAskDelete()
+    }
+
+    fun toggleHeader() = setState {
+        copy(isHeaderExpanded = !isHeaderExpanded)
     }
 
     private fun hideAskDelete() {
