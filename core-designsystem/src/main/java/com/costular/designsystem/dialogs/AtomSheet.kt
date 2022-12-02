@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.designsystem.components.BottomSheetDraggable
+import com.costular.designsystem.components.Draggable
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 
@@ -34,7 +34,7 @@ fun AtomSheet(
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            BottomSheetDraggable()
+            Draggable()
         }
 
         Row(
