@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun TaskList(
@@ -103,7 +104,12 @@ fun TaskList() {
                     name = "Task1",
                     createdAt = LocalDate.now(),
                     day = LocalDate.now(),
-                    reminder = null,
+                    reminder = Reminder(
+                        id = 1L,
+                        time = LocalTime.of(9, 0),
+                        isEnabled = true,
+                        date = null,
+                    ),
                     isDone = false,
                 ),
                 Task(
