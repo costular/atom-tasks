@@ -33,6 +33,7 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.androidx.compiler)
+    implementation(libs.compose.ui.text.fonts)
 
     implementation(libs.numberpicker)
     implementation(libs.calendar)

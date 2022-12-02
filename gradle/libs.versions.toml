@@ -60,6 +60,7 @@ compose-material3-windowsize = { module = "androidx.compose.material3:material3-
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.4.0-alpha02" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
