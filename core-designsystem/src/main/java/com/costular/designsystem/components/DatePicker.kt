@@ -137,6 +137,7 @@ private fun BoxScope.Day(
 
     Box(
         modifier = Modifier
+            .padding(AppTheme.dimens.spacingSmall)
             .aspectRatio(1f)
             .clip(CircleShape)
             .background(backgroundColor)
