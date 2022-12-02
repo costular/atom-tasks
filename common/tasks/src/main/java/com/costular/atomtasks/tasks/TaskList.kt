@@ -86,7 +86,9 @@ fun Empty(
 @Preview
 @Composable
 fun TaskListEmpty() {
-    Empty(Modifier.fillMaxWidth())
+    AtomTheme {
+        Empty(Modifier.fillMaxWidth())
+    }
 }
 
 @Preview
