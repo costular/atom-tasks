@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.coreui.utils.VariantsPreview
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
@@ -84,6 +85,7 @@ fun Empty(
     }
 }
 
+@VariantsPreview
 @Preview
 @Composable
 fun TaskListEmpty() {
@@ -92,6 +94,7 @@ fun TaskListEmpty() {
     }
 }
 
+@VariantsPreview
 @Preview
 @Composable
 fun TaskList() {
