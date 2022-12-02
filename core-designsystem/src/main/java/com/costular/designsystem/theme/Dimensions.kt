@@ -31,7 +31,7 @@ val MediumDimensions = Dimensions(
 )
 
 val ExpandedDimensions = Dimensions(
-    contentMargin = 200.dp,
+    contentMargin = 32.dp,
     spacingSmall = 4.dp,
     spacingMedium = 8.dp,
     spacingLarge = 16.dp,
