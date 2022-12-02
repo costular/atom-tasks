@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -152,6 +151,7 @@ fun AgendaScreen(
             AgendaHeader(
                 state = state,
                 onSelectDate = onSelectDate,
+                canExpand = windowSizeClass.canExpand,
                 isExpanded = state.isHeaderExpanded,
                 onToggleExpandCollapse = onToggleExpandCollapse,
                 modifier = Modifier.fillMaxWidth(),
@@ -208,6 +208,7 @@ private fun AgendaHeader(
     state: AgendaState,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
+    canExpand: Boolean,
     isExpanded: Boolean,
     onToggleExpandCollapse: () -> Unit,
 ) {
@@ -227,7 +228,7 @@ private fun AgendaHeader(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable { onToggleExpandCollapse() },
+                        .clickable(enabled = canExpand, onClick = onToggleExpandCollapse),
                 ) {
                     ScreenHeader(
                         text = selectedDayText,
@@ -244,15 +245,17 @@ private fun AgendaHeader(
                         animationSpec = tween(
                             durationMillis = 200,
                             easing = FastOutSlowInEasing,
-                        )
+                        ),
                     )
 
-                    IconButton(onClick = { onToggleExpandCollapse() }) {
-                        Icon(
-                            imageVector = Icons.Default.ExpandMore,
-                            contentDescription = null,
-                            modifier = Modifier.rotate(degrees)
-                        )
+                    if (canExpand) {
+                        IconButton(onClick = { onToggleExpandCollapse() }) {
+                            Icon(
+                                imageVector = Icons.Default.ExpandMore,
+                                contentDescription = null,
+                                modifier = Modifier.rotate(degrees),
+                            )
+                        }
                     }
                 }
 
@@ -267,7 +270,7 @@ private fun AgendaHeader(
                 }
             }
 
-            if (isExpanded) {
+            if (isExpanded && canExpand) {
                 DatePicker(
                     modifier = Modifier
                         .supportWideScreen(480.dp)
@@ -278,11 +281,13 @@ private fun AgendaHeader(
                 )
             } else {
                 HorizontalCalendar(
-                    modifier = Modifier.padding(
-                        start = AppTheme.dimens.spacingLarge,
-                        end = AppTheme.dimens.spacingLarge,
-                        bottom = AppTheme.dimens.spacingLarge,
-                    ),
+                    modifier = Modifier
+                        .supportWideScreen()
+                        .padding(
+                            start = AppTheme.dimens.spacingLarge,
+                            end = AppTheme.dimens.spacingLarge,
+                            bottom = AppTheme.dimens.spacingLarge,
+                        ),
                     selectedDay = state.selectedDay,
                     onSelectDay = onSelectDate,
                 )
@@ -345,3 +350,8 @@ fun AgendaPreview() {
         )
     }
 }
+
+private val WindowSizeClass.canExpand: Boolean
+    get() =
+        widthSizeClass == WindowWidthSizeClass.Compact
+            || widthSizeClass == WindowWidthSizeClass.Medium
