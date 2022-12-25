@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-fun Modifier.supportWideScreen(max: Dp = 480.dp) = this
+fun Modifier.supportWideScreen(max: Dp = 840.dp) = this
     .fillMaxWidth()
     .wrapContentWidth(align = Alignment.CenterHorizontally)
     .widthIn(max = max)
