@@ -14,6 +14,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import com.costular.atomtasks.ui.home.AppNavigator
+import com.costular.atomtasks.ui.home.AtomAppState
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
@@ -60,18 +61,17 @@ fun DestinationScope<*>.currentNavigator(): AppNavigator {
 @ExperimentalAnimationApi
 @Composable
 internal fun AppNavigation(
-    navController: NavHostController,
-    windowSizeClass: WindowSizeClass,
+    appState: AtomAppState,
     modifier: Modifier = Modifier,
 ) {
     DestinationsNavHost(
         engine = rememberAnimatedNavHostEngine(),
-        navController = navController,
+        navController = appState.navController,
         navGraph = NavGraphs.root,
         modifier = modifier,
         dependenciesContainerBuilder = {
             dependency(currentNavigator())
-            dependency(windowSizeClass)
+            dependency(appState.windowSizeClass)
         },
     )
 }

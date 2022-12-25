@@ -95,6 +95,7 @@ dependencies {
     implementation(libs.compose.material.icons)
     implementation(libs.constraintlayout)
     implementation(libs.accompanist.systemui)
+    implementation(libs.accompanist.adaptative)
     implementation(libs.compose.ui.tooling)
     implementation(libs.material)
     implementation(libs.material.windowSizeClass)

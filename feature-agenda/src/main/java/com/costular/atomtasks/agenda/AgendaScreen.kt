@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -18,7 +20,6 @@ import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -42,7 +43,6 @@ import com.costular.core.Async
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
-import com.costular.designsystem.components.createtask.CreateTask
 import com.costular.designsystem.dialogs.RemoveTaskDialog
 import com.costular.designsystem.dialogs.TaskActionDialog
 import com.costular.designsystem.theme.AppTheme
@@ -83,9 +83,6 @@ internal fun AgendaScreen(
         onMarkTask = viewModel::onMarkTask,
         deleteTask = viewModel::deleteTask,
         dismissDelete = viewModel::dismissDelete,
-        onCreateTask = {
-            navigator.navigateToCreateTask(date = state.selectedDay.toString(), text = null)
-        },
         openTaskAction = viewModel::openTaskAction,
         onEditAction = { taskId ->
             viewModel.dismissTaskAction()
@@ -95,7 +92,6 @@ internal fun AgendaScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("LongMethod")
 @Composable
 fun AgendaScreen(
@@ -108,7 +104,6 @@ fun AgendaScreen(
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
     dismissDelete: () -> Unit,
-    onCreateTask: () -> Unit,
     openTaskAction: (Task) -> Unit,
     onEditAction: (id: Long) -> Unit,
     onToggleExpandCollapse: () -> Unit,
@@ -146,27 +141,16 @@ fun AgendaScreen(
         )
     }
 
-    Scaffold(
-        topBar = {
-            AgendaHeader(
-                state = state,
-                onSelectDate = onSelectDate,
-                canExpand = windowSizeClass.canExpand,
-                isExpanded = state.isHeaderExpanded,
-                onToggleExpandCollapse = onToggleExpandCollapse,
-                modifier = Modifier.fillMaxWidth(),
-                onSelectToday = onSelectToday,
-            )
-        },
-        floatingActionButton = {
-            CreateTask(
-                onClick = onCreateTask,
-                modifier = Modifier
-                    .padding(AppTheme.dimens.contentMargin)
-                    .testTag("AgendaCreateTask"),
-            )
-        },
-    ) { padding ->
+    Column {
+        AgendaHeader(
+            state = state,
+            onSelectDate = onSelectDate,
+            canExpand = windowSizeClass.canExpand,
+            isExpanded = state.isHeaderExpanded,
+            onToggleExpandCollapse = onToggleExpandCollapse,
+            modifier = Modifier.fillMaxWidth(),
+            onSelectToday = onSelectToday,
+        )
         TasksContent(
             state = state,
             onOpenTask = openTaskAction,
@@ -357,7 +341,6 @@ fun AgendaPreview() {
             onToggleExpandCollapse = {},
             deleteTask = {},
             dismissDelete = {},
-            onCreateTask = {},
             openTaskAction = {},
             onEditAction = {},
         )

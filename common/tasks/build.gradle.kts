@@ -20,7 +20,6 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.accompanist.systemui)
-    implementation(libs.accompanist.insetsui)
     implementation(libs.viewmodel)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.work)

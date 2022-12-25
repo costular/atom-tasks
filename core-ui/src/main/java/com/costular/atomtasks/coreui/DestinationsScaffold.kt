@@ -15,12 +15,29 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
-@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DestinationsScaffold(
     navController: NavHostController,
     bottomBar: @Composable () -> Unit,
+    floatingActionButton: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
+) {
+    DestinationsBottomSheet(navController = navController) {
+        Scaffold(
+            bottomBar = bottomBar,
+            floatingActionButton = floatingActionButton,
+        ) {
+            content(it)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
+@Composable
+fun DestinationsBottomSheet(
+    navController: NavHostController,
+    content: @Composable () -> Unit,
 ) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     navController.navigatorProvider += bottomSheetNavigator
@@ -33,9 +50,6 @@ fun DestinationsScaffold(
         sheetContentColor = MaterialTheme.colorScheme.onSurface,
         scrimColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f),
     ) {
-        Scaffold(
-            bottomBar = bottomBar,
-            content = content,
-        )
+        content()
     }
 }

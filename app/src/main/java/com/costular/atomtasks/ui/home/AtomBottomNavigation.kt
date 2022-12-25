@@ -19,7 +19,6 @@ fun AtomBottomNavigation(
 ) {
     NavigationBar(
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.background,
     ) {
         HomeNavigationDestination.values().forEach { destination ->
             NavigationBarItem(
@@ -40,7 +39,7 @@ fun AtomBottomNavigation(
 }
 
 @Composable
-private fun HomeNavigationItemIcon(
+internal fun HomeNavigationItemIcon(
     destination: HomeNavigationDestination,
     selected: Boolean,
 ) {
