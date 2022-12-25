@@ -41,7 +41,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("compose.ui").get())
                 add("implementation", libs.findLibrary("compose.ui.tooling").get())
                 add("implementation", libs.findLibrary("accompanist.systemui").get())
-                add("implementation", libs.findLibrary("accompanist.insetsui").get())
                 add("implementation", libs.findLibrary("viewmodel").get())
                 add("implementation", libs.findLibrary("hilt.navigation.compose").get())
                 add("kapt", libs.findLibrary("hilt.androidx.compiler").get())

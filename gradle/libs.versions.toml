@@ -19,7 +19,7 @@ compose = "1.3.0-beta01"
 composeCompiler = "1.3.0"
 composeMaterial3 = "1.0.0-beta01"
 hiltJetpackViewModel = "1.0.0-alpha03"
-accompanist = "0.23.1"
+accompanist = "0.28.0"
 workManager = "2.7.1"
 room = "2.4.0"
 paparazzi = "1.1.0"
@@ -64,7 +64,7 @@ compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", v
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
-accompanist-insetsui = { module = "com.google.accompanist:accompanist-insets-ui", version.ref = "accompanist" }
+accompanist-adaptative = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 work = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 fragment = "androidx.fragment:fragment-ktx:1.4.0-alpha03"

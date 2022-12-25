@@ -171,7 +171,7 @@ fun AgendaScreen(
             state = state,
             onOpenTask = openTaskAction,
             onMarkTask = onMarkTask,
-            modifier = Modifier.padding(padding),
+            modifier = Modifier.supportWideScreen(),
         )
     }
 }

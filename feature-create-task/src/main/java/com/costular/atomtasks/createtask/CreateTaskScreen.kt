@@ -1,6 +1,8 @@
 package com.costular.atomtasks.createtask
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,7 +14,6 @@ import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.createtask.CreateTaskState.Companion.Empty
 import com.costular.designsystem.components.createtask.CreateTaskExpanded
 import com.costular.core.Async
-import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
@@ -54,6 +55,7 @@ fun CreateTaskScreen(
         },
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsWithImePadding(),
+            .navigationBarsPadding()
+            .imePadding(),
     )
 }
