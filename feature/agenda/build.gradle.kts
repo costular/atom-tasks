@@ -41,9 +41,7 @@ dependencies {
     ksp(libs.compose.destinations.ksp)
 
     implementation(projects.common.tasks)
-    implementation(libs.numberpicker)
     implementation(libs.calendar)
-    implementation(libs.material.windowSizeClass)
 
     testImplementation(projects.core.testing)
     testImplementation(libs.android.junit)

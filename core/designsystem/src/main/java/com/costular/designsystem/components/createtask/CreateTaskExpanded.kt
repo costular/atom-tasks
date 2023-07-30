@@ -36,12 +36,13 @@ import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
-import com.costular.designsystem.dialogs.timepicker.TimePickerDialog
+import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 import java.time.LocalTime
 
+@ExperimentalMaterial3Api
 @Suppress("MagicNumber")
 @Composable
 fun CreateTaskExpanded(
@@ -90,16 +91,9 @@ fun CreateTaskExpanded(
 
     if (state.showSetReminder) {
         TimePickerDialog(
-            time = state.reminder ?: LocalTime.now(),
-            timeSuggestions = listOf(
-                LocalTime.of(9, 0),
-                LocalTime.of(12, 0),
-                LocalTime.of(14, 0),
-                LocalTime.of(18, 0),
-                LocalTime.of(20, 0),
-            ),
-            onTimeChange = viewModel::setReminder,
-            onCancel = viewModel::closeSelectReminder,
+            onDismiss = viewModel::closeSelectReminder,
+            selectedTime = state.reminder,
+            onSelectTime = viewModel::setReminder,
         )
     }
 
