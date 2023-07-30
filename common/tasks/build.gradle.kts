@@ -6,8 +6,12 @@ plugins {
     kotlin("kapt")
 }
 
+android {
+    namespace = "com.costular.atomtasks.common.tasks"
+}
+
 dependencies {
-    implementation(projects.coreDesignsystem)
+    implementation(projects.core.designsystem)
     implementation(projects.data)
 
     implementation(libs.compose.activity)

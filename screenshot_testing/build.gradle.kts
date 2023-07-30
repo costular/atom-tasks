@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.paparazzi)
 }
 
+android {
+    namespace = "com.costular.atomtasks.screenshot_testing"
+}
+
 androidComponents {
     // Disable release builds for this test-only library, no need to run screenshot tests more than
     // once
@@ -15,7 +19,7 @@ androidComponents {
 }
 
 dependencies {
-    implementation(projects.coreDesignsystem)
+    implementation(projects.core.designsystem)
 
     testImplementation(projects.data)
     testImplementation(projects.common.tasks)

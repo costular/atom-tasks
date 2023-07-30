@@ -5,6 +5,10 @@ plugins {
     id("kotlin-kapt")
 }
 
+android {
+    namespace = "com.costular.atomtasks.core"
+}
+
 dependencies {
     api(libs.coroutines)
     implementation(libs.hilt)

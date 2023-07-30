@@ -3,10 +3,9 @@ package com.costular.atomtasks.ui
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.costular.atomtasks.BuildConfig
+import com.costular.atomtasks.Logger
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import timber.log.Timber
 
 @HiltAndroidApp
 class AtomTasksApp : Application(), Configuration.Provider {
@@ -20,9 +19,7 @@ class AtomTasksApp : Application(), Configuration.Provider {
     }
 
     private fun init() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        Logger.invoke(this)
     }
 
     override fun getWorkManagerConfiguration() =

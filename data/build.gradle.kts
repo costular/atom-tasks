@@ -9,6 +9,8 @@ plugins {
 }
 
 android {
+    namespace = "com.costular.atomtasks.data"
+
     defaultConfig {
         // The schemas directory contains a schema file for each version of the Room database.
         // This is required to enable Room auto migrations.
@@ -17,12 +19,12 @@ android {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
 
-        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
     }
 }
 
 dependencies {
-    implementation(project(":core-ui"))
+    implementation(project(":core:ui"))
 
     api(libs.room.runtime)
     implementation(libs.room.ktx)
@@ -46,7 +48,7 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.testparameterinjector)
 
-    androidTestImplementation(projects.coreTesting)
+    androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.coroutines.test)
     androidTestImplementation(libs.turbine)

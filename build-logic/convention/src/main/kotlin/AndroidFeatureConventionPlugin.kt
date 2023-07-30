@@ -29,7 +29,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                add("implementation", project(":core-designsystem"))
+                add("implementation", project(":core:designsystem"))
                 add("implementation", project(":data"))
                 add("implementation", libs.findLibrary("compose.activity").get())
                 add("implementation", libs.findLibrary("compose.foundation").get())
@@ -48,7 +48,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("kapt", libs.findLibrary("hilt.compiler").get())
                 add("implementation", libs.findLibrary("compose.destinations").get())
 
-                add("testImplementation", project(":core-testing"))
+                add("testImplementation", project(":core:testing"))
             }
         }
     }

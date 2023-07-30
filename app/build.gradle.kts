@@ -11,11 +11,13 @@ plugins {
 }
 
 android {
+    namespace = "com.costular.atomtasks"
+
     defaultConfig {
         applicationId = "com.costular.atomtasks"
         versionCode = 9
         versionName = "0.8.0"
-        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -80,22 +82,20 @@ configurations {
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":core-designsystem"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
     implementation(project(":data"))
-    implementation(project(":feature-agenda"))
-    implementation(project(":feature-create-task"))
-    implementation(project(":feature-settings"))
+    implementation(project(":feature:agenda"))
+    implementation(project(":feature:createtask"))
+    implementation(project(":feature:settings"))
     implementation(projects.common.tasks)
-    implementation(projects.featureEdittask)
+    implementation(projects.feature.edittask)
 
     implementation(libs.fragment)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.material.icons)
-    implementation(libs.constraintlayout)
     implementation(libs.accompanist.systemui)
-    implementation(libs.accompanist.adaptative)
     implementation(libs.compose.ui.tooling)
     implementation(libs.material)
     implementation(libs.material.windowSizeClass)

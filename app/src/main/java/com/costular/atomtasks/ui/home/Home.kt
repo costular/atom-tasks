@@ -1,11 +1,16 @@
 package com.costular.atomtasks.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -16,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -29,18 +33,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomtasks.coreui.DestinationsBottomSheet
-import com.costular.atomtasks.coreui.DestinationsScaffold
-import com.costular.atomtasks.coreui.utils.rememberFlowWithLifecycle
+import com.costular.atomtasks.core.ui.DestinationsBottomSheet
+import com.costular.atomtasks.core.ui.DestinationsScaffold
+import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.NavGraphs
+import com.costular.atomtasks.ui.NavGraphs.createTask
 import com.costular.atomtasks.ui.currentScreenAsState
 import com.costular.designsystem.theme.AtomTheme
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.ramcosta.composedestinations.spec.NavGraphSpec
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun App(
     windowSizeClass: WindowSizeClass,
@@ -66,9 +73,12 @@ fun App(
     }
 
     AtomTheme(darkTheme = isDarkTheme) {
+        val engine = rememberAnimatedNavHostEngine()
+        val navController = engine.rememberNavController()
+
         Home(
             atomAppState = rememberAtomAppState(
-                navController = rememberAnimatedNavController(),
+                navController = navController,
                 windowSizeClass = windowSizeClass,
             ),
         )
@@ -95,11 +105,7 @@ private fun Home(
                     )
                 },
                 floatingActionButton = {
-                    if (currentSelectedItem == NavGraphs.agenda) {
-                        FloatingActionButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Outlined.Add, contentDescription = null)
-                        }
-                    }
+                    AddTaskFloatingActionButton(currentSelectedItem, atomAppState)
                 },
                 navController = atomAppState.navController,
             ) { paddingValues ->
@@ -109,6 +115,7 @@ private fun Home(
                 )
             }
         }
+
         AtomNavigationType.RAIL_NAVIGATION -> {
             DestinationsBottomSheet(
                 navController = atomAppState.navController,
@@ -128,21 +135,12 @@ private fun Home(
                             atomAppState.navigateToTopLevelDestination(selected)
                         },
                         header = {
-                            if (currentSelectedItem == NavGraphs.agenda) {
-                                FloatingActionButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Outlined.Add, contentDescription = null)
-                                }
-                            }
+                            AddTaskFloatingActionButton(currentSelectedItem, atomAppState)
                         },
                         modifier = Modifier.safeDrawingPadding(),
                     )
 
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(1.dp)
-                            .safeDrawingPadding(),
-                    )
+                    Spacer(Modifier.width(24.dp))
 
                     AppNavigation(
                         appState = atomAppState,
@@ -150,6 +148,34 @@ private fun Home(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun AddTaskFloatingActionButton(
+    currentSelectedItem: NavGraphSpec,
+    atomAppState: AtomAppState,
+) {
+    AnimatedVisibility(
+        visible = currentSelectedItem == NavGraphs.agenda,
+        enter = scaleIn(
+            animationSpec = tween(
+                easing = FastOutSlowInEasing,
+            ),
+        ),
+        exit = scaleOut(
+            animationSpec = tween(
+                easing = FastOutSlowInEasing,
+            ),
+        ),
+    ) {
+        FloatingActionButton(
+            onClick = {
+                atomAppState.navigateToTopLevelDestination(createTask)
+            },
+        ) {
+            Icon(Icons.Outlined.Add, contentDescription = null)
         }
     }
 }

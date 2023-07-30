@@ -7,8 +7,8 @@ import org.gradle.kotlin.dsl.configure
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with (target) {
-            with (pluginManager) {
+        with(target) {
+            with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
             }
@@ -16,7 +16,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(this)
                 configureAndroidCompose(this)
-                defaultConfig.targetSdk = 33
+                defaultConfig.targetSdk = 34
             }
         }
     }

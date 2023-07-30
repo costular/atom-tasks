@@ -1,5 +1,6 @@
 package com.costular.atomtasks.data
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -17,6 +18,7 @@ import com.costular.atomtasks.tasks.manager.TaskNotificationManager
 import com.costular.atomtasks.tasks.receiver.MarkTaskAsDoneReceiver
 import com.costular.atomtasks.ui.home.MainActivity
 import com.costular.atomtasks.ui.util.ChannelReminders
+import com.costular.atomtasks.core.ui.R
 
 class TaskNotificationManagerImpl(
     private val context: Context,
@@ -123,6 +125,7 @@ class TaskNotificationManagerImpl(
         notificationManager.cancel(taskId.toInt())
     }
 
+    @SuppressLint("MissingPermission")
     private fun notify(id: Int, notification: Notification) {
         notificationManager.notify(id, notification)
     }
@@ -130,7 +133,7 @@ class TaskNotificationManagerImpl(
     private fun buildNotificationBase(channel: String): NotificationCompat.Builder =
         NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.drawable.ic_atom)
-            .setColor(R.color.primary)
+            .setColor(context.getColor(R.color.primary))
 
     private fun generateRandomRequestCode(): Int {
         return (0..Int.MAX_VALUE).random()

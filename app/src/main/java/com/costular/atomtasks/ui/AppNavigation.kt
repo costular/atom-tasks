@@ -1,7 +1,6 @@
 package com.costular.atomtasks.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
@@ -12,14 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavHostController
 import com.costular.atomtasks.ui.home.AppNavigator
 import com.costular.atomtasks.ui.home.AtomAppState
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.dependency
-import com.ramcosta.composedestinations.scope.DestinationScope
+import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 @Stable
@@ -53,7 +51,7 @@ fun NavDestination.navGraph(): NavGraphSpec {
     throw NavigationError(route)
 }
 
-fun DestinationScope<*>.currentNavigator(): AppNavigator {
+fun DestinationScopeWithNoDependencies<*>.currentNavigator(): AppNavigator {
     return AppNavigator(navController)
 }
 
