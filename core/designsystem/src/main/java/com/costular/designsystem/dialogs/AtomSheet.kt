@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.costular.designsystem.components.Draggable
 import com.costular.designsystem.theme.AppTheme
@@ -28,6 +29,7 @@ fun AtomSheet(
     title: String?,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
+    contentPadding: Dp = AppTheme.dimens.contentMargin,
     content: @Composable () -> Unit,
 ) {
     Column(modifier) {
@@ -65,7 +67,7 @@ fun AtomSheet(
             }
         }
 
-        Box(Modifier.padding(AppTheme.dimens.contentMargin)) {
+        Box(Modifier.padding(contentPadding)) {
             content()
         }
     }

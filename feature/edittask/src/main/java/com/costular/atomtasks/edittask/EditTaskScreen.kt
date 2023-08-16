@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.core.ui.R
@@ -45,6 +46,7 @@ fun EditTaskScreen(
     if (task is TaskState.Success) {
         AtomSheet(
             title = stringResource(R.string.agenda_edit_task),
+            contentPadding = 0.dp,
             onNavigateUp = { navigator.navigateUp() },
         ) {
             CreateTaskExpanded(
