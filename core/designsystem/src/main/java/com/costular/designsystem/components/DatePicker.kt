@@ -14,9 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material3.LocalAbsoluteTonalElevation
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -96,8 +95,10 @@ private fun MonthHeader(
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         Row(modifier = Modifier.fillMaxWidth()) {
+            val mediumEmphasis = MaterialTheme.colorScheme.onSurfaceVariant
+
             month.weekDays.first().map { it.date.dayOfWeek }.forEach { dayOfWeek ->
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                CompositionLocalProvider(LocalContentColor provides mediumEmphasis) {
                     Text(
                         textAlign = TextAlign.Center,
                         text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ROOT),
@@ -133,7 +134,7 @@ private fun BoxScope.Day(
     }
     val contentColor = contentColorFor(backgroundColor)
     val contentAlpha =
-        if (day.position == DayPosition.MonthDate) ContentAlpha.high else ContentAlpha.disabled
+        if (day.position == DayPosition.MonthDate) 1f else 0.38f
 
     Box(
         modifier = Modifier

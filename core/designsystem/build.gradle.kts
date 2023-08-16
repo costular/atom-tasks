@@ -37,7 +37,6 @@ dependencies {
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.ui.text.fonts)
 
-    implementation(libs.numberpicker)
     implementation(libs.calendar)
 
     testImplementation(projects.core.testing)

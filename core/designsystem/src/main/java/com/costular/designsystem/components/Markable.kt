@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +38,8 @@ fun Markable(
     width: Dp = 24.dp,
     height: Dp = 24.dp,
 ) {
+    val interaction = remember { MutableInteractionSource() }
+
     val lastModifier = modifier
         .width(width)
         .height(height)
@@ -47,7 +50,7 @@ fun Markable(
         )
         .selectable(
             isMarked,
-            interactionSource = MutableInteractionSource(),
+            interactionSource = interaction,
             role = Role.Checkbox,
             indication = rememberRipple(bounded = false),
             enabled = true,

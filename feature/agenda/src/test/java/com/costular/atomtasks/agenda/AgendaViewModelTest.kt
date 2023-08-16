@@ -4,10 +4,11 @@ import app.cash.turbine.test
 import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.tasks.GetTasksInteractor
+import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.Task
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -25,21 +26,23 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     lateinit var sut: AgendaViewModel
 
-    private val getTasksInteractor: GetTasksInteractor = mockk(relaxed = true)
+    private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
+    private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         sut = AgendaViewModel(
-            getTasksInteractor,
+            observeTasksUseCase,
             updateTaskIsDoneInteractor,
             removeTaskInteractor,
+            autoforwardManager,
         )
     }
 
     @Test
-    fun `should expose correct state when land on screen`() = testBlocking {
+    fun `should expose correct state when land on screen`() = runTest {
         sut.state.test {
             val lastState = expectMostRecentItem()
             assertThat(lastState.selectedDay).isEqualTo(LocalDate.now())
@@ -47,9 +50,9 @@ class AgendaViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose tasks when load succeed`() = testBlocking {
+    fun `should expose tasks when load succeed`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.flow } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
 
         sut.loadTasks()
 
@@ -71,9 +74,9 @@ class AgendaViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should load task accordingly when mark task as done`() = testBlocking {
+    fun `should load task accordingly when mark task as done`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { getTasksInteractor.flow } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
 
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
@@ -89,10 +92,10 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should show delete task action when tap on delete`() =
-        testBlocking {
+        runTest {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
+            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -105,10 +108,10 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should set delete task action to hidden when dismiss dialog`() =
-        testBlocking {
+        runTest {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { getTasksInteractor.flow } returns flowOf(tasks)
+            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -122,11 +125,11 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should load empty tasks when remove given there is only one existing task`() =
-        testBlocking {
+        runTest {
             val expected = emptyList<Task>()
             val taskId = DEFAULT_TASKS.first().id
             coEvery {
-                getTasksInteractor.flow
+                observeTasksUseCase.invoke(any())
             } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
 
             sut.loadTasks()

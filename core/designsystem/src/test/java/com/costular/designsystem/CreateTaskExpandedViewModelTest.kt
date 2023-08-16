@@ -10,6 +10,7 @@ import com.google.common.truth.Truth.assertThat
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -24,7 +25,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose according state when land on screen`() = testBlocking {
+    fun `should expose according state when land on screen`() = runTest {
         val expected = CreateTaskExpandedState.Empty
 
         sut.state.test {
@@ -33,7 +34,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose task name when set name`() = testBlocking {
+    fun `should expose task name when set name`() = runTest {
         val name = "🏃🏻‍♀️Running!"
 
         sut.setName(name)
@@ -46,7 +47,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose date when pass date`() = testBlocking {
+    fun `should expose date when pass date`() = runTest {
         val date = LocalDate.of(2021, 12, 24)
 
         sut.setDate(date)
@@ -58,7 +59,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose reminder when pass local time`() = testBlocking {
+    fun `should expose reminder when pass local time`() = runTest {
         val localTime = LocalTime.of(9, 0)
 
         sut.setReminder(localTime)
@@ -70,7 +71,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should send save event with according data when request save`() = testBlocking {
+    fun `should send save event with according data when request save`() = runTest {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)
         val reminder = LocalTime.of(9, 0)
@@ -88,7 +89,7 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should reset state when save succeed`() = testBlocking {
+    fun `should reset state when save succeed`() = runTest {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)
         val reminder = LocalTime.of(9, 0)

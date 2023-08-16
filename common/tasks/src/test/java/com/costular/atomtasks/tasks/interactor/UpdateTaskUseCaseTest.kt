@@ -10,16 +10,16 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
-class UpdateTaskInteractorTest {
+class UpdateTaskUseCaseTest {
 
-    private lateinit var sut: UpdateTaskInteractor
+    private lateinit var sut: UpdateTaskUseCase
 
     private val repository: TasksRepository = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
 
     @Before
     fun setUp() {
-        sut = UpdateTaskInteractor(repository, taskReminderManager)
+        sut = UpdateTaskUseCase(repository, taskReminderManager)
     }
 
     @Test
@@ -28,8 +28,8 @@ class UpdateTaskInteractorTest {
         val name = "New name"
         val newDay = LocalDate.now()
 
-        sut.executeSync(
-            UpdateTaskInteractor.Params(
+        sut(
+            UpdateTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -48,8 +48,8 @@ class UpdateTaskInteractorTest {
         val newDay = LocalDate.now()
         val reminder = LocalTime.of(9, 0)
 
-        sut.executeSync(
-            UpdateTaskInteractor.Params(
+        sut(
+            UpdateTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -68,8 +68,8 @@ class UpdateTaskInteractorTest {
         val newDay = LocalDate.now()
         val reminder = LocalTime.of(9, 0)
 
-        sut.executeSync(
-            UpdateTaskInteractor.Params(
+        sut(
+            UpdateTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -88,8 +88,8 @@ class UpdateTaskInteractorTest {
         val newDay = LocalDate.now()
         val reminder = null
 
-        sut.executeSync(
-            UpdateTaskInteractor.Params(
+        sut(
+            UpdateTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -108,8 +108,8 @@ class UpdateTaskInteractorTest {
         val newDay = LocalDate.now()
         val reminder = null
 
-        sut.executeSync(
-            UpdateTaskInteractor.Params(
+        sut(
+            UpdateTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,

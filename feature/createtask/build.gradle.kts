@@ -31,8 +31,6 @@ dependencies {
     implementation(projects.common.tasks)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
-
-    implementation(libs.numberpicker)
     implementation(libs.calendar)
 
     testImplementation(projects.core.testing)

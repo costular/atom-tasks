@@ -8,6 +8,15 @@ plugins {
 
 android {
     namespace = "com.costular.atomtasks.common.tasks"
+
+    defaultConfig {
+        testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
+    }
+
+    packaging {
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/LICENSE-notice.md")
+    }
 }
 
 dependencies {
@@ -41,4 +50,16 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
+
+    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(libs.android.junit)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.work.testing)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.hilt.android.testing)
 }

@@ -1,14 +1,18 @@
 package com.costular.atomtasks.agenda
 
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.ui.unit.DpSize
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
-import com.costular.atomtasks.tasks.Task
 import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 import org.junit.Test
+import com.costular.atomtasks.core.ui.R
 
 @HiltAndroidTest
 class AgendaTest : AndroidTest() {
@@ -158,19 +162,22 @@ class AgendaTest : AndroidTest() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     private fun givenAgenda(state: AgendaState = AgendaState.Empty) {
         composeTestRule.setContent {
             AgendaScreen(
                 state = state,
-                onSelectDate = {},
-                actionDelete = {},
-                dismissDelete = {},
-                dismissTaskAction = {},
                 onMarkTask = toggleTask,
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize.Unspecified),
+                onSelectDate = {},
+                onSelectToday = {},
+                actionDelete = {},
+                dismissTaskAction = {},
                 deleteTask = {},
-                onCreateTask = {},
+                dismissDelete = {},
                 openTaskAction = {},
                 onEditAction = {},
+                onToggleExpandCollapse = {},
             )
         }
     }

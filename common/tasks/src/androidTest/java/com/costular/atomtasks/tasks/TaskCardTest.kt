@@ -1,11 +1,10 @@
-package com.costular.designsystem.components
+package com.costular.atomtasks.tasks
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.core.testing.ui.AndroidTest
-import com.costular.atomtasks.tasks.Reminder
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify

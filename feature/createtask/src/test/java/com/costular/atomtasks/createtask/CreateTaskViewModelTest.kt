@@ -14,6 +14,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -30,7 +31,7 @@ class CreateTaskViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose success when create task succeed`() = testBlocking {
+    fun `should expose success when create task succeed`() = runTest {
         val name = "Task's name"
         val date = LocalDate.of(2022, 2, 10)
         val reminder = LocalTime.of(0, 0)
@@ -57,7 +58,7 @@ class CreateTaskViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should expose failure when create task fails`() = testBlocking {
+    fun `should expose failure when create task fails`() = runTest {
         val exception = Exception("some error")
 
         coEvery {

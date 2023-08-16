@@ -15,6 +15,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -118,7 +119,7 @@ class DefaultTasksRepositoryTest {
 
         coEvery { localDataSource.getTaskById(taskId) } returns flowOf(result)
 
-        val actual = sut.getTaskById(taskId).take(1).toList().first()
+        val actual = sut.getTaskById(taskId).first()
 
         assertThat(actual.name).isEqualTo(expected.name)
         assertThat(actual.createdAt).isEqualTo(expected.createdAt)

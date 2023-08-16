@@ -1,7 +1,5 @@
 package com.costular.atomtasks.agenda
 
-import com.costular.atomtasks.agenda.AgendaViewModel.Companion.DaysAfter
-import com.costular.atomtasks.agenda.AgendaViewModel.Companion.DaysBefore
 import com.costular.atomtasks.tasks.Task
 import com.costular.core.Async
 import java.time.LocalDate

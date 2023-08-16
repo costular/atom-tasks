@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <receiver android:name="com.costular.atomtasks.tasks.receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".receiver.MarkTaskAsDoneReceiver" />
+        <receiver android:name=".receiver.EnqueueMarkUndoneTaskReceiver" />
+        <receiver android:name=".receiver.NotifyTaskReceiver" />
+        <receiver android:name=".receiver.PostponeTaskReceiver" />
         <receiver android:name="com.costular.atomtasks.tasks.receiver.NotifyTaskReceiver" />
         <receiver android:name="com.costular.atomtasks.tasks.receiver.PostponeTaskReceiver" />
     </application>

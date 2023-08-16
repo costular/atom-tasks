@@ -3,8 +3,6 @@ package com.costular.designsystem.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
@@ -12,6 +10,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -23,7 +23,7 @@ import com.costular.atomtasks.core.ui.R
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClearableChip(
     title: String,
@@ -54,7 +54,7 @@ fun ClearableChip(
                 Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
 
                 CompositionLocalProvider(
-                    LocalMinimumTouchTargetEnforcement provides false,
+                    LocalMinimumInteractiveComponentEnforcement provides false,
                 ) {
                     IconButton(
                         onClick = onClear,

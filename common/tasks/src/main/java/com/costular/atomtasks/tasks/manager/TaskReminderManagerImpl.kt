@@ -24,28 +24,30 @@ internal class TaskReminderManagerImpl(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
             localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-            buildPendingIntent(taskId),
+            buildTaskReminderPendingIntent(taskId),
         )
     }
 
     override fun cancel(taskId: Long) {
         checkNotNull(alarmManager)
-        val pendingIntent = buildPendingIntent(taskId)
+        val pendingIntent = buildTaskReminderPendingIntent(taskId)
         alarmManager.cancel(pendingIntent)
         pendingIntent.cancel()
     }
 
-    private fun buildPendingIntent(taskId: Long): PendingIntent =
+    private fun buildTaskReminderPendingIntent(taskId: Long): PendingIntent =
         PendingIntent.getBroadcast(
             context,
             taskId.toInt(),
             Intent(context, NotifyTaskReceiver::class.java).apply {
                 putExtra("task_id", taskId)
             },
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            },
+            getUpdateFlag(),
         )
+
+    private fun getUpdateFlag() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    } else {
+        PendingIntent.FLAG_UPDATE_CURRENT
+    }
 }

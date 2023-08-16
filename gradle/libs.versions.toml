@@ -24,8 +24,8 @@ junit5 = "5.9.0"
 
 ksp = "1.9.0-1.0.12"
 jacoco = "0.8.7"
-composeBom = "2023.07.00-alpha01"
-composeCompiler = "1.5.0"
+androidxComposeBom = "2023.08.00"
+composeCompiler = "1.5.1"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -43,7 +43,7 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 startup = "androidx.startup:startup-runtime:1.1.1"
 preferences = "androidx.preference:preference-ktx:1.2.0"
 preferences-datastore = "androidx.datastore:datastore-preferences:1.0.0"
-compose-bom = { module = "dev.chrisbanes.compose:compose-bom", version.ref = "composeBom" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 compose-activity = "androidx.activity:activity-compose:1.7.2"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
@@ -55,7 +55,7 @@ compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "composeMaterial3" }
-compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.6.0-alpha01" }
+compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.6.0-alpha02" }
 accompanist-systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 work = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
@@ -64,7 +64,6 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 calendar = "com.kizitonwose.calendar:compose:2.0.4"
-numberpicker = "com.chargemap.compose:numberpicker:1.0.3"
 android-junit = "androidx.test.ext:junit-ktx:1.1.5"
 firebase-bom = "com.google.firebase:firebase-bom:32.2.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
@@ -82,10 +81,10 @@ turbine = "app.cash.turbine:turbine:1.0.0"
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "testRunner" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "testRunner" }
 android-desugarjdk = "com.android.tools:desugar_jdk_libs:2.0.3"
-robolectric = "org.robolectric:robolectric:4.7.3"
+robolectric = "org.robolectric:robolectric:4.10.3"
 testparameterinjector = "com.google.testparameterinjector:test-parameter-injector:1.11"
 
-androidGradle = "com.android.tools.build:gradle:8.0.2"
+androidGradle = "com.android.tools.build:gradle:8.1.0"
 ktlintGradle = "org.jlleitschuh.gradle:ktlint-gradle:11.4.0"
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.0"

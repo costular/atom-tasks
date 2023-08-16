@@ -1,5 +1,8 @@
 package com.costular.atomtasks.settings
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FlashOn
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +48,27 @@ private fun SettingSwitchPreview() {
             },
             isSelected = isSelected,
             onSelect = { isSelected = it },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingSwitchWithIconPreview() {
+    var isSelected by remember {
+        mutableStateOf(true)
+    }
+
+    AtomTheme {
+        SettingSwitch(
+            title = {
+                Text("This is a checkbox sample")
+            },
+            isSelected = isSelected,
+            onSelect = { isSelected = it },
+            start = {
+                Icon(imageVector = Icons.Outlined.FlashOn, contentDescription = null)
+            },
         )
     }
 }

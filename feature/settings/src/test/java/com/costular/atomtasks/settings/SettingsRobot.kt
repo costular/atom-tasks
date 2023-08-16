@@ -1,12 +1,20 @@
 package com.costular.atomtasks.settings
 
-import com.costular.atomtasks.core.designsystem.R as R0
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
+import androidx.compose.ui.test.hasParent
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.costular.atomtasks.core.testing.ui.ComposeProvider
 import com.costular.atomtasks.core.testing.ui.Robot
 import com.costular.atomtasks.core.testing.ui.getString
+import com.costular.atomtasks.core.ui.R
 
 fun ComposeProvider.settings(func: SettingsRobot.() -> Unit) =
     SettingsRobot(composeTestRule).apply(func)
@@ -14,10 +22,37 @@ fun ComposeProvider.settings(func: SettingsRobot.() -> Unit) =
 class SettingsRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
     private val settingsTitle by lazy {
-        composeTestRule.onNodeWithText(composeTestRule.getString(R0.string.settings))
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.settings))
+    }
+    private val autoForwardSwitch by lazy {
+        composeTestRule.onNode(
+            hasParent(
+                hasText(
+                    composeTestRule.getString(R.string.settings_tasks_autoforward_tasks_title),
+                ),
+            ).and(
+                SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Switch),
+            ),
+        )
     }
 
     init {
         settingsTitle.assertIsDisplayed()
+    }
+
+    fun tapOnAutoforwardTasks() {
+        autoForwardSwitch.performClick()
+    }
+
+    fun autoforwardTasksIsEnabled() {
+        autoForwardSwitch
+            .assertIsDisplayed()
+            .assertIsOn()
+    }
+
+    fun autoforwardTasksIsDisabled() {
+        autoForwardSwitch
+            .assertIsDisplayed()
+            .assertIsOff()
     }
 }

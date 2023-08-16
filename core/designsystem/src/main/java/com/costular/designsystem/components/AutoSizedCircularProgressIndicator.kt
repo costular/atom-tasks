@@ -1,7 +1,7 @@
 package com.costular.designsystem.components
 
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

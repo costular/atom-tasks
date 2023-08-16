@@ -4,22 +4,17 @@ import com.costular.core.net.DispatcherProvider
 import com.costular.atomtasks.core.testing.net.TestDispatcherProvider
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 
 abstract class MviViewModelTest {
 
-    protected val coroutineTestDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-    private val testScope = TestCoroutineScope(coroutineTestDispatcher)
-
-    protected val dispatcherProvider: DispatcherProvider =
-        TestDispatcherProvider(coroutineTestDispatcher)
+    protected val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
     @get:Rule
-    var mainCoroutineRule = MainCoroutineRule(coroutineTestDispatcher)
+    var mainCoroutineRule = MainCoroutineRule(testDispatcher)
 
-    fun testBlocking(block: suspend () -> Unit) {
-        testScope.runBlockingTest { block() }
-    }
 }

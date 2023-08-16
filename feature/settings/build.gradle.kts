@@ -25,8 +25,7 @@ dependencies {
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
-
-    implementation(libs.numberpicker)
+    implementation(libs.compose.ui.manifest)
     implementation(libs.calendar)
 
     testImplementation(projects.core.testing)
@@ -38,5 +37,4 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test)
-    debugImplementation(libs.compose.ui.manifest)
 }

@@ -1,18 +1,18 @@
 package com.costular.atomtasks.tasks.interactor
 
-import com.costular.atomtasks.data.Interactor
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.TasksRepository
+import com.costular.core.usecase.UseCase
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateTaskInteractor @Inject constructor(
+class UpdateTaskUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val taskReminderManager: TaskReminderManager,
-) : Interactor<UpdateTaskInteractor.Params>() {
+) : UseCase<UpdateTaskUseCase.Params, Unit> {
 
     data class Params(
         val taskId: Long,
@@ -22,7 +22,7 @@ class UpdateTaskInteractor @Inject constructor(
         val reminderTime: LocalTime?,
     )
 
-    override suspend fun doWork(params: Params) {
+    override suspend fun invoke(params: Params) {
         with(params) {
             tasksRepository.updateTask(
                 taskId,

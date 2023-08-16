@@ -3,7 +3,7 @@ package com.costular.atomtasks.ui.features.edittask
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
-import com.costular.atomtasks.tasks.interactor.UpdateTaskInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.core.Async
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
     private val getTaskByIdInteractor: GetTaskByIdInteractor,
-    private val updateTaskInteractor: UpdateTaskInteractor,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ) : MviViewModel<EditTaskState>(EditTaskState.Empty) {
 
     fun loadTask(taskId: Long) {
@@ -54,26 +54,19 @@ class EditTaskViewModel @Inject constructor(
                 return@launch
             }
 
-            updateTaskInteractor(
-                UpdateTaskInteractor.Params(
-                    taskId = state.taskState.taskId,
-                    name = name,
-                    date = date,
-                    reminderEnabled = reminder != null,
-                    reminderTime = reminder,
-                ),
-            ).collect { status ->
-                when (status) {
-                    is InvokeStarted -> {
-                        setState { copy(savingTask = Async.Loading) }
-                    }
-                    is InvokeSuccess -> {
-                        setState { copy(savingTask = Async.Success(Unit)) }
-                    }
-                    is InvokeError -> {
-                        setState { copy(savingTask = Async.Failure(status.throwable)) }
-                    }
-                }
+            try {
+                updateTaskUseCase(
+                    UpdateTaskUseCase.Params(
+                        taskId = state.taskState.taskId,
+                        name = name,
+                        date = date,
+                        reminderEnabled = reminder != null,
+                        reminderTime = reminder,
+                    ),
+                )
+                setState { copy(savingTask = Async.Success(Unit)) }
+            } catch (e: Exception) {
+                setState { copy(savingTask = Async.Failure(e)) }
             }
         }
     }
