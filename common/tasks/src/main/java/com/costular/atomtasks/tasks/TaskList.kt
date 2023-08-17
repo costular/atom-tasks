@@ -95,6 +95,7 @@ fun TaskListEmpty() {
     }
 }
 
+@Suppress("MagicNumber")
 @VariantsPreview
 @Preview
 @Composable

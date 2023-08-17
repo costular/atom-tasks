@@ -51,6 +51,7 @@ private fun Long.asLocalDate(): LocalDate =
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
 
+@Suppress("MagicNumber")
 private fun LocalDate.asEpochMilli(): Long =
     this.atTime(9, 0)
         .atZone(ZoneId.systemDefault())

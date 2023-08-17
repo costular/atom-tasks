@@ -4,7 +4,6 @@ import androidx.compose.ui.focus.FocusRequester
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime

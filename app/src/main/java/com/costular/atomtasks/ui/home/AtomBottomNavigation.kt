@@ -2,7 +2,6 @@ package com.costular.atomtasks.ui.home
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem

@@ -8,8 +8,6 @@ import com.costular.atomtasks.Logger
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class AtomTasksApp : Application(), Configuration.Provider {

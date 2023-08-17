@@ -1,6 +1,5 @@
 package com.costular.atomtasks.tasks.interactor
 
-import android.util.Log
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.core.usecase.UseCase

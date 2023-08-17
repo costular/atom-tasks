@@ -123,6 +123,8 @@ object AppTheme {
         get() = LocalAppDimens.current
 
     val ChipIconSize = 18.dp
+
+    const val DisabledAlpha = 0.38f
 }
 
 const val SmallWidth = 600

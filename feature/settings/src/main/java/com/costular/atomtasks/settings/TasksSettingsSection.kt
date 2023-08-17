@@ -39,7 +39,9 @@ fun TasksSettingsSection(
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = stringResource(id = R.string.settings_tasks_autoforward_tasks_description),
+                        text = stringResource(
+                            R.string.settings_tasks_autoforward_tasks_description,
+                        ),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

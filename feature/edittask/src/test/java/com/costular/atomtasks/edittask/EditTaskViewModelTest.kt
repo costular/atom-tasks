@@ -16,7 +16,6 @@ import io.mockk.mockk
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

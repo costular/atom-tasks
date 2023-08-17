@@ -43,5 +43,4 @@ class AutoforwardTasksWorkerTest {
 
         Truth.assertThat(workInfo.state).isInstanceOf(WorkInfo.State.SUCCEEDED::class.java)
     }
-
 }

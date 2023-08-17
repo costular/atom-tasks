@@ -177,12 +177,14 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
             )
         }
+
         is Async.Failure -> {}
         Async.Loading -> {}
         Async.Uninitialized -> {}
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun AgendaHeader(
     modifier: Modifier = Modifier,
@@ -240,6 +242,7 @@ private fun AgendaHeader(
                             durationMillis = 200,
                             easing = FastOutSlowInEasing,
                         ),
+                        label = "Header collapsable arrow",
                     )
 
                     if (canExpand) {
@@ -265,31 +268,48 @@ private fun AgendaHeader(
             }
 
             if (isExpanded && canExpand) {
-                DatePicker(
-                    modifier = Modifier
-                        .supportWideScreen(480.dp)
-                        .padding(horizontal = AppTheme.dimens.contentMargin)
-                        .padding(bottom = AppTheme.dimens.spacingMedium),
-                    selectedDay = state.selectedDay,
-                    onDateSelected = onSelectDate,
-                )
+                HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
             } else {
-                HorizontalCalendar(
-                    modifier = Modifier
-                        .supportWideScreen()
-                        .padding(
-                            start = AppTheme.dimens.spacingLarge,
-                            end = AppTheme.dimens.spacingLarge,
-                            bottom = AppTheme.dimens.spacingLarge,
-                        ),
-                    selectedDay = state.selectedDay,
-                    onSelectDay = onSelectDate,
-                )
+                HeaderCalendarExpanded(state.selectedDay, onSelectDate)
             }
         }
     }
 }
 
+@Composable
+private fun HeaderCalendarCollapsed(
+    selectedDay: LocalDate,
+    onSelectDate: (LocalDate) -> Unit,
+) {
+    DatePicker(
+        modifier = Modifier
+            .supportWideScreen(480.dp)
+            .padding(horizontal = AppTheme.dimens.contentMargin)
+            .padding(bottom = AppTheme.dimens.spacingMedium),
+        selectedDay = selectedDay,
+        onDateSelected = onSelectDate,
+    )
+}
+
+@Composable
+private fun HeaderCalendarExpanded(
+    selectedDay: LocalDate,
+    onSelectDate: (LocalDate) -> Unit,
+) {
+    HorizontalCalendar(
+        modifier = Modifier
+            .supportWideScreen()
+            .padding(
+                start = AppTheme.dimens.spacingLarge,
+                end = AppTheme.dimens.spacingLarge,
+                bottom = AppTheme.dimens.spacingLarge,
+            ),
+        selectedDay = selectedDay,
+        onSelectDay = onSelectDate,
+    )
+}
+
+@Suppress("MagicNumber")
 @DevicesPreview
 @Composable
 fun AgendaPreview() {
@@ -346,5 +366,5 @@ fun AgendaPreview() {
 
 private val WindowSizeClass.canExpand: Boolean
     get() =
-        widthSizeClass == WindowWidthSizeClass.Compact
-            || widthSizeClass == WindowWidthSizeClass.Medium
+        widthSizeClass == WindowWidthSizeClass.Compact ||
+            widthSizeClass == WindowWidthSizeClass.Medium

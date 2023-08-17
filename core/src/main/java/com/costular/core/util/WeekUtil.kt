@@ -8,6 +8,7 @@ import java.util.Locale
 
 object WeekUtil {
 
+    @Suppress("MagicNumber")
     fun getWeekDays(
         localDate: LocalDate,
         firstDayOfWeek: DayOfWeek = getFirstDayOfWeek(),

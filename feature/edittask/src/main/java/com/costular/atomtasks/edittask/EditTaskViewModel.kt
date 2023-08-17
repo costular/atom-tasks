@@ -5,9 +5,6 @@ import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.core.Async
-import com.costular.core.InvokeError
-import com.costular.core.InvokeStarted
-import com.costular.core.InvokeSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -43,6 +40,7 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun editTask(
         name: String,
         date: LocalDate,

@@ -12,4 +12,3 @@ fun Modifier.supportWideScreen(max: Dp = 840.dp) = this
     .fillMaxWidth()
     .wrapContentWidth(align = Alignment.CenterHorizontally)
     .widthIn(max = max)
-

@@ -11,8 +11,7 @@ import java.io.IOException
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -23,7 +22,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TaskDatabaseTest {
 
-    private val testCoroutine: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    private val testCoroutine = StandardTestDispatcher()
 
     private lateinit var db: AtomRemindersDatabase
     private lateinit var tasksDao: TasksDao

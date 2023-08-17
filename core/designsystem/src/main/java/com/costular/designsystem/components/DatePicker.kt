@@ -52,14 +52,10 @@ fun DatePicker(
     onDateSelected: (LocalDate) -> Unit,
 ) {
     val month = remember(selectedDay) { selectedDay.yearMonth }
-    val startMonth = remember(selectedDay) { month.minusMonths(24) }
-    val endMonth = remember(selectedDay) { month.plusMonths(24) }
     val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
 
     val state = rememberCalendarState(
         firstVisibleMonth = month,
-        startMonth = startMonth,
-        endMonth = endMonth,
         firstDayOfWeek = firstDayOfWeek,
     )
 
@@ -113,6 +109,7 @@ private fun MonthHeader(
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 private fun BoxScope.Day(
     day: CalendarDay,
@@ -134,7 +131,7 @@ private fun BoxScope.Day(
     }
     val contentColor = contentColorFor(backgroundColor)
     val contentAlpha =
-        if (day.position == DayPosition.MonthDate) 1f else 0.38f
+        if (day.position == DayPosition.MonthDate) 1f else AppTheme.DisabledAlpha
 
     Box(
         modifier = Modifier

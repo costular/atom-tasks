@@ -11,7 +11,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.Duration
 import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class AutoforwardTasksWorker @AssistedInject constructor(
@@ -20,6 +19,7 @@ class AutoforwardTasksWorker @AssistedInject constructor(
     private val autoforwardTasksUseCase: AutoforwardTasksUseCase,
 ) : CoroutineWorker(appContext, workerParams) {
 
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     override suspend fun doWork(): Result {
         return try {
             autoforwardTasksUseCase(AutoforwardTasksUseCase.Params(LocalDate.now()))
