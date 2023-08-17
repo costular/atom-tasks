@@ -1,5 +1,6 @@
 package com.costular.atomtasks.agenda
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -267,10 +268,15 @@ private fun AgendaHeader(
                 }
             }
 
-            if (isExpanded && canExpand) {
-                HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
-            } else {
-                HeaderCalendarExpanded(state.selectedDay, onSelectDate)
+            AnimatedContent(
+                targetState = isExpanded && canExpand,
+                label = "Header calendar",
+            ) { isCollapsed ->
+                if (isCollapsed) {
+                    HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
+                } else {
+                    HeaderCalendarExpanded(state.selectedDay, onSelectDate)
+                }
             }
         }
     }
