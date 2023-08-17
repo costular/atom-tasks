@@ -57,6 +57,7 @@ compose-material3 = { module = "androidx.compose.material3:material3", version.r
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "composeMaterial3" }
 compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.6.0-alpha02" }
 accompanist-systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 work = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 fragment = "androidx.fragment:fragment-ktx:1.7.0-alpha01"

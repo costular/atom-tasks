@@ -14,8 +14,6 @@ import com.costular.atomtasks.core.ui.R
 @HiltAndroidTest
 class CreateTaskExpandedTest : AndroidTest() {
 
-    private val save: () -> Unit = mockk(relaxed = true)
-
     @Test
     fun shouldShowInputText_whenNameSetInState() {
         val taskName = "This is a test :)"
@@ -101,7 +99,7 @@ class CreateTaskExpandedTest : AndroidTest() {
                 onClearReminder = {},
                 onClickDate = {},
                 onClickReminder = {},
-                onSave = save,
+                onSave = {},
             )
         }
     }

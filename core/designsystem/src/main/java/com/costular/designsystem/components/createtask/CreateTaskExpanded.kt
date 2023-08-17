@@ -1,5 +1,7 @@
 package com.costular.designsystem.components.createtask
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,9 +42,14 @@ import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import java.time.LocalDate
 import java.time.LocalTime
 
+@OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalMaterial3Api
 @Suppress("MagicNumber")
 @Composable
@@ -54,7 +62,7 @@ fun CreateTaskExpanded(
 ) {
     val viewModel: CreateTaskExpandedViewModel = viewModel()
     val state by
-        rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
+    rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
     val focusRequester = FocusRequester()
 
     LaunchedEffect(Unit) {
@@ -90,6 +98,8 @@ fun CreateTaskExpanded(
     }
 
     if (state.showSetReminder) {
+        NotificationPermissionEffect()
+
         TimePickerDialog(
             onDismiss = viewModel::closeSelectReminder,
             selectedTime = state.reminder,
@@ -111,6 +121,7 @@ fun CreateTaskExpanded(
     )
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 internal fun CreateTaskExpanded(
     state: CreateTaskExpandedState,
@@ -169,7 +180,6 @@ internal fun CreateTaskExpanded(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CreateTaskInput(
     value: String,
@@ -230,5 +240,39 @@ fun CreateTaskExpandedPreview() {
             onSave = {},
             onClearReminder = {},
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreateTaskExpandedWithoutPermissionGrantedPreview() {
+    AtomTheme {
+        CreateTaskExpanded(
+            state = CreateTaskExpandedState(
+                name = "🏃🏻‍♀️ Go out for running!",
+            ),
+            focusRequester = FocusRequester(),
+            onValueChange = {},
+            onClickReminder = {},
+            onClickDate = {},
+            onSave = {},
+            onClearReminder = {},
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalPermissionsApi::class)
+private fun NotificationPermissionEffect() {
+    if (LocalInspectionMode.current) return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+    val notificationsPermissionState = rememberPermissionState(
+        android.Manifest.permission.POST_NOTIFICATIONS,
+    )
+    LaunchedEffect(notificationsPermissionState) {
+        val status = notificationsPermissionState.status
+        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
+            notificationsPermissionState.launchPermissionRequest()
+        }
     }
 }

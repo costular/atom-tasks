@@ -15,6 +15,11 @@ android {
     defaultConfig {
         testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
     }
+
+    packaging {
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/LICENSE-notice.md")
+    }
 }
 
 dependencies {
@@ -36,7 +41,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.ui.text.fonts)
-
+    implementation(libs.accompanist.permissions)
     implementation(libs.calendar)
 
     testImplementation(projects.core.testing)
