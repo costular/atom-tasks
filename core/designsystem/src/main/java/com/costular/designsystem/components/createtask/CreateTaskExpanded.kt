@@ -1,6 +1,5 @@
 package com.costular.designsystem.components.createtask
 
-import android.Manifest
 import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -61,7 +60,7 @@ fun CreateTaskExpanded(
 ) {
     val viewModel: CreateTaskExpandedViewModel = viewModel()
     val state by
-    rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
+        rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
     val focusRequester = FocusRequester()
 
     LaunchedEffect(Unit) {
@@ -139,7 +138,7 @@ internal fun CreateTaskExpanded(
             onValueChange = onValueChange,
         )
 
-        Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
+        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
 
         Row(modifier = Modifier.fillMaxWidth()) {
             ClearableChip(
@@ -169,7 +168,7 @@ internal fun CreateTaskExpanded(
             )
         }
 
-        Spacer(Modifier.height(AppTheme.dimens.spacingHuge))
+        Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
 
         SaveButton(
             isEnabled = state.shouldShowSend,
