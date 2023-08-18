@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.InlineTextContent
@@ -17,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,10 +28,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.costular.core.util.DateTimeFormatters
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
-import com.costular.core.util.DateTimeFormatters
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -45,6 +47,7 @@ fun TaskCard(
     modifier: Modifier = Modifier,
 ) {
     val mediumColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val shouldShowReminder = remember(isFinished, reminder) { reminder != null && !isFinished }
 
     ElevatedCard(
         modifier = modifier.clickable { onOpen() },
@@ -69,11 +72,16 @@ fun TaskCard(
             Column {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.bodyLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         textDecoration = if (isFinished) TextDecoration.LineThrough else null,
                     ),
                 )
-                AnimatedVisibility(reminder != null && !isFinished) {
+
+                if (shouldShowReminder) {
+                    Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
+                }
+
+                AnimatedVisibility(shouldShowReminder) {
                     if (reminder != null) {
                         Row {
                             val alarmText = buildAnnotatedString {
@@ -125,6 +133,25 @@ private fun TaskCardPreview() {
         TaskCard(
             title = "Run every morning!",
             isFinished = true,
+            onMark = {},
+            onOpen = {},
+            reminder = Reminder(
+                1L,
+                LocalTime.parse("10:00"),
+                true,
+                LocalDate.now(),
+            ),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TaskCardUnfinishedPreview() {
+    AtomTheme {
+        TaskCard(
+            title = "Run every morning!",
+            isFinished = false,
             onMark = {},
             onOpen = {},
             reminder = Reminder(
