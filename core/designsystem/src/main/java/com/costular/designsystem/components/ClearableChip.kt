@@ -1,19 +1,14 @@
 package com.costular.designsystem.components
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.InputChip
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -32,10 +27,15 @@ fun ClearableChip(
     onClear: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    InputChip(
+    AssistChip(
         modifier = modifier,
-        onClick = onClick,
-        selected = isSelected,
+        onClick = {
+            if (isSelected) {
+                onClear()
+            } else {
+                onClick()
+            }
+        },
         leadingIcon = {
             Icon(
                 imageVector = icon,
@@ -50,25 +50,14 @@ fun ClearableChip(
         },
         trailingIcon = {
             if (isSelected) {
-                Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-
-                CompositionLocalProvider(
-                    LocalMinimumInteractiveComponentEnforcement provides false,
-                ) {
-                    IconButton(
-                        onClick = onClear,
-                        modifier = Modifier.size(AppTheme.ChipIconSize),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(
-                                R.string.content_description_chip_clear,
-                            ),
-                            modifier = Modifier
-                                .size(AppTheme.ChipIconSize),
-                        )
-                    }
-                }
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(
+                        R.string.content_description_chip_clear,
+                    ),
+                    modifier = Modifier
+                        .size(AppTheme.ChipIconSize),
+                )
             }
         },
     )
@@ -76,7 +65,7 @@ fun ClearableChip(
 
 @Preview
 @Composable
-fun RemovableChipPreview() {
+fun ClearableChipPreview() {
     AtomTheme {
         ClearableChip(
             title = "1 May 2022",
@@ -90,7 +79,7 @@ fun RemovableChipPreview() {
 
 @Preview
 @Composable
-fun RemovableChipSelectedPreview() {
+fun ClearableChipSelectedPreview() {
     AtomTheme {
         ClearableChip(
             title = "1 May 2022",
