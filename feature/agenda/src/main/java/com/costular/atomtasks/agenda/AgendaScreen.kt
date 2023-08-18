@@ -315,6 +315,11 @@ private fun HeaderCalendarExpanded(
     )
 }
 
+private val WindowSizeClass.canExpand: Boolean
+    get() =
+        widthSizeClass == WindowWidthSizeClass.Compact ||
+            widthSizeClass == WindowWidthSizeClass.Medium
+
 @Suppress("MagicNumber")
 @DevicesPreview
 @Composable
@@ -369,8 +374,3 @@ fun AgendaPreview() {
         )
     }
 }
-
-private val WindowSizeClass.canExpand: Boolean
-    get() =
-        widthSizeClass == WindowWidthSizeClass.Compact ||
-            widthSizeClass == WindowWidthSizeClass.Medium
