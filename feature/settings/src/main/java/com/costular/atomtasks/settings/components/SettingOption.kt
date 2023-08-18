@@ -1,6 +1,5 @@
 package com.costular.atomtasks.settings.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -29,7 +28,7 @@ fun SettingOption(
 ) {
     SettingItem(
         start = {
-            Image(
+            Icon(
                 painter = rememberVectorPainter(icon),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
