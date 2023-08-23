@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.compose.destinations)
+    implementation(libs.reordeable)
 
     testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)

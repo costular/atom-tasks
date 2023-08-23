@@ -8,6 +8,7 @@ plugins {
     id("atomtasks.detekt")
     id("atomtasks.ktlint")
     id("jacoco")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -22,7 +23,6 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
         }
 
@@ -77,7 +77,7 @@ kapt {
 
 configurations {
     androidTestImplementation {
-        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+        exclude(group = "io.mockk", module = "mockk-agent-jvm")
     }
 }
 
@@ -111,7 +111,7 @@ dependencies {
     implementation(libs.startup)
     implementation(libs.work)
 
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
@@ -125,4 +125,13 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
     testImplementation(libs.compose.ui.test)
+}
+
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File,
+) : CommandLineArgumentProvider {
+
+    override fun asArguments(): Iterable<String> = listOf("room.schemaLocation=${schemaDir.path}")
 }

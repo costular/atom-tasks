@@ -15,7 +15,7 @@ interface TasksDao {
     suspend fun addTask(taskEntity: TaskEntity): Long
 
     @Transaction
-    @Query("SELECT * FROM tasks ORDER BY is_done ASC")
+    @Query("SELECT * FROM tasks ORDER BY position ASC, is_done ASC;")
     fun observeAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
@@ -36,6 +36,12 @@ interface TasksDao {
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
     suspend fun updateTaskDone(id: Long, isDone: Boolean)
 
+    @Query("UPDATE tasks SET position = :position WHERE id = :id")
+    suspend fun updateTaskPosition(id: Long, position: Int)
+
     @Query("UPDATE tasks SET name = :name, date = :day where id = :taskId")
     suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
+
+    @Query("SELECT MAX(position) FROM tasks WHERE date = :date")
+    suspend fun getMaxPositionForDate(date: LocalDate): Int
 }

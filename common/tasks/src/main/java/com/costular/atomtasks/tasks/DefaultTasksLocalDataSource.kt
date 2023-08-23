@@ -1,18 +1,24 @@
 package com.costular.atomtasks.tasks
 
+import com.costular.atomtasks.data.tasks.ReminderDao
+import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
+import com.costular.atomtasks.data.tasks.TasksDao
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
 
 internal class DefaultTasksLocalDataSource(
-    private val tasksDao: com.costular.atomtasks.data.tasks.TasksDao,
-    private val reminderDao: com.costular.atomtasks.data.tasks.ReminderDao,
+    private val tasksDao: TasksDao,
+    private val reminderDao: ReminderDao,
 ) : TaskLocalDataSource {
 
     override suspend fun createTask(taskEntity: TaskEntity): Long {
-        return tasksDao.addTask(taskEntity)
+        val position = tasksDao.getMaxPositionForDate(taskEntity.day)
+
+        val taskWithPosition = taskEntity.copy(position = position)
+        return tasksDao.addTask(taskWithPosition)
     }
 
     override suspend fun createReminderForTask(
@@ -21,7 +27,7 @@ internal class DefaultTasksLocalDataSource(
         reminderEnabled: Boolean,
         taskId: Long,
     ) {
-        val reminder = com.costular.atomtasks.data.tasks.ReminderEntity(
+        val reminder = ReminderEntity(
             reminderId = 0L,
             time = time,
             date = date,

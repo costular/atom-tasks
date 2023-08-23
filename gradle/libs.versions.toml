@@ -64,6 +64,7 @@ fragment = "androidx.fragment:fragment-ktx:1.7.0-alpha01"
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 calendar = "com.kizitonwose.calendar:compose:2.0.4"
 android-junit = "androidx.test.ext:junit-ktx:1.1.5"
 firebase-bom = "com.google.firebase:firebase-bom:32.2.0"
@@ -89,6 +90,7 @@ androidGradle = "com.android.tools.build:gradle:8.1.0"
 ktlintGradle = "org.jlleitschuh.gradle:ktlint-gradle:11.4.0"
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.0"
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -1,5 +1,6 @@
 package com.costular.atomtasks.data.database
 
+import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,8 +11,7 @@ import com.google.common.truth.Truth
 import java.io.IOException
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
-import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -22,21 +22,17 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TaskDatabaseTest {
 
-    private val testCoroutine = StandardTestDispatcher()
-
-    private lateinit var db: AtomRemindersDatabase
+    private lateinit var db: AtomTasksDatabase
     private lateinit var tasksDao: TasksDao
 
     @Before
     fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+
         db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AtomRemindersDatabase::class.java,
-        )
-            .setTransactionExecutor(testCoroutine.asExecutor())
-            .setQueryExecutor(testCoroutine.asExecutor())
-            .allowMainThreadQueries()
-            .build()
+            context,
+            AtomTasksDatabase::class.java,
+        ).build()
         tasksDao = db.getTasksDao()
     }
 
@@ -48,22 +44,101 @@ class TaskDatabaseTest {
 
     @Test
     fun testAddTask() = runTest {
-        // Given
         val task = TaskEntity(
-            0L,
-            LocalDate.now(),
-            "whatever",
-            LocalDate.now(),
-            true,
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = true,
         )
 
-        // When
-        val id = tasksDao.addTask(task)
+        tasksDao.addTask(task)
 
-        // Then
         tasksDao.observeAllTasks().test {
-            Truth.assertThat(awaitItem().size).isEqualTo(1)
+            val item = awaitItem()
+            Truth.assertThat(item.first().task.name).isEqualTo("whatever")
+            Truth.assertThat(item.size).isEqualTo(1)
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun testTaskPosition() = runTest {
+        val task1 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+        )
+        val task2 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 2,
+        )
+
+        tasksDao.addTask(task2)
+        tasksDao.addTask(task1)
+        val result = tasksDao.observeAllTasks().first()
+
+        Truth.assertThat(result.first().task.position).isEqualTo(1)
+        Truth.assertThat(result.last().task.position).isEqualTo(2)
+    }
+
+    @Test
+    fun testTaskUpdatePosition() = runTest {
+        val task1 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+        )
+        val task2 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 2,
+        )
+
+        val task1Id = tasksDao.addTask(task1)
+        val task2Id = tasksDao.addTask(task2)
+        tasksDao.updateTaskPosition(task1Id, 3)
+        val result = tasksDao.observeAllTasks().first()
+
+        Truth.assertThat(result.last().task.id).isEqualTo(task1Id)
+    }
+
+    @Test
+    fun testGetMaxPositionForDate() = runTest {
+        val task1 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+        )
+        val task2 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now().plusDays(1),
+            isDone = false,
+            position = 2,
+        )
+
+        tasksDao.addTask(task1)
+        tasksDao.addTask(task2)
+        val result = tasksDao.getMaxPositionForDate(LocalDate.now())
+
+        Truth.assertThat(result).isEqualTo(1)
     }
 }
