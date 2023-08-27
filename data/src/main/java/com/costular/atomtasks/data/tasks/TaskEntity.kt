@@ -10,12 +10,12 @@ import java.time.LocalDate
     tableName = "tasks",
     indices = [
         Index(
-            value = ["position"],
-            unique = true,
-        ),
-        Index(
             value = ["created_at"],
             unique = false,
+        ),
+        Index(
+            value = ["position", "date"],
+            unique = true,
         ),
     ],
 )

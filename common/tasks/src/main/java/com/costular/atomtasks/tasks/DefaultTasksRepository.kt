@@ -72,4 +72,8 @@ internal class DefaultTasksRepository @Inject constructor(
     override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
         localDataSource.updateTask(taskId, day, name)
     }
+
+    override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
+        localDataSource.moveTask(day, fromPosition, toPosition)
+    }
 }

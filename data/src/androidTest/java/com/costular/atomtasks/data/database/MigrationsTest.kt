@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 class MigrationsTest {
     private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5)
     private val TEST_DB = "migration-test"
+    private val LATEST_VERSION = 5
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -51,6 +52,7 @@ class MigrationsTest {
             execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
                     "('2023-08-23', 'This is a test', '2023-08-23', 0), " +
+                    "('2023-08-24', 'First task for this day', '2023-08-24', 0), " +
                     "('2023-08-23', 'Second task', '2023-08-23', 0);",
             )
             close()
@@ -66,11 +68,8 @@ class MigrationsTest {
         helper.runMigrationsAndValidate(TEST_DB, 5, true)
 
         val tasks = db.getTasksDao().observeAllTasks().first()
-        Truth.assertThat(tasks.first().task.position).isEqualTo(1)
-        Truth.assertThat(tasks.last().task.position).isEqualTo(2)
-    }
-
-    private companion object {
-        const val LATEST_VERSION = 5
+        Truth.assertThat(tasks.find { it.task.id == 1L }!!.task.position).isEqualTo(1)
+        Truth.assertThat(tasks.find { it.task.id == 2L }!!.task.position).isEqualTo(2)
+        Truth.assertThat(tasks.find { it.task.id == 3L }!!.task.position).isEqualTo(3)
     }
 }

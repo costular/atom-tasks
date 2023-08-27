@@ -26,6 +26,7 @@ ksp = "1.9.0-1.0.12"
 jacoco = "0.8.7"
 androidxComposeBom = "2023.08.00"
 composeCompiler = "1.5.1"
+reordeable = "0.9.6"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -72,6 +73,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 compose-destinations = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "composeDestinations" }
+reordeable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "reordeable" }
 
 junit = "junit:junit:4.13.2"
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -86,7 +88,7 @@ android-desugarjdk = "com.android.tools:desugar_jdk_libs:2.0.3"
 robolectric = "org.robolectric:robolectric:4.10.3"
 testparameterinjector = "com.google.testparameterinjector:test-parameter-injector:1.11"
 
-androidGradle = "com.android.tools.build:gradle:8.1.0"
+androidGradle = "com.android.tools.build:gradle:8.1.1"
 ktlintGradle = "org.jlleitschuh.gradle:ktlint-gradle:11.4.0"
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.0"

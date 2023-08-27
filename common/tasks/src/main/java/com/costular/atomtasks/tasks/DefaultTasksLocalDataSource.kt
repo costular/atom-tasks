@@ -15,10 +15,7 @@ internal class DefaultTasksLocalDataSource(
 ) : TaskLocalDataSource {
 
     override suspend fun createTask(taskEntity: TaskEntity): Long {
-        val position = tasksDao.getMaxPositionForDate(taskEntity.day)
-
-        val taskWithPosition = taskEntity.copy(position = position)
-        return tasksDao.addTask(taskWithPosition)
+        return tasksDao.createTask(taskEntity)
     }
 
     override suspend fun createReminderForTask(
@@ -76,5 +73,9 @@ internal class DefaultTasksLocalDataSource(
 
     override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
         tasksDao.updateTask(taskId, day, name)
+    }
+
+    override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
+        tasksDao.moveTask(day, fromPosition, toPosition)
     }
 }

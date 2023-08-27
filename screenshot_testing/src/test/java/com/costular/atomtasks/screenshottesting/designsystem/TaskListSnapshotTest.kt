@@ -19,6 +19,7 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
 import java.time.LocalTime
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
@@ -62,6 +63,7 @@ class TaskListSnapshotTest {
                         LocalDate.now(),
                         null,
                         true,
+                        position = 1,
                     ),
                     Task(
                         id = 0L,
@@ -75,6 +77,7 @@ class TaskListSnapshotTest {
                             date = null,
                         ),
                         isDone = false,
+                        position = 2,
                     ),
                     Task(
                         id = 0L,
@@ -83,6 +86,7 @@ class TaskListSnapshotTest {
                         day = LocalDate.now(),
                         reminder = null,
                         isDone = false,
+                        position = 3,
                     ),
                 ),
             )
@@ -98,6 +102,7 @@ class TaskListSnapshotTest {
                 onClick = {},
                 onMarkTask = { _, _ -> },
                 modifier = Modifier.fillMaxWidth(),
+                state = rememberReorderableLazyListState(onMove = { _, _ -> }),
             )
         }
     }

@@ -18,6 +18,7 @@ import java.time.LocalTime
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -113,6 +114,7 @@ class DefaultTasksRepositoryTest {
                 date = LocalDate.now(),
             ),
             isDone = true,
+            position = 1,
         )
 
         coEvery { localDataSource.getTaskById(taskId) } returns flowOf(result)
@@ -127,7 +129,7 @@ class DefaultTasksRepositoryTest {
     }
 
     @Test
-    fun `should call local data source update task when update task`() = runBlockingTest {
+    fun `should call local data source update task when update task`() = runTest {
         val taskId = 10L
         val taskName = "Task name"
         val taskDay = LocalDate.of(2022, 6, 4)
@@ -135,5 +137,16 @@ class DefaultTasksRepositoryTest {
         sut.updateTask(taskId, taskDay, taskName)
 
         coVerify { localDataSource.updateTask(taskId, taskDay, taskName) }
+    }
+
+    @Test
+    fun `should call local data source move task when move task`() = runTest {
+        val taskId = 1L
+        val from = 1
+        val to = 3
+
+        sut.moveTask(LocalDate.now(), from, to)
+
+        coVerify(exactly = 1) { localDataSource.moveTask(LocalDate.now(), from, to) }
     }
 }

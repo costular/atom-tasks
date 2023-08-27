@@ -17,7 +17,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension>() {
                 defaultConfig {
-                    testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
+                    testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
                 }
 
                 testOptions {

@@ -1,5 +1,6 @@
 package com.costular.atomtasks.data.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters

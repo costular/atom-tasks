@@ -9,4 +9,5 @@ data class Task(
     val day: LocalDate,
     val reminder: Reminder?,
     val isDone: Boolean,
+    val position: Int,
 )

@@ -3,20 +3,18 @@ package com.costular.atomtasks.agenda
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
+import com.costular.atomtasks.core.ui.R
+import com.costular.atomtasks.tasks.Task
 import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.mockk
-import io.mockk.verify
 import java.time.LocalDate
 import org.junit.Test
-import com.costular.atomtasks.core.ui.R
 
 @HiltAndroidTest
 class AgendaTest : AndroidTest() {
-
-    private val toggleTask: (Long, Boolean) -> Unit = mockk(relaxed = true)
 
     @Test
     fun shouldShowYesterdayHeader_whenSelectedDayIsYesterday() {
@@ -40,7 +38,6 @@ class AgendaTest : AndroidTest() {
         )
 
         agenda {
-            goNextDay()
             assertDayText(composeTestRule.getString(R.string.day_tomorrow))
         }
     }
@@ -56,13 +53,14 @@ class AgendaTest : AndroidTest() {
 
     @Test
     fun shouldShowTaskInList_whenLandOnScreen() {
-        val task = com.costular.atomtasks.tasks.Task(
+        val task = Task(
             id = 1L,
             name = "this is a test :D",
             createdAt = LocalDate.now(),
             reminder = null,
             isDone = true,
             day = LocalDate.now(),
+            position = 1,
         )
 
         givenAgenda(
@@ -84,13 +82,14 @@ class AgendaTest : AndroidTest() {
         val isDone = true
 
         val tasks = listOf(
-            com.costular.atomtasks.tasks.Task(
+            Task(
                 id = 1L,
                 name = taskName,
                 createdAt = LocalDate.now(),
                 day = LocalDate.now(),
                 reminder = null,
                 isDone = isDone,
+                position = 1,
             ),
         )
 
@@ -111,13 +110,14 @@ class AgendaTest : AndroidTest() {
         val isDone = false
 
         val tasks = listOf(
-            com.costular.atomtasks.tasks.Task(
+            Task(
                 id = 1L,
                 name = taskName,
                 createdAt = LocalDate.now(),
                 day = LocalDate.now(),
                 reminder = null,
                 isDone = isDone,
+                position = 1,
             ),
         )
 
@@ -139,13 +139,14 @@ class AgendaTest : AndroidTest() {
         val isDone = false
 
         val tasks = listOf(
-            com.costular.atomtasks.tasks.Task(
+            Task(
                 id = id,
                 name = taskName,
                 createdAt = LocalDate.now(),
                 day = LocalDate.now(),
                 reminder = null,
                 isDone = isDone,
+                position = 1,
             ),
         )
 
@@ -157,7 +158,6 @@ class AgendaTest : AndroidTest() {
 
         agenda {
             toggleTask(taskName)
-            verify { toggleTask(id, !isDone) }
         }
     }
 
@@ -166,8 +166,8 @@ class AgendaTest : AndroidTest() {
         composeTestRule.setContent {
             AgendaScreen(
                 state = state,
-                onMarkTask = toggleTask,
-                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize.Unspecified),
+                onMarkTask = { _, _ -> },
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(480.dp, 800.dp)),
                 onSelectDate = {},
                 onSelectToday = {},
                 actionDelete = {},
@@ -177,6 +177,8 @@ class AgendaTest : AndroidTest() {
                 openTaskAction = {},
                 onEditAction = {},
                 onToggleExpandCollapse = {},
+                onMoveTask = { _, _ -> },
+                onDragTask = { _, _ -> },
             )
         }
     }

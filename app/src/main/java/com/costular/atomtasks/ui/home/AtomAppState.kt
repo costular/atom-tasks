@@ -28,7 +28,6 @@ class AtomAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
 ) {
-
     val currentDestination: NavBackStackEntry?
         @Composable get() = navController.currentBackStackEntryAsState().value
 
@@ -50,9 +49,5 @@ class AtomAppState(
                 saveState = true
             }
         }
-    }
-
-    fun navigateTo(destination: Direction) {
-        navController.navigate(destination)
     }
 }
