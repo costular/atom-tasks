@@ -26,6 +26,7 @@ class TaskCardTest : AndroidTest() {
                 reminder = null,
                 onMark = {},
                 onOpen = {},
+                isBeingDragged = false,
             )
         }
 
@@ -37,7 +38,7 @@ class TaskCardTest : AndroidTest() {
     fun shouldShowReminder_whenReminderIsSet() {
         val text = "whatever"
         val reminderTime = LocalTime.of(9, 0)
-        val reminder = com.costular.atomtasks.tasks.Reminder(
+        val reminder = Reminder(
             1L,
             reminderTime,
             true,
@@ -52,6 +53,7 @@ class TaskCardTest : AndroidTest() {
                 reminder = reminder,
                 onMark = {},
                 onOpen = {},
+                isBeingDragged = false,
             )
         }
 
@@ -70,6 +72,7 @@ class TaskCardTest : AndroidTest() {
                 reminder = null,
                 onMark = onMarkCallback,
                 onOpen = {},
+                isBeingDragged = false,
             )
         }
 
@@ -93,6 +96,7 @@ class TaskCardTest : AndroidTest() {
                 reminder = null,
                 onMark = {},
                 onOpen = onClickCallback,
+                isBeingDragged = false,
             )
         }
 

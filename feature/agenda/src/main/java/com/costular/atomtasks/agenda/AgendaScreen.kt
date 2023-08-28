@@ -1,11 +1,13 @@
 package com.costular.atomtasks.agenda
 
+import com.costular.atomtasks.core.ui.R.string as S
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
@@ -49,6 +52,10 @@ import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import java.time.LocalDate
 import java.time.LocalTime
+import org.burnoutcrew.reorderable.ItemPosition
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+
+const val TestTagHeader = "AgendaTitle"
 
 @Destination
 @Composable
@@ -87,6 +94,8 @@ internal fun AgendaScreen(
             navigator.navigateToEditTask(taskId)
         },
         onToggleExpandCollapse = viewModel::toggleHeader,
+        onMoveTask = viewModel::onMoveTask,
+        onDragTask = viewModel::onDragTask,
     )
 }
 
@@ -105,6 +114,8 @@ fun AgendaScreen(
     openTaskAction: (Task) -> Unit,
     onEditAction: (id: Long) -> Unit,
     onToggleExpandCollapse: () -> Unit,
+    onMoveTask: (Int, Int) -> Unit,
+    onDragTask: (ItemPosition, ItemPosition) -> Unit,
 ) {
     if (state.taskAction != null) {
         TaskActionDialog(
@@ -154,6 +165,8 @@ fun AgendaScreen(
             onOpenTask = openTaskAction,
             onMarkTask = onMarkTask,
             modifier = Modifier.supportWideScreen(),
+            onMoveTask = onMoveTask,
+            onDragTask = onDragTask,
         )
     }
 }
@@ -163,18 +176,26 @@ private fun TasksContent(
     state: AgendaState,
     onOpenTask: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
+    onDragTask: (ItemPosition, ItemPosition) -> Unit,
+    onMoveTask: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (val tasks = state.tasks) {
         is Async.Success -> {
             TaskList(
+                state = rememberReorderableLazyListState(
+                    onMove = onDragTask,
+                    onDragEnd = onMoveTask,
+                ),
                 tasks = tasks.data,
                 onClick = onOpenTask,
                 onMarkTask = onMarkTask,
+                padding = PaddingValues(
+                    horizontal = AppTheme.dimens.contentMargin,
+                    vertical = AppTheme.dimens.spacingLarge,
+                ),
                 modifier = modifier
                     .fillMaxSize()
-                    .padding(horizontal = AppTheme.dimens.contentMargin)
-                    .padding(top = AppTheme.dimens.spacingLarge)
                     .testTag("AgendaTaskList"),
             )
         }
@@ -230,6 +251,7 @@ private fun AgendaHeader(
                     ScreenHeader(
                         text = selectedDayText,
                         modifier = Modifier
+                            .testTag(TestTagHeader)
                             .padding(
                                 top = AppTheme.dimens.spacingLarge,
                                 bottom = AppTheme.dimens.spacingLarge,
@@ -264,7 +286,10 @@ private fun AgendaHeader(
                         .width(40.dp)
                         .height(40.dp),
                 ) {
-                    Icon(imageVector = Icons.Outlined.Today, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Outlined.Today,
+                        contentDescription = stringResource(S.today),
+                    )
                 }
             }
 
@@ -343,6 +368,7 @@ fun AgendaPreview() {
                                 date = null,
                             ),
                             isDone = false,
+                            position = 0,
                         ),
                         Task(
                             id = 1L,
@@ -356,6 +382,7 @@ fun AgendaPreview() {
                                 date = null,
                             ),
                             isDone = true,
+                            position = 0,
                         ),
                     ),
                 ),
@@ -371,6 +398,8 @@ fun AgendaPreview() {
             dismissDelete = {},
             openTaskAction = {},
             onEditAction = {},
+            onMoveTask = { _, _ -> },
+            onDragTask = { _, _ -> },
         )
     }
 }

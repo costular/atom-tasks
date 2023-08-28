@@ -3,6 +3,7 @@ package com.costular.atomtasks.agenda
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
+import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import org.burnoutcrew.reorderable.ItemPosition
 
 @Suppress("TooManyFunctions")
 @HiltViewModel
@@ -22,6 +24,7 @@ class AgendaViewModel @Inject constructor(
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
     private val removeTaskInteractor: RemoveTaskInteractor,
     private val autoforwardManager: AutoforwardManager,
+    private val moveTaskUseCase: MoveTaskUseCase,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
@@ -86,6 +89,43 @@ class AgendaViewModel @Inject constructor(
                     hideAskDelete()
                 }
                 .collect()
+        }
+    }
+
+    fun onDragTask(from: ItemPosition, to: ItemPosition) {
+        val data = state.value
+        val tasks = data.tasks
+
+        if (tasks is Async.Success) {
+            val toIndex = tasks.data.indexOfFirst { it.id == to.key }
+            val fromIndex = tasks.data.indexOfFirst { it.id == from.key }
+
+            if (toIndex < 0 || fromIndex < 0) return
+            setState {
+                copy(
+                    tasks = Async.Success(
+                        tasks.data.toMutableList().apply {
+                            add(toIndex, removeAt(fromIndex))
+                        },
+                    ),
+                )
+            }
+        }
+    }
+
+    fun onMoveTask(from: Int, to: Int) {
+        viewModelScope.launch {
+            val state = state.value
+
+            if (state.tasks is Async.Success) {
+                moveTaskUseCase(
+                    MoveTaskUseCase.Params(
+                        day = state.selectedDay,
+                        fromPosition = from + 1,
+                        toPosition = to + 1,
+                    ),
+                )
+            }
         }
     }
 

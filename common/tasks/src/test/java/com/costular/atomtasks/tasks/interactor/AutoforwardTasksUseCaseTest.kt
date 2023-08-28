@@ -107,6 +107,7 @@ class AutoforwardTasksUseCaseTest {
             day = Day,
             reminder = null,
             isDone = true,
+            position = 1,
         )
         val UndoneTasks = listOf(
             Task(
@@ -116,6 +117,7 @@ class AutoforwardTasksUseCaseTest {
                 day = Day,
                 reminder = null,
                 isDone = false,
+                position = 2,
             ),
             Task(
                 id = 2L,
@@ -124,6 +126,7 @@ class AutoforwardTasksUseCaseTest {
                 day = Day,
                 reminder = null,
                 isDone = false,
+                position = 3,
             ),
         )
     }

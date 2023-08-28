@@ -1,5 +1,6 @@
 package com.costular.atomtasks.tasks
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,34 +25,44 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 import java.time.LocalTime
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.ReorderableLazyListState
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TaskList(
     tasks: List<Task>,
     onClick: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
+    state: ReorderableLazyListState,
     modifier: Modifier = Modifier,
-    listState: LazyListState = rememberLazyListState(),
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
     if (tasks.isEmpty()) {
         Empty(modifier.padding(AppTheme.dimens.contentMargin))
     } else {
         LazyColumn(
-            modifier = modifier,
-            state = listState,
+            modifier = modifier.reorderable(state)
+                .detectReorderAfterLongPress(state),
+            state = state.listState,
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(tasks) { task ->
-                TaskCard(
-                    title = task.name,
-                    onMark = { onMarkTask(task.id, !task.isDone) },
-                    onOpen = { onClick(task) },
-                    reminder = task.reminder,
-                    isFinished = task.isDone,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+            items(tasks, { it.id }) { task ->
+                ReorderableItem(state, key = task.id) { isDragging ->
+                    TaskCard(
+                        title = task.name,
+                        onMark = { onMarkTask(task.id, !task.isDone) },
+                        onOpen = { onClick(task) },
+                        reminder = task.reminder,
+                        isFinished = task.isDone,
+                        modifier = Modifier.fillMaxWidth().animateItemPlacement(),
+                        isBeingDragged = isDragging,
+                    )
+                }
             }
         }
     }
@@ -102,6 +111,7 @@ fun TaskListEmpty() {
 fun TaskList() {
     AtomTheme {
         TaskList(
+            state = rememberReorderableLazyListState(onMove = { _, _ -> }),
             modifier = Modifier.fillMaxWidth(),
             tasks = listOf(
                 Task(
@@ -116,6 +126,7 @@ fun TaskList() {
                         date = null,
                     ),
                     isDone = false,
+                    position = 0,
                 ),
                 Task(
                     id = 1L,
@@ -124,6 +135,7 @@ fun TaskList() {
                     day = LocalDate.now(),
                     reminder = null,
                     isDone = false,
+                    position = 0,
                 ),
                 Task(
                     id = 1L,
@@ -132,6 +144,7 @@ fun TaskList() {
                     day = LocalDate.now(),
                     reminder = null,
                     isDone = true,
+                    position = 0,
                 ),
             ),
             onClick = {},

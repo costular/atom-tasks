@@ -19,7 +19,7 @@ class DatabaseModuleTest {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
-        Room.inMemoryDatabaseBuilder(context, AtomRemindersDatabase::class.java)
+    fun provideDatabase(@ApplicationContext context: Context): AtomTasksDatabase =
+        Room.inMemoryDatabaseBuilder(context, AtomTasksDatabase::class.java)
             .build()
 }

@@ -37,10 +37,12 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.work)
     implementation(libs.hilt.work)
+    implementation(libs.timber)
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.compose.destinations)
+    api(libs.reordeable)
 
     testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)

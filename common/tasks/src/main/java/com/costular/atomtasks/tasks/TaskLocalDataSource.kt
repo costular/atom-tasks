@@ -6,6 +6,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
 
+@Suppress("TooManyFunctions")
 interface TaskLocalDataSource {
 
     suspend fun createTask(taskEntity: TaskEntity): Long
@@ -23,4 +24,5 @@ interface TaskLocalDataSource {
     suspend fun updateTaskReminder(taskId: Long, time: LocalTime, date: LocalDate)
     suspend fun removeReminder(taskId: Long)
     suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
+    suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
 }
