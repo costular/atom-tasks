@@ -55,7 +55,7 @@ import java.time.LocalTime
 import org.burnoutcrew.reorderable.ItemPosition
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 
-const val TEST_TAG_HEADER = "AgendaTitle"
+const val TestTagHeader = "AgendaTitle"
 
 @Destination
 @Composable
@@ -251,7 +251,7 @@ private fun AgendaHeader(
                     ScreenHeader(
                         text = selectedDayText,
                         modifier = Modifier
-                            .testTag(TEST_TAG_HEADER)
+                            .testTag(TestTagHeader)
                             .padding(
                                 top = AppTheme.dimens.spacingLarge,
                                 bottom = AppTheme.dimens.spacingLarge,

@@ -10,6 +10,7 @@ import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
+@Suppress("TooManyFunctions")
 @Dao
 interface TasksDao {
 
@@ -53,6 +54,7 @@ interface TasksDao {
     @Query("SELECT MAX(position) FROM tasks WHERE date = :day")
     suspend fun getMaxPositionForDate(day: LocalDate): Int
 
+    @Suppress("MaxLineLength")
     @Transaction
     @Query("SELECT * FROM tasks WHERE ((position BETWEEN :start AND :end) OR (position BETWEEN :end AND :start)) AND (date = :day) ORDER BY position ASC")
     fun getTasksInRange(day: LocalDate, start: Int, end: Int): List<TaskAggregated>

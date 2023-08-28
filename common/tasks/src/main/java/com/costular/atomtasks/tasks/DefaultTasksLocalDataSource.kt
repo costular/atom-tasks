@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
 
+@Suppress("TooManyFunctions")
 internal class DefaultTasksLocalDataSource(
     private val tasksDao: TasksDao,
     private val reminderDao: ReminderDao,
