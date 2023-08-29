@@ -13,9 +13,9 @@ class DetektConventionPlugin : Plugin<Project> {
 
             extensions.configure<DetektExtension> {
                 parallel = true
-                buildUponDefaultConfig = true // preconfigure defaults
-                allRules = false // activate all available (even unstable) rules.
-                config = files("$rootDir/app/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+                buildUponDefaultConfig = true
+                allRules = false
+                config.setFrom(files("$rootDir/app/config/detekt/detekt.yml"))
             }
 
             tasks.withType<Detekt>().configureEach {
