@@ -6,7 +6,6 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("jacoco")
 }
 

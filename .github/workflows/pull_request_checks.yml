@@ -8,19 +8,6 @@ on:
       - main
 
 jobs:
-  ktlint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-
-      - name: Ktlint 💅
-        run: ./gradlew ktlintCheck
-
   detekt:
     runs-on: ubuntu-latest
     timeout-minutes: 5

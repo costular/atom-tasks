@@ -4,7 +4,6 @@ plugins {
     id("kotlin-android")
     kotlin("kapt")
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
 }

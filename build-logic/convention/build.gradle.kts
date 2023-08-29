@@ -12,16 +12,11 @@ java {
 dependencies {
     implementation(libs.androidGradle)
     implementation(libs.kotlinGradle)
-    implementation(libs.ktlintGradle)
     implementation(libs.detektGradle)
 }
 
 gradlePlugin {
     plugins {
-        register("ktlint") {
-            id = "atomtasks.ktlint"
-            implementationClass = "KtlintConventionPlugin"
-        }
         register("androidApplication") {
             id = "atomtasks.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"

@@ -1,7 +1,6 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
-    id("atomtasks.ktlint")
     id("atomtasks.detekt")
     kotlin("kapt")
 }
