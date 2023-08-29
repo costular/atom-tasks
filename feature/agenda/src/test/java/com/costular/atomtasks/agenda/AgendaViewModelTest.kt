@@ -6,6 +6,7 @@ import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.Task
+import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
@@ -18,6 +19,7 @@ import java.time.LocalDate
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.burnoutcrew.reorderable.ItemPosition
 import org.junit.Before
 import org.junit.Test
 
@@ -30,14 +32,16 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
+    private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         sut = AgendaViewModel(
-            observeTasksUseCase,
-            updateTaskIsDoneInteractor,
-            removeTaskInteractor,
-            autoforwardManager,
+            observeTasksUseCase = observeTasksUseCase,
+            updateTaskIsDoneInteractor = updateTaskIsDoneInteractor,
+            removeTaskInteractor = removeTaskInteractor,
+            autoforwardManager = autoforwardManager,
+            moveTaskUseCase = moveTaskUseCase,
         )
     }
 
@@ -84,7 +88,8 @@ class AgendaViewModelTest : MviViewModelTest() {
         coVerify {
             updateTaskIsDoneInteractor(
                 UpdateTaskIsDoneInteractor.Params(
-                    expected.first().id, true,
+                    taskId = expected.first().id,
+                    isDone = true,
                 ),
             )
         }
@@ -150,23 +155,66 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
     }
 
+    @Test
+    fun `should update state when drag task`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        val from = 1
+        val to = 2
+
+        sut.loadTasks()
+        sut.onDragTask(ItemPosition(from, TASK1_ID), ItemPosition(to, TASK2ID))
+
+        val state = sut.state.value
+        val tasks = (state.tasks as Async.Success).data
+        assertThat(tasks.first().id).isEqualTo(TASK2ID)
+        assertThat(tasks.last().id).isEqualTo(TASK1_ID)
+        coVerify(exactly = 0) { moveTaskUseCase(any()) }
+    }
+
+    @Test
+    fun `should call usecase when moving a task given tasks were loaded successfully`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        val from = 0
+        val to = 1
+
+        sut.loadTasks()
+        sut.onMoveTask(from, to)
+
+        coVerify(exactly = 1) {
+            moveTaskUseCase(MoveTaskUseCase.Params(LocalDate.now(), from + 1, to + 1))
+        }
+    }
+
+    @Test
+    fun `should call autoforward usecase when land on the screen`() = runTest {
+        coVerify(exactly = 1) {
+            autoforwardManager.scheduleOrCancelAutoforwardTasks()
+        }
+    }
+
     companion object {
+        const val TASK1_ID = 1L
+        const val TASK2ID = 2L
         val DEFAULT_TASKS = listOf(
             Task(
-                1L,
-                "Task 1",
-                LocalDate.now(),
-                LocalDate.now(),
-                null,
-                false,
+                id = TASK1_ID,
+                name = "Task 1",
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = false,
+                position = 1,
             ),
             Task(
-                2L,
-                "Task 2",
-                LocalDate.now(),
-                LocalDate.now(),
-                null,
-                false,
+                id = TASK2ID,
+                name = "Task 2",
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                reminder = null,
+                isDone = false,
+                position = 2,
             ),
         )
     }

@@ -10,4 +10,5 @@ val TaskToday = Task(
     day = LocalDate.now(),
     reminder = null,
     isDone = false,
+    position = 0,
 )

@@ -11,10 +11,10 @@ import com.costular.atomtasks.data.tasks.TasksDao
 @TypeConverters(DbTypeConverters::class)
 @Database(
     entities = [TaskEntity::class, ReminderEntity::class],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
-abstract class AtomRemindersDatabase : RoomDatabase() {
+abstract class AtomTasksDatabase : RoomDatabase() {
 
     abstract fun getTasksDao(): TasksDao
     abstract fun getRemindersDao(): ReminderDao

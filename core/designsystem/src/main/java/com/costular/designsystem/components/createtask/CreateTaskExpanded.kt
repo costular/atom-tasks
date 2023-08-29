@@ -59,8 +59,8 @@ fun CreateTaskExpanded(
     reminder: LocalTime? = null,
 ) {
     val viewModel: CreateTaskExpandedViewModel = viewModel()
-    val state by
-        rememberFlowWithLifecycle(viewModel.state).collectAsState(CreateTaskExpandedState.Empty)
+    val state by rememberFlowWithLifecycle(viewModel.state)
+        .collectAsState(CreateTaskExpandedState.Empty)
     val focusRequester = FocusRequester()
 
     LaunchedEffect(Unit) {

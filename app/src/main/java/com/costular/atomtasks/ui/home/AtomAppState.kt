@@ -9,8 +9,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.spec.Direction
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 @Composable
@@ -28,7 +26,6 @@ class AtomAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
 ) {
-
     val currentDestination: NavBackStackEntry?
         @Composable get() = navController.currentBackStackEntryAsState().value
 
@@ -50,9 +47,5 @@ class AtomAppState(
                 saveState = true
             }
         }
-    }
-
-    fun navigateTo(destination: Direction) {
-        navController.navigate(destination)
     }
 }

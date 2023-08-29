@@ -10,8 +10,9 @@ java {
 }
 
 dependencies {
-    implementation(libs.androidGradle)
-    implementation(libs.kotlinGradle)
+    compileOnly(libs.androidGradle)
+    compileOnly(libs.kotlinGradle)
+    implementation(libs.ksp.gradlePlugin)
     implementation(libs.detektGradle)
 }
 
@@ -44,6 +45,10 @@ gradlePlugin {
         register("jacoco") {
             id = "atomtasks.android.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "atomtasks.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

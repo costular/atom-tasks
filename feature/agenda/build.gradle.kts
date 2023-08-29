@@ -20,12 +20,18 @@ android {
         arg("compose-destinations.mode", "destinations")
         arg("compose-destinations.moduleName", "agenda")
     }
+
     libraryVariants.all {
         kotlin.sourceSets {
             getByName(name) {
                 kotlin.srcDir("build/generated/ksp/$name/kotlin")
             }
         }
+    }
+
+    packaging {
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/LICENSE-notice.md")
     }
 }
 
