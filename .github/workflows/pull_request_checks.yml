@@ -1,11 +1,8 @@
 name: Pull request checks
 on:
   pull_request:
-    branches:
-      - develop
-      - release/**
-      - hotfix/**
-      - main
+    merge_group:
+      types: [ checks_requested ]
 
 jobs:
   detekt:
