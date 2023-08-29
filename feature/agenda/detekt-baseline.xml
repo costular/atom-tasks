@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongParameterList:AgendaScreen.kt$( state: AgendaState, windowSizeClass: WindowSizeClass, onSelectDate: (LocalDate) -&gt; Unit, onSelectToday: () -&gt; Unit, actionDelete: (id: Long) -&gt; Unit, dismissTaskAction: () -&gt; Unit, onMarkTask: (Long, Boolean) -&gt; Unit, deleteTask: (id: Long) -&gt; Unit, dismissDelete: () -&gt; Unit, openTaskAction: (Task) -&gt; Unit, onEditAction: (id: Long) -&gt; Unit, onToggleExpandCollapse: () -&gt; Unit, )</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>InvalidPackageDeclaration:AndroidTest.kt$package com.costular.atomtasks.core.testing.ui</ID>
+    <ID>InvalidPackageDeclaration:AtomTestRunner.kt$package com.costular.atomtasks.core.testing</ID>
+    <ID>InvalidPackageDeclaration:ComposeProvider.kt$package com.costular.atomtasks.core.testing.ui</ID>
+    <ID>InvalidPackageDeclaration:ComposeTestRuleExtensions.kt$package com.costular.atomtasks.core.testing.ui</ID>
+    <ID>InvalidPackageDeclaration:MainCoroutineRule.kt$package com.costular.atomtasks.core.testing</ID>
+    <ID>InvalidPackageDeclaration:MviViewModelTest.kt$package com.costular.atomtasks.core.testing</ID>
+    <ID>InvalidPackageDeclaration:Robot.kt$package com.costular.atomtasks.core.testing.ui</ID>
+    <ID>InvalidPackageDeclaration:TestDispatcherModule.kt$package com.costular.atomtasks.core.testing.di</ID>
+    <ID>InvalidPackageDeclaration:TestDispatcherProvider.kt$package com.costular.atomtasks.core.testing.net</ID>
+    <ID>InvalidPackageDeclaration:TestDispatcherProviderModule.kt$package com.costular.atomtasks.core.testing.di</ID>
+    <ID>UseCheckOrError:ComposeTestRuleExtensions.kt$throw IllegalStateException("Resources are only available using AndroidComposeTestRule")</ID>
+  </CurrentIssues>
+</SmellBaseline>

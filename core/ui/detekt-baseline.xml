@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>InvalidPackageDeclaration:ChannelConstants.kt$package com.costular.atomtasks.ui.util</ID>
+    <ID>InvalidPackageDeclaration:ComposeUtil.kt$package com.costular.atomtasks.core.ui.utils</ID>
+    <ID>InvalidPackageDeclaration:DateUtils.kt$package com.costular.atomtasks.core.ui.utils</ID>
+    <ID>InvalidPackageDeclaration:DestinationsScaffold.kt$package com.costular.atomtasks.core.ui</ID>
+    <ID>InvalidPackageDeclaration:DevicesPreview.kt$package com.costular.atomtasks.core.ui.utils</ID>
+    <ID>InvalidPackageDeclaration:MviViewModel.kt$package com.costular.atomtasks.core.ui.mvi</ID>
+    <ID>InvalidPackageDeclaration:PreviewUtils.kt$package com.costular.atomtasks.core.ui.utils</ID>
+    <ID>InvalidPackageDeclaration:UiEvent.kt$package com.costular.atomtasks.core.ui.mvi</ID>
+    <ID>InvalidPackageDeclaration:VariantsPreview.kt$package com.costular.atomtasks.core.ui.utils</ID>
+    <ID>UnusedImports:DestinationsScaffold.kt$import androidx.navigation.NavArgs</ID>
+  </CurrentIssues>
+</SmellBaseline>
