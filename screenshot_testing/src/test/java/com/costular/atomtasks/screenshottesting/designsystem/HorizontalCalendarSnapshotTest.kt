@@ -10,6 +10,7 @@ import com.costular.atomtasks.screenshottesting.utils.screenshot
 import com.costular.designsystem.components.HorizontalCalendar
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import java.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,11 +31,25 @@ class HorizontalCalendarSnapshotTest {
     fun horizontalCalendarTest() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
-            fontScale = fontScale.asFloat(),
+            fontScale = fontScale.asFloat()
         ) {
             HorizontalCalendar(
                 onSelectDay = {},
+                weekDays = WeekDays,
+                selectedDay = LocalDate.of(2023, 9, 1)
             )
         }
+    }
+
+    private companion object {
+        val WeekDays = listOf(
+            LocalDate.of(2023, 8, 28),
+            LocalDate.of(2023, 8, 29),
+            LocalDate.of(2023, 8, 30),
+            LocalDate.of(2023, 8, 31),
+            LocalDate.of(2023, 9, 1),
+            LocalDate.of(2023, 9, 2),
+            LocalDate.of(2023, 9, 3)
+        )
     }
 }
