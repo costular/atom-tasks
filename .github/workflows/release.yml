@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Java 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Java 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -99,7 +99,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Java 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -121,7 +121,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Java 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
@@ -167,7 +167,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Java 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
