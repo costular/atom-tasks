@@ -7,7 +7,6 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.ksp)
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("atomtasks.android.library.jacoco")
 }
 

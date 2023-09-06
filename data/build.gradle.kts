@@ -2,7 +2,6 @@ plugins {
     id("atomtasks.android.library")
     kotlin("kapt")
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
     id("atomtasks.android.room")

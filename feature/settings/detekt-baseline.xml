@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>InvalidPackageDeclaration:SettingLink.kt$package com.costular.atomtasks.settings</ID>
+    <ID>InvalidPackageDeclaration:SettingSection.kt$package com.costular.atomtasks.settings</ID>
+    <ID>InvalidPackageDeclaration:SettingSwitch.kt$package com.costular.atomtasks.settings</ID>
+  </CurrentIssues>
+</SmellBaseline>

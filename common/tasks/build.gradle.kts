@@ -1,7 +1,6 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
-    id("atomtasks.ktlint")
     id("atomtasks.detekt")
     kotlin("kapt")
 }
@@ -62,6 +61,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.work.testing)
-    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.preferences.datastore)
     androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
 }

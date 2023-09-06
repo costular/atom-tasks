@@ -1,32 +1,22 @@
 name: Pull request checks
 on:
   pull_request:
-    branches:
-      - develop
-      - release/**
-      - hotfix/**
-      - main
+    merge_group:
+      types: [ checks_requested ]
 
 jobs:
-  ktlint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-
-      - name: Ktlint 💅
-        run: ./gradlew ktlintCheck
-
   detekt:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
@@ -36,16 +26,16 @@ jobs:
 
   unit_tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Java 11
-        uses: actions/setup-java@v2
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: 11
+          distribution: 'temurin'
+          java-version: 17
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
@@ -60,15 +50,19 @@ jobs:
 
   ui_tests:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [ 26, 30 ]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Java 11
-        uses: actions/setup-java@v2
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: 11
+          distribution: 'temurin'
+          java-version: 17
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
@@ -102,10 +96,19 @@ jobs:
       - name: 🤖 UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
           disable-animations: true
-          script: ./gradlew app:connectedAndroidTest
+          disk-size: 6000M
+          heap-size: 600M
+          script: ./gradlew connectedDebugAndroidTest --daemon
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports-${{ matrix.api-level }}
+          path: '**/build/reports/androidTests'
 
   screenshot_tests:
     runs-on: ubuntu-latest
@@ -113,11 +116,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Java 11
-        uses: actions/setup-java@v2
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: 11
+          distribution: 'temurin'
+          java-version: 17
 
       - name: Decode google-services.json
         env:

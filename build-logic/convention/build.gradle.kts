@@ -13,16 +13,11 @@ dependencies {
     compileOnly(libs.androidGradle)
     compileOnly(libs.kotlinGradle)
     implementation(libs.ksp.gradlePlugin)
-    implementation(libs.ktlintGradle)
     implementation(libs.detektGradle)
 }
 
 gradlePlugin {
     plugins {
-        register("ktlint") {
-            id = "atomtasks.ktlint"
-            implementationClass = "KtlintConventionPlugin"
-        }
         register("androidApplication") {
             id = "atomtasks.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"

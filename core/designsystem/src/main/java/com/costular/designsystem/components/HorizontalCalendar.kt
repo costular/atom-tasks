@@ -28,22 +28,19 @@ import java.time.LocalDate
 @Composable
 fun HorizontalCalendar(
     selectedDay: LocalDate = LocalDate.now(),
+    weekDays: List<LocalDate> = remember(selectedDay) { WeekUtil.getWeekDays(selectedDay) },
     onSelectDay: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val dates = remember(selectedDay) {
-        WeekUtil.getWeekDays(selectedDay)
-    }
-
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        dates.forEach { date ->
+        weekDays.forEach { date ->
             CalendarDay(
                 date = date,
                 isSelected = date == selectedDay,
-                onClick = { onSelectDay(date) },
+                onClick = { onSelectDay(date) }
             )
         }
     }
@@ -71,20 +68,20 @@ private fun RowScope.CalendarDay(
             .weight(1f)
             .height(70.dp)
             .clip(RoundedCornerShape(12.dp))
-            .clickable { onClick() },
+            .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = weekDay,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium
             )
             Text(
                 text = day.toString(),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
@@ -96,7 +93,7 @@ private fun HorizontalCalendarPreview() {
     AtomTheme {
         HorizontalCalendar(
             selectedDay = LocalDate.now(),
-            onSelectDay = {},
+            onSelectDay = {}
         )
     }
 }

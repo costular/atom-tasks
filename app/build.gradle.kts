@@ -6,7 +6,6 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("jacoco")
     alias(libs.plugins.ksp)
 }
@@ -125,6 +124,8 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
     testImplementation(libs.compose.ui.test)
+
+    androidTestImplementation(projects.core.testing)
 }
 
 class RoomSchemaArgProvider(
