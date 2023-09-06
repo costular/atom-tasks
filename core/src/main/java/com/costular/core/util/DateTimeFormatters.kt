@@ -1,6 +1,7 @@
 package com.costular.core.util
 
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 
 object DateTimeFormatters {
@@ -10,9 +11,6 @@ object DateTimeFormatters {
         DateTimeFormatter.ofPattern("EEEEE", Locale.getDefault())
     val fullDayOfWeekFormatter =
         DateTimeFormatter.ofPattern("EEEE", Locale.getDefault())
-    val dateFormatter =
-        DateTimeFormatter.ofPattern("d MMM YY", Locale.getDefault())
-    val timeFormatter =
-        DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
+    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     val monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
 }

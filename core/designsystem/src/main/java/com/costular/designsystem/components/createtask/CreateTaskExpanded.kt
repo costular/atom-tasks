@@ -33,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
-import com.costular.atomtasks.core.ui.utils.DateUtils.timeAsText
+import com.costular.atomtasks.coreui.utils.ofLocalizedTime
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
@@ -150,7 +150,7 @@ internal fun CreateTaskExpanded(
             Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
 
             val reminderText = if (state.reminder != null) {
-                timeAsText(state.reminder)
+                state.reminder.ofLocalizedTime()
             } else {
                 stringResource(R.string.create_task_set_reminder)
             }
