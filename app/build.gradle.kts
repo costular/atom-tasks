@@ -124,6 +124,8 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
     testImplementation(libs.compose.ui.test)
+
+    androidTestImplementation(projects.core.testing)
 }
 
 class RoomSchemaArgProvider(

@@ -49,6 +49,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("compose.destinations").get())
 
                 add("testImplementation", project(":core:testing"))
+                add("androidTestImplementation", project(":core:testing"))
             }
         }
     }
