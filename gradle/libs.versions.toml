@@ -19,6 +19,7 @@ accompanist = "0.31.6-rc"
 workManager = "2.8.1"
 room = "2.5.2"
 paparazzi = "1.3.1"
+roborazzi = "1.5.0-alpha-2"
 composeDestinations = "1.9.50"
 junit5 = "5.9.0"
 
@@ -74,6 +75,7 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 compose-destinations = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "composeDestinations" }
 reordeable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "reordeable" }
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 
 junit = "junit:junit:4.13.2"
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -96,3 +98,4 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

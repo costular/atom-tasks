@@ -6,6 +6,7 @@ plugins {
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
+    id("atomtasks.roborazzi")
 }
 
 android {
@@ -49,6 +50,7 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
+    testImplementation(libs.compose.ui.test)
 
     testImplementation(projects.core.testing)
     androidTestImplementation(projects.core.testing)

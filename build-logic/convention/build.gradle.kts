@@ -50,5 +50,9 @@ gradlePlugin {
             id = "atomtasks.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("roborazzi") {
+            id = "atomtasks.roborazzi"
+            implementationClass = "RoborazziConventionPlugin"
+        }
     }
 }

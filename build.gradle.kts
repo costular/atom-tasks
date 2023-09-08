@@ -16,6 +16,7 @@ buildscript {
 plugins {
     id("com.github.ben-manes.versions") version "0.41.0"
     id("nl.littlerobots.version-catalog-update") version "0.5.1"
+    alias(libs.plugins.roborazzi) apply false
 }
 
 tasks.register("clean", Delete::class) {

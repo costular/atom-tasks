@@ -49,6 +49,8 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name="androidx.activity.ComponentActivity" />
+
     </application>
 
 </manifest>
