@@ -1,6 +1,11 @@
 package com.costular.atomtasks.tasks
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -18,29 +23,52 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.costular.core.util.DateTimeFormatters
 import com.costular.designsystem.components.Markable
+import com.costular.designsystem.decorator.strikeThrough
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 import java.time.LocalTime
+
+
+
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.common.tasks.R
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val ReminderIconId = "reminder"
 
@@ -58,7 +86,8 @@ fun TaskCard(
     val mutableInteractionSource = remember { MutableInteractionSource() }
     mutableInteractionSource.reorderableDragInteractions(isDragging = isBeingDragged)
 
-    HandleHaptic(mutableInteractionSource)
+    HandleHapticForInteractions(mutableInteractionSource)
+    HandleHapticWhenFinish(isFinished)
 
     val mediumColor = MaterialTheme.colorScheme.onSurfaceVariant
     val shouldShowReminder = remember(isFinished, reminder) { reminder != null && !isFinished }
@@ -86,12 +115,7 @@ fun TaskCard(
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))
 
             Column {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        textDecoration = if (isFinished) TextDecoration.LineThrough else null,
-                    ),
-                )
+                TaskTitle(isFinished = isFinished, title = title)
 
                 if (shouldShowReminder) {
                     Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
@@ -120,7 +144,35 @@ fun TaskCard(
 }
 
 @Composable
-private fun HandleHaptic(interactionSource: MutableInteractionSource) {
+private fun HandleHapticWhenFinish(isFinished: Boolean) {
+    val haptic = LocalHapticFeedback.current
+
+    LaunchedEffect(isFinished) {
+        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+    }
+}
+
+@Composable
+private fun TaskTitle(isFinished: Boolean, title: String) {
+    val progress by animateFloatAsState(
+        targetValue = if (isFinished) 1f else 0f,
+        animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing),
+        label = "Task strike through"
+    )
+
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.strikeThrough(
+            color = LocalContentColor.current,
+            border = 2.dp,
+            progress = { progress },
+        )
+    )
+}
+
+@Composable
+private fun HandleHapticForInteractions(interactionSource: MutableInteractionSource) {
     val haptic = LocalHapticFeedback.current
     val isDragging by interactionSource.collectIsDraggedAsState()
 
