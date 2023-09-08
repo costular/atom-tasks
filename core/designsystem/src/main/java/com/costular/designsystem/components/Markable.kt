@@ -1,5 +1,7 @@
 package com.costular.designsystem.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,10 +17,13 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
@@ -37,37 +42,53 @@ fun Markable(
     borderWidth: Dp = 2.dp,
     width: Dp = 24.dp,
     height: Dp = 24.dp,
+    interaction: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    val interaction = remember { MutableInteractionSource() }
+    var scale = remember { Animatable(1f) }
+    val animatedColor by animateColorAsState(
+        if (isMarked) contentColor else Color.Transparent,
+        label = "Color"
+    )
 
-    val lastModifier = modifier
-        .width(width)
-        .height(height)
-        .border(
-            width = borderWidth,
-            color = borderColor,
-            shape = CircleShape,
-        )
-        .selectable(
-            isMarked,
-            interactionSource = interaction,
-            role = Role.Checkbox,
-            indication = rememberRipple(bounded = false),
-            enabled = true,
-            onClick = onClick,
-        )
-        .testTag("Markable")
+    LaunchedEffect(isMarked) {
+        if (isMarked) {
+            scale.animateTo(0.5f)
+            scale.animateTo(1.3f)
+            scale.animateTo(1f)
+        } else {
+            scale.snapTo(1f)
+        }
+    }
 
-    if (isMarked) {
-        Box(modifier = lastModifier) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(CircleShape)
-                    .background(contentColor)
-                    .padding(4.dp),
-                contentAlignment = Alignment.Center,
-            ) {
+    Box(
+        modifier = modifier
+            .width(width)
+            .height(height)
+            .scale(scale.value)
+            .border(
+                width = borderWidth,
+                color = borderColor,
+                shape = CircleShape,
+            )
+            .selectable(
+                isMarked,
+                interactionSource = interaction,
+                role = Role.Checkbox,
+                indication = rememberRipple(bounded = false),
+                enabled = true,
+                onClick = onClick,
+            )
+            .testTag("Markable")
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(CircleShape)
+                .background(animatedColor)
+                .padding(4.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            if (isMarked) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
@@ -75,8 +96,6 @@ fun Markable(
                 )
             }
         }
-    } else {
-        Box(modifier = lastModifier)
     }
 }
 
