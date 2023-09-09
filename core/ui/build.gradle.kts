@@ -2,10 +2,8 @@ plugins {
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
     id("kotlin-android")
-    kotlin("kapt")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -16,8 +14,6 @@ dependencies {
     api(project(":core"))
     api(libs.compose.bom)
 
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
     implementation(libs.androidx.core)
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
@@ -27,7 +23,6 @@ dependencies {
     implementation(libs.compose.ui.tooling)
 
     implementation(libs.lifecycle.runtime)
-    implementation(libs.hilt.navigation.compose)
     implementation(libs.viewmodel)
 
     testImplementation(libs.android.junit)
