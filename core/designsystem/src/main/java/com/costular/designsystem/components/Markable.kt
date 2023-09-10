@@ -1,7 +1,9 @@
 package com.costular.designsystem.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,7 +19,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -44,27 +45,15 @@ fun Markable(
     height: Dp = 24.dp,
     interaction: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    var scale = remember { Animatable(1f) }
     val animatedColor by animateColorAsState(
         if (isMarked) contentColor else Color.Transparent,
         label = "Color"
     )
 
-    LaunchedEffect(isMarked) {
-        if (isMarked) {
-            scale.animateTo(0.5f)
-            scale.animateTo(1.3f)
-            scale.animateTo(1f)
-        } else {
-            scale.snapTo(1f)
-        }
-    }
-
     Box(
         modifier = modifier
             .width(width)
             .height(height)
-            .scale(scale.value)
             .border(
                 width = borderWidth,
                 color = borderColor,
