@@ -31,8 +31,9 @@ interface TasksDao {
     @Query("SELECT * FROM tasks ORDER BY is_done ASC")
     fun getAllTasks(): List<TaskAggregated>
 
+    @Suppress("MaxLineLength")
     @Transaction
-    @Query("SELECT * FROM tasks WHERE date = :date ORDER BY position ASC, is_done ASC;")
+    @Query("SELECT * FROM tasks WHERE date = :date ORDER BY CASE WHEN is_done = 1 THEN 1 ELSE 0 END, position ASC;")
     fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
 
     @Transaction
