@@ -56,7 +56,6 @@ fun TaskCard(
     mutableInteractionSource.reorderableDragInteractions(isDragging = isBeingDragged)
 
     HandleHapticForInteractions(mutableInteractionSource)
-    HandleHapticWhenFinish(isFinished)
 
     val mediumColor = MaterialTheme.colorScheme.onSurfaceVariant
     val shouldShowReminder = remember(isFinished, reminder) { reminder != null && !isFinished }
@@ -108,17 +107,6 @@ fun TaskCard(
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun HandleHapticWhenFinish(isFinished: Boolean) {
-    val haptic = LocalHapticFeedback.current
-
-    LaunchedEffect(isFinished) {
-        if (isFinished) {
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         }
     }
 }

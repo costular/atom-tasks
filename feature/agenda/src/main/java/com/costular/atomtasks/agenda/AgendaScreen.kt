@@ -180,6 +180,8 @@ private fun TasksContent(
     onMoveTask: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val haptic = LocalHapticFeedback.current
+
     when (val tasks = state.tasks) {
         is Async.Success -> {
             TaskList(
@@ -189,7 +191,13 @@ private fun TasksContent(
                 ),
                 tasks = tasks.data,
                 onClick = onOpenTask,
-                onMarkTask = onMarkTask,
+                onMarkTask = { taskId, isDone ->
+                    onMarkTask(taskId, isDone)
+
+                    if (isDone) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                },
                 padding = PaddingValues(
                     horizontal = AppTheme.dimens.contentMargin,
                     vertical = AppTheme.dimens.spacingLarge,
