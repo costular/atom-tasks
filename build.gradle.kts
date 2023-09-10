@@ -12,12 +12,3 @@ buildscript {
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.7")
     }
 }
-
-plugins {
-    id("com.github.ben-manes.versions") version "0.41.0"
-    id("nl.littlerobots.version-catalog-update") version "0.5.1"
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}

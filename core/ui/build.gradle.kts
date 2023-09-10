@@ -13,6 +13,7 @@ android {
 dependencies {
     api(project(":core"))
     api(libs.compose.bom)
+    api(libs.lifecycle.compose)
 
     implementation(libs.androidx.core)
     implementation(libs.compose.runtime)
@@ -22,7 +23,6 @@ dependencies {
     implementation(libs.compose.destinations)
     implementation(libs.compose.ui.tooling)
 
-    implementation(libs.lifecycle.runtime)
     implementation(libs.viewmodel)
 
     testImplementation(libs.android.junit)

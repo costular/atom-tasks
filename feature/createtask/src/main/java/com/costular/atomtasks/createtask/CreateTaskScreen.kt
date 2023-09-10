@@ -11,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
-import com.costular.atomtasks.createtask.CreateTaskState.Companion.Empty
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.designsystem.components.createtask.CreateTaskExpanded
-import com.costular.core.Async
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
@@ -29,10 +27,10 @@ fun CreateTaskScreen(
     navigator: DestinationsNavigator,
 ) {
     val viewModel: CreateTaskViewModel = hiltViewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(state.savingTask) {
-        if (state.savingTask is Async.Success<*>) {
+    LaunchedEffect(state) {
+        if (state is CreateTaskState.Success) {
             navigator.navigateUp()
         }
     }

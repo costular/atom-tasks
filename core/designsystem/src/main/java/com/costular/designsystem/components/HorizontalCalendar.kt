@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.coreui.date.Day
+import com.costular.atomtasks.coreui.date.asDay
 import com.costular.core.util.DateTimeFormatters.shortDayOfWeekFormatter
 import com.costular.core.util.WeekUtil
 import com.costular.designsystem.theme.AtomTheme
@@ -27,8 +29,8 @@ import java.time.LocalDate
 
 @Composable
 fun HorizontalCalendar(
-    selectedDay: LocalDate = LocalDate.now(),
-    weekDays: List<LocalDate> = remember(selectedDay) { WeekUtil.getWeekDays(selectedDay) },
+    selectedDay: Day = LocalDate.now().asDay(),
+    weekDays: List<LocalDate> = remember(selectedDay) { WeekUtil.getWeekDays(selectedDay.date) },
     onSelectDay: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -39,7 +41,7 @@ fun HorizontalCalendar(
         weekDays.forEach { date ->
             CalendarDay(
                 date = date,
-                isSelected = date == selectedDay,
+                isSelected = date == selectedDay.date,
                 onClick = { onSelectDay(date) }
             )
         }
@@ -92,7 +94,7 @@ private fun RowScope.CalendarDay(
 private fun HorizontalCalendarPreview() {
     AtomTheme {
         HorizontalCalendar(
-            selectedDay = LocalDate.now(),
+            selectedDay = LocalDate.now().asDay(),
             onSelectDay = {}
         )
     }

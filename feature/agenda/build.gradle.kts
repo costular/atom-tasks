@@ -47,6 +47,7 @@ dependencies {
 
     implementation(projects.common.tasks)
     implementation(libs.calendar)
+    implementation(libs.kotlinx.collections.immutable)
 
     testImplementation(projects.core.testing)
     testImplementation(libs.android.junit)

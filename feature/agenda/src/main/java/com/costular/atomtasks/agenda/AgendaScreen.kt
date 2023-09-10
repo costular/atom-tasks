@@ -1,6 +1,5 @@
 package com.costular.atomtasks.agenda
 
-import com.costular.atomtasks.core.ui.R.string as S
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -29,18 +28,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
+import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.tasks.Task
 import com.costular.atomtasks.tasks.TaskList
-import com.costular.core.Async
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
@@ -50,10 +51,13 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
+import com.theapache64.rebugger.Rebugger
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.collections.immutable.persistentListOf
 import org.burnoutcrew.reorderable.ItemPosition
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import com.costular.atomtasks.core.ui.R.string as S
 
 const val TestTagHeader = "AgendaTitle"
 
@@ -76,7 +80,7 @@ internal fun AgendaScreen(
     windowSizeClass: WindowSizeClass,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AgendaState.Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     AgendaScreen(
         state = state,
@@ -183,7 +187,7 @@ private fun TasksContent(
     val haptic = LocalHapticFeedback.current
 
     when (val tasks = state.tasks) {
-        is Async.Success -> {
+        is TasksState.Success -> {
             TaskList(
                 state = rememberReorderableLazyListState(
                     onMove = onDragTask,
@@ -208,9 +212,9 @@ private fun TasksContent(
             )
         }
 
-        is Async.Failure -> {}
-        Async.Loading -> {}
-        Async.Uninitialized -> {}
+        is TasksState.Failure -> {}
+        TasksState.Loading -> {}
+        TasksState.Uninitialized -> {}
     }
 }
 
@@ -248,7 +252,7 @@ private fun AgendaHeader(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                val selectedDayText = dayAsText(state.selectedDay)
+                val selectedDayText = dayAsText(state.selectedDay.date)
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -317,7 +321,7 @@ private fun AgendaHeader(
 
 @Composable
 private fun HeaderCalendarCollapsed(
-    selectedDay: LocalDate,
+    selectedDay: Day,
     onSelectDate: (LocalDate) -> Unit,
 ) {
     DatePicker(
@@ -325,14 +329,14 @@ private fun HeaderCalendarCollapsed(
             .supportWideScreen(480.dp)
             .padding(horizontal = AppTheme.dimens.contentMargin)
             .padding(bottom = AppTheme.dimens.spacingMedium),
-        selectedDay = selectedDay,
+        selectedDay = selectedDay.date,
         onDateSelected = onSelectDate,
     )
 }
 
 @Composable
 private fun HeaderCalendarExpanded(
-    selectedDay: LocalDate,
+    selectedDay: Day,
     onSelectDate: (LocalDate) -> Unit,
 ) {
     HorizontalCalendar(
@@ -351,7 +355,7 @@ private fun HeaderCalendarExpanded(
 private val WindowSizeClass.canExpand: Boolean
     get() =
         widthSizeClass == WindowWidthSizeClass.Compact ||
-            widthSizeClass == WindowWidthSizeClass.Medium
+                widthSizeClass == WindowWidthSizeClass.Medium
 
 @Suppress("MagicNumber")
 @DevicesPreview
@@ -362,8 +366,8 @@ fun AgendaPreview() {
     AtomTheme {
         AgendaScreen(
             state = AgendaState(
-                tasks = Async.Success(
-                    listOf(
+                tasks = TasksState.Success(
+                    persistentListOf(
                         Task(
                             id = 1L,
                             name = "🏋🏼 Go to the gym",

@@ -1,10 +1,10 @@
 package com.costular.atomtasks.ui.features.edittask
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
-import com.costular.core.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -62,9 +62,9 @@ class EditTaskViewModel @Inject constructor(
                         reminderTime = reminder,
                     ),
                 )
-                setState { copy(savingTask = Async.Success(Unit)) }
+                setState { copy(savingTask = SavingState.Success) }
             } catch (e: Exception) {
-                setState { copy(savingTask = Async.Failure(e)) }
+                setState { copy(savingTask = SavingState.Failure) }
             }
         }
     }
@@ -72,7 +72,7 @@ class EditTaskViewModel @Inject constructor(
 
 data class EditTaskState(
     val taskState: TaskState = TaskState.Idle,
-    val savingTask: Async<Unit> = Async.Uninitialized,
+    val savingTask: SavingState = SavingState.Uninitialized,
 ) {
 
     companion object {
@@ -92,4 +92,13 @@ sealed class TaskState {
         val date: LocalDate,
         val reminder: LocalTime?,
     ) : TaskState()
+}
+
+@Stable
+sealed interface SavingState {
+
+    data object Uninitialized : SavingState
+    data object Saving : SavingState
+    data object Failure : SavingState
+    data object Success : SavingState
 }

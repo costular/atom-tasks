@@ -8,9 +8,10 @@ import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.tasks.Task
-import com.costular.core.Async
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import org.junit.Test
 
 @HiltAndroidTest
@@ -65,8 +66,8 @@ class AgendaTest : AndroidTest() {
 
         givenAgenda(
             state = AgendaState(
-                tasks = Async.Success(
-                    listOf(task),
+                tasks = TasksState.Success(
+                    persistentListOf(task),
                 ),
             ),
         )
@@ -95,7 +96,7 @@ class AgendaTest : AndroidTest() {
 
         givenAgenda(
             state = AgendaState(
-                tasks = Async.Success(tasks),
+                tasks = TasksState.Success(tasks.toImmutableList()),
             ),
         )
 
@@ -123,7 +124,7 @@ class AgendaTest : AndroidTest() {
 
         givenAgenda(
             state = AgendaState(
-                tasks = Async.Success(tasks),
+                tasks = TasksState.Success(tasks.toImmutableList()),
             ),
         )
 
@@ -152,7 +153,7 @@ class AgendaTest : AndroidTest() {
 
         givenAgenda(
             state = AgendaState(
-                tasks = Async.Success(tasks),
+                tasks = TasksState.Success(tasks.toImmutableList()),
             ),
         )
 

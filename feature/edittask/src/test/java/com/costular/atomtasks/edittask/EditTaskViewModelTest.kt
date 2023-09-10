@@ -6,8 +6,8 @@ import com.costular.atomtasks.data.util.TaskToday
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
+import com.costular.atomtasks.ui.features.edittask.SavingState
 import com.costular.atomtasks.ui.features.edittask.TaskState
-import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -83,7 +83,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
         )
 
         sut.state.test {
-            assertThat(expectMostRecentItem().savingTask).isInstanceOf(Async.Success::class.java)
+            assertThat(expectMostRecentItem().savingTask).isInstanceOf(SavingState.Success::class.java)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -105,6 +105,6 @@ class EditTaskViewModelTest : MviViewModelTest() {
             reminder = newReminder,
         )
 
-        assertThat(sut.state.value.savingTask).isInstanceOf(Async.Failure::class.java)
+        assertThat(sut.state.value.savingTask).isInstanceOf(SavingState.Failure::class.java)
     }
 }

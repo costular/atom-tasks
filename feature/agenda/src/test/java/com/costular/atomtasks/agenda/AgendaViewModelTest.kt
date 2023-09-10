@@ -10,13 +10,13 @@ import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
-import com.costular.core.Async
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.burnoutcrew.reorderable.ItemPosition
@@ -49,7 +49,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     fun `should expose correct state when land on screen`() = runTest {
         sut.state.test {
             val lastState = expectMostRecentItem()
-            assertThat(lastState.selectedDay).isEqualTo(LocalDate.now())
+            assertThat(lastState.selectedDay.date).isEqualTo(LocalDate.now())
         }
     }
 
@@ -61,7 +61,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.loadTasks()
 
         sut.state.test {
-            assertThat(awaitItem().tasks).isEqualTo(Async.Success(expected))
+            assertThat(awaitItem().tasks).isEqualTo(TasksState.Success(expected.toImmutableList()))
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -72,7 +72,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.setSelectedDayToday()
 
         sut.state.test {
-            assertThat(awaitItem().selectedDay).isEqualTo(LocalDate.now())
+            assertThat(awaitItem().selectedDay.date).isEqualTo(LocalDate.now())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -166,7 +166,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.onDragTask(ItemPosition(from, TASK1_ID), ItemPosition(to, TASK2ID))
 
         val state = sut.state.value
-        val tasks = (state.tasks as Async.Success).data
+        val tasks = (state.tasks as TasksState.Success).data
         assertThat(tasks.first().id).isEqualTo(TASK2ID)
         assertThat(tasks.last().id).isEqualTo(TASK1_ID)
         coVerify(exactly = 0) { moveTaskUseCase(any()) }

@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.designsystem.components.AtomTopBar
@@ -50,7 +50,7 @@ fun SettingsScreen(
     resultRecipient: ResultRecipient<ThemeSelectorScreenDestination, String>,
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(SettingsState.Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     resultRecipient.onNavResult {
         it.getOr { null }?.let { theme ->

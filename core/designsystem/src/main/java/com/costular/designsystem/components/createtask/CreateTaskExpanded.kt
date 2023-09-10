@@ -30,11 +30,11 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DateUtils.timeAsText
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
@@ -47,7 +47,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import java.time.LocalDate
 import java.time.LocalTime
 
-@OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalMaterial3Api
 @Suppress("MagicNumber")
 @Composable
@@ -59,8 +58,7 @@ fun CreateTaskExpanded(
     reminder: LocalTime? = null,
 ) {
     val viewModel: CreateTaskExpandedViewModel = viewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state)
-        .collectAsState(CreateTaskExpandedState.Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val focusRequester = FocusRequester()
 
     LaunchedEffect(Unit) {

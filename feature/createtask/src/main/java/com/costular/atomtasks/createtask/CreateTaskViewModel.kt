@@ -1,8 +1,8 @@
 package com.costular.atomtasks.createtask
 
 import androidx.lifecycle.viewModelScope
+import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.interactor.CreateTaskInteractor
-import com.costular.core.Async
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted
 import com.costular.core.InvokeSuccess
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     private val createTaskInteractor: CreateTaskInteractor,
-) : com.costular.atomtasks.core.ui.mvi.MviViewModel<CreateTaskState>(CreateTaskState.Empty) {
+) : MviViewModel<CreateTaskState>(CreateTaskState.Uninitialized) {
 
     fun createTask(
         name: String,
@@ -34,13 +34,13 @@ class CreateTaskViewModel @Inject constructor(
                 .collect { status ->
                     when (status) {
                         is InvokeStarted -> {
-                            setState { copy(savingTask = Async.Loading) }
+                            setState { CreateTaskState.Loading }
                         }
                         is InvokeSuccess -> {
-                            setState { copy(savingTask = Async.Success(Unit)) }
+                            setState { CreateTaskState.Success }
                         }
                         is InvokeError -> {
-                            setState { copy(savingTask = Async.Failure(status.throwable)) }
+                            setState { CreateTaskState.Failure }
                         }
                     }
                 }

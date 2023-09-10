@@ -1,12 +1,11 @@
 package com.costular.atomtasks.createtask
 
-import com.costular.core.Async
+sealed interface CreateTaskState {
 
-data class CreateTaskState(
-    val savingTask: Async<Unit> = Async.Uninitialized,
-) {
+    data object Uninitialized : CreateTaskState
+    data object Loading : CreateTaskState
+    data object Saving : CreateTaskState
+    data object Success : CreateTaskState
+    data object Failure : CreateTaskState
 
-    companion object {
-        val Empty = CreateTaskState()
-    }
 }

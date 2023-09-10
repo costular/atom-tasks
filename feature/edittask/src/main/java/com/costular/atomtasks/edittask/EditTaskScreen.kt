@@ -12,11 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
 import com.costular.designsystem.components.createtask.CreateTaskExpanded
 import com.costular.designsystem.dialogs.AtomSheet
-import com.costular.core.Async
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
@@ -29,11 +28,11 @@ fun EditTaskScreen(
     navigator: DestinationsNavigator,
     viewModel: EditTaskViewModel = hiltViewModel(),
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(EditTaskState.Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val savingTask = state.savingTask
 
     LaunchedEffect(savingTask) {
-        if (savingTask is Async.Success<*>) {
+        if (savingTask is SavingState.Success) {
             navigator.navigateUp()
         }
     }

@@ -26,16 +26,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.DestinationsBottomSheet
 import com.costular.atomtasks.core.ui.DestinationsScaffold
-import com.costular.atomtasks.core.ui.utils.rememberFlowWithLifecycle
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.NavGraphs
@@ -53,7 +52,7 @@ fun App(
     windowSizeClass: WindowSizeClass,
 ) {
     val viewModel: AppViewModel = hiltViewModel()
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(AppState.Empty)
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val isSystemDarkMode = isSystemInDarkTheme()
 
     val systemUiController = rememberSystemUiController()

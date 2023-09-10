@@ -1,6 +1,7 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import app.cash.paparazzi.Paparazzi
+import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory
 import com.costular.atomtasks.screenshottesting.utils.Theme
@@ -36,7 +37,7 @@ class HorizontalCalendarSnapshotTest {
             HorizontalCalendar(
                 onSelectDay = {},
                 weekDays = WeekDays,
-                selectedDay = LocalDate.of(2023, 9, 1)
+                selectedDay = LocalDate.of(2023, 9, 1).asDay(),
             )
         }
     }

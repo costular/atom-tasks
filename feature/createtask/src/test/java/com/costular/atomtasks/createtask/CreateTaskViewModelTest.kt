@@ -3,10 +3,10 @@ package com.costular.atomtasks.createtask
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.interactor.CreateTaskInteractor
-import com.costular.core.Async
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted
 import com.costular.core.InvokeSuccess
+import com.costular.designsystem.components.createtask.CreateTaskUiEvents
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -52,7 +52,7 @@ class CreateTaskViewModelTest : MviViewModelTest() {
         sut.createTask(name, date, reminder)
 
         sut.state.test {
-            assertThat(expectMostRecentItem().savingTask).isInstanceOf(Async.Success::class.java)
+            assertThat(expectMostRecentItem()).isInstanceOf(CreateTaskState.Success::class.java)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -70,7 +70,7 @@ class CreateTaskViewModelTest : MviViewModelTest() {
         sut.createTask("whatever", LocalDate.now(), LocalTime.now())
 
         sut.state.test {
-            assertThat(expectMostRecentItem().savingTask).isEqualTo(Async.Failure(exception))
+            assertThat(expectMostRecentItem()).isInstanceOf(CreateTaskState.Failure::class.java)
             cancelAndIgnoreRemainingEvents()
         }
     }

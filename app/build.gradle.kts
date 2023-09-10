@@ -99,7 +99,7 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.core)
     implementation(libs.appcompat)
-    implementation(libs.lifecycle.runtime)
+    implementation(libs.lifecycle.compose)
     implementation(libs.viewmodel)
     implementation(libs.timber)
     implementation(libs.hilt)

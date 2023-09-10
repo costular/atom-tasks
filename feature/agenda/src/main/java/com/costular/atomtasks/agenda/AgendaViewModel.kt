@@ -2,15 +2,17 @@ package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
+import com.costular.atomtasks.coreui.date.Day
+import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
-import com.costular.core.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -43,22 +45,26 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun setSelectedDay(localDate: LocalDate) = viewModelScope.launch {
-        setState { copy(selectedDay = localDate, isHeaderExpanded = false) }
+        setState { copy(selectedDay = localDate.asDay(), isHeaderExpanded = false) }
         loadTasks()
     }
 
     fun loadTasks() {
         viewModelScope.launch {
-            observeTasksUseCase(ObserveTasksUseCase.Params(day = state.value.selectedDay))
-                .onStart { setState { copy(tasks = Async.Loading) } }
-                .catch { setState { copy(tasks = Async.Failure(it)) } }
-                .collect { setState { copy(tasks = Async.Success(it)) } }
+            observeTasksUseCase(ObserveTasksUseCase.Params(day = state.value.selectedDay.date))
+                .onStart { setState { copy(tasks = TasksState.Loading) } }
+                .catch { setState { copy(tasks = TasksState.Failure) } }
+                .collect { setState { copy(tasks = TasksState.Success(it.toImmutableList())) } }
         }
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
         dismissTaskAction()
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
+
+        if (isDone) {
+
+        }
     }
 
     fun openTaskAction(task: com.costular.atomtasks.tasks.Task) {
@@ -96,17 +102,17 @@ class AgendaViewModel @Inject constructor(
         val data = state.value
         val tasks = data.tasks
 
-        if (tasks is Async.Success) {
+        if (tasks is TasksState.Success) {
             val toIndex = tasks.data.indexOfFirst { it.id == to.key }
             val fromIndex = tasks.data.indexOfFirst { it.id == from.key }
 
             if (toIndex < 0 || fromIndex < 0) return
             setState {
                 copy(
-                    tasks = Async.Success(
+                    tasks = TasksState.Success(
                         tasks.data.toMutableList().apply {
                             add(toIndex, removeAt(fromIndex))
-                        },
+                        }.toImmutableList(),
                     ),
                 )
             }
@@ -117,10 +123,10 @@ class AgendaViewModel @Inject constructor(
         viewModelScope.launch {
             val state = state.value
 
-            if (state.tasks is Async.Success) {
+            if (state.tasks is TasksState.Success) {
                 moveTaskUseCase(
                     MoveTaskUseCase.Params(
-                        day = state.selectedDay,
+                        day = state.selectedDay.date,
                         fromPosition = from + 1,
                         toPosition = to + 1,
                     ),

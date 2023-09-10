@@ -1,10 +1,10 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 coroutines = "1.7.2"
 
 core = "1.12.0-alpha05"
 appCompat = "1.7.0-alpha02"
-lifecycle = "2.6.1"
+lifecycle = "2.6.2"
 viewModelCompose = "2.6.1"
 mockk = "1.13.3"
 hilt = "2.46.1"
@@ -22,18 +22,19 @@ paparazzi = "1.3.1"
 composeDestinations = "1.9.50"
 junit5 = "5.9.0"
 
-ksp = "1.9.0-1.0.13"
+ksp = "1.9.10-1.0.13"
 jacoco = "0.8.7"
-androidxComposeBom = "2023.08.00"
-composeCompiler = "1.5.1"
+androidxComposeBom = "2023.09.00"
+composeCompiler = "1.5.3"
 reordeable = "0.9.6"
+collectionsImmutable = "0.3.5"
 
 [libraries]
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewModelCompose" }
-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-androidx-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltAndroidx" }
@@ -87,6 +88,7 @@ androidx-test-rules = { module = "androidx.test:rules", version.ref = "testRunne
 android-desugarjdk = "com.android.tools:desugar_jdk_libs:2.0.3"
 robolectric = "org.robolectric:robolectric:4.10.3"
 testparameterinjector = "com.google.testparameterinjector:test-parameter-injector:1.11"
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
 
 androidGradle = "com.android.tools.build:gradle:8.1.1"
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
