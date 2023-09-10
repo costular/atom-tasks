@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.tasks.Task
 import com.costular.atomtasks.tasks.TaskList
+import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
@@ -51,7 +53,6 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
-import com.theapache64.rebugger.Rebugger
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.collections.immutable.persistentListOf
@@ -211,9 +212,15 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
             )
         }
-
+        TasksState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularLoadingIndicator()
+            }
+        }
         is TasksState.Failure -> {}
-        TasksState.Loading -> {}
         TasksState.Uninitialized -> {}
     }
 }
