@@ -9,7 +9,6 @@ import kotlinx.collections.immutable.ImmutableList
 data class AgendaState(
     val selectedDay: Day = LocalDate.now().asDay(),
     val tasks: TasksState = TasksState.Uninitialized,
-    val taskAction: Task? = null,
     val deleteTaskAction: DeleteTaskAction = DeleteTaskAction.Hidden,
     val isHeaderExpanded: Boolean = false,
 ) {

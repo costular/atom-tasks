@@ -59,32 +59,12 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
-        dismissTaskAction()
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
-
-        if (isDone) {
-
-        }
-    }
-
-    fun openTaskAction(task: com.costular.atomtasks.tasks.Task) {
-        setState {
-            copy(taskAction = task)
-        }
-    }
-
-    fun dismissTaskAction() {
-        setState {
-            copy(taskAction = null)
-        }
     }
 
     fun actionDelete(id: Long) {
         setState {
-            copy(
-                taskAction = null,
-                deleteTaskAction = DeleteTaskAction.Shown(id),
-            )
+            copy(deleteTaskAction = DeleteTaskAction.Shown(id))
         }
     }
 

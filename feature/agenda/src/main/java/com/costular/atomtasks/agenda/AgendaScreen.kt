@@ -24,7 +24,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.costular.atomtasks.agenda.actions.TaskActionsResult
+import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
@@ -48,11 +49,12 @@ import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
 import com.costular.designsystem.dialogs.RemoveTaskDialog
-import com.costular.designsystem.dialogs.TaskActionDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.collections.immutable.persistentListOf
@@ -66,10 +68,12 @@ const val TestTagHeader = "AgendaTitle"
 @Composable
 fun AgendaScreen(
     navigator: AgendaNavigator,
+    resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
     windowSizeClass: WindowSizeClass,
 ) {
     AgendaScreen(
         navigator = navigator,
+        resultRecipient = resultRecipient,
         windowSizeClass = windowSizeClass,
         viewModel = hiltViewModel(),
     )
@@ -78,30 +82,73 @@ fun AgendaScreen(
 @Composable
 internal fun AgendaScreen(
     navigator: AgendaNavigator,
+    resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
     windowSizeClass: WindowSizeClass,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    HandleResultRecipients(
+        resultRecipient = resultRecipient,
+        onEdit = { taskId ->
+            navigator.navigateToEditTask(taskId)
+        },
+        onDelete = viewModel::actionDelete,
+        onMarkTask = viewModel::onMarkTask,
+    )
 
     AgendaScreen(
         state = state,
         windowSizeClass = windowSizeClass,
         onSelectDate = viewModel::setSelectedDay,
         onSelectToday = viewModel::setSelectedDayToday,
-        actionDelete = viewModel::actionDelete,
-        dismissTaskAction = viewModel::dismissTaskAction,
         onMarkTask = viewModel::onMarkTask,
         deleteTask = viewModel::deleteTask,
         dismissDelete = viewModel::dismissDelete,
-        openTaskAction = viewModel::openTaskAction,
-        onEditAction = { taskId ->
-            viewModel.dismissTaskAction()
-            navigator.navigateToEditTask(taskId)
+        openTaskAction = { task ->
+            navigator.openTaskActions(
+                taskId = task.id,
+                taskName = task.name,
+                isDone = task.isDone,
+            )
         },
         onToggleExpandCollapse = viewModel::toggleHeader,
         onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
     )
+}
+
+@Composable
+private fun HandleResultRecipients(
+    resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
+    onEdit: (Long) -> Unit,
+    onDelete: (Long) -> Unit,
+    onMarkTask: (Long, Boolean) -> Unit,
+) {
+    resultRecipient.onNavResult { result ->
+        when (result) {
+            is NavResult.Canceled -> Unit
+            is NavResult.Value -> {
+                when (val response = result.value) {
+                    is TaskActionsResult.Remove -> {
+                        onDelete(response.taskId)
+                    }
+
+                    is TaskActionsResult.Edit -> {
+                        onEdit(response.taskId)
+                    }
+
+                    is TaskActionsResult.MarkAsNotDone -> {
+                        onMarkTask(response.taskId, false)
+                    }
+
+                    is TaskActionsResult.MarkAsDone -> {
+                        onMarkTask(response.taskId, true)
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Suppress("LongMethod", "LongParameterList")
@@ -111,39 +158,14 @@ fun AgendaScreen(
     windowSizeClass: WindowSizeClass,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
-    actionDelete: (id: Long) -> Unit,
-    dismissTaskAction: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
     dismissDelete: () -> Unit,
     openTaskAction: (Task) -> Unit,
-    onEditAction: (id: Long) -> Unit,
     onToggleExpandCollapse: () -> Unit,
     onMoveTask: (Int, Int) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
 ) {
-    if (state.taskAction != null) {
-        TaskActionDialog(
-            taskName = state.taskAction.name,
-            isDone = state.taskAction.isDone,
-            onDelete = {
-                actionDelete(requireNotNull(state.taskAction).id)
-            },
-            onDismissRequest = {
-                dismissTaskAction()
-            },
-            onDone = {
-                onMarkTask(requireNotNull(state.taskAction).id, true)
-            },
-            onUndone = {
-                onMarkTask(requireNotNull(state.taskAction).id, false)
-            },
-            onEdit = {
-                onEditAction(requireNotNull(state.taskAction).id)
-            },
-        )
-    }
-
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
         RemoveTaskDialog(
             onAccept = {
@@ -212,6 +234,7 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
             )
         }
+
         TasksState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -220,6 +243,7 @@ private fun TasksContent(
                 CircularLoadingIndicator()
             }
         }
+
         is TasksState.Failure -> {}
         TasksState.Uninitialized -> {}
     }
@@ -409,14 +433,11 @@ fun AgendaPreview() {
             windowSizeClass = windowSizeClass,
             onSelectDate = {},
             onSelectToday = {},
-            actionDelete = {},
-            dismissTaskAction = {},
             onMarkTask = { _, _ -> },
             onToggleExpandCollapse = {},
             deleteTask = {},
             dismissDelete = {},
             openTaskAction = {},
-            onEditAction = {},
             onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
         )
