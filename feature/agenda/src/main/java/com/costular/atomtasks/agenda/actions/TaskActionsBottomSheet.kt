@@ -7,14 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -59,16 +56,7 @@ fun ColumnScope.TasksActionsBottomSheet(
 
             Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
 
-            Text(
-                text = taskName ?: "",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimens.contentMargin)
-                    .testTag("TaskActionTitle"),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            TaskTitle(taskName)
 
             HorizontalDivider(
                 modifier = Modifier
@@ -79,36 +67,78 @@ fun ColumnScope.TasksActionsBottomSheet(
             )
 
             if (!isDone) {
-                ActionItem(
-                    icon = Icons.Outlined.Done,
-                    text = stringResource(R.string.agenda_mark_as_done),
-                    onClick = { result.navigateBack(TaskActionsResult.MarkAsDone(taskId)) },
-                    modifier = Modifier.testTag("TaskActionDone"),
-                )
+                MarkAsDoneItem {
+                    result.navigateBack(TaskActionsResult.MarkAsDone(taskId))
+                }
             } else {
-                ActionItem(
-                    icon = Icons.Outlined.Close,
-                    text = stringResource(R.string.agenda_mark_as_undone),
-                    onClick = { result.navigateBack(TaskActionsResult.MarkAsNotDone(taskId)) },
-                    modifier = Modifier.testTag("TaskActionUndone"),
-                )
+                MarkAsUndoneItem {
+                    result.navigateBack(TaskActionsResult.MarkAsNotDone(taskId))
+                }
             }
 
-            ActionItem(
-                icon = Icons.Outlined.Edit,
-                text = stringResource(R.string.agenda_edit_task),
-                onClick = { result.navigateBack(TaskActionsResult.Edit(taskId)) },
-                modifier = Modifier.testTag("TaskActionEdit"),
-            )
+            EditActionItem {
+                result.navigateBack(TaskActionsResult.Edit(taskId))
+            }
 
-            ActionItem(
-                icon = Icons.Outlined.Delete,
-                text = stringResource(R.string.agenta_delete_task),
-                onClick = { result.navigateBack(TaskActionsResult.Remove(taskId)) },
-                modifier = Modifier.testTag("TaskActionDelete"),
-            )
+            DeleteItem {
+                result.navigateBack(TaskActionsResult.Remove(taskId))
+            }
         }
     }
+}
+
+@Composable
+private fun TaskTitle(taskName: String) {
+    Text(
+        text = taskName,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = AppTheme.dimens.contentMargin)
+            .testTag("TaskActionTitle"),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+    )
+}
+
+@Composable
+private fun DeleteItem(onDelete: () -> Unit) {
+    ActionItem(
+        icon = Icons.Outlined.Delete,
+        text = stringResource(R.string.agenta_delete_task),
+        onClick = onDelete,
+        modifier = Modifier.testTag("TaskActionDelete"),
+    )
+}
+
+@Composable
+private fun EditActionItem(onEdit: () -> Unit) {
+    ActionItem(
+        icon = Icons.Outlined.Edit,
+        text = stringResource(R.string.agenda_edit_task),
+        onClick = onEdit,
+        modifier = Modifier.testTag("TaskActionEdit"),
+    )
+}
+
+@Composable
+private fun MarkAsUndoneItem(onUndone: () -> Unit) {
+    ActionItem(
+        icon = Icons.Outlined.Close,
+        text = stringResource(R.string.agenda_mark_as_undone),
+        onClick = onUndone,
+        modifier = Modifier.testTag("TaskActionUndone"),
+    )
+}
+
+@Composable
+private fun MarkAsDoneItem(onDone: () -> Unit) {
+    ActionItem(
+        icon = Icons.Outlined.Done,
+        text = stringResource(R.string.agenda_mark_as_done),
+        onClick = onDone,
+        modifier = Modifier.testTag("TaskActionDone"),
+    )
 }
 
 @Preview

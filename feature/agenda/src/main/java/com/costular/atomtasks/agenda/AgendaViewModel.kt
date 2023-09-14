@@ -2,7 +2,6 @@ package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
