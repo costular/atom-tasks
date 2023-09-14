@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
+import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.Task
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate
@@ -21,7 +22,7 @@ class AgendaTest : AndroidTest() {
     fun shouldShowYesterdayHeader_whenSelectedDayIsYesterday() {
         givenAgenda(
             state = AgendaState(
-                selectedDay = LocalDate.now().minusDays(1),
+                selectedDay = LocalDate.now().minusDays(1).asDay(),
             ),
         )
 
@@ -34,7 +35,7 @@ class AgendaTest : AndroidTest() {
     fun shouldShowTomorrowHeader_whenSelectedDayIsTomorrow() {
         givenAgenda(
             state = AgendaState(
-                selectedDay = LocalDate.now().plusDays(1),
+                selectedDay = LocalDate.now().plusDays(1).asDay(),
             ),
         )
 
