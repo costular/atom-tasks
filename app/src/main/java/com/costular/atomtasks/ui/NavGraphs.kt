@@ -1,6 +1,7 @@
 package com.costular.atomtasks.ui
 
 import com.costular.atomtasks.agenda.destinations.AgendaScreenDestination
+import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.destinations.SettingsScreenDestination
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
@@ -18,6 +19,7 @@ object NavGraphs {
 
         override val destinationsByRoute = listOf<DestinationSpec<*>>(
             AgendaScreenDestination,
+            TasksActionsBottomSheetDestination,
         ).associateBy { it.route }
     }
 

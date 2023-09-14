@@ -9,4 +9,10 @@ interface AgendaNavigator {
     fun navigateToEditTask(
         taskId: Long,
     )
+
+    fun openTaskActions(
+        taskId: Long,
+        taskName: String,
+        isDone: Boolean,
+    )
 }

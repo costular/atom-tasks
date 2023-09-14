@@ -2,7 +2,6 @@ package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
@@ -59,32 +58,12 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
-        dismissTaskAction()
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
-
-        if (isDone) {
-
-        }
-    }
-
-    fun openTaskAction(task: com.costular.atomtasks.tasks.Task) {
-        setState {
-            copy(taskAction = task)
-        }
-    }
-
-    fun dismissTaskAction() {
-        setState {
-            copy(taskAction = null)
-        }
     }
 
     fun actionDelete(id: Long) {
         setState {
-            copy(
-                taskAction = null,
-                deleteTaskAction = DeleteTaskAction.Shown(id),
-            )
+            copy(deleteTaskAction = DeleteTaskAction.Shown(id))
         }
     }
 

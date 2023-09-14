@@ -6,7 +6,6 @@ import com.costular.atomtasks.tasks.interactor.CreateTaskInteractor
 import com.costular.core.InvokeError
 import com.costular.core.InvokeStarted
 import com.costular.core.InvokeSuccess
-import com.costular.designsystem.components.createtask.CreateTaskUiEvents
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

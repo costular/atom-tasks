@@ -35,9 +35,9 @@ fun AtomSheet(
     Column(modifier) {
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Draggable()
-        }
+        Draggable(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
 
         Row(
             modifier = Modifier
