@@ -1,13 +1,20 @@
 package com.costular.atomtasks.agenda.actions
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-sealed class TaskActionsResult(open val taskId: Long) : Serializable {
-    data class MarkAsDone(override val taskId: Long) : TaskActionsResult(taskId)
+@Parcelize
+sealed class TaskActionsResult(open val taskId: Long) : Parcelable {
 
-    data class MarkAsNotDone(override val taskId: Long) : TaskActionsResult(taskId)
+    @Parcelize
+    data class MarkAsDone(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
 
-    data class Edit(override val taskId: Long) : TaskActionsResult(taskId)
+    @Parcelize
+    data class MarkAsNotDone(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
 
-    data class Remove(override val taskId: Long) : TaskActionsResult(taskId)
+    @Parcelize
+    data class Edit(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
+
+    @Parcelize
+    data class Remove(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
 }
