@@ -173,7 +173,7 @@ internal fun CreateTaskExpanded(
             Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
 
             Text(
-                text = stringResource(R.string.create_task_date_in_the_past),
+                text = stringResource(R.string.create_task_reminder_past_error),
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.error,
             )
