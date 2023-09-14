@@ -5,6 +5,7 @@ plugins {
     id("atomtasks.android.library.ksp")
     id("kotlin-android")
     kotlin("kapt")
+    id("kotlin-parcelize")
     alias(libs.plugins.ksp)
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
