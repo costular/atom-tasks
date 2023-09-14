@@ -209,7 +209,7 @@ private fun CreateTaskInput(
             .testTag("CreateTaskInput")
             .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge,
-        maxLines = 2,
+        maxLines = 5,
     )
 }
 
