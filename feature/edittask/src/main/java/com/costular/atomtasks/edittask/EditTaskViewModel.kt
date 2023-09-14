@@ -40,7 +40,7 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun editTask(
         name: String,
         date: LocalDate,
