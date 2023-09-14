@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class RemovableChipSnapshotTest {
+class ClearableChipSnapshotTest {
 
     @TestParameter
     private lateinit var fontScale: FontSize
@@ -40,6 +40,7 @@ class RemovableChipSnapshotTest {
                 isSelected = false,
                 onClick = {},
                 onClear = {},
+                isError = false,
             )
         }
     }
@@ -56,6 +57,24 @@ class RemovableChipSnapshotTest {
                 isSelected = true,
                 onClick = {},
                 onClear = {},
+                isError = false,
+            )
+        }
+    }
+
+    @Test
+    fun removableChipSelectedWithError() {
+        paparazzi.screenshot(
+            isDarkTheme = themeMode.isDarkTheme(),
+            fontScale = fontScale.asFloat(),
+        ) {
+            ClearableChip(
+                title = "Reminder",
+                icon = Icons.Default.CalendarToday,
+                isSelected = true,
+                onClick = {},
+                onClear = {},
+                isError = true,
             )
         }
     }
