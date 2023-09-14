@@ -45,7 +45,7 @@
     <string name="notification_reminder_postpone">Postpone 1 hour</string>
 
     <!-- Settings -->
-    <string name="settings" translatable="false">Settings</string>
+    <string name="settings">Settings</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
@@ -58,5 +58,6 @@
     <string name="save">Save</string>
     <string name="content_description_chip_clear">Clear</string>
     <string name="agenda_edit_title">Edit task</string>
+    <string name="create_task_reminder_past_error">The reminder is set for a past date. Select a future reminder</string>
 
 </resources>

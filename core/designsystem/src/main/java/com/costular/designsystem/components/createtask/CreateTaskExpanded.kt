@@ -35,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DateUtils.timeAsText
+import com.costular.core.util.DateTimeFormatters
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
@@ -145,6 +146,7 @@ internal fun CreateTaskExpanded(
                 isSelected = false,
                 onClick = onClickDate,
                 onClear = onClearReminder,
+                isError = false,
                 modifier = Modifier.testTag("CreateTaskExpandedDate"),
             )
 
@@ -162,7 +164,18 @@ internal fun CreateTaskExpanded(
                 isSelected = state.reminder != null,
                 onClick = onClickReminder,
                 onClear = onClearReminder,
+                isError = state.isReminderError,
                 modifier = Modifier.testTag("CreateTaskExpandedReminder"),
+            )
+        }
+
+        if (state.isReminderError) {
+            Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
+
+            Text(
+                text = stringResource(R.string.create_task_date_in_the_past),
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.error,
             )
         }
 
@@ -221,6 +234,22 @@ fun SaveButton(
     }
 }
 
+@Composable
+@OptIn(ExperimentalPermissionsApi::class)
+private fun NotificationPermissionEffect() {
+    if (LocalInspectionMode.current) return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+    val notificationsPermissionState = rememberPermissionState(
+        android.Manifest.permission.POST_NOTIFICATIONS,
+    )
+    LaunchedEffect(notificationsPermissionState) {
+        val status = notificationsPermissionState.status
+        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
+            notificationsPermissionState.launchPermissionRequest()
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun CreateTaskExpandedPreview() {
@@ -241,11 +270,12 @@ fun CreateTaskExpandedPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun CreateTaskExpandedWithoutPermissionGrantedPreview() {
+fun CreateTaskExpandedWithPastReminderErrorPreview() {
     AtomTheme {
         CreateTaskExpanded(
             state = CreateTaskExpandedState(
                 name = "🏃🏻‍♀️ Go out for running!",
+                reminder = LocalTime.now().minusHours(1),
             ),
             focusRequester = FocusRequester(),
             onValueChange = {},
@@ -254,21 +284,5 @@ fun CreateTaskExpandedWithoutPermissionGrantedPreview() {
             onSave = {},
             onClearReminder = {},
         )
-    }
-}
-
-@Composable
-@OptIn(ExperimentalPermissionsApi::class)
-private fun NotificationPermissionEffect() {
-    if (LocalInspectionMode.current) return
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
-    val notificationsPermissionState = rememberPermissionState(
-        android.Manifest.permission.POST_NOTIFICATIONS,
-    )
-    LaunchedEffect(notificationsPermissionState) {
-        val status = notificationsPermissionState.status
-        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
-            notificationsPermissionState.launchPermissionRequest()
-        }
     }
 }

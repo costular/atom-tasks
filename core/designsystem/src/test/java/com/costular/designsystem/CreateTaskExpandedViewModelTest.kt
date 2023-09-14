@@ -103,4 +103,26 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
             assertThat(expectMostRecentItem()).isEqualTo(CreateTaskExpandedState.Empty)
         }
     }
+
+    @Test
+    fun `should show error when reminder is in the past`() = runTest {
+        val date = LocalDate.now()
+        val reminder = LocalTime.now().minusHours(2)
+
+        sut.setDate(date)
+        sut.setReminder(reminder)
+
+        assertThat(sut.state.value.isReminderError).isTrue()
+    }
+
+    @Test
+    fun `should show no error when reminder is in the future`() = runTest {
+        val date = LocalDate.now().plusDays(1)
+        val reminder = LocalTime.now().minusHours(2)
+
+        sut.setDate(date)
+        sut.setReminder(reminder)
+
+        assertThat(sut.state.value.isReminderError).isFalse()
+    }
 }

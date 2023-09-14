@@ -21,7 +21,10 @@ class CreateTaskExpandedViewModel :
 
     fun setReminder(localTime: LocalTime?) {
         setState {
-            copy(reminder = localTime, showSetReminder = false)
+            copy(
+                reminder = localTime,
+                showSetReminder = false,
+            )
         }
     }
 
