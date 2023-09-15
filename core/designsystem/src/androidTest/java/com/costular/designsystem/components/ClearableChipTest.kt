@@ -15,7 +15,7 @@ import org.junit.Test
 import com.costular.atomtasks.core.ui.R
 
 @HiltAndroidTest
-class RemovableChipTest : AndroidTest() {
+class ClearableChipTest : AndroidTest() {
 
     private val clearButton by lazy {
         composeTestRule.onNodeWithContentDescription(
@@ -34,6 +34,7 @@ class RemovableChipTest : AndroidTest() {
                 isSelected = false,
                 onClick = {},
                 onClear = {},
+                isError = false,
             )
         }
 
@@ -50,6 +51,7 @@ class RemovableChipTest : AndroidTest() {
                 isSelected = true,
                 onClick = {},
                 onClear = {},
+                isError = false,
             )
         }
 
@@ -67,6 +69,7 @@ class RemovableChipTest : AndroidTest() {
                 isSelected = true,
                 onClick = {},
                 onClear = callback,
+                isError = false,
             )
         }
 

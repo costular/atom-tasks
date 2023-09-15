@@ -1,6 +1,7 @@
 package com.costular.designsystem.components.createtask
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class CreateTaskExpandedState(
@@ -10,7 +11,11 @@ data class CreateTaskExpandedState(
     val showSetDate: Boolean = false,
     val showSetReminder: Boolean = false,
 ) {
-    val shouldShowSend: Boolean get() = name.isNotBlank()
+    val shouldShowSend: Boolean
+        get() = name.isNotBlank()
+
+    val isReminderError: Boolean
+        get() = reminder?.atDate(date)?.isBefore(LocalDateTime.now()) ?: false
 
     companion object {
         val Empty = CreateTaskExpandedState()

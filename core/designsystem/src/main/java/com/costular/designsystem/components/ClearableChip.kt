@@ -5,8 +5,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,16 +18,32 @@ import com.costular.atomtasks.core.ui.R
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClearableChip(
     title: String,
     icon: ImageVector,
     isSelected: Boolean,
+    isError: Boolean,
     onClick: () -> Unit,
     onClear: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val border = if (isError) {
+        AssistChipDefaults.assistChipBorder(borderColor = MaterialTheme.colorScheme.error)
+    } else {
+        AssistChipDefaults.assistChipBorder()
+    }
+
+    val chipColors = if (isError) {
+        AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            labelColor = MaterialTheme.colorScheme.onErrorContainer,
+            leadingIconContentColor = MaterialTheme.colorScheme.onErrorContainer,
+        )
+    } else {
+        AssistChipDefaults.assistChipColors()
+    }
+
     AssistChip(
         modifier = modifier,
         onClick = {
@@ -60,6 +77,8 @@ fun ClearableChip(
                 )
             }
         },
+        border = border,
+        colors = chipColors,
     )
 }
 
@@ -71,6 +90,7 @@ fun ClearableChipPreview() {
             title = "1 May 2022",
             icon = Icons.Default.CalendarToday,
             isSelected = false,
+            isError = false,
             onClick = {},
             onClear = {},
         )
@@ -85,6 +105,37 @@ fun ClearableChipSelectedPreview() {
             title = "1 May 2022",
             icon = Icons.Default.CalendarToday,
             isSelected = true,
+            isError = false,
+            onClick = {},
+            onClear = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ClearableChipErrorPreview() {
+    AtomTheme {
+        ClearableChip(
+            title = "1 May 2022",
+            icon = Icons.Default.CalendarToday,
+            isSelected = false,
+            isError = true,
+            onClick = {},
+            onClear = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ClearableChipErrorSelectedPreview() {
+    AtomTheme {
+        ClearableChip(
+            title = "1 May 2022",
+            icon = Icons.Default.CalendarToday,
+            isSelected = true,
+            isError = true,
             onClick = {},
             onClear = {},
         )
