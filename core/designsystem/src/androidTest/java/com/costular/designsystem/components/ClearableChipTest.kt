@@ -15,7 +15,7 @@ import org.junit.Test
 import com.costular.atomtasks.core.ui.R
 
 @HiltAndroidTest
-class RemovableChipTest : AndroidTest() {
+class ClearableChipTest : AndroidTest() {
 
     private val clearButton by lazy {
         composeTestRule.onNodeWithContentDescription(
