@@ -24,6 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +69,7 @@ const val TestTagHeader = "AgendaTitle"
 @Composable
 fun AgendaScreen(
     navigator: AgendaNavigator,
+    setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
     windowSizeClass: WindowSizeClass,
 ) {
@@ -82,11 +84,19 @@ fun AgendaScreen(
 @Composable
 internal fun AgendaScreen(
     navigator: AgendaNavigator,
+    setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
     windowSizeClass: WindowSizeClass,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        setFabOnClick {
+            viewModel.onCreateTask()
+            navigator.navigateToCreateTask(state.selectedDay.date.toString())
+        }
+    }
 
     HandleResultRecipients(
         resultRecipient = resultRecipient,
