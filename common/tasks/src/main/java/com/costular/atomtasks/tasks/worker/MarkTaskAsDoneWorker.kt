@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.tasks.manager.TaskNotificationManager
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import dagger.assisted.Assisted

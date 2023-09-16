@@ -88,6 +88,7 @@ fun App(
     }
 }
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun Home(

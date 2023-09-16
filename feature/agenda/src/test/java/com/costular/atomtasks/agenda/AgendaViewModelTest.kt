@@ -6,7 +6,6 @@ import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.Task
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
