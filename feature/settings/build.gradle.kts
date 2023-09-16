@@ -21,6 +21,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.analytics)
+    implementation(project(mapOf("path" to ":feature:agenda")))
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)

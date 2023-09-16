@@ -75,6 +75,7 @@ fun AgendaScreen(
 ) {
     AgendaScreen(
         navigator = navigator,
+        setFabOnClick = setFabOnClick,
         resultRecipient = resultRecipient,
         windowSizeClass = windowSizeClass,
         viewModel = hiltViewModel(),
@@ -101,6 +102,7 @@ internal fun AgendaScreen(
     HandleResultRecipients(
         resultRecipient = resultRecipient,
         onEdit = { taskId ->
+            viewModel.onEditTask()
             navigator.navigateToEditTask(taskId)
         },
         onDelete = viewModel::actionDelete,
@@ -116,6 +118,7 @@ internal fun AgendaScreen(
         deleteTask = viewModel::deleteTask,
         dismissDelete = viewModel::dismissDelete,
         openTaskAction = { task ->
+            viewModel.onOpenTaskActions()
             navigator.openTaskActions(
                 taskId = task.id,
                 taskName = task.name,
@@ -424,7 +427,7 @@ fun AgendaPreview() {
                             position = 0,
                         ),
                         Task(
-                            id = 1L,
+                            id = 2L,
                             name = "🎹 Play the piano!",
                             createdAt = LocalDate.now(),
                             day = LocalDate.now(),

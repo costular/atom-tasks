@@ -60,6 +60,7 @@ fun DestinationScopeWithNoDependencies<*>.currentNavigator(): AppNavigator {
 @Composable
 internal fun AppNavigation(
     appState: AtomAppState,
+    fabClick: (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DestinationsNavHost(
@@ -70,6 +71,7 @@ internal fun AppNavigation(
         dependenciesContainerBuilder = {
             dependency(currentNavigator())
             dependency(appState.windowSizeClass)
+            dependency(fabClick)
         },
     )
 }

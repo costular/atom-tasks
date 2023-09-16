@@ -43,6 +43,7 @@ configurations {
 }
 
 dependencies {
+    implementation(projects.core.analytics)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
 
