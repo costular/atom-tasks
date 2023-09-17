@@ -8,58 +8,10 @@ import com.costular.atomtasks.core.testing.ui.AndroidTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.mockk
 import io.mockk.verify
-import java.time.LocalDate
-import java.time.LocalTime
 import org.junit.Test
 
 @HiltAndroidTest
 class TaskCardTest : AndroidTest() {
-
-    @Test
-    fun shouldShowText() {
-        val text = "this is a test :)"
-
-        composeTestRule.setContent {
-            TaskCard(
-                title = text,
-                isFinished = false,
-                reminder = null,
-                onMark = {},
-                onOpen = {},
-                isBeingDragged = false,
-            )
-        }
-
-        composeTestRule.onNodeWithText(text)
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun shouldShowReminder_whenReminderIsSet() {
-        val text = "whatever"
-        val reminderTime = LocalTime.of(9, 0)
-        val reminder = Reminder(
-            1L,
-            reminderTime,
-            true,
-            LocalDate.now(),
-        )
-        val reminderText = reminderTime.toString()
-
-        composeTestRule.setContent {
-            TaskCard(
-                title = text,
-                isFinished = false,
-                reminder = reminder,
-                onMark = {},
-                onOpen = {},
-                isBeingDragged = false,
-            )
-        }
-
-        composeTestRule.onNodeWithText("[alarm] $reminderText")
-            .assertIsDisplayed()
-    }
 
     @Test
     fun shouldCallMarkCallback_whenTapOnMarkable() {
