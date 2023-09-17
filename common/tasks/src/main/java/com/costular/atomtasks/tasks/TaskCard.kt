@@ -40,7 +40,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.costular.core.util.DateTimeFormatters
+import com.costular.atomtasks.coreui.utils.ofLocalizedTime
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.decorator.strikeThrough
 import com.costular.designsystem.theme.AppTheme
@@ -104,7 +104,7 @@ fun TaskCard(
                             val alarmText = buildAnnotatedString {
                                 appendInlineContent(ReminderIconId, "[alarm]")
                                 append(" ")
-                                append(reminderAsText(reminder))
+                                append(reminder.time.ofLocalizedTime())
                             }
                             Text(
                                 text = alarmText,
@@ -170,9 +170,6 @@ private fun reminderInline(mediumColor: Color) = mapOf(
         },
     ),
 )
-
-fun reminderAsText(reminder: Reminder): String =
-    DateTimeFormatters.timeFormatter.format(reminder.time)
 
 @Composable
 private fun MutableInteractionSource.reorderableDragInteractions(isDragging: Boolean) {

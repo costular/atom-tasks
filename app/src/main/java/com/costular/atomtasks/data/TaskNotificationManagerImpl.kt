@@ -55,8 +55,8 @@ class TaskNotificationManagerImpl(
         }
 
         val builder = buildNotificationBase(ChannelReminders)
-            .setContentTitle(task.name)
-            .setContentText(context.getString(R.string.notification_reminder))
+            .setContentTitle(context.getString(R.string.notification_reminder))
+            .setContentText(task.name)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setStyle(
                 NotificationCompat.BigTextStyle()
