@@ -3,6 +3,8 @@ package com.costular.atomtasks.agenda
 import app.cash.turbine.test
 import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
 import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
+import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.Task
@@ -14,6 +16,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.verify
 import java.time.LocalDate
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toImmutableList
@@ -33,6 +36,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
     private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
+    private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -42,6 +46,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             removeTaskInteractor = removeTaskInteractor,
             autoforwardManager = autoforwardManager,
             moveTaskUseCase = moveTaskUseCase,
+            atomAnalytics = atomAnalytics,
         )
     }
 
@@ -194,6 +199,119 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
     }
 
+    @Test
+    fun `should track event when expand header`() = runTest {
+        sut.toggleHeader()
+
+        verify {
+            atomAnalytics.track(AgendaAnalytics.ExpandCalendar)
+        }
+    }
+
+    @Test
+    fun `should track event when collapse header`() = runTest {
+        sut.toggleHeader()
+        sut.toggleHeader()
+
+        verify(exactly = 1) {
+            atomAnalytics.track(AgendaAnalytics.CollapseCalendar)
+        }
+    }
+
+    @Test
+    fun `should track event when moving a task`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        val from = 0
+        val to = 1
+
+        sut.loadTasks()
+        sut.onMoveTask(from, to)
+
+        verify { atomAnalytics.track(AgendaAnalytics.OrderTask) }
+    }
+
+    @Test
+    fun `should track event when mark task as done`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+
+        sut.loadTasks()
+        sut.onMarkTask(expected.first().id, true)
+
+        verify {
+            atomAnalytics.track(AgendaAnalytics.MarkTaskAsDone)
+        }
+    }
+
+    @Test
+    fun `should track event when mark task as not done`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+
+        sut.loadTasks()
+        sut.onMarkTask(expected.last().id, false)
+
+        verify {
+            atomAnalytics.track(AgendaAnalytics.MarkTaskAsNotDone)
+        }
+    }
+
+    @Test
+    fun `should track show confirm delete when tap on delete`() = runTest {
+        val tasks = DEFAULT_TASKS
+        val taskId = DEFAULT_TASKS.first().id
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+
+        sut.loadTasks()
+        sut.actionDelete(taskId)
+
+        verify {
+            atomAnalytics.track(AgendaAnalytics.ShowConfirmDeleteDialog)
+        }
+    }
+
+    @Test
+    fun `should track confirm delete when confirm dialog`() = runTest {
+        val tasks = DEFAULT_TASKS
+        val taskId = DEFAULT_TASKS.first().id
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+
+        sut.loadTasks()
+        sut.actionDelete(taskId)
+        sut.deleteTask(taskId)
+
+        verify(exactly = 1) {
+            atomAnalytics.track(AgendaAnalytics.ConfirmDelete)
+        }
+    }
+
+    @Test
+    fun `should track navigate to day when select a new day`() = runTest {
+        val day = LocalDate.of(2023, 9, 16)
+
+        sut.setSelectedDay(day)
+
+        verify(exactly = 1) {
+            atomAnalytics.track(AgendaAnalytics.NavigateToDay(day.toString()))
+        }
+    }
+
+    @Test
+    fun `should track cancel delete when dismiss confirm delete dialog`() = runTest {
+        val tasks = DEFAULT_TASKS
+        val taskId = DEFAULT_TASKS.first().id
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+
+        sut.loadTasks()
+        sut.actionDelete(taskId)
+        sut.dismissDelete()
+
+        verify(exactly = 1) {
+            atomAnalytics.track(AgendaAnalytics.CancelDelete)
+        }
+    }
+
     companion object {
         const val TASK1_ID = 1L
         const val TASK2ID = 2L
@@ -213,7 +331,7 @@ class AgendaViewModelTest : MviViewModelTest() {
                 createdAt = LocalDate.now(),
                 day = LocalDate.now(),
                 reminder = null,
-                isDone = false,
+                isDone = true,
                 position = 2,
             ),
         )

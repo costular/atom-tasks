@@ -3,6 +3,7 @@ plugins {
     id("atomtasks.android.library.compose")
     id("atomtasks.detekt")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -20,6 +21,7 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.analytics)
     implementation(projects.data)
 
     implementation(libs.compose.activity)

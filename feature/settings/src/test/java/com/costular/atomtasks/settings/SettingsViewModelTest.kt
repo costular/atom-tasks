@@ -1,6 +1,7 @@
 package com.costular.atomtasks.settings
 
 import app.cash.turbine.test
+import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.data.settings.GetThemeUseCase
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
@@ -27,6 +28,7 @@ class SettingsViewModelTest : MviViewModelTest() {
     private val isAutoforwardTasksInteractor: IsAutoforwardTasksSettingEnabledUseCase =
         mockk(relaxed = true)
     private val setAutoforwardTasksInteractor: SetAutoforwardTasksInteractor = mockk(relaxed = true)
+    private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -39,6 +41,7 @@ class SettingsViewModelTest : MviViewModelTest() {
             setThemeUseCase = setThemeUseCase,
             isAutoforwardTasksSettingEnabledUseCase = isAutoforwardTasksInteractor,
             setAutoforwardTasksInteractor = setAutoforwardTasksInteractor,
+            atomAnalytics = atomAnalytics,
         )
     }
 

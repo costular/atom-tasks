@@ -21,15 +21,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,13 +42,13 @@ import com.costular.atomtasks.core.ui.DestinationsScaffold
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.NavGraphs
-import com.costular.atomtasks.ui.NavGraphs.createTask
 import com.costular.atomtasks.ui.currentScreenAsState
 import com.costular.designsystem.theme.AtomTheme
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.spec.NavGraphSpec
+import com.costular.atomtasks.core.ui.R.string as S
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
@@ -84,12 +88,14 @@ fun App(
     }
 }
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun Home(
     atomAppState: AtomAppState,
 ) {
     val currentSelectedItem by atomAppState.navController.currentScreenAsState()
+    val (fabOnClick, setFabOnClick) = remember { mutableStateOf<(() -> Unit)?>(null) }
 
     when (atomAppState.atomNavigationType) {
         AtomNavigationType.BOTTOM_NAVIGATION -> {
@@ -104,13 +110,18 @@ private fun Home(
                     )
                 },
                 floatingActionButton = {
-                    AddTaskFloatingActionButton(currentSelectedItem, atomAppState)
+                    AddTaskFloatingActionButton(
+                        currentSelectedItem = currentSelectedItem,
+                        fabOnclick = fabOnClick,
+                        shouldBeExpanded = true,
+                    )
                 },
                 navController = atomAppState.navController,
             ) { paddingValues ->
                 AppNavigation(
                     modifier = Modifier.padding(paddingValues),
                     appState = atomAppState,
+                    fabClick = setFabOnClick,
                 )
             }
         }
@@ -134,7 +145,11 @@ private fun Home(
                             atomAppState.navigateToTopLevelDestination(selected)
                         },
                         header = {
-                            AddTaskFloatingActionButton(currentSelectedItem, atomAppState)
+                            AddTaskFloatingActionButton(
+                                currentSelectedItem = currentSelectedItem,
+                                fabOnclick = fabOnClick,
+                                shouldBeExpanded = false,
+                            )
                         },
                         modifier = Modifier.safeDrawingPadding(),
                     )
@@ -144,6 +159,7 @@ private fun Home(
                     AppNavigation(
                         appState = atomAppState,
                         modifier = Modifier.weight(1f),
+                        fabClick = setFabOnClick,
                     )
                 }
             }
@@ -154,7 +170,8 @@ private fun Home(
 @Composable
 private fun AddTaskFloatingActionButton(
     currentSelectedItem: NavGraphSpec,
-    atomAppState: AtomAppState,
+    shouldBeExpanded: Boolean,
+    fabOnclick: (() -> Unit)?,
 ) {
     AnimatedVisibility(
         visible = currentSelectedItem == NavGraphs.agenda,
@@ -169,12 +186,24 @@ private fun AddTaskFloatingActionButton(
             ),
         ),
     ) {
-        FloatingActionButton(
-            onClick = {
-                atomAppState.navigateToTopLevelDestination(createTask)
-            },
-        ) {
-            Icon(Icons.Outlined.Add, contentDescription = null)
+        if (shouldBeExpanded) {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    fabOnclick?.invoke()
+                },
+                text = {
+                    Text(stringResource(S.agenda_create_new_task))
+                },
+                icon = {
+                    Icon(Icons.Outlined.Add, contentDescription = null)
+                }
+            )
+        } else {
+            FloatingActionButton(onClick = {
+                fabOnclick?.invoke()
+            }) {
+                Icon(Icons.Outlined.Add, contentDescription = null)
+            }
         }
     }
 }

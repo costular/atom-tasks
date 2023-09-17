@@ -1,6 +1,18 @@
 package com.costular.atomtasks.agenda
 
 import androidx.lifecycle.viewModelScope
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.CancelDelete
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.CollapseCalendar
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ConfirmDelete
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ExpandCalendar
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.MarkTaskAsDone
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.MarkTaskAsNotDone
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.OrderTask
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.SelectToday
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDeleteDialog
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.NavigateToDay
+import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.tasks.ObserveTasksUseCase
@@ -26,6 +38,7 @@ class AgendaViewModel @Inject constructor(
     private val removeTaskInteractor: RemoveTaskInteractor,
     private val autoforwardManager: AutoforwardManager,
     private val moveTaskUseCase: MoveTaskUseCase,
+    private val atomAnalytics: AtomAnalytics,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
@@ -41,11 +54,13 @@ class AgendaViewModel @Inject constructor(
 
     fun setSelectedDayToday() {
         setSelectedDay(LocalDate.now())
+        atomAnalytics.track(SelectToday)
     }
 
     fun setSelectedDay(localDate: LocalDate) = viewModelScope.launch {
         setState { copy(selectedDay = localDate.asDay(), isHeaderExpanded = false) }
         loadTasks()
+        atomAnalytics.track(NavigateToDay(localDate.toString()))
     }
 
     fun loadTasks() {
@@ -59,12 +74,21 @@ class AgendaViewModel @Inject constructor(
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
+
+        val event = if (isDone) {
+            MarkTaskAsDone
+        } else {
+            MarkTaskAsNotDone
+        }
+        atomAnalytics.track(event)
     }
 
     fun actionDelete(id: Long) {
         setState {
             copy(deleteTaskAction = DeleteTaskAction.Shown(id))
         }
+
+        atomAnalytics.track(ShowConfirmDeleteDialog)
     }
 
     fun deleteTask(id: Long) {
@@ -75,6 +99,8 @@ class AgendaViewModel @Inject constructor(
                 }
                 .collect()
         }
+
+        atomAnalytics.track(ConfirmDelete)
     }
 
     fun onDragTask(from: ItemPosition, to: ItemPosition) {
@@ -112,17 +138,42 @@ class AgendaViewModel @Inject constructor(
                 )
             }
         }
+
+        atomAnalytics.track(OrderTask)
     }
 
     fun dismissDelete() {
         hideAskDelete()
+        atomAnalytics.track(CancelDelete)
     }
 
-    fun toggleHeader() = setState {
-        copy(isHeaderExpanded = !isHeaderExpanded)
+    fun toggleHeader() {
+        val state = state.value
+
+        setState {
+            copy(isHeaderExpanded = !isHeaderExpanded)
+        }
+
+        if (state.isHeaderExpanded) {
+            atomAnalytics.track(CollapseCalendar)
+        } else {
+            atomAnalytics.track(ExpandCalendar)
+        }
+    }
+
+    fun onEditTask() {
+        atomAnalytics.track(AgendaAnalytics.EditTask)
+    }
+
+    fun onOpenTaskActions() {
+        atomAnalytics.track(AgendaAnalytics.OpenTaskActions)
     }
 
     private fun hideAskDelete() {
         setState { copy(deleteTaskAction = DeleteTaskAction.Hidden) }
+    }
+
+    fun onCreateTask() {
+        atomAnalytics.track(AgendaAnalytics.CreateNewTask)
     }
 }
