@@ -279,17 +279,10 @@ private fun AgendaHeader(
         2.dp
     }
 
-    val tonalElevation = if (isExpanded) {
-        6.dp
-    } else {
-        0.dp
-    }
-
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
         shadowElevation = shadowElevation,
-        tonalElevation = tonalElevation,
     ) {
         Column {
             Row(
