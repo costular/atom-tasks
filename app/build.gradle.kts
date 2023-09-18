@@ -15,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        versionCode = 9
-        versionName = "0.8.0"
+        versionCode = 10
+        versionName = "2.0.0"
         testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
