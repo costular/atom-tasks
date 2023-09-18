@@ -1,4 +1,7 @@
-# ⚛️ Atom Tasks (_WIP_ 👩‍🔬)
+# ⚛️ Atom Tasks
+
+| ![Agenda](media/agenda.png) | ![Agenda calendar](media/agenda-calendar.png) | ![Dark mode](media/dark-mode.png) | ![Agenda](media/auto-postpone.png) | ![Notification](media/notification.png) |
+|-----------------------------|-----------------------------------------------|-----------------------------------|------------------------------------|-----------------------------------------|
 
 _Atom tasks_ is an Android Application to create and organise your tasks.
 
