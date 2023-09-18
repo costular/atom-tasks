@@ -2,7 +2,8 @@ package com.costular.atomtasks.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomtasks.data.database.AtomRemindersDatabase
+import com.costular.atomtasks.data.database.AtomTasksDatabase
+import com.costular.atomtasks.data.database.MIGRATION_4_5
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,8 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AtomRemindersDatabase =
-        Room.databaseBuilder(context, AtomRemindersDatabase::class.java, "atomtasks.db")
+    fun provideDatabase(@ApplicationContext context: Context): AtomTasksDatabase =
+        Room.databaseBuilder(context, AtomTasksDatabase::class.java, "atomtasks.db")
+            .addMigrations(MIGRATION_4_5)
             .build()
 }

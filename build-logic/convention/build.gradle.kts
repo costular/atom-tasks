@@ -5,23 +5,19 @@ plugins {
 group = "com.costular.atomtasks.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    implementation(libs.androidGradle)
-    implementation(libs.kotlinGradle)
-    implementation(libs.ktlintGradle)
+    compileOnly(libs.androidGradle)
+    compileOnly(libs.kotlinGradle)
+    implementation(libs.ksp.gradlePlugin)
     implementation(libs.detektGradle)
 }
 
 gradlePlugin {
     plugins {
-        register("ktlint") {
-            id = "atomtasks.ktlint"
-            implementationClass = "KtlintConventionPlugin"
-        }
         register("androidApplication") {
             id = "atomtasks.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
@@ -49,6 +45,10 @@ gradlePlugin {
         register("jacoco") {
             id = "atomtasks.android.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "atomtasks.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

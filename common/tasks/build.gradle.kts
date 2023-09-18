@@ -1,13 +1,27 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
-    id("atomtasks.ktlint")
     id("atomtasks.detekt")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    namespace = "com.costular.atomtasks.common.tasks"
+
+    defaultConfig {
+        testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
+    }
+
+    packaging {
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/LICENSE-notice.md")
+    }
 }
 
 dependencies {
-    implementation(projects.commonUi)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.analytics)
     implementation(projects.data)
 
     implementation(libs.compose.activity)
@@ -20,16 +34,16 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.accompanist.systemui)
-    implementation(libs.accompanist.insetsui)
     implementation(libs.viewmodel)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.lottie)
     implementation(libs.work)
     implementation(libs.hilt.work)
+    implementation(libs.timber)
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.compose.destinations)
+    api(libs.reordeable)
 
     testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)
@@ -39,4 +53,18 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
+
+    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(libs.android.junit)
+    androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.work.testing)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.preferences.datastore)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
 }

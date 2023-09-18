@@ -1,9 +1,12 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
-    id("atomtasks.ktlint")
     id("atomtasks.detekt")
     alias(libs.plugins.paparazzi)
+}
+
+android {
+    namespace = "com.costular.atomtasks.screenshot_testing"
 }
 
 androidComponents {
@@ -15,7 +18,7 @@ androidComponents {
 }
 
 dependencies {
-    implementation(projects.commonUi)
+    implementation(projects.core.designsystem)
 
     testImplementation(projects.data)
     testImplementation(projects.common.tasks)

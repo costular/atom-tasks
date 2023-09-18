@@ -19,6 +19,7 @@ import com.costular.atomtasks.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 
 class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -28,5 +29,4 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
             configureAndroidCompose(extension)
         }
     }
-
 }

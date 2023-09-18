@@ -41,6 +41,7 @@ class TaskSnapshotTest {
                 reminder = null,
                 onMark = {},
                 onOpen = {},
+                isBeingDragged = false,
             )
         }
     }
@@ -57,6 +58,7 @@ class TaskSnapshotTest {
                 reminder = null,
                 onMark = {},
                 onOpen = {},
+                isBeingDragged = false,
             )
         }
     }
@@ -78,6 +80,7 @@ class TaskSnapshotTest {
                 ),
                 onMark = { },
                 onOpen = { },
+                isBeingDragged = false,
             )
         }
     }
@@ -99,6 +102,7 @@ class TaskSnapshotTest {
                 ),
                 onMark = { },
                 onOpen = { },
+                isBeingDragged = false,
             )
         }
     }

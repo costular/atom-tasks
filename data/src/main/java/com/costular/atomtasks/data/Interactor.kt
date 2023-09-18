@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 
+@Deprecated("Replace with UseCase")
 abstract class Interactor<in P> {
     operator fun invoke(params: P, timeoutMs: Long = defaultTimeoutMs): Flow<InvokeStatus> {
         return flow {
@@ -36,6 +37,7 @@ abstract class Interactor<in P> {
     }
 }
 
+@Deprecated("Replace with UseCase")
 abstract class ResultInteractor<in P, R> {
     operator fun invoke(params: P): Flow<R> = flow {
         emit(doWork(params))
@@ -54,6 +56,7 @@ abstract class SuspendingWorkInteractor<P : Any, T> : SubjectInteractor<P, T>() 
     abstract suspend fun doWork(params: P): T
 }
 
+@Deprecated("Replace with UseCase")
 abstract class SubjectInteractor<P : Any, T> {
     // Ideally this would be buffer = 0, since we use flatMapLatest below, BUT invoke is not
     // suspending. This means that we can't suspend while flatMapLatest cancels any
