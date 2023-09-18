@@ -2,6 +2,7 @@ package com.costular.atomtasks.ui.home
 
 import androidx.navigation.NavController
 import com.costular.atomtasks.agenda.AgendaNavigator
+import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.SettingsNavigator
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
@@ -18,6 +19,10 @@ class AppNavigator(
 
     override fun navigateToEditTask(taskId: Long) {
         navController.navigate(EditTaskScreenDestination(taskId))
+    }
+
+    override fun openTaskActions(taskId: Long, taskName: String, isDone: Boolean) {
+        navController.navigate(TasksActionsBottomSheetDestination(taskId, taskName, isDone))
     }
 
     override fun navigateUp() {

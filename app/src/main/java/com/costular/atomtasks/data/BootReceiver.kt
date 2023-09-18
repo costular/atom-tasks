@@ -3,17 +3,21 @@ package com.costular.atomtasks.data
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.worker.SetTasksRemindersWorker
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BootReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var taskReminderManager: TaskReminderManager
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            val request = OneTimeWorkRequestBuilder<SetTasksRemindersWorker>()
-                .build()
-            WorkManager.getInstance(context).enqueue(request)
+            WorkManager.getInstance(context).enqueue(SetTasksRemindersWorker.start())
         }
     }
 }

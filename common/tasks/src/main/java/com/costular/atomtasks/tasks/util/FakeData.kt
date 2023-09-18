@@ -3,11 +3,12 @@ package com.costular.atomtasks.data.util
 import com.costular.atomtasks.tasks.Task
 import java.time.LocalDate
 
-val taskToday = Task(
+val TaskToday = Task(
     id = 10L,
     name = "Task test",
     createdAt = LocalDate.now(),
     day = LocalDate.now(),
     reminder = null,
     isDone = false,
+    position = 0,
 )

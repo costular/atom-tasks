@@ -6,25 +6,26 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     id("atomtasks.detekt")
-    id("atomtasks.ktlint")
     id("jacoco")
+    alias(libs.plugins.ksp)
 }
 
 android {
+    namespace = "com.costular.atomtasks"
+
     defaultConfig {
         applicationId = "com.costular.atomtasks"
         versionCode = 9
         versionName = "0.8.0"
-        testInstrumentationRunner = "com.costular.atomtasks.coretesting.AtomTestRunner"
+        testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
             }
         }
 
-        packagingOptions {
+        packaging {
             // for JNA and JNA-platform
             resources.excludes.add("META-INF/AL2.0")
             resources.excludes.add("META-INF/LGPL2.1")
@@ -75,30 +76,30 @@ kapt {
 
 configurations {
     androidTestImplementation {
-        exclude(group ="io.mockk", module= "mockk-agent-jvm")
+        exclude(group = "io.mockk", module = "mockk-agent-jvm")
     }
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":common-ui"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
     implementation(project(":data"))
-    implementation(project(":feature-agenda"))
-    implementation(project(":feature-create-task"))
-    implementation(project(":feature-settings"))
+    implementation(project(":feature:agenda"))
+    implementation(project(":feature:createtask"))
+    implementation(project(":feature:settings"))
     implementation(projects.common.tasks)
-    implementation(projects.featureEdittask)
+    implementation(projects.feature.edittask)
 
     implementation(libs.fragment)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
+    implementation(libs.compose.material3.windowsize)
     implementation(libs.compose.material.icons)
-    implementation(libs.constraintlayout)
     implementation(libs.accompanist.systemui)
-    implementation(libs.material)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.core)
     implementation(libs.appcompat)
-    implementation(libs.lifecycle.runtime)
+    implementation(libs.lifecycle.compose)
     implementation(libs.viewmodel)
     implementation(libs.timber)
     implementation(libs.hilt)
@@ -109,7 +110,7 @@ dependencies {
     implementation(libs.startup)
     implementation(libs.work)
 
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
@@ -123,4 +124,15 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
     testImplementation(libs.compose.ui.test)
+
+    androidTestImplementation(projects.core.testing)
+}
+
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File,
+) : CommandLineArgumentProvider {
+
+    override fun asArguments(): Iterable<String> = listOf("room.schemaLocation=${schemaDir.path}")
 }

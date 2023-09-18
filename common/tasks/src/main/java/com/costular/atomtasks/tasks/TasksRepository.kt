@@ -21,4 +21,5 @@ interface TasksRepository {
     suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime, reminderDate: LocalDate)
     suspend fun removeReminder(taskId: Long)
     suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
+    suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
 }

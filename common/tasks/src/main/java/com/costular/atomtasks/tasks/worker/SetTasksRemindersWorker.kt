@@ -3,6 +3,7 @@ package com.costular.atomtasks.tasks.worker
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.tasks.interactor.GetTasksWithReminderInteractor
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
@@ -30,4 +31,9 @@ class SetTasksRemindersWorker @AssistedInject constructor(
         } catch (e: Exception) {
             Result.failure()
         }
+
+    companion object {
+        fun start() = OneTimeWorkRequestBuilder<SetTasksRemindersWorker>()
+            .build()
+    }
 }

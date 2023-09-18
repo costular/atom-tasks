@@ -3,10 +3,11 @@ package com.costular.atomtasks.tasks
 import com.costular.atomtasks.data.tasks.TaskEntity
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class DefaultTasksRepository(
+internal class DefaultTasksRepository @Inject constructor(
     private val localDataSource: TaskLocalDataSource,
 ) : TasksRepository {
 
@@ -70,5 +71,9 @@ internal class DefaultTasksRepository(
 
     override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
         localDataSource.updateTask(taskId, day, name)
+    }
+
+    override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
+        localDataSource.moveTask(day, fromPosition, toPosition)
     }
 }

@@ -17,7 +17,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension>() {
                 defaultConfig {
-                    testInstrumentationRunner = "com.costular.atomtasks.core_testing.AtomTestRunner"
+                    testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
                 }
 
                 testOptions {
@@ -29,7 +29,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                add("implementation", project(":common-ui"))
+                add("implementation", project(":core:designsystem"))
                 add("implementation", project(":data"))
                 add("implementation", libs.findLibrary("compose.activity").get())
                 add("implementation", libs.findLibrary("compose.foundation").get())
@@ -41,7 +41,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("compose.ui").get())
                 add("implementation", libs.findLibrary("compose.ui.tooling").get())
                 add("implementation", libs.findLibrary("accompanist.systemui").get())
-                add("implementation", libs.findLibrary("accompanist.insetsui").get())
                 add("implementation", libs.findLibrary("viewmodel").get())
                 add("implementation", libs.findLibrary("hilt.navigation.compose").get())
                 add("kapt", libs.findLibrary("hilt.androidx.compiler").get())
@@ -49,7 +48,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("kapt", libs.findLibrary("hilt.compiler").get())
                 add("implementation", libs.findLibrary("compose.destinations").get())
 
-                add("testImplementation", project(":core-testing"))
+                add("testImplementation", project(":core:testing"))
+                add("androidTestImplementation", project(":core:testing"))
             }
         }
     }

@@ -2,7 +2,6 @@ package com.costular.atomtasks.ui.home
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -19,7 +18,6 @@ fun AtomBottomNavigation(
 ) {
     NavigationBar(
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.background,
     ) {
         HomeNavigationDestination.values().forEach { destination ->
             NavigationBarItem(
@@ -40,7 +38,7 @@ fun AtomBottomNavigation(
 }
 
 @Composable
-private fun HomeNavigationItemIcon(
+internal fun HomeNavigationItemIcon(
     destination: HomeNavigationDestination,
     selected: Boolean,
 ) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>InvalidPackageDeclaration:FakeData.kt$package com.costular.atomtasks.data.util</ID>
+    <ID>UseCheckOrError:NotifyTaskWorker.kt$NotifyTaskWorker$throw IllegalStateException( "Reminder is done so does not makes sense to notify the reminder", )</ID>
+    <ID>UseCheckOrError:NotifyTaskWorker.kt$NotifyTaskWorker$throw IllegalStateException("Reminder is not valid")</ID>
+    <ID>UseCheckOrError:NotifyTaskWorker.kt$NotifyTaskWorker$throw IllegalStateException("Reminder is null")</ID>
+    <ID>UseCheckOrError:PostponeTaskWorker.kt$PostponeTaskWorker$throw IllegalStateException("Task has no active reminder")</ID>
+    <ID>UseRequire:MarkTaskAsDoneWorker.kt$MarkTaskAsDoneWorker$throw IllegalArgumentException("Task id has not been passed")</ID>
+    <ID>UseRequire:NotifyTaskWorker.kt$NotifyTaskWorker$throw IllegalArgumentException("Task id has not been passed")</ID>
+    <ID>UseRequire:PostponeTaskWorker.kt$PostponeTaskWorker$throw IllegalArgumentException("Task id has not been passed")</ID>
+  </CurrentIssues>
+</SmellBaseline>

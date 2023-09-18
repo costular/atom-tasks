@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.ViewAgenda
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.costular.atomtasks.R
+import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.ui.NavGraphs
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
@@ -31,5 +31,5 @@ enum class HomeNavigationDestination(
         selectedIcon = Icons.Filled.Settings,
         labelResId = R.string.home_menu_settings,
         contentDescriptionResId = R.string.home_menu_settings,
-    )
+    ),
 }

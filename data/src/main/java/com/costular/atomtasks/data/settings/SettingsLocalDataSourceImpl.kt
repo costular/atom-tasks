@@ -18,7 +18,7 @@ internal class SettingsLocalDataSourceImpl(
             preferences[preferenceTheme] ?: Theme.SYSTEM
         }
 
-    private val preferenceMoveUndoneTasksTomorrow = booleanPreferencesKey("tasks_move_undone")
+    private val preferenceMoveUndoneTasksTomorrow = booleanPreferencesKey("tasks_autoforward")
     val moveUndoneTasksTomorrow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[preferenceMoveUndoneTasksTomorrow] ?: DefaultMoveUndoneTasks
     }

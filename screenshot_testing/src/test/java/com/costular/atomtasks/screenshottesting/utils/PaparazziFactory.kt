@@ -6,7 +6,8 @@ import com.android.ide.common.rendering.api.SessionParams
 
 internal object PaparazziFactory {
     fun create(): Paparazzi = Paparazzi(
-        deviceConfig = DeviceConfig.NEXUS_5.copy(softButtons = false, screenHeight = 1),
-        renderingMode = SessionParams.RenderingMode.V_SCROLL,
+        deviceConfig = DeviceConfig.PIXEL_6.copy(locale = "en"),
+        showSystemUi = false,
+        renderingMode = SessionParams.RenderingMode.SHRINK,
     )
 }
