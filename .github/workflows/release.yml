@@ -205,4 +205,5 @@ jobs:
           track: production
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
-          status: completed
+          status: inProgress
+          userFraction: 0.33
