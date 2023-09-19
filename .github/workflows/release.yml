@@ -14,6 +14,8 @@ jobs:
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: Detekt ♻️
         run: ./gradlew detekt
@@ -34,6 +36,8 @@ jobs:
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: Decode google-services.json
         env:
@@ -62,6 +66,8 @@ jobs:
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -128,6 +134,8 @@ jobs:
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: Decode google-services.json
         env:
@@ -174,6 +182,8 @@ jobs:
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
 
       - name: Decode google-services.json
         env:
