@@ -20,6 +20,10 @@ internal class TaskReminderManagerImpl(
     override fun set(taskId: Long, localDateTime: LocalDateTime) {
         checkNotNull(alarmManager)
 
+        if (localDateTime.isBefore(LocalDateTime.now())) {
+            return
+        }
+
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
