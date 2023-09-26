@@ -42,17 +42,17 @@ fun Modifier.strikeThrough(
             if (enabled && textLayoutResult != null) {
                 val lines = textLayoutResult.lineCount
 
-                val border = border.toPx()
+                val borderPixels = border.toPx()
 
                 for (line in 0 until lines) {
-                    val lineCenter = textLayoutResult.getLineMiddle(line) + border
+                    val lineCenter = textLayoutResult.getLineMiddle(line) + borderPixels
                     val progressWidth = textLayoutResult.getLineRight(line) * progress()
 
                     drawLine(
                         color = color,
                         start = Offset(0f, lineCenter),
                         end = Offset(progressWidth, lineCenter),
-                        strokeWidth = border,
+                        strokeWidth = borderPixels,
                     )
                 }
             }
