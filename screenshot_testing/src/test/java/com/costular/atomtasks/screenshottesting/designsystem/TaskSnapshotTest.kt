@@ -106,4 +106,26 @@ class TaskSnapshotTest {
             )
         }
     }
+
+    @Test
+    fun taskFinishedWithLongName() {
+        paparazzi.screenshot(
+            isDarkTheme = themeMode.isDarkTheme(),
+            fontScale = fontScale.asFloat(),
+        ) {
+            TaskCard(
+                title = "This is a task with a really long title because no all tasks are as simple as putting just a few words",
+                isFinished = true,
+                reminder = Reminder(
+                    0L,
+                    LocalTime.of(9, 0),
+                    true,
+                    LocalDate.now(),
+                ),
+                onMark = { },
+                onOpen = { },
+                isBeingDragged = false,
+            )
+        }
+    }
 }
