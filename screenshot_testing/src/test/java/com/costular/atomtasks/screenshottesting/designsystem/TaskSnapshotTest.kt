@@ -1,13 +1,13 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import app.cash.paparazzi.Paparazzi
-import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory
 import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
+import com.costular.atomtasks.tasks.Reminder
 import com.costular.atomtasks.tasks.TaskCard
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
@@ -114,7 +114,8 @@ class TaskSnapshotTest {
             fontScale = fontScale.asFloat(),
         ) {
             TaskCard(
-                title = "This is a task with a really long title because no all tasks are as simple as putting just a few words",
+                title = "This is a task with a really long title because no all tasks " +
+                        "are as simple as putting just a few words",
                 isFinished = true,
                 reminder = Reminder(
                     0L,
