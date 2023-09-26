@@ -11,6 +11,7 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -28,7 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +39,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -122,19 +126,26 @@ fun TaskCard(
 
 @Composable
 private fun TaskTitle(isFinished: Boolean, title: String) {
+    var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+
     val progress by animateFloatAsState(
         targetValue = if (isFinished) 1f else 0f,
-        animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing),
+        animationSpec = tween(durationMillis = 200, easing = FastOutLinearInEasing),
         label = "Task strike through"
     )
 
     Text(
         text = title,
+        onTextLayout = {
+            textLayoutResult = it
+        },
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier.strikeThrough(
             color = LocalContentColor.current,
             border = 2.dp,
             progress = { progress },
+            textLayoutResult = textLayoutResult,
+            enabled = isFinished,
         )
     )
 }
@@ -205,6 +216,7 @@ private fun TaskCardPreview() {
                 LocalDate.now(),
             ),
             isBeingDragged = false,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -225,6 +237,28 @@ private fun TaskCardUnfinishedPreview() {
                 LocalDate.now(),
             ),
             isBeingDragged = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TaskCardLongNamePreview() {
+    AtomTheme {
+        TaskCard(
+            title = "A task with a really long name in order to see the strike thorugh",
+            isFinished = true,
+            onMark = {},
+            onOpen = {},
+            reminder = Reminder(
+                1L,
+                LocalTime.parse("10:00"),
+                true,
+                LocalDate.now(),
+            ),
+            isBeingDragged = false,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
