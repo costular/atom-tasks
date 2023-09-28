@@ -1,6 +1,12 @@
-package com.costular.designsystem.components.createtask
+package com.costular.atomtasks.tasks.createtask
 
+import android.app.AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,24 +19,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.coreui.utils.ofLocalizedTime
@@ -47,7 +57,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 @ExperimentalMaterial3Api
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "LongMethod")
 @Composable
 fun CreateTaskExpanded(
     value: String,
@@ -56,12 +66,15 @@ fun CreateTaskExpanded(
     modifier: Modifier = Modifier,
     reminder: LocalTime? = null,
 ) {
-    val viewModel: CreateTaskExpandedViewModel = viewModel()
+    val context = LocalContext.current
+
+    val viewModel: CreateTaskExpandedViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val focusRequester = FocusRequester()
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
+        viewModel.init()
     }
 
     LaunchedEffect(value) {
@@ -79,7 +92,15 @@ fun CreateTaskExpanded(
     LaunchedEffect(viewModel) {
         viewModel.uiEvents.collect { event ->
             when (event) {
-                is CreateTaskUiEvents.SaveTask -> onSave(event.taskResult)
+                is CreateTaskUiEvents.SaveTask -> {
+                    onSave(event.taskResult)
+                }
+
+                is CreateTaskUiEvents.NavigateToExactAlarmSettings -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        context.startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+                    }
+                }
             }
         }
     }
@@ -93,13 +114,21 @@ fun CreateTaskExpanded(
     }
 
     if (state.showSetReminder) {
-        NotificationPermissionEffect()
+        if (state.shouldShowAlarmsRationale) {
+            ExactAlarmRationale(
+                onDismiss = viewModel::closeSelectReminder,
+                navigateToExactAlarmSettings = viewModel::navigateToExactAlarmSettings,
+                onPermissionStateChanged = viewModel::exactAlarmSettingChanged
+            )
+        } else {
+            NotificationPermissionEffect()
 
-        TimePickerDialog(
-            onDismiss = viewModel::closeSelectReminder,
-            selectedTime = state.reminder,
-            onSelectTime = viewModel::setReminder,
-        )
+            TimePickerDialog(
+                onDismiss = viewModel::closeSelectReminder,
+                selectedTime = state.reminder,
+                onSelectTime = viewModel::setReminder,
+            )
+        }
     }
 
     CreateTaskExpanded(
@@ -116,7 +145,70 @@ fun CreateTaskExpanded(
     )
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun ExactAlarmRationale(
+    onDismiss: () -> Unit,
+    navigateToExactAlarmSettings: () -> Unit,
+    onPermissionStateChanged: () -> Unit,
+) {
+    ObserveScheduleExactAlarmPermissionState(onPermissionStateChanged)
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(
+                    R.string.create_task_schedule_exact_reminder_permission_missing_title
+                )
+            )
+        },
+        text = {
+            Text(
+                stringResource(
+                    R.string.create_task_schedule_exact_reminder_permission_missing_description
+                )
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = navigateToExactAlarmSettings) {
+                Text(
+                    stringResource(
+                        R.string.create_task_schedule_exact_reminder_permission_missing_confirm
+                    )
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    stringResource(
+                        R.string.create_task_schedule_exact_reminder_permission_missing_dismiss
+                    )
+                )
+            }
+        }
+    )
+}
+
+@Composable
+private fun ObserveScheduleExactAlarmPermissionState(onPermissionStateChanged: () -> Unit) {
+    val context = LocalContext.current
+
+    DisposableEffect(context) {
+        val intentFilter = IntentFilter(ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED)
+        val broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                onPermissionStateChanged()
+            }
+        }
+        context.registerReceiver(broadcastReceiver, intentFilter)
+
+        onDispose {
+            context.unregisterReceiver(broadcastReceiver)
+        }
+    }
+}
+
 @Composable
 internal fun CreateTaskExpanded(
     state: CreateTaskExpandedState,

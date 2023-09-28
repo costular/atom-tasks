@@ -48,11 +48,7 @@ class TaskNotificationManagerImpl(
     }
 
     override fun remindTask(task: Task) {
-        val pendingIntentFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
-        } else {
-            FLAG_UPDATE_CURRENT
-        }
+        val pendingIntentFlag = FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
 
         val builder = buildNotificationBase(ChannelReminders)
             .setContentTitle(context.getString(R.string.notification_reminder))

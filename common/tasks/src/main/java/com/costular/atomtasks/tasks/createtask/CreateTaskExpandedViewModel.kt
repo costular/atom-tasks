@@ -1,11 +1,32 @@
-package com.costular.designsystem.components.createtask
+package com.costular.atomtasks.tasks.createtask
 
+import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
+import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.inject.Inject
+import kotlinx.coroutines.launch
 
-class CreateTaskExpandedViewModel :
-    MviViewModel<CreateTaskExpandedState>(CreateTaskExpandedState.Empty) {
+@Suppress("TooManyFunctions")
+@HiltViewModel
+class CreateTaskExpandedViewModel @Inject constructor(
+    private val areExactRemindersAvailable: AreExactRemindersAvailable
+) : MviViewModel<CreateTaskExpandedState>(CreateTaskExpandedState.Empty) {
+
+    fun init() {
+        checkIfExactRemindersAreAvailable()
+    }
+
+    private fun checkIfExactRemindersAreAvailable() {
+        viewModelScope.launch {
+            val areExactRemindersEnabled = areExactRemindersAvailable.invoke(Unit)
+            setState {
+                copy(shouldShowAlarmsRationale = !areExactRemindersEnabled)
+            }
+        }
+    }
 
     fun setName(name: String) {
         setState {
@@ -36,25 +57,19 @@ class CreateTaskExpandedViewModel :
 
     fun closeSelectDate() {
         setState {
-            copy(
-                showSetDate = false,
-            )
+            copy(showSetDate = false)
         }
     }
 
     fun selectReminder() {
         setState {
-            copy(
-                showSetReminder = true,
-            )
+            copy(showSetReminder = true)
         }
     }
 
     fun closeSelectReminder() {
         setState {
-            copy(
-                showSetReminder = false,
-            )
+            copy(showSetReminder = false)
         }
     }
 
@@ -81,4 +96,12 @@ class CreateTaskExpandedViewModel :
             date = date,
             reminder = reminder,
         )
+
+    fun navigateToExactAlarmSettings() {
+        sendEvent(CreateTaskUiEvents.NavigateToExactAlarmSettings)
+    }
+
+    fun exactAlarmSettingChanged() {
+        checkIfExactRemindersAreAvailable()
+    }
 }

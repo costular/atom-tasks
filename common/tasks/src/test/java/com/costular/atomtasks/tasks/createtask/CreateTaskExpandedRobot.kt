@@ -1,4 +1,4 @@
-package com.costular.designsystem.components.createtask
+package com.costular.atomtasks.tasks.createtask
 
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
@@ -14,16 +14,12 @@ import com.costular.atomtasks.core.testing.ui.Robot
 
 fun ComposeProvider.createTaskExpanded(
     func: CreateTaskExpandedRobot.() -> Unit,
-) = CreateTaskExpandedRobot(composeTestRule)
+) = CreateTaskExpandedRobot(composeTestRule).apply(func)
 
 class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
 
     private val input by lazy { composeTestRule.onNodeWithTag("CreateTaskInput") }
     private val save by lazy { composeTestRule.onNodeWithTag("CreateTaskExpandedSave") }
-    private val chipDate by lazy { composeTestRule.onNodeWithTag("CreateTaskExpandedDate") }
-    private val chipReminder by lazy {
-        composeTestRule.onNodeWithTag("CreateTaskExpandedReminder")
-    }
 
     init {
         input.assertIsDisplayed()

@@ -1,17 +1,27 @@
-package com.costular.designsystem.components.createtask
+package com.costular.atomtasks.tasks.createtask
 
 import androidx.compose.ui.focus.FocusRequester
-import com.costular.atomtasks.core.testing.ui.AndroidTest
+import androidx.compose.ui.test.junit4.createComposeRule
+import com.costular.atomtasks.core.testing.ui.ComposeProvider
 import com.costular.atomtasks.core.testing.ui.getString
-import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime
 import org.junit.Test
 import com.costular.atomtasks.core.ui.R
+import org.junit.Rule
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
 
-@HiltAndroidTest
-class CreateTaskExpandedTest : AndroidTest() {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
+@LooperMode(LooperMode.Mode.PAUSED)
+class CreateTaskExpandedTest : ComposeProvider {
+
+    @get:Rule
+    override val composeTestRule = createComposeRule()
 
     @Test
     fun shouldShowInputText_whenNameSetInState() {

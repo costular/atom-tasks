@@ -36,11 +36,8 @@ dependencies {
     implementation(libs.accompanist.systemui)
     implementation(libs.viewmodel)
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.ui.text.fonts)
-    implementation(libs.accompanist.permissions)
     implementation(libs.calendar)
 
     testImplementation(projects.core.testing)

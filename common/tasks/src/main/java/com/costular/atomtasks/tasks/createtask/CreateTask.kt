@@ -1,4 +1,4 @@
-package com.costular.designsystem.components.createtask
+package com.costular.atomtasks.tasks.createtask
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons

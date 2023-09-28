@@ -1,12 +1,10 @@
-package com.costular.designsystem
+package com.costular.atomtasks.tasks.createtask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.designsystem.components.createtask.CreateTaskExpandedState
-import com.costular.designsystem.components.createtask.CreateTaskExpandedViewModel
-import com.costular.designsystem.components.createtask.CreateTaskResult
-import com.costular.designsystem.components.createtask.CreateTaskUiEvents
+import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
 import com.google.common.truth.Truth.assertThat
+import io.mockk.mockk
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
@@ -19,9 +17,11 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
 
     lateinit var sut: CreateTaskExpandedViewModel
 
+    private val areExactRemindersAvailable: AreExactRemindersAvailable = mockk()
+
     @Before
     fun setUp() {
-        sut = CreateTaskExpandedViewModel()
+        sut = CreateTaskExpandedViewModel(areExactRemindersAvailable)
     }
 
     @Test
@@ -75,7 +75,8 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)
         val reminder = LocalTime.of(9, 0)
-        val expected = CreateTaskResult(name, date, reminder)
+        val expected =
+            com.costular.atomtasks.tasks.createtask.CreateTaskResult(name, date, reminder)
 
         sut.setName(name)
         sut.setDate(date)

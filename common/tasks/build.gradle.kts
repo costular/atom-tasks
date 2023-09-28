@@ -43,16 +43,20 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.compose.destinations)
+    implementation(libs.accompanist.permissions)
     api(libs.reordeable)
 
     testImplementation(projects.common.tasks)
+    testImplementation(projects.core.testing)
     testImplementation(libs.android.junit)
+    testImplementation(libs.compose.ui.test)
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
 
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.android.junit)
@@ -67,4 +71,6 @@ dependencies {
     androidTestImplementation(libs.preferences.datastore)
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.compiler)
+
+    debugImplementation(libs.compose.ui.manifest)
 }

@@ -48,4 +48,8 @@
     <string name="content_description_chip_clear">Limpiar</string>
     <string name="task_list_empty_title">Sin tareas</string>
     <string name="task_list_empty_description">¡Crea una tarea y empieza organizando tu vida!</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_title">Permiso necesario para recordatorios</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_description">Para utilizar la función de recordatorios, necesitamos el permiso para alarmas exactas. Sin él, los recordatorios no funcionarán</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">Lo entiendo</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Ir a Ajustes</string>
 </resources>

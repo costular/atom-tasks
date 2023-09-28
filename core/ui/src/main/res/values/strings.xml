@@ -58,5 +58,9 @@
     <string name="content_description_chip_clear">Clear</string>
     <string name="agenda_edit_title">Edit task</string>
     <string name="create_task_reminder_past_error">The reminder is set for a past date. Select a future reminder</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_title">Permission required to set exact reminders</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_description">To use the reminder feature, we require the exact alarm permission. Without it, reminders won\'t work at all.</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">I Understand</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Go to Settings</string>
 
 </resources>
