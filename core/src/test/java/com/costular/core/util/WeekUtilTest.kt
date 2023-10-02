@@ -1,6 +1,8 @@
 package com.costular.core.util
 
+import com.costular.core.util.WeekUtil.nextWeekend
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import org.junit.Test
@@ -13,7 +15,7 @@ class WeekUtilTest {
 
         val result = WeekUtil.getWeekDays(day, DayOfWeek.MONDAY)
 
-        Truth.assertThat(result.last()).isEqualTo(day)
+        assertThat(result.last()).isEqualTo(day)
     }
 
     @Test
@@ -23,7 +25,7 @@ class WeekUtilTest {
 
         val result = WeekUtil.getWeekDays(day, DayOfWeek.MONDAY)
 
-        Truth.assertThat(result.first()).isEqualTo(expected)
+        assertThat(result.first()).isEqualTo(expected)
     }
 
     @Test
@@ -32,7 +34,7 @@ class WeekUtilTest {
 
         val result = WeekUtil.getWeekDays(day, DayOfWeek.SUNDAY)
 
-        Truth.assertThat(result.first()).isEqualTo(day)
+        assertThat(result.first()).isEqualTo(day)
     }
 
     @Test
@@ -42,6 +44,34 @@ class WeekUtilTest {
 
         val result = WeekUtil.getWeekDays(day, DayOfWeek.SUNDAY)
 
-        Truth.assertThat(result.last()).isEqualTo(expected)
+        assertThat(result.last()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `Should return 2023-10-07 (Saturday) when nextWeekend called given date is 2023-10-02 (Monday)`() {
+        val date = LocalDate.of(2023, 10, 2)
+        val nextWeekend = date.nextWeekend()
+        assertThat(nextWeekend).isEqualTo(LocalDate.of(2023, 10, 7))
+    }
+
+    @Test
+    fun `Should return 2023-10-07 (Saturday) when nextWeekend called given date is 2023-10-06 (Friday)`() {
+        val date = LocalDate.of(2023, 10, 6)
+        val nextWeekend = date.nextWeekend()
+        assertThat(nextWeekend).isEqualTo(LocalDate.of(2023, 10, 7))
+    }
+
+    @Test
+    fun `Should return 2023-10-08 (Sunday) when nextWeekend called given date is 2023-10-07 (Saturday)`() {
+        val date = LocalDate.of(2023, 10, 7)
+        val nextWeekend = date.nextWeekend()
+        assertThat(nextWeekend).isEqualTo(LocalDate.of(2023, 10, 8))
+    }
+
+    @Test
+    fun `Should return 2023-10-14 (Saturday) when nextWeekend called given date is 2023-10-08 (Sunday)`() {
+        val date = LocalDate.of(2023, 10, 8)
+        val nextWeekend = date.nextWeekend()
+        assertThat(nextWeekend).isEqualTo(LocalDate.of(2023, 10, 14))
     }
 }
