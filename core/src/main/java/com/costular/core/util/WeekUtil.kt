@@ -25,8 +25,13 @@ object WeekUtil {
     fun LocalDate.isWeekend(): Boolean =
         dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY
 
-    fun LocalDate.nextWeekend(): LocalDate {
+    fun LocalDate.findNextWeekend(): LocalDate {
         return generateSequence(this.plusDays(1)) { it.plusDays(1) }
             .first { it.dayOfWeek == DayOfWeek.SATURDAY || it.dayOfWeek == DayOfWeek.SUNDAY }
+    }
+
+    fun LocalDate.findNextWeek(): LocalDate {
+        return generateSequence(this.plusDays(1)) { it.plusDays(1) }
+            .first { it.dayOfWeek == getFirstDayOfWeek() }
     }
 }
