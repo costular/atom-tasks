@@ -59,4 +59,8 @@
     <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">Lo entiendo</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Ir a Ajustes</string>
     <string name="postpone_task_title">" ¿No es el momento? Decide cuándo"</string>
+    <string name="create_task_notification_permission_rationale_title">El permiso de notificaciones es necesario</string>
+    <string name="create_task_notification_permission_rationale_description">"Para utilizar la función de recordatorios, necesitamos el permiso de notificaciones. Sin él, los recordatorios no funcionarán "</string>
+    <string name="create_task_notification_permission_rationale_dismiss">No gracias</string>
+    <string name="create_task_notification_permission_rationale_confirm">Vale</string>
 </resources>

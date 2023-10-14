@@ -52,7 +52,9 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -121,13 +123,15 @@ fun CreateTaskExpanded(
                 onPermissionStateChanged = viewModel::exactAlarmSettingChanged
             )
         } else {
-            NotificationPermissionEffect()
-
-            TimePickerDialog(
-                onDismiss = viewModel::closeSelectReminder,
-                selectedTime = state.reminder,
-                onSelectTime = viewModel::setReminder,
-            )
+            NotificationPermissionEffect(
+                onRevoke = viewModel::closeSelectReminder
+            ) {
+                TimePickerDialog(
+                    onDismiss = viewModel::closeSelectReminder,
+                    selectedTime = state.reminder,
+                    onSelectTime = viewModel::setReminder,
+                )
+            }
         }
     }
 
@@ -326,16 +330,35 @@ fun SaveButton(
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
-private fun NotificationPermissionEffect() {
+private fun NotificationPermissionEffect(
+    onRevoke: () -> Unit,
+    onAccept: @Composable () -> Unit,
+) {
     if (LocalInspectionMode.current) return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
     val notificationsPermissionState = rememberPermissionState(
         android.Manifest.permission.POST_NOTIFICATIONS,
     )
+
+    if (notificationsPermissionState.status.isGranted) {
+        onAccept()
+    }
+
+    if (notificationsPermissionState.status.shouldShowRationale) {
+        NotificationRationale(
+            onDismiss = onRevoke,
+            onAccept = {
+                notificationsPermissionState.launchPermissionRequest()
+            }
+        )
+    }
+
     LaunchedEffect(notificationsPermissionState) {
         val status = notificationsPermissionState.status
-        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
-            notificationsPermissionState.launchPermissionRequest()
+        when {
+            status is PermissionStatus.Denied && !status.shouldShowRationale -> {
+                notificationsPermissionState.launchPermissionRequest()
+            }
         }
     }
 }

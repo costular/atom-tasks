@@ -72,4 +72,9 @@
     <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">I Understand</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Go to Settings</string>
 
+    <string name="create_task_notification_permission_rationale_title">Notification permission required</string>
+    <string name="create_task_notification_permission_rationale_description">To use the reminder feature, we require the notification permission. Without it, reminders won\'t work at all.</string>
+    <string name="create_task_notification_permission_rationale_dismiss">No thanks</string>
+    <string name="create_task_notification_permission_rationale_confirm">I\'m in</string>
+
 </resources>
