@@ -4,21 +4,23 @@ plugins {
     kotlin("kapt")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
+    id("atomtasks.android.hilt")
 }
 
 android {
     namespace = "com.costular.atomtasks.core.testing"
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
 
-    implementation(libs.hilt)
     implementation(libs.hilt.android.testing)
     implementation(libs.androidx.test.runner)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.android.junit)
     implementation(libs.junit)

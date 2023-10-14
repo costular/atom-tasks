@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.atomtasks.tasks.TasksRepository
+import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.costular.core.usecase.UseCase
 import java.time.LocalDate
 import java.time.LocalTime

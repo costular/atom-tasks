@@ -74,7 +74,7 @@ fun AtomSheet(
 }
 
 @Composable
-private fun AtomSheetTitle(
+fun AtomSheetTitle(
     text: String,
     modifier: Modifier = Modifier,
 ) {

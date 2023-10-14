@@ -42,9 +42,9 @@ import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.coreui.date.Day
-import com.costular.atomtasks.tasks.Reminder
-import com.costular.atomtasks.tasks.Task
-import com.costular.atomtasks.tasks.TaskList
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.model.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar

@@ -3,11 +3,11 @@ package com.costular.atomtasks.tasks.interactor
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
-import com.costular.atomtasks.tasks.DefaultTasksRepository
-import com.costular.atomtasks.tasks.Reminder
-import com.costular.atomtasks.tasks.Task
-import com.costular.atomtasks.tasks.TaskLocalDataSource
-import com.costular.atomtasks.tasks.TasksRepository
+import com.costular.atomtasks.tasks.repository.DefaultTasksRepository
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.repository.TaskLocalDataSource
+import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

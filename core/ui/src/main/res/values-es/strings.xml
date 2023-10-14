@@ -28,9 +28,15 @@
     <string name="notification_channel_reminders_description">Recordatorios de tus tareas</string>
     <string name="notification_reminder">🔔 Recordatorio</string>
     <string name="notification_reminder_done">Hecho</string>
-    <string name="notification_reminder_postpone">Posponer 1 hora</string>
+    <string name="notification_reminder_postpone">Posponer</string>
     <string name="agenda_mark_as_done">Marcar como hecho</string>
     <string name="agenda_mark_as_undone">Marcar como no hecho</string>
+    <string name="postpone_task_fifteen_minutes">15 minutos</string>
+    <string name="postpone_task_one_hour">1 hora</string>
+    <string name="postpone_task_tonight">Esta noche</string>
+    <string name="postpone_task_tomorrow_morning">Mañana por la mañana</string>
+    <string name="postpone_task_next_weekend">Próximo finde</string>
+    <string name="postpone_task_next_week">Próxima semana</string>
     <string name="settings">Ajustes</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_light">Claro</string>
@@ -52,4 +58,5 @@
     <string name="create_task_schedule_exact_reminder_permission_missing_description">Para utilizar la función de recordatorios, necesitamos el permiso para alarmas exactas. Sin él, los recordatorios no funcionarán</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">Lo entiendo</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Ir a Ajustes</string>
+    <string name="postpone_task_title">" ¿No es el momento? Decide cuándo"</string>
 </resources>

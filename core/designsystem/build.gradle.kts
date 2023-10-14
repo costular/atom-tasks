@@ -5,7 +5,7 @@ plugins {
     kotlin("kapt")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
+    id("atomtasks.android.hilt")
 }
 
 android {
@@ -35,8 +35,6 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.accompanist.systemui)
     implementation(libs.viewmodel)
-    implementation(libs.hilt)
-    kapt(libs.hilt.androidx.compiler)
     implementation(libs.compose.ui.text.fonts)
     implementation(libs.calendar)
 
@@ -58,6 +56,5 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockk.android)
-    kaptAndroidTest(libs.hilt.compiler)
     debugImplementation(libs.compose.ui.manifest)
 }

@@ -41,7 +41,16 @@
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>
     <string name="notification_reminder">🔔 Reminder</string>
     <string name="notification_reminder_done">Done</string>
-    <string name="notification_reminder_postpone">Postpone 1 hour</string>
+    <string name="notification_reminder_postpone">Postpone</string>
+
+    <!-- Postpone task picker -->
+    <string name="postpone_task_title">Not now? Pick when</string>
+    <string name="postpone_task_fifteen_minutes">15 minutes</string>
+    <string name="postpone_task_one_hour">1 hour</string>
+    <string name="postpone_task_tonight">Tonight</string>
+    <string name="postpone_task_tomorrow_morning">Tomorrow morning</string>
+    <string name="postpone_task_next_weekend">Next weekend</string>
+    <string name="postpone_task_next_week">Next week</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
