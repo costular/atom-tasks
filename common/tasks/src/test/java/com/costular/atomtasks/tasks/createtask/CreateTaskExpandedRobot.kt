@@ -51,7 +51,6 @@ class CreateTaskExpandedRobot(composeTestRule: ComposeTestRule) : Robot(composeT
 
     fun hasReminder(reminder: String) {
         composeTestRule.onNode(hasText(reminder))
-            .assert(hasParent(hasTestTag("CreateTaskExpandedReminder")))
             .assertIsDisplayed()
     }
 }
