@@ -29,7 +29,6 @@ internal class DefaultTasksLocalDataSource(
             reminderId = 0L,
             time = time,
             date = date,
-            isEnabled = reminderEnabled,
             taskId = taskId,
         )
         reminderDao.insertReminder(reminder)
@@ -62,7 +61,7 @@ internal class DefaultTasksLocalDataSource(
 
     override suspend fun updateTaskReminder(taskId: Long, time: LocalTime, date: LocalDate) {
         if (reminderDao.reminderExistForTask(taskId)) {
-            reminderDao.updateReminder(taskId, time)
+            reminderDao.updateReminder(taskId, date, time)
         } else {
             createReminderForTask(time, date, true, taskId)
         }

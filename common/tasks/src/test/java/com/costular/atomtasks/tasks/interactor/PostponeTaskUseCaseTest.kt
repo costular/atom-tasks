@@ -122,7 +122,6 @@ class PostponeTaskUseCaseTest {
                 reminder = Reminder(
                     id = 1L,
                     time = LocalTime.of(9, 0),
-                    isEnabled = true,
                     date = LocalDate.now().plusDays(1),
                 ),
                 isDone = false,

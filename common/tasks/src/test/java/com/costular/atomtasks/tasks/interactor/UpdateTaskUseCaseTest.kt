@@ -33,7 +33,6 @@ class UpdateTaskUseCaseTest {
                 taskId = taskId,
                 name = name,
                 date = newDay,
-                reminderEnabled = false,
                 reminderTime = null,
             ),
         )
@@ -53,7 +52,6 @@ class UpdateTaskUseCaseTest {
                 taskId = taskId,
                 name = name,
                 date = newDay,
-                reminderEnabled = true,
                 reminderTime = reminder,
             ),
         )
@@ -73,7 +71,6 @@ class UpdateTaskUseCaseTest {
                 taskId = taskId,
                 name = name,
                 date = newDay,
-                reminderEnabled = true,
                 reminderTime = reminder,
             ),
         )
@@ -93,7 +90,6 @@ class UpdateTaskUseCaseTest {
                 taskId = taskId,
                 name = name,
                 date = newDay,
-                reminderEnabled = false,
                 reminderTime = reminder,
             ),
         )
@@ -113,7 +109,6 @@ class UpdateTaskUseCaseTest {
                 taskId = taskId,
                 name = name,
                 date = newDay,
-                reminderEnabled = false,
                 reminderTime = reminder,
             ),
         )

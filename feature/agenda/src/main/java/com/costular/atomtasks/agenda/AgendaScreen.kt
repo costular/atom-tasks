@@ -413,8 +413,7 @@ fun AgendaPreview() {
                             reminder = Reminder(
                                 id = 1L,
                                 time = LocalTime.of(9, 0),
-                                isEnabled = true,
-                                date = null,
+                                date = LocalDate.now(),
                             ),
                             isDone = false,
                             position = 0,
@@ -427,8 +426,7 @@ fun AgendaPreview() {
                             reminder = Reminder(
                                 id = 1L,
                                 time = LocalTime.of(9, 0),
-                                isEnabled = true,
-                                date = null,
+                                date = LocalDate.now(),
                             ),
                             isDone = true,
                             position = 0,

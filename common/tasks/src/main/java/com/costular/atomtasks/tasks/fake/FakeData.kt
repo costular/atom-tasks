@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data.util
+package com.costular.atomtasks.tasks.fake
 
 import com.costular.atomtasks.tasks.model.Task
 import java.time.LocalDate

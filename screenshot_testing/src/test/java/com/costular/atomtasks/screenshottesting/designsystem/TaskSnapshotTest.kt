@@ -75,7 +75,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },
@@ -97,7 +96,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },
@@ -120,7 +118,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },

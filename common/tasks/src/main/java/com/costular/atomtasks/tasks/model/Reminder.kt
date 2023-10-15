@@ -7,11 +7,8 @@ import java.time.LocalTime
 data class Reminder(
     val id: Long,
     val time: LocalTime,
-    val isEnabled: Boolean,
-    val date: LocalDate?,
+    val date: LocalDate,
 ) {
-
     val isToday: Boolean get() = date == LocalDate.now()
-    val isNow: Boolean get() = time.hour == LocalTime.now().hour
     val localDateTime: LocalDateTime get() = time.atDate(date)
 }

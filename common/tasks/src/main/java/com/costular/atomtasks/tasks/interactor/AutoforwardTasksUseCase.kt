@@ -34,7 +34,6 @@ class AutoforwardTasksUseCase @Inject constructor(
                         taskId = task.id,
                         name = task.name,
                         date = task.day.plusDays(1),
-                        reminderEnabled = task.reminder?.isEnabled ?: false,
                         reminderTime = task.reminder?.time,
                     ),
                 )

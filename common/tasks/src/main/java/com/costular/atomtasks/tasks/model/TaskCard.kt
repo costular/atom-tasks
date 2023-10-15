@@ -212,7 +212,6 @@ private fun TaskCardPreview() {
             reminder = Reminder(
                 1L,
                 LocalTime.parse("10:00"),
-                true,
                 LocalDate.now(),
             ),
             isBeingDragged = false,
@@ -233,7 +232,6 @@ private fun TaskCardUnfinishedPreview() {
             reminder = Reminder(
                 1L,
                 LocalTime.parse("10:00"),
-                true,
                 LocalDate.now(),
             ),
             isBeingDragged = false,
@@ -254,7 +252,6 @@ private fun TaskCardLongNamePreview() {
             reminder = Reminder(
                 1L,
                 LocalTime.parse("10:00"),
-                true,
                 LocalDate.now(),
             ),
             isBeingDragged = false,

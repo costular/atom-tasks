@@ -1,5 +1,7 @@
 package com.costular.atomtasks.data.database
 
+import androidx.room.DeleteColumn
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
@@ -31,3 +33,6 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         )
     }
 }
+
+@DeleteColumn(tableName = "reminders", columnName = "is_enabled")
+internal class MigrationDeleteIsEnabledReminder : AutoMigrationSpec

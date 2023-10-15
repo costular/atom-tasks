@@ -71,7 +71,6 @@ class AutoforwardTasksUseCaseTest {
                             task.id,
                             task.name,
                             task.day.plusDays(1),
-                            task.reminder?.isEnabled ?: false,
                             task.reminder?.time,
                         ),
                     )

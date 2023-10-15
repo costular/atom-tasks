@@ -27,7 +27,7 @@ class PostponeTaskUseCase @Inject constructor(
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(params.taskId))
             val task = getTaskByIdInteractor.flow.first()
 
-            if (task.reminder == null || !task.reminder.isEnabled) {
+            if (task.reminder == null) {
                 return PostponeTaskFailure.MissingReminder.toError()
             }
 

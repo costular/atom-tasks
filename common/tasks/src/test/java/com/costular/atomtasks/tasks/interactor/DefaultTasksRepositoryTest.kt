@@ -98,7 +98,6 @@ class DefaultTasksRepositoryTest {
                 reminderId = 10L,
                 time = taskReminder,
                 date = taskDay,
-                isEnabled = true,
                 taskId = taskId,
             ),
         )
@@ -110,7 +109,6 @@ class DefaultTasksRepositoryTest {
             reminder = Reminder(
                 id = 100L,
                 time = taskReminder,
-                isEnabled = true,
                 date = LocalDate.now(),
             ),
             isDone = true,

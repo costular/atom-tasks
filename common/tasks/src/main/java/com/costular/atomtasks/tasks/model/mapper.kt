@@ -17,7 +17,6 @@ fun TaskAggregated.toDomain(): Task = Task(
 fun ReminderEntity.toDomain(): Reminder = Reminder(
     taskId,
     time,
-    isEnabled,
     date,
 )
 

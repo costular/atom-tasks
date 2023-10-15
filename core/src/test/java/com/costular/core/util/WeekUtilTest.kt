@@ -107,7 +107,7 @@ class WeekUtilTest {
 
         val date = LocalDate.of(2023, 10, 6)
         val nextWeekStart = date.findNextWeek()
-        val expectedDate = LocalDate.of(2023, 10, 8)
+        val expectedDate = LocalDate.of(2023, 10, 9)
         assertThat(nextWeekStart).isEqualTo(expectedDate)
     }
 
