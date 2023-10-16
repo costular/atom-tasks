@@ -2,10 +2,8 @@ package com.costular.atomtasks.data.database
 
 import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.DeleteColumn
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.AutoMigrationSpec
 import com.costular.atomtasks.data.tasks.ReminderDao
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskEntity

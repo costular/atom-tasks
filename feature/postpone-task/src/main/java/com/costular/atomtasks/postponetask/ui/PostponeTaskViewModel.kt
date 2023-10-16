@@ -6,14 +6,8 @@ import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
 import com.costular.atomtasks.postponetask.domain.PostponeChoice
 import com.costular.atomtasks.tasks.interactor.PostponeTaskUseCase
 import com.costular.atomtasks.notifications.TaskNotificationManager
-import com.costular.atomtasks.postponetask.domain.DefaultPostponeChoiceCalculator
 import com.costular.atomtasks.postponetask.domain.PostponeChoiceCalculator
-import com.costular.core.util.PredefinedTimes
-import com.costular.core.util.WeekUtil.findNextWeek
-import com.costular.core.util.WeekUtil.findNextWeekend
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 

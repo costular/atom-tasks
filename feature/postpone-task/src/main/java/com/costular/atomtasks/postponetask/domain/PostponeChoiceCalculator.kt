@@ -11,6 +11,7 @@ interface PostponeChoiceCalculator {
     fun calculatePostpone(postponeChoice: PostponeChoice): LocalDateTime
 }
 
+@Suppress("MagicNumber")
 class DefaultPostponeChoiceCalculator(
     private val clock: Clock,
 ) : PostponeChoiceCalculator {

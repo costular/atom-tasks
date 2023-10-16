@@ -22,6 +22,7 @@ class PostponeTaskUseCase @Inject constructor(
         val time: LocalTime,
     )
 
+    @Suppress("SwallowedException", "TooGenericExceptionCaught")
     override suspend fun invoke(params: Params): Either<PostponeTaskFailure, Unit> {
         return try {
             getTaskByIdInteractor(GetTaskByIdInteractor.Params(params.taskId))
@@ -46,7 +47,6 @@ class PostponeTaskUseCase @Inject constructor(
         } catch (e: Exception) {
             PostponeTaskFailure.Unknown.toError()
         }
-
     }
 }
 
