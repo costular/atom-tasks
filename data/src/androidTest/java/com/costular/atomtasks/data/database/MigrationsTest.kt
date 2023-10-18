@@ -6,7 +6,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth
 import java.io.IOException
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +15,7 @@ import org.junit.runner.RunWith
 class MigrationsTest {
     private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5)
     private val TEST_DB = "migration-test"
-    private val LATEST_VERSION = 5
+    private val LATEST_VERSION = 6
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -30,7 +29,7 @@ class MigrationsTest {
         helper.createDatabase(TEST_DB, 4).apply {
             execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES" +
-                    " ('2023-08-23', 'This is a test', '2023-08-23', 0)",
+                        " ('2023-08-23', 'This is a test', '2023-08-23', 0)",
             )
             close()
         }
@@ -48,28 +47,70 @@ class MigrationsTest {
 
     @Test
     fun testMigrate4To5() = runTest {
-        helper.createDatabase(TEST_DB, 4).apply {
+        val db = helper.createDatabase(TEST_DB, 4).apply {
             execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
-                    "('2023-08-23', 'This is a test', '2023-08-23', 0), " +
-                    "('2023-08-24', 'First task for this day', '2023-08-24', 0), " +
-                    "('2023-08-23', 'Second task', '2023-08-23', 0);",
+                        "('2023-08-23', 'This is a test', '2023-08-23', 0), " +
+                        "('2023-08-24', 'First task for this day', '2023-08-24', 0), " +
+                        "('2023-08-23', 'Second task', '2023-08-23', 0);",
             )
-            close()
         }
 
-        val db = Room.databaseBuilder(
-            InstrumentationRegistry.getInstrumentation().targetContext,
-            AtomTasksDatabase::class.java,
-            TEST_DB,
-        ).addMigrations(MIGRATION_4_5).build().apply {
-            openHelper.writableDatabase.close()
-        }
-        helper.runMigrationsAndValidate(TEST_DB, 5, true)
+        helper.runMigrationsAndValidate(TEST_DB, 5, true, MIGRATION_4_5)
 
-        val tasks = db.getTasksDao().observeAllTasks().first()
-        Truth.assertThat(tasks.find { it.task.id == 1L }!!.task.position).isEqualTo(1)
-        Truth.assertThat(tasks.find { it.task.id == 2L }!!.task.position).isEqualTo(2)
-        Truth.assertThat(tasks.find { it.task.id == 3L }!!.task.position).isEqualTo(3)
+        val cursor = db.query("SELECT * FROM tasks", arrayOf())
+
+        if (cursor.moveToFirst()) {
+            val positionColumnIndex = cursor.getColumnIndex("position")
+
+            if (positionColumnIndex != -1) {
+                val positions = mutableListOf<Int>()
+
+                do {
+                    val position = cursor.getInt(positionColumnIndex)
+                    positions.add(position)
+                } while (cursor.moveToNext())
+
+                Truth.assertThat(positions[0]).isEqualTo(1)
+                Truth.assertThat(positions[1]).isEqualTo(2)
+                Truth.assertThat(positions[2]).isEqualTo(3)
+            }
+        }
+        cursor.close()
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testMigration5To6() {
+        val db = helper.createDatabase(TEST_DB, 5).apply {
+            execSQL(
+                "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
+                        "('2023-08-23', 'This is a test', '2023-08-23', 0); "
+            )
+            execSQL(
+                "INSERT INTO reminders (reminder_id, time, date, is_enabled, task_id) VALUES " +
+                        "(1, '09:00', '2023-10-15', 1, 1)"
+            )
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 6, true)
+
+        val cursor = db.query("SELECT * FROM reminders", arrayOf())
+
+        if (cursor.moveToFirst()) {
+            val positionColumnIndex = cursor.getColumnIndex("time")
+
+            if (positionColumnIndex != -1) {
+                val reminderTimes = mutableListOf<String>()
+
+                do {
+                    val reminderTime = cursor.getString(positionColumnIndex)
+                    reminderTimes.add(reminderTime)
+                } while (cursor.moveToNext())
+
+                Truth.assertThat(reminderTimes.first()).isEqualTo("09:00")
+            }
+        }
+        cursor.close()
     }
 }

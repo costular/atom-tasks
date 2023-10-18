@@ -2,7 +2,7 @@ package com.costular.atomtasks.agenda
 
 import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.coreui.date.asDay
-import com.costular.atomtasks.tasks.Task
+import com.costular.atomtasks.tasks.model.Task
 import java.time.LocalDate
 import kotlinx.collections.immutable.ImmutableList
 

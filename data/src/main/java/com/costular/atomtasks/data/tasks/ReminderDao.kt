@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import java.time.LocalDate
 import java.time.LocalTime
 
 @Dao
@@ -16,8 +17,8 @@ interface ReminderDao {
     @Query("SELECT EXISTS(SELECT * FROM reminders WHERE task_id = :taskId)")
     suspend fun reminderExistForTask(taskId: Long): Boolean
 
-    @Query("UPDATE reminders SET time = :time WHERE task_id = :taskId")
-    suspend fun updateReminder(taskId: Long, time: LocalTime)
+    @Query("UPDATE reminders SET date = :date, time = :time WHERE task_id = :taskId")
+    suspend fun updateReminder(taskId: Long, date: LocalDate, time: LocalTime)
 
     @Query("DELETE FROM reminders WHERE task_id = :taskId")
     suspend fun removeReminder(taskId: Long)

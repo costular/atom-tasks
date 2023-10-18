@@ -10,11 +10,8 @@ mockk = "1.13.3"
 hilt = "2.46.1"
 hiltAndroidx = "1.0.0"
 testRunner = "1.5.0"
-hiltJetpack = "1.0.0"
 testJetpack = "2.2.0"
-timber = "5.0.1"
 composeMaterial3 = "1.2.0-alpha07"
-hiltJetpackViewModel = "1.0.0-alpha03"
 accompanist = "0.31.6-rc"
 workManager = "2.8.1"
 room = "2.5.2"
@@ -41,7 +38,7 @@ viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version
 lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-androidx-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltAndroidx" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltAndroidx" }
 hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 hilt-work = "androidx.hilt:hilt-work:1.0.0"
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }

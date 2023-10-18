@@ -2,7 +2,7 @@ package com.costular.atomtasks.edittask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.data.util.TaskToday
+import com.costular.atomtasks.tasks.fake.TaskToday
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel

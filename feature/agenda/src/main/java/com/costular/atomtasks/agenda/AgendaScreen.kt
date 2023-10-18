@@ -42,9 +42,9 @@ import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.coreui.date.Day
-import com.costular.atomtasks.tasks.Reminder
-import com.costular.atomtasks.tasks.Task
-import com.costular.atomtasks.tasks.TaskList
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.model.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
@@ -413,8 +413,7 @@ fun AgendaPreview() {
                             reminder = Reminder(
                                 id = 1L,
                                 time = LocalTime.of(9, 0),
-                                isEnabled = true,
-                                date = null,
+                                date = LocalDate.now(),
                             ),
                             isDone = false,
                             position = 0,
@@ -427,8 +426,7 @@ fun AgendaPreview() {
                             reminder = Reminder(
                                 id = 1L,
                                 time = LocalTime.of(9, 0),
-                                isEnabled = true,
-                                date = null,
+                                date = LocalDate.now(),
                             ),
                             isDone = true,
                             position = 0,

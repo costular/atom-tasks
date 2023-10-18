@@ -33,7 +33,6 @@ class SetTasksRemindersWorker @AssistedInject constructor(
         }
 
     companion object {
-        fun start() = OneTimeWorkRequestBuilder<SetTasksRemindersWorker>()
-            .build()
+        fun start() = OneTimeWorkRequestBuilder<SetTasksRemindersWorker>().build()
     }
 }

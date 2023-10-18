@@ -7,8 +7,8 @@ import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
-import com.costular.atomtasks.tasks.Reminder
-import com.costular.atomtasks.tasks.TaskCard
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.TaskCard
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
@@ -75,7 +75,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },
@@ -97,7 +96,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },
@@ -120,7 +118,6 @@ class TaskSnapshotTest {
                 reminder = Reminder(
                     0L,
                     LocalTime.of(9, 0),
-                    true,
                     LocalDate.now(),
                 ),
                 onMark = { },

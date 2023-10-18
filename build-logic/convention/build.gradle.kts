@@ -50,5 +50,9 @@ gradlePlugin {
             id = "atomtasks.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("androidHilt") {
+            id = "atomtasks.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
     }
 }

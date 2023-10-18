@@ -58,7 +58,6 @@ class EditTaskViewModel @Inject constructor(
                         taskId = state.taskState.taskId,
                         name = name,
                         date = date,
-                        reminderEnabled = reminder != null,
                         reminderTime = reminder,
                     ),
                 )

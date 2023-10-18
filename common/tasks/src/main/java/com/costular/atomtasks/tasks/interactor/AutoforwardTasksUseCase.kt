@@ -1,7 +1,6 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
-import com.costular.atomtasks.tasks.ObserveTasksUseCase
 import com.costular.core.usecase.UseCase
 import com.costular.core.usecase.invoke
 import java.time.LocalDate
@@ -35,7 +34,6 @@ class AutoforwardTasksUseCase @Inject constructor(
                         taskId = task.id,
                         name = task.name,
                         date = task.day.plusDays(1),
-                        reminderEnabled = task.reminder?.isEnabled ?: false,
                         reminderTime = task.reminder?.time,
                     ),
                 )

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.first
 @Suppress("TooManyFunctions")
 @Dao
 interface TasksDao {
-
     @Transaction
     suspend fun createTask(taskEntity: TaskEntity): Long {
         val latestPosition = getMaxPositionForDate(taskEntity.day)

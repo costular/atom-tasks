@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Add ability to postpone reminders dynamically, before only one hour was the only choice
+- 
+
+### Changed
+- Enhanced notification logic moving the code into a module to encapsulate it
+- Use USE_EXACT_ALARM and add rationale when it SCHUDULE_EXACT_ALARM get revoked, just in case in the future we don't have access to USE_EXACT_ALARM you never know when it depends on Google :D
+- Notification permission handling has been improved and now a rationale is shown when the user revokes the permission. Also, it's dynamic, as soon as the permission gets granted even via settings the app will be refreshed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fixed an issue that opened the app many times when tapping on notifications
+- Fixed an issue when editing or postponing a reminder
+- Fixed the ability to set reminders for the past which means that the notification is instantly fired
+
+### Security
+
+
 ## [2.0.0] 2023-09-18
 
 ### Added

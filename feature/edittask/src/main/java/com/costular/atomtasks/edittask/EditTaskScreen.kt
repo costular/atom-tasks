@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
-import com.costular.designsystem.components.createtask.CreateTaskExpanded
+import com.costular.atomtasks.tasks.createtask.CreateTaskExpanded
 import com.costular.designsystem.dialogs.AtomSheet
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

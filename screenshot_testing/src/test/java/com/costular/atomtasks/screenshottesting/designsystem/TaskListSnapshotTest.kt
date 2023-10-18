@@ -12,9 +12,9 @@ import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
-import com.costular.atomtasks.tasks.Reminder
-import com.costular.atomtasks.tasks.Task
-import com.costular.atomtasks.tasks.TaskList
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.model.TaskList
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
@@ -73,8 +73,7 @@ class TaskListSnapshotTest {
                         reminder = Reminder(
                             id = 1L,
                             time = LocalTime.of(9, 0),
-                            isEnabled = true,
-                            date = null,
+                            date = LocalDate.now(),
                         ),
                         isDone = false,
                         position = 2,
@@ -95,7 +94,7 @@ class TaskListSnapshotTest {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun GeneratedTaskList(tasks: List<com.costular.atomtasks.tasks.Task>) {
+    private fun GeneratedTaskList(tasks: List<Task>) {
         Scaffold {
             TaskList(
                 tasks = tasks,
