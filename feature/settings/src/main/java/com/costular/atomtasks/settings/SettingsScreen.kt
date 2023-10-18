@@ -1,5 +1,7 @@
 package com.costular.atomtasks.settings
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,16 +13,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.designsystem.components.AtomTopBar
@@ -30,7 +35,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr
 import org.jetbrains.annotations.VisibleForTesting
-import com.costular.atomtasks.core.ui.R
 
 interface SettingsNavigator {
     fun navigateUp()
@@ -107,6 +111,23 @@ fun SettingsScreen(
                 isMoveUndoneTasksTomorrowEnabled = state.moveUndoneTasksTomorrowAutomatically,
                 onSetMoveUndoneTasksTomorrow = onUpdateAutoforwardTasks,
                 modifier = Modifier.fillMaxWidth(),
+            )
+
+            SectionSpacer()
+
+            HorizontalDivider()
+            SectionSpacer()
+
+            val context = LocalContext.current
+
+            SettingsAboutSection(
+                onOpenDonation = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.buymeacoffee.com/costular")
+                    )
+                    context.startActivity(intent)
+                }
             )
         }
     }

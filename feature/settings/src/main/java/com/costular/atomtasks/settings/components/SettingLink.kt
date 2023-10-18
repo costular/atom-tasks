@@ -2,11 +2,11 @@ package com.costular.atomtasks.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.OpenInNew
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -20,7 +20,7 @@ import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun SettingLink(
-    title: String,
+    title: @Composable () -> Unit,
     icon: ImageVector,
     onClick: () -> Unit,
 ) {
@@ -33,17 +33,10 @@ fun SettingLink(
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
             )
         },
-        title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-            )
-        },
+        title = title,
         end = {
             Image(
-                Icons.Default.OpenInNew,
+                Icons.AutoMirrored.Filled.OpenInNew,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
             )
@@ -57,7 +50,14 @@ fun SettingLink(
 private fun SettingOptionPrev() {
     AtomTheme {
         SettingLink(
-            title = "GitHub repository",
+            title = {
+                Text(
+                    text = "GitHub repository",
+                    style = MaterialTheme.typography.titleSmall,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                )
+            },
             icon = Icons.Outlined.Code,
             onClick = {},
         )

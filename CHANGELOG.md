@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add ability to postpone reminders dynamically, before only one hour was the only choice
-- 
+- Add donation page for whoever wanna contribute with the project
 
 ### Changed
 - Enhanced notification logic moving the code into a module to encapsulate it
