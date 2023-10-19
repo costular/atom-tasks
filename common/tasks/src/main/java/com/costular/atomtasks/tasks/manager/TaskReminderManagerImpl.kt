@@ -16,9 +16,22 @@ internal class TaskReminderManagerImpl(
 ) : TaskReminderManager {
 
     private val alarmManager = context.getSystemService<AlarmManager>()
+    override fun canScheduleReminders(): Boolean {
+        checkNotNull(alarmManager)
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            alarmManager.canScheduleExactAlarms()
+        } else {
+            true
+        }
+    }
 
     override fun set(taskId: Long, localDateTime: LocalDateTime) {
         checkNotNull(alarmManager)
+
+        if (localDateTime.isBefore(LocalDateTime.now())) {
+            return
+        }
 
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
@@ -30,9 +43,10 @@ internal class TaskReminderManagerImpl(
 
     override fun cancel(taskId: Long) {
         checkNotNull(alarmManager)
-        val pendingIntent = buildTaskReminderPendingIntent(taskId)
-        alarmManager.cancel(pendingIntent)
-        pendingIntent.cancel()
+        buildTaskReminderPendingIntent(taskId).also { pendingIntent ->
+            alarmManager.cancel(pendingIntent)
+            pendingIntent.cancel()
+        }
     }
 
     private fun buildTaskReminderPendingIntent(taskId: Long): PendingIntent =
@@ -42,12 +56,10 @@ internal class TaskReminderManagerImpl(
             Intent(context, NotifyTaskReceiver::class.java).apply {
                 putExtra("task_id", taskId)
             },
-            getUpdateFlag(),
+            Flags,
         )
 
-    private fun getUpdateFlag() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
+    private companion object {
+        val Flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     }
 }

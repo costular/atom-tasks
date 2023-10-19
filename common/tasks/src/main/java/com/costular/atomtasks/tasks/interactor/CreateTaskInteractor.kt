@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.Interactor
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.atomtasks.tasks.TasksRepository
+import com.costular.atomtasks.tasks.repository.TasksRepository
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject

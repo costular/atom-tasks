@@ -15,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        versionCode = 10
-        versionName = "2.0.0"
+        versionCode = 11
+        versionName = "2.1.0"
         testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
@@ -83,12 +83,14 @@ configurations {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
+    implementation(projects.core.notifications)
     implementation(project(":data"))
     implementation(project(":feature:agenda"))
     implementation(project(":feature:createtask"))
     implementation(project(":feature:settings"))
     implementation(projects.common.tasks)
     implementation(projects.feature.edittask)
+    implementation(projects.feature.postponeTask)
 
     implementation(libs.fragment)
     implementation(libs.compose.ui)
@@ -104,7 +106,6 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-    kapt(libs.hilt.androidx.compiler)
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.startup)

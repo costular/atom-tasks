@@ -41,7 +41,16 @@
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>
     <string name="notification_reminder">🔔 Reminder</string>
     <string name="notification_reminder_done">Done</string>
-    <string name="notification_reminder_postpone">Postpone 1 hour</string>
+    <string name="notification_reminder_postpone">Postpone</string>
+
+    <!-- Postpone task picker -->
+    <string name="postpone_task_title">Not now? Pick when</string>
+    <string name="postpone_task_fifteen_minutes">15 minutes</string>
+    <string name="postpone_task_one_hour">1 hour</string>
+    <string name="postpone_task_tonight">Tonight</string>
+    <string name="postpone_task_tomorrow_morning">Tomorrow morning</string>
+    <string name="postpone_task_next_weekend">Next weekend</string>
+    <string name="postpone_task_next_week">Next week</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -53,10 +62,22 @@
     <string name="settings_tasks_title">Tasks</string>
     <string name="settings_tasks_autoforward_tasks_title">Auto-Postpone</string>
     <string name="settings_tasks_autoforward_tasks_description">Unfinished tasks will be moved to the next day automatically.</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_donate_title">"Fuel Atom\'s ad-free journey!"</string>
+    <string name="settings_about_donate_description">"Time, dedication, and caffeine ☕️ go into this project. Liked Atom? A coffee donation helps keep it top-notch and ad-free. Big thanks! 🙌💚 "</string>
 
     <string name="save">Save</string>
     <string name="content_description_chip_clear">Clear</string>
     <string name="agenda_edit_title">Edit task</string>
     <string name="create_task_reminder_past_error">The reminder is set for a past date. Select a future reminder</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_title">Permission required to set exact reminders</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_description">To use the reminder feature, we require the exact alarm permission. Without it, reminders won\'t work at all.</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">I Understand</string>
+    <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Go to Settings</string>
+
+    <string name="create_task_notification_permission_rationale_title">Notification permission required</string>
+    <string name="create_task_notification_permission_rationale_description">To use the reminder feature, we require the notification permission. Without it, reminders won\'t work at all.</string>
+    <string name="create_task_notification_permission_rationale_dismiss">No thanks</string>
+    <string name="create_task_notification_permission_rationale_confirm">I\'m in</string>
 
 </resources>

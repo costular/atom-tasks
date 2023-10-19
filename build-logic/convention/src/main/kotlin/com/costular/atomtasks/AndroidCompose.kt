@@ -42,6 +42,13 @@ internal fun Project.configureAndroidCompose(
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
         }
+
+        testOptions {
+            unitTests {
+                // For Robolectric
+                isIncludeAndroidResources = true
+            }
+        }
     }
 }
 

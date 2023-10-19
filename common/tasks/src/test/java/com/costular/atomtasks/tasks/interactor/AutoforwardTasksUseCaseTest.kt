@@ -1,8 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
-import com.costular.atomtasks.tasks.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.Task
+import com.costular.atomtasks.tasks.model.Task
 import com.costular.core.usecase.invoke
 import io.mockk.coVerify
 import io.mockk.every
@@ -72,7 +71,6 @@ class AutoforwardTasksUseCaseTest {
                             task.id,
                             task.name,
                             task.day.plusDays(1),
-                            task.reminder?.isEnabled ?: false,
                             task.reminder?.time,
                         ),
                     )

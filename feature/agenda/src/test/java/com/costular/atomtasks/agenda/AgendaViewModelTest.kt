@@ -6,8 +6,8 @@ import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.tasks.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.Task
+import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
+import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor

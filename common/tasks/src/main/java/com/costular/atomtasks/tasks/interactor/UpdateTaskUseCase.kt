@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.atomtasks.tasks.TasksRepository
+import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.costular.core.usecase.UseCase
 import java.time.LocalDate
 import java.time.LocalTime
@@ -18,7 +18,6 @@ class UpdateTaskUseCase @Inject constructor(
         val taskId: Long,
         val name: String,
         val date: LocalDate,
-        val reminderEnabled: Boolean,
         val reminderTime: LocalTime?,
     )
 
@@ -30,7 +29,7 @@ class UpdateTaskUseCase @Inject constructor(
                 name,
             )
 
-            if (reminderEnabled && reminderTime != null) {
+            if (reminderTime != null) {
                 tasksRepository.updateTaskReminder(taskId, reminderTime, date)
                 taskReminderManager.set(taskId, reminderTime.atDate(date))
             } else {
