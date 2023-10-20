@@ -27,7 +27,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.ReorderableLazyListState
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -43,7 +45,9 @@ fun TaskList(
         Empty(modifier.padding(AppTheme.dimens.contentMargin))
     } else {
         LazyColumn(
-            modifier = modifier,
+            modifier = modifier
+                .reorderable(state)
+                .detectReorderAfterLongPress(state),
             state = state.listState,
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -56,7 +60,9 @@ fun TaskList(
                         onOpen = { onClick(task) },
                         reminder = task.reminder,
                         isFinished = task.isDone,
-                        modifier = Modifier.fillMaxWidth().animateItemPlacement(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItemPlacement(),
                         isBeingDragged = isDragging,
                     )
                 }

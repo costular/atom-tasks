@@ -1,6 +1,5 @@
 package com.costular.atomtasks.data.tasks
 
-import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 
 @Suppress("TooManyFunctions")
 @Dao
@@ -61,19 +59,25 @@ interface TasksDao {
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE position = :position AND date = :day")
-    suspend fun getTaskByPosition(day: LocalDate, position: Int): TaskAggregated
+    suspend fun getTaskByPosition(day: LocalDate, position: Int): TaskAggregated?
 
     @Transaction
     suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) return
 
-        val oldTask = getTaskByPosition(day, fromPosition).task
+        val oldTask = getTaskByPosition(day, fromPosition)
+
+        requireNotNull(oldTask?.task) {
+            "Task that's being moved is null for some reason"
+        }
+
+        val oldTaskEntity = oldTask!!.task
 
         val isDownMovement = toPosition > fromPosition
         val shift = if (isDownMovement) -1 else +1
         val tasksToShift = getTasksInRange(day, fromPosition - shift, toPosition)
 
-        updateTaskPosition(oldTask.id, -1)
+        updateTaskPosition(oldTaskEntity.id, -1)
 
         val sortedTasks = if (isDownMovement) {
             tasksToShift.sortedBy { it.task.position }
@@ -87,14 +91,6 @@ interface TasksDao {
                 updateTaskPosition(it.task.id, updatedPosition)
             }
 
-        val latestList = observeAllTasks().first()
-
-        Log.d("Order", "After iterating the list the result is: ")
-        latestList.forEach {
-            Log.d("Order", "Task ${it.task.id} with position ${it.task.position}")
-        }
-
-        Log.d("Order", "Updating ${oldTask.name} to $toPosition")
-        updateTaskPosition(oldTask.id, toPosition)
+        updateTaskPosition(oldTaskEntity.id, toPosition)
     }
 }

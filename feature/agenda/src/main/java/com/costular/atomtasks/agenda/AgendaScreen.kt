@@ -60,7 +60,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.collections.immutable.persistentListOf
 import org.burnoutcrew.reorderable.ItemPosition
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import com.costular.atomtasks.core.ui.R.string as S
 
 const val TestTagHeader = "AgendaTitle"
