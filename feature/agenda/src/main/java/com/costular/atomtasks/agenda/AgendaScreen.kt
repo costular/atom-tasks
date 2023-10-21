@@ -353,9 +353,9 @@ private fun AgendaHeader(
                 label = "Header calendar",
             ) { isCollapsed ->
                 if (isCollapsed) {
-                    HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
-                } else {
                     HeaderCalendarExpanded(state.selectedDay, onSelectDate)
+                } else {
+                    HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
                 }
             }
         }
@@ -363,7 +363,7 @@ private fun AgendaHeader(
 }
 
 @Composable
-private fun HeaderCalendarCollapsed(
+private fun HeaderCalendarExpanded(
     selectedDay: Day,
     onSelectDate: (LocalDate) -> Unit,
 ) {
@@ -378,7 +378,7 @@ private fun HeaderCalendarCollapsed(
 }
 
 @Composable
-private fun HeaderCalendarExpanded(
+private fun HeaderCalendarCollapsed(
     selectedDay: Day,
     onSelectDate: (LocalDate) -> Unit,
 ) {

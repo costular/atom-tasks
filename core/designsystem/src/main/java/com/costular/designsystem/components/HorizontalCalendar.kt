@@ -22,10 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.coreui.utils.ofLocalized
+import com.costular.core.util.DateTimeFormatters
 import com.costular.core.util.DateTimeFormatters.shortDayOfWeekFormatter
 import com.costular.core.util.WeekUtil
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
+import java.time.format.TextStyle
 
 @Composable
 fun HorizontalCalendar(
@@ -56,7 +59,7 @@ private fun RowScope.CalendarDay(
     modifier: Modifier = Modifier,
 ) {
     val day = date.dayOfMonth
-    val weekDay = shortDayOfWeekFormatter.format(date.dayOfWeek)
+    val weekDay = shortDayOfWeekFormatter.ofLocalized(date.dayOfWeek)
 
     val cardColors = if (isSelected) {
         CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
