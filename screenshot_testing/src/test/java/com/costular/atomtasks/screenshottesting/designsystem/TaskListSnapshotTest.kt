@@ -102,6 +102,8 @@ class TaskListSnapshotTest {
                 onMarkTask = { _, _ -> },
                 modifier = Modifier.fillMaxWidth(),
                 state = rememberReorderableLazyListState(onMove = { _, _ -> }),
+                shouldShowTaskOrderTutorial = false,
+                onDismissTaskOrderTutorial = {},
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data.settings
+package com.costular.atomtasks.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore

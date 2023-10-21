@@ -6,12 +6,15 @@ import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
+import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
+import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
+import com.costular.atomtasks.tasks.model.Task
+import com.costular.core.usecase.invoke
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,17 +40,13 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
     private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
+    private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
+        mockk(relaxed = true)
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
-        sut = AgendaViewModel(
-            observeTasksUseCase = observeTasksUseCase,
-            updateTaskIsDoneInteractor = updateTaskIsDoneInteractor,
-            removeTaskInteractor = removeTaskInteractor,
-            autoforwardManager = autoforwardManager,
-            moveTaskUseCase = moveTaskUseCase,
-            atomAnalytics = atomAnalytics,
-        )
+        initializeViewModel()
     }
 
     @Test
@@ -164,8 +163,8 @@ class AgendaViewModelTest : MviViewModelTest() {
     fun `should update state when drag task`() = runTest {
         val expected = DEFAULT_TASKS
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
-        val from = 1
-        val to = 2
+        val from = 0
+        val to = 1
 
         sut.loadTasks()
         sut.onDragTask(ItemPosition(from, TASK1_ID), ItemPosition(to, TASK2ID))
@@ -185,10 +184,35 @@ class AgendaViewModelTest : MviViewModelTest() {
         val to = 1
 
         sut.loadTasks()
+        sut.onDragTask(
+            ItemPosition(from, DEFAULT_TASKS.first().id),
+            ItemPosition(to, DEFAULT_TASKS[1].id)
+        )
         sut.onMoveTask(from, to)
 
         coVerify(exactly = 1) {
-            moveTaskUseCase(MoveTaskUseCase.Params(LocalDate.now(), from + 1, to + 1))
+            moveTaskUseCase(
+                MoveTaskUseCase.Params(
+                    LocalDate.now(),
+                    DEFAULT_TASKS.first().position,
+                    DEFAULT_TASKS[1].position
+                )
+            )
+        }
+    }
+
+    @Test
+    fun `should NOT call usecase when moving a task given the drag task failed`() = runTest {
+        val expected = DEFAULT_TASKS
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        val from = 0
+        val to = 1
+
+        sut.loadTasks()
+        sut.onMoveTask(from, to)
+
+        coVerify(exactly = 0) {
+            moveTaskUseCase(any())
         }
     }
 
@@ -312,6 +336,25 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
     }
 
+    @Test
+    fun `should show order task when land on screen given the tutorial hasn't been shown for the user yet`() =
+        runTest {
+            coEvery { shouldShowTaskOrderTutorialUseCase.invoke() } returns flowOf(true)
+
+            initializeViewModel()
+
+            assertThat(sut.state.value.shouldShowCardOrderTutorial).isTrue()
+        }
+
+    @Test
+    fun `should call taskOrderTutorialUseCase when order task tutorial is dismissed`() = runTest {
+        sut.orderTaskTutorialDismissed()
+
+        coVerify(exactly = 1) {
+            taskOrderTutorialDismissedUseCase.invoke(Unit)
+        }
+    }
+
     companion object {
         const val TASK1_ID = 1L
         const val TASK2ID = 2L
@@ -334,6 +377,19 @@ class AgendaViewModelTest : MviViewModelTest() {
                 isDone = true,
                 position = 2,
             ),
+        )
+    }
+
+    private fun initializeViewModel() {
+        sut = AgendaViewModel(
+            observeTasksUseCase = observeTasksUseCase,
+            updateTaskIsDoneInteractor = updateTaskIsDoneInteractor,
+            removeTaskInteractor = removeTaskInteractor,
+            autoforwardManager = autoforwardManager,
+            moveTaskUseCase = moveTaskUseCase,
+            atomAnalytics = atomAnalytics,
+            shouldShowTaskOrderTutorialUseCase = shouldShowTaskOrderTutorialUseCase,
+            taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
         )
     }
 }

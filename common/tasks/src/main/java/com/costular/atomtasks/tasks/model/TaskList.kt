@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,8 +24,17 @@ import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.VariantsPreview
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.rememberBalloonBuilder
+import com.skydoves.balloon.compose.setArrowColor
+import com.skydoves.balloon.compose.setBackgroundColor
+import com.skydoves.balloon.compose.setTextColor
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlinx.coroutines.delay
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.ReorderableLazyListState
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
@@ -38,33 +48,77 @@ fun TaskList(
     onClick: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
     state: ReorderableLazyListState,
+    shouldShowTaskOrderTutorial: Boolean,
+    onDismissTaskOrderTutorial: () -> Unit,
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
     if (tasks.isEmpty()) {
         Empty(modifier.padding(AppTheme.dimens.contentMargin))
     } else {
-        LazyColumn(
-            modifier = modifier
-                .reorderable(state)
-                .detectReorderAfterLongPress(state),
-            state = state.listState,
-            contentPadding = padding,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(tasks, { it.id }) { task ->
-                ReorderableItem(state, key = task.id) { isDragging ->
-                    TaskCard(
-                        title = task.name,
-                        onMark = { onMarkTask(task.id, !task.isDone) },
-                        onOpen = { onClick(task) },
-                        reminder = task.reminder,
-                        isFinished = task.isDone,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateItemPlacement(),
-                        isBeingDragged = isDragging,
-                    )
+        val backgroundColor = MaterialTheme.colorScheme.inverseSurface
+        val textColor = MaterialTheme.colorScheme.inverseOnSurface
+
+        val builder = rememberBalloonBuilder {
+            setCornerRadius(4f)
+            setBalloonAnimation(BalloonAnimation.FADE)
+            setBackgroundColor(backgroundColor)
+            setArrowColor(backgroundColor)
+            setTextColor(textColor)
+            setPadding(8)
+            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setHeight(BalloonSizeSpec.WRAP)
+            setWidth(BalloonSizeSpec.WRAP)
+            setMarginHorizontal(24)
+            setOnBalloonDismissListener {
+                onDismissTaskOrderTutorial()
+            }
+        }
+
+        Balloon(
+            builder = builder,
+            balloonContent = {
+                Text(
+                    text = stringResource(R.string.agenda_tutorial_task_order),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = textColor,
+                )
+            },
+        ) { balloonWindow ->
+            LaunchedEffect(shouldShowTaskOrderTutorial) {
+                if (shouldShowTaskOrderTutorial) {
+                    delay(2000)
+                    balloonWindow.showAlignTop(yOff = 48)
+                } else {
+                    balloonWindow.dismiss()
+                }
+            }
+
+            LazyColumn(
+                modifier = modifier
+                    .reorderable(state)
+                    .detectReorderAfterLongPress(state),
+                state = state.listState,
+                contentPadding = padding,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(tasks, { it.id }) { task ->
+                    val shouldShowTutorial =
+                        tasks.first().id == task.id && shouldShowTaskOrderTutorial
+
+                    ReorderableItem(state, key = task.id) { isDragging ->
+                        TaskCard(
+                            title = task.name,
+                            onMark = { onMarkTask(task.id, !task.isDone) },
+                            onOpen = { onClick(task) },
+                            reminder = task.reminder,
+                            isFinished = task.isDone,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItemPlacement(),
+                            isBeingDragged = isDragging,
+                        )
+                    }
                 }
             }
         }
@@ -151,6 +205,8 @@ private fun TaskListPreview() {
             ),
             onClick = {},
             onMarkTask = { _, _ -> },
+            shouldShowTaskOrderTutorial = false,
+            onDismissTaskOrderTutorial = {},
         )
     }
 }

@@ -1,9 +1,7 @@
-package com.costular.atomtasks.data.di
+package com.costular.atomtasks.data.database
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomtasks.data.database.AtomTasksDatabase
-import com.costular.atomtasks.data.database.MIGRATION_4_5
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

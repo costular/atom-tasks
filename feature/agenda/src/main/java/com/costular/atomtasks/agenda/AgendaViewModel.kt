@@ -15,6 +15,8 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDelete
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
+import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
@@ -39,11 +41,23 @@ class AgendaViewModel @Inject constructor(
     private val autoforwardManager: AutoforwardManager,
     private val moveTaskUseCase: MoveTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
+    private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase,
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
         loadTasks()
         scheduleAutoforwardTasks()
+        retrieveTutorials()
+    }
+
+    private fun retrieveTutorials() {
+        viewModelScope.launch {
+            shouldShowTaskOrderTutorialUseCase(Unit)
+                .collect {
+                    setState { copy(shouldShowCardOrderTutorial = it) }
+                }
+        }
     }
 
     private fun scheduleAutoforwardTasks() {
@@ -180,5 +194,11 @@ class AgendaViewModel @Inject constructor(
 
     fun onCreateTask() {
         atomAnalytics.track(AgendaAnalytics.CreateNewTask)
+    }
+
+    fun orderTaskTutorialDismissed() {
+        viewModelScope.launch {
+            taskOrderTutorialDismissedUseCase(Unit)
+        }
     }
 }
