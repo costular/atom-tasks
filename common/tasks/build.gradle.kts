@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.accompanist.permissions)
     kapt(libs.hilt.ext.compiler)
     api(libs.reordeable)
+    implementation(libs.balloon)
 
     testImplementation(projects.common.tasks)
     testImplementation(projects.core.testing)

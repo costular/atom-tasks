@@ -11,6 +11,8 @@ data class AgendaState(
     val tasks: TasksState = TasksState.Uninitialized,
     val deleteTaskAction: DeleteTaskAction = DeleteTaskAction.Hidden,
     val isHeaderExpanded: Boolean = false,
+    val fromToPositions: Pair<Int, Int>? = null,
+    val shouldShowCardOrderTutorial: Boolean = false,
 ) {
     companion object {
         val Empty = AgendaState()

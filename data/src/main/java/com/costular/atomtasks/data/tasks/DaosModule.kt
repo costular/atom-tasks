@@ -1,8 +1,6 @@
-package com.costular.atomtasks.data.di
+package com.costular.atomtasks.data.tasks
 
 import com.costular.atomtasks.data.database.AtomTasksDatabase
-import com.costular.atomtasks.data.tasks.ReminderDao
-import com.costular.atomtasks.data.tasks.TasksDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

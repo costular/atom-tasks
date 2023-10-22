@@ -178,6 +178,7 @@ class AgendaTest : AndroidTest() {
                 onToggleExpandCollapse = {},
                 onMoveTask = { _, _ -> },
                 onDragTask = { _, _ -> },
+                onDismissTaskOrderTutorial = {},
             )
         }
     }

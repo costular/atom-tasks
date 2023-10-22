@@ -6,11 +6,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.costular.atomtasks.core.testing.interactions.callbackTester
+import com.costular.atomtasks.core.testing.interactions.shouldBeCalledOnce
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.mockk
-import io.mockk.verify
 import org.junit.Test
 import com.costular.atomtasks.core.ui.R
 
@@ -60,7 +60,7 @@ class ClearableChipTest : AndroidTest() {
 
     @Test
     fun shouldCallCallback_whenClickClear_givenChipIsSelected() {
-        val callback: () -> Unit = mockk(relaxed = true)
+        val callback = callbackTester(Unit)
 
         composeTestRule.setContent {
             ClearableChip(
@@ -76,6 +76,6 @@ class ClearableChipTest : AndroidTest() {
         clearButton.assertIsDisplayed()
             .performClick()
 
-        verify { callback() }
+        callback.shouldBeCalledOnce()
     }
 }

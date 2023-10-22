@@ -44,8 +44,8 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
-
     testImplementation(projects.core.testing)
+
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.android.junit)
     androidTestImplementation(libs.coroutines.test)

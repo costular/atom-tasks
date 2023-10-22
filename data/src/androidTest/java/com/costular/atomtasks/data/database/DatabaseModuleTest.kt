@@ -2,7 +2,6 @@ package com.costular.atomtasks.data.database
 
 import android.content.Context
 import androidx.room.Room
-import com.costular.atomtasks.data.di.DatabaseModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
