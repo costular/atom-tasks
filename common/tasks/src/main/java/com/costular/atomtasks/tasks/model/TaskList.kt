@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import com.costular.atomtasks.core.ui.utils.VariantsPreview
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.compose.Balloon
@@ -59,21 +61,7 @@ fun TaskList(
         val backgroundColor = MaterialTheme.colorScheme.inverseSurface
         val textColor = MaterialTheme.colorScheme.inverseOnSurface
 
-        val builder = rememberBalloonBuilder {
-            setCornerRadius(4f)
-            setBalloonAnimation(BalloonAnimation.FADE)
-            setBackgroundColor(backgroundColor)
-            setArrowColor(backgroundColor)
-            setTextColor(textColor)
-            setPadding(8)
-            setArrowOrientation(ArrowOrientation.BOTTOM)
-            setHeight(BalloonSizeSpec.WRAP)
-            setWidth(BalloonSizeSpec.WRAP)
-            setMarginHorizontal(24)
-            setOnBalloonDismissListener {
-                onDismissTaskOrderTutorial()
-            }
-        }
+        val builder = rememberBuilder(backgroundColor, textColor, onDismissTaskOrderTutorial)
 
         Balloon(
             builder = builder,
@@ -87,8 +75,8 @@ fun TaskList(
         ) { balloonWindow ->
             LaunchedEffect(shouldShowTaskOrderTutorial) {
                 if (shouldShowTaskOrderTutorial) {
-                    delay(2000)
-                    balloonWindow.showAlignTop(yOff = 48)
+                    delay(TooltipDelay)
+                    balloonWindow.showAlignTop(yOff = TooltipYOffset)
                 } else {
                     balloonWindow.dismiss()
                 }
@@ -100,12 +88,9 @@ fun TaskList(
                     .detectReorderAfterLongPress(state),
                 state = state.listState,
                 contentPadding = padding,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(TooltipPadding.dp),
             ) {
                 items(tasks, { it.id }) { task ->
-                    val shouldShowTutorial =
-                        tasks.first().id == task.id && shouldShowTaskOrderTutorial
-
                     ReorderableItem(state, key = task.id) { isDragging ->
                         TaskCard(
                             title = task.name,
@@ -123,6 +108,30 @@ fun TaskList(
             }
         }
     }
+}
+
+@Composable
+private fun rememberBuilder(
+    backgroundColor: Color,
+    textColor: Color,
+    onDismissTaskOrderTutorial: () -> Unit
+): Balloon.Builder {
+    val builder = rememberBalloonBuilder {
+        setCornerRadius(TooltipCornerRadius)
+        setBalloonAnimation(BalloonAnimation.FADE)
+        setBackgroundColor(backgroundColor)
+        setArrowColor(backgroundColor)
+        setTextColor(textColor)
+        setPadding(TooltipPadding)
+        setArrowOrientation(ArrowOrientation.BOTTOM)
+        setHeight(BalloonSizeSpec.WRAP)
+        setWidth(BalloonSizeSpec.WRAP)
+        setMarginHorizontal(TooltipHorizontalMargin)
+        setOnBalloonDismissListener {
+            onDismissTaskOrderTutorial()
+        }
+    }
+    return builder
 }
 
 @Composable
@@ -210,3 +219,9 @@ private fun TaskListPreview() {
         )
     }
 }
+
+private const val TooltipCornerRadius = 4f
+private const val TooltipHorizontalMargin = 24
+private const val TooltipDelay = 2000L
+private const val TooltipYOffset = 48
+private const val TooltipPadding = 8

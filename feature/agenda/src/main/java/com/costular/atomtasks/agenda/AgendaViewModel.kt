@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ItemPosition
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
     private val observeTasksUseCase: ObserveTasksUseCase,
@@ -140,6 +140,7 @@ class AgendaViewModel @Inject constructor(
         }
     }
 
+    @Suppress("UnusedParameter")
     fun onMoveTask(from: Int, to: Int) {
         viewModelScope.launch {
             val state = state.value
