@@ -27,4 +27,6 @@ dependencies {
     implementation(libs.coroutines.test)
     implementation(libs.androidx.test)
     implementation(libs.compose.ui.test)
+
+    api(libs.truth)
 }
