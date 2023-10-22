@@ -10,7 +10,6 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.TemporalAccessor
-import java.util.Locale
 
 @Composable
 fun LocalTime.ofLocalizedTime(): String {

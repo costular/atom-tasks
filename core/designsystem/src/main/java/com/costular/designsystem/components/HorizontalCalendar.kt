@@ -23,12 +23,10 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.coreui.date.Day
 import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.coreui.utils.ofLocalized
-import com.costular.core.util.DateTimeFormatters
 import com.costular.core.util.DateTimeFormatters.shortDayOfWeekFormatter
 import com.costular.core.util.WeekUtil
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
-import java.time.format.TextStyle
 
 @Composable
 fun HorizontalCalendar(
