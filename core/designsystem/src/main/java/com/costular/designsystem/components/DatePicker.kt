@@ -30,9 +30,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.coreui.utils.ofLocalized
 import com.costular.core.util.DateTimeFormatters
 import com.costular.designsystem.theme.AppTheme
+import com.costular.designsystem.theme.AtomTheme
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -43,7 +46,6 @@ import com.kizitonwose.calendar.core.yearMonth
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
 fun DatePicker(
@@ -85,7 +87,7 @@ private fun MonthHeader(
 ) {
     Column {
         MonthHeader(
-            month = DateTimeFormatters.monthFormatter.format(month.yearMonth),
+            month = month.yearMonth.ofLocalized(DateTimeFormatters.monthFormatter)
         )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
@@ -97,7 +99,7 @@ private fun MonthHeader(
                 CompositionLocalProvider(LocalContentColor provides mediumEmphasis) {
                     Text(
                         textAlign = TextAlign.Center,
-                        text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ROOT),
+                        text = dayOfWeek.ofLocalized(TextStyle.SHORT),
                         modifier = Modifier
                             .weight(1f)
                             .wrapContentHeight(),
@@ -165,4 +167,14 @@ fun MonthHeader(
         style = MaterialTheme.typography.titleMedium,
         textAlign = TextAlign.Center,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DatePickerPreview() {
+    AtomTheme {
+        DatePicker(
+            onDateSelected = {},
+        )
+    }
 }
