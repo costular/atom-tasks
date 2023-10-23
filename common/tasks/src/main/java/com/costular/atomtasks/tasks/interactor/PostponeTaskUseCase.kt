@@ -1,5 +1,6 @@
 package com.costular.atomtasks.tasks.interactor
 
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.core.Either
 import com.costular.core.toError
@@ -45,6 +46,7 @@ class PostponeTaskUseCase @Inject constructor(
             )
             Unit.toResult()
         } catch (e: Exception) {
+            atomLog { e }
             PostponeTaskFailure.Unknown.toError()
         }
     }

@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.tasks.interactor.AutoforwardTasksUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -25,6 +26,7 @@ class AutoforwardTasksWorker @AssistedInject constructor(
             autoforwardTasksUseCase(AutoforwardTasksUseCase.Params(LocalDate.now()))
             Result.success()
         } catch (e: Exception) {
+            atomLog { e }
             Result.failure()
         }
     }

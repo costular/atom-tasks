@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import dagger.assisted.Assisted
@@ -36,6 +37,7 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
 
             Result.success()
         } catch (e: Exception) {
+            atomLog { e }
             Result.failure()
         }
     }

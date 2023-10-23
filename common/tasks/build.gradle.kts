@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.core.analytics)
     implementation(projects.data)
     implementation(projects.core.notifications)
+    implementation(projects.core.logging)
 
     implementation(libs.compose.activity)
     implementation(libs.compose.foundation)

@@ -68,6 +68,10 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 kapt {
@@ -84,6 +88,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
     implementation(projects.core.notifications)
+    implementation(projects.core.logging)
     implementation(project(":data"))
     implementation(project(":feature:agenda"))
     implementation(project(":feature:createtask"))
