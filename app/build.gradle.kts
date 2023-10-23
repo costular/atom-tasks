@@ -1,3 +1,5 @@
+import com.costular.atomtasks.Versioning
+
 plugins {
     id("atomtasks.android.application")
     kotlin("kapt")
@@ -15,8 +17,8 @@ android {
 
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        versionCode = 11
-        versionName = "2.1.0"
+        versionCode = Versioning.VersionCode
+        versionName = Versioning.VersionName
         testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
@@ -36,33 +38,6 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            storeFile = rootProject.file("release.keystore")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
-        }
-        getByName("debug") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
-    }
-
-    packagingOptions {
-        resources.excludes.add("META-INF/licenses/**")
-        resources.excludes.add("META-INF/AL2.0")
-        resources.excludes.add("META-INF/LGPL2.1")
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -71,6 +46,21 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
+
+    signingConfigs {
+        create("production") {
+            storeFile = rootProject.file("release.keystore")
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.getByName("production")
+        }
     }
 }
 
