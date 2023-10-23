@@ -1,8 +1,8 @@
 package com.costular.atomtasks.tasks.interactor
 
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.core.toError
 import com.google.common.truth.Truth
 import io.mockk.coEvery
@@ -22,6 +22,7 @@ class PostponeTaskUseCaseTest {
     private val getTaskByIdInteractor: GetTaskByIdInteractor = mockk(relaxed = true)
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
+    private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -29,6 +30,7 @@ class PostponeTaskUseCaseTest {
             getTaskByIdInteractor = getTaskByIdInteractor,
             updateTaskReminderInteractor = updateTaskReminderInteractor,
             taskReminderManager = taskReminderManager,
+            updateTaskUseCase = updateTaskUseCase,
         )
     }
 
@@ -94,6 +96,34 @@ class PostponeTaskUseCaseTest {
             taskReminderManager.set(
                 taskId = taskId,
                 localDateTime = day.atTime(time),
+            )
+        }
+    }
+
+    @Test
+    fun `Should update task due date when postpone a task`() = runTest {
+        givenTaskWithReminder()
+
+        val taskId = 1L
+        val day = LocalDate.now().plusDays(1)
+        val time = LocalTime.of(21, 0)
+
+        sut.invoke(
+            PostponeTaskUseCase.Params(
+                taskId = taskId,
+                day = day,
+                time = time,
+            )
+        )
+
+        coEvery {
+            updateTaskUseCase.invoke(
+                UpdateTaskUseCase.Params(
+                    taskId = taskId,
+                    name = "Whatever",
+                    date = day,
+                    reminderTime = time
+                )
             )
         }
     }
