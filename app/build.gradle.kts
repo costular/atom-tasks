@@ -103,7 +103,6 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.lifecycle.compose)
     implementation(libs.viewmodel)
-    implementation(libs.timber)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.work)

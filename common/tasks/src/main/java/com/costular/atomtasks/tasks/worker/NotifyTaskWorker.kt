@@ -9,7 +9,6 @@ import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker

@@ -38,7 +38,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.work)
     implementation(libs.work)
-    implementation(libs.timber)
     implementation(libs.compose.destinations)
     implementation(libs.accompanist.permissions)
     kapt(libs.hilt.ext.compiler)
