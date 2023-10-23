@@ -6,8 +6,7 @@ import java.time.format.FormatStyle
 import java.util.Locale
 
 object DateTimeFormatters {
-    val shortDayOfWeekFormatter =
-        DateTimeFormatter.ofPattern("EEEEE", Locale.getDefault())
+    val shortDayOfWeekFormatter = DateTimeFormatter.ofPattern("E")
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     val monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
 

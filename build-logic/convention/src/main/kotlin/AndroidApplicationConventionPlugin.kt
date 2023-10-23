@@ -1,5 +1,7 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.costular.atomtasks.configureAndroidCompose
+import com.costular.atomtasks.configureBuildTypes
+import com.costular.atomtasks.configureFlavors
 import com.costular.atomtasks.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,6 +17,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(this)
+                configureFlavors(this)
+                configureBuildTypes(this)
                 configureAndroidCompose(this)
                 defaultConfig.targetSdk = 34
             }

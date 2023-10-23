@@ -24,7 +24,6 @@ dependencies {
     implementation(libs.preferences.datastore)
     implementation(libs.preferences)
     implementation(libs.hilt.work)
-    implementation(libs.timber)
 
     testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)

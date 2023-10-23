@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,8 +14,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.core.ui.utils.VariantsPreview
 import com.costular.atomtasks.settings.components.SettingItem
 import com.costular.designsystem.theme.AtomTheme
 
@@ -35,7 +36,7 @@ fun SettingLink(
         },
         title = title,
         end = {
-            Image(
+            Icon(
                 Icons.AutoMirrored.Filled.OpenInNew,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
@@ -45,7 +46,7 @@ fun SettingLink(
     )
 }
 
-@Preview(showBackground = true)
+@VariantsPreview
 @Composable
 private fun SettingOptionPrev() {
     AtomTheme {

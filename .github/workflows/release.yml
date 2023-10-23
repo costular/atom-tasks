@@ -154,7 +154,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.KEY_STORE_PASSWORD }}" --batch release.keystore.asc > release.keystore
 
       - name: Generate Release Bundle
-        run: ./gradlew bundleRelease
+        run: ./gradlew bundleProductionRelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -164,13 +164,13 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: bundle
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: app/build/outputs/bundle/productionRelease/app-production-release.aab
 
       - name: Upload mapping.txt
         uses: actions/upload-artifact@master
         with:
           name: mapping.txt
-          path: app/build/outputs/mapping/release/mapping.txt
+          path: app/build/outputs/mapping/productionRelease/mapping.txt
 
   deploy-play-store:
     needs: [ build ]

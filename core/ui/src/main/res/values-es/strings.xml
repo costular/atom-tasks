@@ -66,4 +66,5 @@
     <string name="create_task_notification_permission_rationale_dismiss">No gracias</string>
     <string name="create_task_notification_permission_rationale_confirm">Vale</string>
     <string name="settings_about_title">Sobre Atom</string>
+    <string name="agenda_tutorial_task_order">¿Quieres ordenar tus tareas? Mantén presionado y arrastra</string>
 </resources>

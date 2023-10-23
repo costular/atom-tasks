@@ -8,15 +8,17 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ConfirmDelete
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ExpandCalendar
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.MarkTaskAsDone
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.MarkTaskAsNotDone
+import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.NavigateToDay
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.OrderTask
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.SelectToday
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDeleteDialog
-import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.NavigateToDay
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.coreui.date.asDay
-import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
+import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
+import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
+import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
@@ -30,7 +32,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ItemPosition
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
     private val observeTasksUseCase: ObserveTasksUseCase,
@@ -39,11 +41,23 @@ class AgendaViewModel @Inject constructor(
     private val autoforwardManager: AutoforwardManager,
     private val moveTaskUseCase: MoveTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
+    private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase,
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
         loadTasks()
         scheduleAutoforwardTasks()
+        retrieveTutorials()
+    }
+
+    private fun retrieveTutorials() {
+        viewModelScope.launch {
+            shouldShowTaskOrderTutorialUseCase(Unit)
+                .collect {
+                    setState { copy(shouldShowCardOrderTutorial = it) }
+                }
+        }
     }
 
     private fun scheduleAutoforwardTasks() {
@@ -108,15 +122,17 @@ class AgendaViewModel @Inject constructor(
         val tasks = data.tasks
 
         if (tasks is TasksState.Success) {
-            val toIndex = tasks.data.indexOfFirst { it.id == to.key }
-            val fromIndex = tasks.data.indexOfFirst { it.id == from.key }
+            val toTask = tasks.data.first { it.id == to.key }
+            val fromTask = tasks.data.first { it.id == from.key }
 
-            if (toIndex < 0 || fromIndex < 0) return
+            if (from.index < 0 || to.index < 0) return
+
             setState {
                 copy(
+                    fromToPositions = Pair(fromTask.position, toTask.position),
                     tasks = TasksState.Success(
                         tasks.data.toMutableList().apply {
-                            add(toIndex, removeAt(fromIndex))
+                            add(from.index, removeAt(to.index))
                         }.toImmutableList(),
                     ),
                 )
@@ -124,22 +140,26 @@ class AgendaViewModel @Inject constructor(
         }
     }
 
+    @Suppress("UnusedParameter")
     fun onMoveTask(from: Int, to: Int) {
         viewModelScope.launch {
             val state = state.value
 
-            if (state.tasks is TasksState.Success) {
+            if (state.tasks is TasksState.Success && state.fromToPositions != null) {
                 moveTaskUseCase(
                     MoveTaskUseCase.Params(
                         day = state.selectedDay.date,
-                        fromPosition = from + 1,
-                        toPosition = to + 1,
+                        fromPosition = state.fromToPositions.first,
+                        toPosition = state.fromToPositions.second
                     ),
                 )
             }
-        }
 
-        atomAnalytics.track(OrderTask)
+            setState {
+                copy(fromToPositions = null)
+            }
+            atomAnalytics.track(OrderTask)
+        }
     }
 
     fun dismissDelete() {
@@ -175,5 +195,11 @@ class AgendaViewModel @Inject constructor(
 
     fun onCreateTask() {
         atomAnalytics.track(AgendaAnalytics.CreateNewTask)
+    }
+
+    fun orderTaskTutorialDismissed() {
+        viewModelScope.launch {
+            taskOrderTutorialDismissedUseCase(Unit)
+        }
     }
 }
