@@ -62,10 +62,6 @@ android {
             signingConfig = signingConfigs.getByName("production")
         }
     }
-
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 kapt {
