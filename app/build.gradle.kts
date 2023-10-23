@@ -1,3 +1,5 @@
+import com.costular.atomtasks.Versioning
+
 plugins {
     id("atomtasks.android.application")
     kotlin("kapt")
@@ -15,8 +17,8 @@ android {
 
     defaultConfig {
         applicationId = "com.costular.atomtasks"
-        versionCode = 11
-        versionName = "2.1.0"
+        versionCode = Versioning.VersionCode
+        versionName = Versioning.VersionName
         testInstrumentationRunner = "com.costular.atomtasks.core.testing.AtomTestRunner"
 
         javaCompileOptions {
@@ -36,8 +38,18 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     signingConfigs {
-        create("release") {
+        create("production") {
             storeFile = rootProject.file("release.keystore")
             storePassword = System.getenv("SIGNING_STORE_PASSWORD")
             keyAlias = System.getenv("SIGNING_KEY_ALIAS")
@@ -46,26 +58,8 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
-        }
-        getByName("debug") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
-    }
-
-    packagingOptions {
-        resources.excludes.add("META-INF/licenses/**")
-        resources.excludes.add("META-INF/AL2.0")
-        resources.excludes.add("META-INF/LGPL2.1")
-    }
-
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
+        release {
+            signingConfig = signingConfigs.getByName("production")
         }
     }
 }
@@ -84,6 +78,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
     implementation(projects.core.notifications)
+    implementation(projects.core.logging)
     implementation(project(":data"))
     implementation(project(":feature:agenda"))
     implementation(project(":feature:createtask"))
@@ -103,7 +98,6 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.lifecycle.compose)
     implementation(libs.viewmodel)
-    implementation(libs.timber)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.work)

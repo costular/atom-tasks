@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.core.analytics)
     implementation(projects.data)
     implementation(projects.core.notifications)
+    implementation(projects.core.logging)
 
     implementation(libs.compose.activity)
     implementation(libs.compose.foundation)
@@ -38,7 +39,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.work)
     implementation(libs.work)
-    implementation(libs.timber)
     implementation(libs.compose.destinations)
     implementation(libs.accompanist.permissions)
     kapt(libs.hilt.ext.compiler)

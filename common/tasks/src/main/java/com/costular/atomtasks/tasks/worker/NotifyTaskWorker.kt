@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker
@@ -48,7 +48,7 @@ class NotifyTaskWorker @AssistedInject constructor(
             taskNotificationManager.remindTask(task.id, task.name)
             Result.success()
         } catch (e: Exception) {
-            Timber.e(e)
+            atomLog { e }
             Result.failure()
         }
     }

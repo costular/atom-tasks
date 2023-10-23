@@ -43,7 +43,6 @@ hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.r
 hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 hilt-work = "androidx.hilt:hilt-work:1.0.0"
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-timber = "com.jakewharton.timber:timber:5.0.1"
 startup = "androidx.startup:startup-runtime:1.1.1"
 preferences = "androidx.preference:preference-ktx:1.2.1"
 preferences-datastore = "androidx.datastore:datastore-preferences:1.0.0"
@@ -71,9 +70,9 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 calendar = "com.kizitonwose.calendar:compose:2.0.4"
 android-junit = "androidx.test.ext:junit-ktx:1.1.5"
-firebase-bom = "com.google.firebase:firebase-bom:32.2.3"
+firebase-bom = "com.google.firebase:firebase-bom:32.4.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 compose-destinations = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "composeDestinations" }
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "composeDestinations" }
 reordeable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "reordeable" }
