@@ -1,5 +1,6 @@
 package com.costular.atomtasks.settings
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FlashOn
 import androidx.compose.material3.Icon
@@ -21,7 +22,7 @@ fun SettingSwitch(
     isSelected: Boolean,
     onSelect: (isSelected: Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    start: @Composable (() -> Unit)? = null,
+    start: @Composable (RowScope.() -> Unit)? = null,
 ) {
     SettingItem(
         title = title,
