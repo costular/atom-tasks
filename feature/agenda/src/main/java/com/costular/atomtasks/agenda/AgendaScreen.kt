@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -245,8 +246,10 @@ private fun TasksContent(
                 shouldShowTaskOrderTutorial = state.shouldShowCardOrderTutorial,
                 onDismissTaskOrderTutorial = onDismissTaskOrderTutorial,
                 padding = PaddingValues(
-                    horizontal = AppTheme.dimens.contentMargin,
-                    vertical = AppTheme.dimens.spacingLarge,
+                    start = AppTheme.dimens.contentMargin,
+                    end = AppTheme.dimens.contentMargin,
+                    top = AppTheme.dimens.spacingLarge,
+                    bottom = ContentPaddingForFAB.dp,
                 ),
                 modifier = modifier
                     .fillMaxSize()
@@ -454,3 +457,5 @@ fun AgendaPreview() {
         )
     }
 }
+
+private const val ContentPaddingForFAB = 90
