@@ -1,5 +1,6 @@
 package com.costular.designsystem.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.coreui.date.Day
@@ -43,7 +46,8 @@ fun HorizontalCalendar(
             CalendarDay(
                 date = date,
                 isSelected = date == selectedDay.date,
-                onClick = { onSelectDay(date) }
+                onClick = { onSelectDay(date) },
+                isToday = LocalDate.now() == date,
             )
         }
     }
@@ -52,6 +56,7 @@ fun HorizontalCalendar(
 @Composable
 private fun RowScope.CalendarDay(
     date: LocalDate,
+    isToday: Boolean,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -86,8 +91,29 @@ private fun RowScope.CalendarDay(
                 text = day.toString(),
                 style = MaterialTheme.typography.titleMedium
             )
+
+            if (isToday) {
+                IndicatorToday(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.60f)
+                )
+            }
         }
     }
+}
+
+@Composable
+fun IndicatorToday(
+    modifier: Modifier = Modifier,
+    color: Color,
+) {
+    Canvas(
+        modifier = modifier.size(4.dp),
+        onDraw = {
+            drawCircle(
+                color = color,
+            )
+        }
+    )
 }
 
 @Preview
