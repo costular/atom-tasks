@@ -1,17 +1,17 @@
 package com.costular.atomtasks.tasks.interactor
 
-import com.costular.atomtasks.data.SubjectInteractor
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.repository.TasksRepository
+import com.costular.core.usecase.UseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetTaskByIdInteractor @Inject constructor(
+class GetTaskByIdUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
-) : SubjectInteractor<GetTaskByIdInteractor.Params, Task>() {
+) : UseCase<GetTaskByIdUseCase.Params, Flow<Task>> {
 
     data class Params(val id: Long)
 
-    override fun createObservable(params: Params): Flow<Task> =
+    override suspend fun invoke(params: Params): Flow<Task> =
         tasksRepository.getTaskById(params.id)
 }

@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.notifications.TaskNotificationManager
-import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.first
 class NotifyTaskWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val getTaskByIdInteractor: GetTaskByIdInteractor,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val taskNotificationManager: TaskNotificationManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
@@ -28,8 +28,7 @@ class NotifyTaskWorker @AssistedInject constructor(
                 throw IllegalArgumentException("Task id has not been passed")
             }
 
-            getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            val task = getTaskByIdInteractor.flow.first()
+            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId)).first()
 
             if (task.reminder == null) {
                 throw IllegalStateException("Reminder is null")

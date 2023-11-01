@@ -3,7 +3,7 @@ package com.costular.atomtasks.edittask
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.fake.TaskToday
-import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
 import com.costular.atomtasks.ui.features.edittask.SavingState
@@ -11,7 +11,6 @@ import com.costular.atomtasks.ui.features.edittask.TaskState
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDate
 import java.time.LocalTime
@@ -24,20 +23,20 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     lateinit var sut: EditTaskViewModel
 
-    private val getTaskByIdInteractor: GetTaskByIdInteractor = mockk(relaxed = true)
+    private val getTaskByIdUseCase: GetTaskByIdUseCase = mockk(relaxed = true)
     private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         sut = EditTaskViewModel(
-            getTaskByIdInteractor = getTaskByIdInteractor,
+            getTaskByIdUseCase = getTaskByIdUseCase,
             updateTaskUseCase = updateTaskUseCase,
         )
     }
 
     @Test
     fun `should load task successfully`() = runTest {
-        every { getTaskByIdInteractor.flow } returns flowOf(TaskToday)
+        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
 
         sut.loadTask(TaskToday.id)
 
@@ -69,7 +68,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should emit success when edit task succeeded`() = runTest {
-        every { getTaskByIdInteractor.flow } returns flowOf(TaskToday)
+        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
 
         val newTask = "whatever"
         val newDate = LocalDate.now().plusDays(1)
@@ -91,7 +90,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
     @Test
     fun `should emit error when edit task fails`() = runTest {
         val exception = Exception("some error")
-        every { getTaskByIdInteractor.flow } returns flowOf(TaskToday)
+        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
         coEvery { updateTaskUseCase.invoke(any()) } throws exception
 
         val newTask = "whatever"

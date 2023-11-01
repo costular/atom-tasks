@@ -19,7 +19,7 @@ class PostponeTaskUseCaseTest {
 
     lateinit var sut: PostponeTaskUseCase
 
-    private val getTaskByIdInteractor: GetTaskByIdInteractor = mockk(relaxed = true)
+    private val getTaskByIdUseCase: GetTaskByIdUseCase = mockk(relaxed = true)
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
     private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
@@ -27,7 +27,7 @@ class PostponeTaskUseCaseTest {
     @Before
     fun setUp() {
         sut = PostponeTaskUseCase(
-            getTaskByIdInteractor = getTaskByIdInteractor,
+            getTaskByIdUseCase = getTaskByIdUseCase,
             updateTaskReminderInteractor = updateTaskReminderInteractor,
             taskReminderManager = taskReminderManager,
             updateTaskUseCase = updateTaskUseCase,
@@ -129,7 +129,7 @@ class PostponeTaskUseCaseTest {
     }
 
     private fun givenTaskWithoutReminder() {
-        every { getTaskByIdInteractor.flow } returns flowOf(
+        every { getTaskByIdUseCase.flow } returns flowOf(
             Task(
                 id = 1L,
                 name = "Whatever",
@@ -143,7 +143,7 @@ class PostponeTaskUseCaseTest {
     }
 
     private fun givenTaskWithReminder() {
-        every { getTaskByIdInteractor.flow } returns flowOf(
+        every { getTaskByIdUseCase.flow } returns flowOf(
             Task(
                 id = 1L,
                 name = "Whatever",

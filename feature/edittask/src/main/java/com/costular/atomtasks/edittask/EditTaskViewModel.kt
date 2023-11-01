@@ -3,7 +3,7 @@ package com.costular.atomtasks.ui.features.edittask
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.interactor.GetTaskByIdInteractor
+import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -14,14 +14,13 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
-    private val getTaskByIdInteractor: GetTaskByIdInteractor,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
 ) : MviViewModel<EditTaskState>(EditTaskState.Empty) {
 
     fun loadTask(taskId: Long) {
         viewModelScope.launch {
-            getTaskByIdInteractor(GetTaskByIdInteractor.Params(taskId))
-            getTaskByIdInteractor.flow
+            getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId))
                 .onStart {
                     setState { copy(taskState = TaskState.Loading) }
                 }

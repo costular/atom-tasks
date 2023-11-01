@@ -12,7 +12,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 
 class PostponeTaskUseCase @Inject constructor(
-    private val getTaskByIdInteractor: GetTaskByIdInteractor,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val taskReminderManager: TaskReminderManager,
     private val updateTaskUseCase: UpdateTaskUseCase,
@@ -27,8 +27,7 @@ class PostponeTaskUseCase @Inject constructor(
     @Suppress("SwallowedException", "TooGenericExceptionCaught")
     override suspend fun invoke(params: Params): Either<PostponeTaskFailure, Unit> {
         return try {
-            getTaskByIdInteractor(GetTaskByIdInteractor.Params(params.taskId))
-            val task = getTaskByIdInteractor.flow.first()
+            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(params.taskId)).first()
 
             if (task.reminder == null) {
                 return PostponeTaskFailure.MissingReminder.toError()
