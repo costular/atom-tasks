@@ -46,8 +46,11 @@ interface TasksDao {
     @Query("UPDATE tasks SET position = :position WHERE id = :id")
     suspend fun updateTaskPosition(id: Long, position: Int)
 
-    @Query("UPDATE tasks SET name = :name, date = :day where id = :taskId")
+    @Query("UPDATE tasks SET name = :name, date = :day WHERE id = :taskId")
     suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
+
+    @Query("UPDATE tasks SET name = :name, date = :day, position = :position WHERE id = :taskId")
+    suspend fun updateTask(taskId: Long, day: LocalDate, name: String, position: Int)
 
     @Query("SELECT MAX(position) FROM tasks WHERE date = :day")
     suspend fun getMaxPositionForDate(day: LocalDate): Int
