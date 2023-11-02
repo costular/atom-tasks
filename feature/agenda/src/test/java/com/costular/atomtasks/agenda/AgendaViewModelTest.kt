@@ -12,6 +12,7 @@ import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.core.usecase.invoke
@@ -42,7 +43,9 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
         mockk(relaxed = true)
-    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase = mockk(relaxed = true)
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase =
+        mockk(relaxed = true)
+    private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -355,6 +358,42 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
     }
 
+    @Test
+    fun `should call update use case when move task to next day`() = runTest {
+        val tasks = DEFAULT_TASKS
+        val task = DEFAULT_TASKS.first()
+        val taskId = task.id
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+
+        sut.loadTasks()
+        sut.moveTaskToNextDay(taskId)
+
+        coVerify(exactly = 1) {
+            updateTaskUseCase(
+                UpdateTaskUseCase.Params(
+                    taskId = taskId,
+                    name = task.name,
+                    date = LocalDate.now().plusDays(1),
+                    reminderTime = task.reminder?.time,
+                )
+            )
+        }
+    }
+
+    @Test
+    fun `should track event when move task to next day`() = runTest {
+        val tasks = DEFAULT_TASKS
+        val taskId = DEFAULT_TASKS.first().id
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+
+        sut.loadTasks()
+        sut.moveTaskToNextDay(taskId)
+
+        verify(exactly = 1) {
+            atomAnalytics.track(AgendaAnalytics.MoveTaskToNextDay)
+        }
+    }
+
     companion object {
         const val TASK1_ID = 1L
         const val TASK2ID = 2L
@@ -390,6 +429,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             atomAnalytics = atomAnalytics,
             shouldShowTaskOrderTutorialUseCase = shouldShowTaskOrderTutorialUseCase,
             taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
+            updateTaskUseCase = updateTaskUseCase,
         )
     }
 }

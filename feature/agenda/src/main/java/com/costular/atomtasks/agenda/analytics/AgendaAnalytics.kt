@@ -17,6 +17,8 @@ internal object AgendaAnalytics {
 
     data object CancelDelete : TrackingEvent(name = "agenda_cancel_delete_task")
 
+    data object MoveTaskToNextDay : TrackingEvent(name = "agenda_actions_move_task_to_next_day")
+
     data object EditTask : TrackingEvent(name = "agenda_actions_edit")
 
     object CreateNewTask : TrackingEvent(name = "create_new_task")

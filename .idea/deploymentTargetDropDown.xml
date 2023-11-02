@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ClearableChipTest">
-        <State />
-      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -13,12 +10,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Pixel_7_Pro_API_34.avd" />
+                  <value value="$USER_HOME$/.android/avd/Pixel_6_Pro_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-10-15T19:01:19.243197Z" />
+          <timeTargetWasSelectedWithDropDown value="2023-11-01T19:11:56.836485Z" />
         </State>
       </entry>
     </value>

@@ -26,6 +26,7 @@
     <string name="agenta_delete_task">Delete</string>
     <string name="agenda_mark_as_done">Mark as done</string>
     <string name="agenda_mark_as_undone">Mark as undone</string>
+    <string name="agenda_move_to_next_day">Move to next day</string>
     <string name="agenda_create_new_task">New task</string>
     <string name="agenda_tutorial_task_order">Want your tasks in order? Long press and drag!</string>
 

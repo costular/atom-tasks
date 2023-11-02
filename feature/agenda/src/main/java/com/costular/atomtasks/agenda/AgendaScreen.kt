@@ -107,6 +107,7 @@ internal fun AgendaScreen(
         },
         onDelete = viewModel::actionDelete,
         onMarkTask = viewModel::onMarkTask,
+        onMoveTaskToNextDay = viewModel::moveTaskToNextDay
     )
 
     AgendaScreen(
@@ -138,6 +139,7 @@ private fun HandleResultRecipients(
     onEdit: (Long) -> Unit,
     onDelete: (Long) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
+    onMoveTaskToNextDay: (Long) -> Unit,
 ) {
     resultRecipient.onNavResult { result ->
         when (result) {
@@ -158,6 +160,10 @@ private fun HandleResultRecipients(
 
                     is TaskActionsResult.MarkAsDone -> {
                         onMarkTask(response.taskId, true)
+                    }
+
+                    is TaskActionsResult.MoveToNextDay -> {
+                        onMoveTaskToNextDay(response.taskId)
                     }
                 }
             }

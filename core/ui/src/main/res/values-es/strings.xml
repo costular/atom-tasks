@@ -16,6 +16,7 @@
     <string name="agenda_create_task_name">Nombre de la tarea</string>
     <string name="agenda_edit_task">Editar</string>
     <string name="agenta_delete_task">Eliminar</string>
+    <string name="agenda_move_to_next_day">Mover al siguiente día</string>
     <string name="agenda_create_new_task">Nueva tarea</string>
     <string name="agenda_edit_title">Editar tarea</string>
     <string name="today">Hoy</string>

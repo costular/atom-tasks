@@ -17,4 +17,7 @@ sealed class TaskActionsResult(open val taskId: Long) : Parcelable {
 
     @Parcelize
     data class Remove(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
+
+    @Parcelize
+    data class MoveToNextDay(override val taskId: Long) : TaskActionsResult(taskId), Parcelable
 }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FastForward
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -76,6 +77,10 @@ fun ColumnScope.TasksActionsBottomSheet(
                 }
             }
 
+            MoveTaskToNextDay {
+                result.navigateBack(TaskActionsResult.MoveToNextDay(taskId))
+            }
+
             EditActionItem {
                 result.navigateBack(TaskActionsResult.Edit(taskId))
             }
@@ -138,6 +143,15 @@ private fun MarkAsDoneItem(onDone: () -> Unit) {
         text = stringResource(R.string.agenda_mark_as_done),
         onClick = onDone,
         modifier = Modifier.testTag("TaskActionDone"),
+    )
+}
+
+@Composable
+private fun MoveTaskToNextDay(onClick: () -> Unit) {
+    ActionItem(
+        icon = Icons.Outlined.FastForward,
+        text = stringResource(R.string.agenda_move_to_next_day),
+        onClick = onClick
     )
 }
 

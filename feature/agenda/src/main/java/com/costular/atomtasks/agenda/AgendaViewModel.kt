@@ -21,6 +21,7 @@ import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -42,7 +43,8 @@ class AgendaViewModel @Inject constructor(
     private val moveTaskUseCase: MoveTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase,
-    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
@@ -200,6 +202,31 @@ class AgendaViewModel @Inject constructor(
     fun orderTaskTutorialDismissed() {
         viewModelScope.launch {
             taskOrderTutorialDismissedUseCase(Unit)
+        }
+    }
+
+    fun moveTaskToNextDay(taskId: Long) {
+        viewModelScope.launch {
+            val tasksState = state.value.tasks
+
+            if (tasksState is TasksState.Success) {
+                val task = tasksState.data.find { it.id == taskId }
+
+                requireNotNull(task) {
+                    "Task should not be null"
+                }
+
+                updateTaskUseCase(
+                    UpdateTaskUseCase.Params(
+                        taskId = taskId,
+                        name = task.name,
+                        date = task.day.plusDays(1),
+                        reminderTime = task.reminder?.time,
+                    )
+                )
+
+                atomAnalytics.track(AgendaAnalytics.MoveTaskToNextDay)
+            }
         }
     }
 }
