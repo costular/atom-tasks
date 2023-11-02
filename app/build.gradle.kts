@@ -10,6 +10,8 @@ plugins {
     id("atomtasks.detekt")
     id("jacoco")
     alias(libs.plugins.ksp)
+    id("com.android.application")
+    id("androidx.baselineprofile")
 }
 
 android {
@@ -99,6 +101,8 @@ dependencies {
     implementation(libs.lifecycle.compose)
     implementation(libs.viewmodel)
     implementation(libs.hilt)
+    implementation(libs.profileinstaller)
+    "baselineProfile"(project(":baselineprofile"))
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
