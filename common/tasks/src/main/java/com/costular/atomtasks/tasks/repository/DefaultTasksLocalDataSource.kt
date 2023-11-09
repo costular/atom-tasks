@@ -8,6 +8,7 @@ import com.costular.atomtasks.data.tasks.TasksDao
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 @Suppress("TooManyFunctions")
 internal class DefaultTasksLocalDataSource(
@@ -72,7 +73,16 @@ internal class DefaultTasksLocalDataSource(
     }
 
     override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
-        tasksDao.updateTask(taskId, day, name)
+        val task = tasksDao.getTaskById(taskId).first()
+        val oldDay = task.task.day
+
+
+        if (oldDay != day) {
+            val maxPositionForNewDay = tasksDao.getMaxPositionForDate(day) + 1
+            tasksDao.updateTask(taskId, day, name, maxPositionForNewDay)
+        } else {
+            tasksDao.updateTask(taskId, day, name)
+        }
     }
 
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
