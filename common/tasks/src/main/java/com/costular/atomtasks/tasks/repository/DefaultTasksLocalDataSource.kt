@@ -88,4 +88,8 @@ internal class DefaultTasksLocalDataSource(
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
         tasksDao.moveTask(day, fromPosition, toPosition)
     }
+
+    override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
+        tasksDao.moveTask(day, fromPosition, toPosition)
+    }
 }
