@@ -1,5 +1,6 @@
 New fresh updates ✨
 
-- Tasks can be ordered now! 👏🏼
-- Themed icon (from Android 12) now the icon will follow your wallpaper colors
-- Expandable calendar enhancements
+- Fixed an issue when editing a task's day
+- Enhanced performance by 30%
+- Added today indicator in the week calendar
+- Some minor UI improvements

@@ -18,6 +18,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.3.0] 2023-11-30
+
+### Added
+- Add today indicator in the week calendar
+- Add baseline profiles to improve performance
+
+### Changed
+- Minor improvements in the UI
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fix edit task's day that caused issues when editing a task changing it's day when there were other tasks with the same position
+
+### Security
+
 ## [2.2.0] 2023-10-23
 
 ### Added
