@@ -211,7 +211,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.costular.atomtasks
-          releaseFiles: app-release.aab
+          releaseFiles: app-production-release.aab
           track: production
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
