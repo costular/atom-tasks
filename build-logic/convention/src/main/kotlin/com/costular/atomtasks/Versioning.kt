@@ -1,6 +1,6 @@
 package com.costular.atomtasks
 
 object Versioning {
-    const val VersionCode = 12
-    const val VersionName = "2.2.0"
+    const val VersionCode = 13
+    const val VersionName = "2.3.0"
 }
