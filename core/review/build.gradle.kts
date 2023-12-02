@@ -4,17 +4,15 @@ plugins {
     id("kotlin-android")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
+    id("atomtasks.android.hilt")
 }
 
 android {
-    namespace = "com.costular.atomtasks.core.ui"
+    namespace = "com.costular.atomtasks.core.review"
 }
 
 dependencies {
-    api(project(":core"))
-    api(libs.compose.bom)
-    api(libs.lifecycle.compose)
-
+    implementation(projects.core.ui)
     implementation(libs.androidx.core)
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
