@@ -12,11 +12,13 @@ android {
 }
 
 dependencies {
+    implementation(projects.data)
     implementation(projects.core.ui)
+    implementation(projects.core.logging)
     implementation(libs.androidx.core)
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
-    implementation(libs.viewmodel)
+    implementation(libs.play.review)
 
     testImplementation(libs.android.junit)
     testImplementation(libs.junit)
@@ -26,4 +28,5 @@ dependencies {
     testImplementation(libs.androidx.test)
     testImplementation(libs.mockk)
     testImplementation(libs.compose.ui.test)
+    testImplementation(libs.testparameterinjector)
 }
