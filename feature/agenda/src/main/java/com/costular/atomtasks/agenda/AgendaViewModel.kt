@@ -17,6 +17,7 @@ import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.coreui.date.asDay
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
+import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
@@ -42,7 +43,8 @@ class AgendaViewModel @Inject constructor(
     private val moveTaskUseCase: MoveTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase,
-    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase,
+    private val shouldShowAskReviewUseCase: ShouldAskReviewUseCase,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
@@ -88,6 +90,7 @@ class AgendaViewModel @Inject constructor(
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
         updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
+        checkIfReviewShouldBeShown(isDone)
 
         val event = if (isDone) {
             MarkTaskAsDone
@@ -95,6 +98,24 @@ class AgendaViewModel @Inject constructor(
             MarkTaskAsNotDone
         }
         atomAnalytics.track(event)
+    }
+
+    private suspend fun checkIfReviewShouldBeShown(isDone: Boolean) {
+        if (isDone) {
+            val result = shouldShowAskReviewUseCase(Unit)
+            result.fold(
+                ifError = {
+                    // do nothing for now
+                },
+                ifResult = {
+                    setState { copy(shouldShowReviewDialog = it) }
+                }
+            )
+        }
+    }
+
+    fun onReviewFinished() {
+        setState { copy(shouldShowReviewDialog = false) }
     }
 
     fun actionDelete(id: Long) {
