@@ -1,6 +1,5 @@
 plugins {
     id("atomtasks.android.library")
-    id("atomtasks.android.library.compose")
     id("kotlin-android")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
