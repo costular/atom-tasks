@@ -8,12 +8,14 @@ import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
+import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
+import com.costular.core.Either
 import com.costular.core.usecase.invoke
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -42,7 +44,9 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
         mockk(relaxed = true)
-    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase = mockk(relaxed = true)
+    private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase =
+        mockk(relaxed = true)
+    private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -355,6 +359,43 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
     }
 
+    @Test
+    fun `should expose ask review when mark task as done given usecase returns true`() = runTest {
+        coEvery { shouldAskReviewUseCase() } returns Either.Result(true)
+        givenSuccessTasks()
+
+        sut.onMarkTask(DEFAULT_TASKS.first().id, true)
+
+        assertThat(sut.state.value.shouldShowReviewDialog).isTrue()
+    }
+
+    @Test
+    fun `should not expose ask review when mark task as NOT done given usecase returns true`() =
+        runTest {
+            coEvery { shouldAskReviewUseCase() } returns Either.Result(true)
+            givenSuccessTasks()
+
+            sut.onMarkTask(DEFAULT_TASKS.first().id, false)
+
+            assertThat(sut.state.value.shouldShowReviewDialog).isFalse()
+        }
+
+    @Test
+    fun `should not expose ask review when finish review given the review was being shown`() =
+        runTest {
+            coEvery { shouldAskReviewUseCase() } returns Either.Result(true)
+            givenSuccessTasks()
+
+            sut.onMarkTask(DEFAULT_TASKS.first().id, true)
+            sut.onReviewFinished()
+
+            assertThat(sut.state.value.shouldShowReviewDialog).isFalse()
+        }
+
+    private fun givenSuccessTasks() {
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(DEFAULT_TASKS)
+    }
+
     companion object {
         const val TASK1_ID = 1L
         const val TASK2ID = 2L
@@ -390,6 +431,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             atomAnalytics = atomAnalytics,
             shouldShowTaskOrderTutorialUseCase = shouldShowTaskOrderTutorialUseCase,
             taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
+            shouldShowAskReviewUseCase = shouldAskReviewUseCase,
         )
     }
 }

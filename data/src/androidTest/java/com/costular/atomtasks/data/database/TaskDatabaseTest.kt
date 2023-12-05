@@ -328,4 +328,34 @@ class TaskDatabaseTest {
         Truth.assertThat(result.find { it.task.id == id1 }!!.task.position).isEqualTo(2)
         Truth.assertThat(result.find { it.task.id == id2 }!!.task.position).isEqualTo(1)
     }
+
+    @Test
+    fun testDoneTasksCount() = runTest {
+        val task1 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+        )
+        val task2 = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 2,
+        )
+
+        val id1 = tasksDao.createTask(task1)
+        val id2 = tasksDao.createTask(task2)
+
+        tasksDao.updateTaskDone(id1, true)
+        tasksDao.updateTaskDone(id2, true)
+
+        val result = tasksDao.getDoneTasksCount()
+
+        Truth.assertThat(result).isEqualTo(2)
+    }
 }

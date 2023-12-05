@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(projects.core.preferences)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)

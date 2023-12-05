@@ -48,6 +48,7 @@ dependencies {
     ksp(libs.compose.destinations.ksp)
 
     implementation(projects.common.tasks)
+    implementation(projects.core.review)
     implementation(libs.calendar)
     implementation(libs.kotlinx.collections.immutable)
 
