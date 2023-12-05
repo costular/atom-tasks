@@ -1,7 +1,6 @@
 package com.costular.atomtasks.review.strategy
 
 import com.costular.atomtasks.data.tasks.TasksDao
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

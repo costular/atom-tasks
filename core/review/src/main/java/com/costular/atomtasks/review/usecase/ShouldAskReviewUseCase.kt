@@ -8,6 +8,7 @@ import com.costular.core.usecase.UseCase
 import java.lang.Exception
 import javax.inject.Inject
 
+@Suppress("TooGenericExceptionCaught")
 class ShouldAskReviewUseCase @Inject constructor(
     private val reviewStrategy: ReviewStrategy,
 ) : UseCase<Unit, Either<ShouldAskReviewError, Boolean>> {
