@@ -1,4 +1,4 @@
-package com.costular.atomtasks.data
+package com.costular.atomtasks.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -20,7 +20,6 @@ import kotlinx.coroutines.SupervisorJob
 @InstallIn(SingletonComponent::class)
 @Module
 class DataStoreModule {
-
     @Singleton
     @Provides
     fun provideDataStore(
