@@ -42,8 +42,8 @@ class AtomTasksApp : Application(), Configuration.Provider {
         AtomLogger.initialize(logger)
     }
 
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .setMinimumLoggingLevel(Log.DEBUG)
             .build()

@@ -1,11 +1,13 @@
 package com.costular.designsystem.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.AssistChipDefaults.assistChipBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,9 +31,12 @@ fun ClearableChip(
     modifier: Modifier = Modifier,
 ) {
     val border = if (isError) {
-        AssistChipDefaults.assistChipBorder(borderColor = MaterialTheme.colorScheme.error)
+        assistChipBorder(
+            enabled = true,
+            borderColor = MaterialTheme.colorScheme.error
+        )
     } else {
-        AssistChipDefaults.assistChipBorder()
+        assistChipBorder(enabled = true)
     }
 
     val chipColors = if (isError) {
