@@ -17,6 +17,10 @@ import java.time.LocalDate
             value = ["position", "date"],
             unique = true,
         ),
+        Index(
+            value = ["date"],
+            unique = false,
+        ),
     ],
 )
 data class TaskEntity(
