@@ -1,4 +1,4 @@
-package com.costular.core
+package com.costular.atomtasks.core
 
 sealed class InvokeStatus
 object InvokeStarted : InvokeStatus()

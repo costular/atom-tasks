@@ -1,7 +1,7 @@
-package com.costular.core
+package com.costular.atomtasks.core
 
-import com.costular.core.Either.Error
-import com.costular.core.Either.Result
+import com.costular.atomtasks.core.Either.Error
+import com.costular.atomtasks.core.Either.Result
 
 sealed class Either<out Error, out Result> {
     data class Error<out Error>(val error: Error) : Either<Error, Nothing>()

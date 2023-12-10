@@ -2,10 +2,10 @@ package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.core.Either
-import com.costular.core.toError
-import com.costular.core.toResult
-import com.costular.core.usecase.UseCase
+import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.toError
+import com.costular.atomtasks.core.toResult
+import com.costular.atomtasks.core.usecase.UseCase
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject

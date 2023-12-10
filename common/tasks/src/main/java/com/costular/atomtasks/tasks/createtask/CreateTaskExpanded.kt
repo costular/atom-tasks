@@ -43,7 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
-import com.costular.atomtasks.coreui.utils.ofLocalizedTime
+import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog

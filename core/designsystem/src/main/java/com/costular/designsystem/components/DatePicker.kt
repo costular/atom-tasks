@@ -32,8 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.atomtasks.coreui.utils.ofLocalized
-import com.costular.core.util.DateTimeFormatters
+import com.costular.atomtasks.core.ui.utils.ofLocalized
+import com.costular.atomtasks.core.util.DateTimeFormatters
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.kizitonwose.calendar.compose.HorizontalCalendar

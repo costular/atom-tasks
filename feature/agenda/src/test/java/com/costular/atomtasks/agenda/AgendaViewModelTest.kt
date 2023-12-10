@@ -15,8 +15,8 @@ import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
 import com.costular.atomtasks.tasks.manager.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.core.Either
-import com.costular.core.usecase.invoke
+import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.usecase.invoke
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

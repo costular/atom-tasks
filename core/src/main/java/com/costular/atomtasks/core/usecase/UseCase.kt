@@ -1,4 +1,4 @@
-package com.costular.core.usecase
+package com.costular.atomtasks.core.usecase
 
 import kotlinx.coroutines.flow.Flow
 

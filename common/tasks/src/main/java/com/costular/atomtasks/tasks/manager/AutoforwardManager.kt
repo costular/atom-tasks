@@ -5,7 +5,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import com.costular.atomtasks.tasks.worker.AutoforwardTasksWorker
-import com.costular.core.usecase.invoke
+import com.costular.atomtasks.core.usecase.invoke
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.Duration
 import java.time.LocalTime

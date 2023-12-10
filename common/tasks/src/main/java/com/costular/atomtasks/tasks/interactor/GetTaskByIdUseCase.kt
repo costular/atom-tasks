@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.repository.TasksRepository
-import com.costular.core.usecase.UseCase
+import com.costular.atomtasks.core.usecase.UseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

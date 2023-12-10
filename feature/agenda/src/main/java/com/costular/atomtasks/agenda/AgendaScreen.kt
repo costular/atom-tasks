@@ -41,7 +41,7 @@ import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestina
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
-import com.costular.atomtasks.coreui.date.Day
+import com.costular.atomtasks.core.ui.date.Day
 import com.costular.atomtasks.review.ui.ReviewHandler
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task

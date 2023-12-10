@@ -14,7 +14,7 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.SelectToday
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDeleteDialog
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase

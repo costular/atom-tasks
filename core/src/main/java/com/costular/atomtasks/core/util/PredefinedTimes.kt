@@ -1,4 +1,4 @@
-package com.costular.core.util
+package com.costular.atomtasks.core.util
 
 import java.time.LocalTime
 

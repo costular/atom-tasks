@@ -1,8 +1,8 @@
 package com.costular.atomtasks.core.testing.di
 
 import com.costular.atomtasks.core.testing.net.TestDispatcherProvider
-import com.costular.core.di.DispatcherProviderModule
-import com.costular.core.net.DispatcherProvider
+import com.costular.atomtasks.core.di.DispatcherProviderModule
+import com.costular.atomtasks.core.net.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent

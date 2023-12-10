@@ -1,8 +1,8 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
-import com.costular.core.usecase.UseCase
-import com.costular.core.usecase.invoke
+import com.costular.atomtasks.core.usecase.UseCase
+import com.costular.atomtasks.core.usecase.invoke
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first

@@ -1,4 +1,4 @@
-package com.costular.core.net
+package com.costular.atomtasks.core.net
 
 import kotlinx.coroutines.CoroutineDispatcher
 

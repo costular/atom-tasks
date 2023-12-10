@@ -1,7 +1,7 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import app.cash.paparazzi.Paparazzi
-import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.screenshottesting.utils.FontSize
 import com.costular.atomtasks.screenshottesting.utils.PaparazziFactory
 import com.costular.atomtasks.screenshottesting.utils.Theme

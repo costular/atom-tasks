@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
-import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.tasks.model.Task
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate

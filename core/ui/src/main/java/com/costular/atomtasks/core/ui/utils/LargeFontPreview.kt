@@ -1,4 +1,4 @@
-package com.costular.atomtasks.coreui.utils
+package com.costular.atomtasks.core.ui.utils
 
 import androidx.compose.ui.tooling.preview.Preview
 

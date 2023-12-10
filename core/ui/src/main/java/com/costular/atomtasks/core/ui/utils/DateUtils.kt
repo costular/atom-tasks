@@ -3,7 +3,7 @@ package com.costular.atomtasks.core.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.costular.atomtasks.core.ui.R
-import com.costular.core.util.DateTimeFormatters
+import com.costular.atomtasks.core.util.DateTimeFormatters
 import java.time.LocalDate
 
 object DateUtils {

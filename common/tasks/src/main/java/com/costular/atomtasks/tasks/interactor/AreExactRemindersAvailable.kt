@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.core.usecase.UseCase
+import com.costular.atomtasks.core.usecase.UseCase
 import javax.inject.Inject
 
 class AreExactRemindersAvailable @Inject constructor(

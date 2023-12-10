@@ -3,7 +3,7 @@ package com.costular.atomtasks.tasks.interactor
 import com.costular.atomtasks.tasks.manager.TaskReminderManager
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.core.toError
+import com.costular.atomtasks.core.toError
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.every

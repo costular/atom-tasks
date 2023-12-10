@@ -1,9 +1,9 @@
 package com.costular.atomtasks.data
 
-import com.costular.core.InvokeError
-import com.costular.core.InvokeStarted
-import com.costular.core.InvokeStatus
-import com.costular.core.InvokeSuccess
+import com.costular.atomtasks.core.InvokeError
+import com.costular.atomtasks.core.InvokeStarted
+import com.costular.atomtasks.core.InvokeStatus
+import com.costular.atomtasks.core.InvokeSuccess
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

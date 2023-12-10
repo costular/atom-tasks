@@ -5,9 +5,9 @@ import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.createtask.analytics.CreateTaskAnalytics
 import com.costular.atomtasks.tasks.interactor.CreateTaskInteractor
-import com.costular.core.InvokeError
-import com.costular.core.InvokeStarted
-import com.costular.core.InvokeSuccess
+import com.costular.atomtasks.core.InvokeError
+import com.costular.atomtasks.core.InvokeStarted
+import com.costular.atomtasks.core.InvokeSuccess
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

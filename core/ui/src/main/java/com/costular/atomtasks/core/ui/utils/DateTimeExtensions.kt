@@ -1,9 +1,9 @@
-package com.costular.atomtasks.coreui.utils
+package com.costular.atomtasks.core.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
-import com.costular.core.util.DateTimeFormatters.formatTime
+import com.costular.atomtasks.core.util.DateTimeFormatters.formatTime
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.YearMonth

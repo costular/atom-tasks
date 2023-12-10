@@ -23,11 +23,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.costular.atomtasks.coreui.date.Day
-import com.costular.atomtasks.coreui.date.asDay
-import com.costular.atomtasks.coreui.utils.ofLocalized
-import com.costular.core.util.DateTimeFormatters.shortDayOfWeekFormatter
-import com.costular.core.util.WeekUtil
+import com.costular.atomtasks.core.ui.date.Day
+import com.costular.atomtasks.core.ui.date.asDay
+import com.costular.atomtasks.core.ui.utils.ofLocalized
+import com.costular.atomtasks.core.util.DateTimeFormatters.shortDayOfWeekFormatter
+import com.costular.atomtasks.core.util.WeekUtil
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
 

@@ -1,6 +1,6 @@
 package com.costular.atomtasks.review.usecase
 
-import com.costular.core.Either
+import com.costular.atomtasks.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector

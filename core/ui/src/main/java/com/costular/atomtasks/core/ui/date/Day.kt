@@ -1,4 +1,4 @@
-package com.costular.atomtasks.coreui.date
+package com.costular.atomtasks.core.ui.date
 
 import androidx.compose.runtime.Immutable
 import java.time.LocalDate
