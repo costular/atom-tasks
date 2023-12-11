@@ -1,6 +1,5 @@
 package com.costular.designsystem.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
@@ -8,18 +7,24 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.AssistChipDefaults.assistChipBorder
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.ui.R
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement as MinimumTouchArea
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClearableChip(
     title: String,
@@ -39,25 +44,30 @@ fun ClearableChip(
         assistChipBorder(enabled = true)
     }
 
-    val chipColors = if (isError) {
-        AssistChipDefaults.assistChipColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer,
-            labelColor = MaterialTheme.colorScheme.onErrorContainer,
-            leadingIconContentColor = MaterialTheme.colorScheme.onErrorContainer,
-        )
-    } else {
-        AssistChipDefaults.assistChipColors()
+    val chipColors = when {
+        isSelected && !isError -> {
+            AssistChipDefaults.assistChipColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                leadingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                trailingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
+
+        isError -> {
+            AssistChipDefaults.assistChipColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                labelColor = MaterialTheme.colorScheme.onErrorContainer,
+                leadingIconContentColor = MaterialTheme.colorScheme.onErrorContainer,
+            )
+        }
+
+        else -> AssistChipDefaults.assistChipColors()
     }
 
     AssistChip(
         modifier = modifier,
-        onClick = {
-            if (isSelected) {
-                onClear()
-            } else {
-                onClick()
-            }
-        },
+        onClick = onClick,
         leadingIcon = {
             Icon(
                 imageVector = icon,
@@ -72,14 +82,20 @@ fun ClearableChip(
         },
         trailingIcon = {
             if (isSelected) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = stringResource(
-                        R.string.content_description_chip_clear,
-                    ),
-                    modifier = Modifier
-                        .size(AppTheme.ChipIconSize),
-                )
+                CompositionLocalProvider(MinimumTouchArea provides false) {
+                    IconButton(
+                        modifier = Modifier.size(24.dp),
+                        onClick = onClear,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = stringResource(
+                                R.string.content_description_chip_clear,
+                            ),
+                            modifier = Modifier.size(AppTheme.ChipIconSize),
+                        )
+                    }
+                }
             }
         },
         border = border,
