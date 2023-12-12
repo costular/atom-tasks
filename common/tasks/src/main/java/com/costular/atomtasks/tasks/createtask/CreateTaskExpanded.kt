@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
@@ -44,6 +47,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
+import com.costular.atomtasks.tasks.format.localized
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.designsystem.components.ClearableChip
 import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
@@ -135,6 +140,14 @@ fun CreateTaskExpanded(
         }
     }
 
+    if (state.showSetRecurrence) {
+        RecurrenceTypePickerDialog(
+            recurrenceType = state.recurrenceType,
+            onRecurrenceTypeSelected = viewModel::setRecurrence,
+            onDismissRequest = viewModel::closeSelectRecurrence,
+        )
+    }
+
     CreateTaskExpanded(
         state = state,
         modifier = modifier,
@@ -143,9 +156,9 @@ fun CreateTaskExpanded(
         onClickDate = viewModel::selectDate,
         onClickReminder = viewModel::selectReminder,
         onClearReminder = viewModel::clearReminder,
-        onSave = {
-            viewModel.requestSave()
-        },
+        onSave = viewModel::requestSave,
+        onClickRecurrence = viewModel::selectRecurrence,
+        onClearRecurrence = viewModel::clearRecurrence,
     )
 }
 
@@ -222,65 +235,140 @@ internal fun CreateTaskExpanded(
     onClickDate: () -> Unit,
     onClickReminder: () -> Unit,
     onClearReminder: () -> Unit,
+    onClickRecurrence: () -> Unit,
+    onClearRecurrence: () -> Unit,
     onSave: () -> Unit,
 ) {
-    Column(modifier.padding(AppTheme.dimens.contentMargin)) {
+    Column {
         CreateTaskInput(
+            modifier = Modifier.padding(
+                top = AppTheme.dimens.contentMargin,
+                start = AppTheme.dimens.contentMargin,
+                end = AppTheme.dimens.contentMargin,
+            ),
             value = state.name,
             focusRequester = focusRequester,
             onValueChange = onValueChange,
         )
 
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+        Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
 
-        Row(modifier = Modifier.fillMaxWidth()) {
-            ClearableChip(
-                title = dayAsText(state.date),
-                icon = Icons.Outlined.Today,
-                isSelected = false,
-                onClick = onClickDate,
-                onClear = onClearReminder,
-                isError = false,
-                modifier = Modifier.testTag("CreateTaskExpandedDate"),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = AppTheme.dimens.contentMargin),
+        ) {
+            DueDateButton(
+                state.date,
+                onClickDate,
+                onClearReminder,
             )
 
             Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
 
-            val reminderText = if (state.reminder != null) {
-                state.reminder.ofLocalizedTime()
-            } else {
-                stringResource(R.string.create_task_set_reminder)
-            }
+            ReminderButton(
+                state.reminder,
+                state.isReminderError,
+                onClickReminder,
+                onClearReminder
+            )
 
-            ClearableChip(
-                title = reminderText,
-                icon = Icons.Outlined.Alarm,
-                isSelected = state.reminder != null,
-                onClick = onClickReminder,
-                onClear = onClearReminder,
-                isError = state.isReminderError,
-                modifier = Modifier.testTag("CreateTaskExpandedReminder"),
+            Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+
+            RecurrenceButton(
+                recurrenceType = state.recurrenceType,
+                onClick = onClickRecurrence,
+                onClearRecurrence = onClearRecurrence,
             )
         }
 
         if (state.isReminderError) {
-            Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
-
             Text(
                 text = stringResource(R.string.create_task_reminder_past_error),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = AppTheme.dimens.contentMargin),
                 color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelMedium,
             )
         }
 
-        Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
+        Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
         SaveButton(
             isEnabled = state.shouldShowSend,
             onSave = onSave,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(
+                start = AppTheme.dimens.contentMargin,
+                end = AppTheme.dimens.contentMargin,
+                bottom = AppTheme.dimens.spacingMedium,
+            ),
         )
     }
+}
+
+@Composable
+private fun DueDateButton(
+    date: LocalDate,
+    onClickDate: () -> Unit,
+    onClearReminder: () -> Unit
+) {
+    ClearableChip(
+        title = dayAsText(date),
+        icon = Icons.Outlined.Today,
+        isSelected = false,
+        onClick = onClickDate,
+        onClear = onClearReminder,
+        isError = false,
+        modifier = Modifier.testTag("CreateTaskExpandedDate"),
+    )
+}
+
+@Composable
+private fun ReminderButton(
+    reminder: LocalTime?,
+    isError: Boolean,
+    onClickReminder: () -> Unit,
+    onClearReminder: () -> Unit
+) {
+    val reminderText = if (reminder != null) {
+        reminder.ofLocalizedTime()
+    } else {
+        stringResource(R.string.create_task_set_reminder)
+    }
+
+    ClearableChip(
+        title = reminderText,
+        icon = Icons.Outlined.Alarm,
+        isSelected = reminder != null,
+        onClick = onClickReminder,
+        onClear = onClearReminder,
+        isError = isError,
+        modifier = Modifier.testTag("CreateTaskExpandedReminder"),
+    )
+}
+
+@Composable
+private fun RecurrenceButton(
+    recurrenceType: RecurrenceType?,
+    onClick: () -> Unit,
+    onClearRecurrence: () -> Unit,
+) {
+    val buttonText = if (recurrenceType != null) {
+        recurrenceType.localized()
+    } else {
+        stringResource(R.string.create_task_set_recurrence)
+    }
+
+    ClearableChip(
+        title = buttonText,
+        icon = Icons.Outlined.Repeat,
+        isSelected = recurrenceType != null,
+        isError = false,
+        onClick = onClick,
+        onClear = onClearRecurrence,
+    )
 }
 
 @Composable
@@ -288,6 +376,7 @@ private fun CreateTaskInput(
     value: String,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     OutlinedTextField(
         value = value,
@@ -298,7 +387,7 @@ private fun CreateTaskInput(
                 style = MaterialTheme.typography.bodyLarge,
             )
         },
-        modifier = Modifier.Companion
+        modifier = modifier
             .fillMaxWidth()
             .testTag("CreateTaskInput")
             .focusRequester(focusRequester),
@@ -377,6 +466,8 @@ fun CreateTaskExpandedPreview() {
             onClickDate = {},
             onSave = {},
             onClearReminder = {},
+            onClickRecurrence = {},
+            onClearRecurrence = {},
         )
     }
 }
@@ -396,6 +487,31 @@ fun CreateTaskExpandedWithPastReminderErrorPreview() {
             onClickDate = {},
             onSave = {},
             onClearReminder = {},
+            onClickRecurrence = {},
+            onClearRecurrence = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreateTaskExpandedFilledDataPreview() {
+    AtomTheme {
+        CreateTaskExpanded(
+            state = CreateTaskExpandedState(
+                name = "🏃🏻‍♀️ Go out for running!",
+                reminder = LocalTime.now().plusHours(4),
+                date = LocalDate.now().plusDays(4),
+                recurrenceType = RecurrenceType.WEEKLY,
+            ),
+            focusRequester = FocusRequester(),
+            onValueChange = {},
+            onClickReminder = {},
+            onClickDate = {},
+            onSave = {},
+            onClearReminder = {},
+            onClickRecurrence = {},
+            onClearRecurrence = {},
         )
     }
 }

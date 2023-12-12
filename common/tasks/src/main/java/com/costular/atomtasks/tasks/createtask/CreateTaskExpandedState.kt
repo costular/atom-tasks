@@ -1,5 +1,6 @@
 package com.costular.atomtasks.tasks.createtask
 
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -10,7 +11,9 @@ data class CreateTaskExpandedState(
     val reminder: LocalTime? = null,
     val showSetDate: Boolean = false,
     val showSetReminder: Boolean = false,
+    val showSetRecurrence: Boolean = false,
     val shouldShowAlarmsRationale: Boolean = false,
+    val recurrenceType: RecurrenceType? = null,
 ) {
     val shouldShowSend: Boolean
         get() = name.isNotBlank()

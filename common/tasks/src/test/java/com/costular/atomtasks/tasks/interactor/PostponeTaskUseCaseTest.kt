@@ -129,7 +129,7 @@ class PostponeTaskUseCaseTest {
     }
 
     private fun givenTaskWithoutReminder() {
-        every { getTaskByIdUseCase.flow } returns flowOf(
+        coEvery { getTaskByIdUseCase(any()) } returns flowOf(
             Task(
                 id = 1L,
                 name = "Whatever",
@@ -138,12 +138,16 @@ class PostponeTaskUseCaseTest {
                 reminder = null,
                 isDone = false,
                 position = 0,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             )
         )
     }
 
     private fun givenTaskWithReminder() {
-        every { getTaskByIdUseCase.flow } returns flowOf(
+        coEvery { getTaskByIdUseCase(any()) } returns flowOf(
             Task(
                 id = 1L,
                 name = "Whatever",
@@ -156,6 +160,10 @@ class PostponeTaskUseCaseTest {
                 ),
                 isDone = false,
                 position = 0,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             )
         )
     }

@@ -21,6 +21,7 @@ android {
 dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.analytics)
+    implementation(projects.core.ui)
     implementation(projects.data)
     implementation(projects.core.notifications)
     implementation(projects.core.logging)

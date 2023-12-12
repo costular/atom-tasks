@@ -64,6 +64,10 @@ class TaskListSnapshotTest {
                         null,
                         true,
                         position = 1,
+                        isRecurring = false,
+                        recurrenceEndDate = null,
+                        recurrenceType = null,
+                        parentId = null,
                     ),
                     Task(
                         id = 0L,
@@ -77,6 +81,10 @@ class TaskListSnapshotTest {
                         ),
                         isDone = false,
                         position = 2,
+                        isRecurring = false,
+                        recurrenceEndDate = null,
+                        recurrenceType = null,
+                        parentId = null,
                     ),
                     Task(
                         id = 0L,
@@ -86,6 +94,10 @@ class TaskListSnapshotTest {
                         reminder = null,
                         isDone = false,
                         position = 3,
+                        isRecurring = false,
+                        recurrenceEndDate = null,
+                        recurrenceType = null,
+                        parentId = null,
                     ),
                 ),
             )

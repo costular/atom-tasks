@@ -113,6 +113,10 @@ class DefaultTasksRepositoryTest {
             ),
             isDone = true,
             position = 1,
+            isRecurring = false,
+            recurrenceEndDate = null,
+            recurrenceType = null,
+            parentId = null,
         )
 
         coEvery { localDataSource.getTaskById(taskId) } returns flowOf(result)

@@ -63,6 +63,10 @@ class AgendaTest : AndroidTest() {
             isDone = true,
             day = LocalDate.now(),
             position = 1,
+            isRecurring = false,
+            recurrenceEndDate = null,
+            recurrenceType = null,
+            parentId = null,
         )
 
         givenAgenda(
@@ -92,6 +96,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 
@@ -120,6 +128,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 
@@ -149,6 +161,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 

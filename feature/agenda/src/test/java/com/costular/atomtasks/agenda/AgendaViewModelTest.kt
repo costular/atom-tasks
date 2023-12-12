@@ -408,6 +408,10 @@ class AgendaViewModelTest : MviViewModelTest() {
                 reminder = null,
                 isDone = false,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
             Task(
                 id = TASK2ID,
@@ -417,6 +421,10 @@ class AgendaViewModelTest : MviViewModelTest() {
                 reminder = null,
                 isDone = true,
                 position = 2,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
     }
