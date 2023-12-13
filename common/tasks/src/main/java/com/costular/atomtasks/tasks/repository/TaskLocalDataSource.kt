@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Suppress("TooManyFunctions")
 interface TaskLocalDataSource {
-
     suspend fun createTask(taskEntity: TaskEntity): Long
     suspend fun createReminderForTask(
         time: LocalTime,

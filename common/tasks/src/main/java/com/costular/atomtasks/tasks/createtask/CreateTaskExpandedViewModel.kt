@@ -114,6 +114,7 @@ class CreateTaskExpandedViewModel @Inject constructor(
             name = name,
             date = date,
             reminder = reminder,
+            recurrenceType = recurrenceType,
         )
 
     fun navigateToExactAlarmSettings() {

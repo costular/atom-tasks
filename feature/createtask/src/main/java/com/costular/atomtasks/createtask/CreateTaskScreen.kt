@@ -50,6 +50,7 @@ fun CreateTaskScreen(
                 result.name,
                 result.date,
                 result.reminder,
+                result.recurrenceType,
             )
         },
         modifier = Modifier

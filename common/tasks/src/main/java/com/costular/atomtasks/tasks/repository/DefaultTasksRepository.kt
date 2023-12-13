@@ -1,7 +1,9 @@
 package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskEntity
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.model.asString
 import com.costular.atomtasks.tasks.model.toDomain
 import java.time.LocalDate
 import java.time.LocalTime
@@ -18,22 +20,25 @@ internal class DefaultTasksRepository @Inject constructor(
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?,
+        recurrenceType: RecurrenceType?,
     ): Long {
         val taskEntity = TaskEntity(
-            0,
-            LocalDate.now(),
-            name,
-            date,
-            false,
+            id = 0,
+            createdAt = LocalDate.now(),
+            name = name,
+            day = date,
+            isDone = false,
+            recurrenceType = recurrenceType?.asString(),
+            isRecurring = recurrenceType != null,
         )
         val taskId = localDataSource.createTask(taskEntity)
 
         if (reminderEnabled) {
             localDataSource.createReminderForTask(
-                requireNotNull(reminderTime),
-                date,
-                reminderEnabled,
-                taskId,
+                time = requireNotNull(reminderTime),
+                date = date,
+                reminderEnabled = reminderEnabled,
+                taskId = taskId,
             )
         }
         return taskId

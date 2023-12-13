@@ -239,7 +239,7 @@ internal fun CreateTaskExpanded(
     onClearRecurrence: () -> Unit,
     onSave: () -> Unit,
 ) {
-    Column {
+    Column(modifier = modifier) {
         CreateTaskInput(
             modifier = Modifier.padding(
                 top = AppTheme.dimens.contentMargin,

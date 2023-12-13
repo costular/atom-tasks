@@ -99,4 +99,6 @@ interface TasksDao {
 
     @Query("SELECT COUNT(*) from tasks WHERE is_done = 1")
     suspend fun getDoneTasksCount(): Int
+
+
 }

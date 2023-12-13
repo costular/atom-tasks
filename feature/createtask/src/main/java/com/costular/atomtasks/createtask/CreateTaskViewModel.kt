@@ -4,10 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.createtask.analytics.CreateTaskAnalytics
-import com.costular.atomtasks.tasks.interactor.CreateTaskInteractor
-import com.costular.atomtasks.core.InvokeError
-import com.costular.atomtasks.core.InvokeStarted
-import com.costular.atomtasks.core.InvokeSuccess
+import com.costular.atomtasks.tasks.interactor.CreateTaskUseCase
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -16,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
-    private val createTaskInteractor: CreateTaskInteractor,
+    private val createTaskUseCase: CreateTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
 ) : MviViewModel<CreateTaskState>(CreateTaskState.Uninitialized) {
 
@@ -24,32 +22,28 @@ class CreateTaskViewModel @Inject constructor(
         name: String,
         date: LocalDate,
         reminder: LocalTime?,
+        recurrence: RecurrenceType?,
     ) {
         viewModelScope.launch {
-            createTaskInteractor(
-                CreateTaskInteractor.Params(
-                    name,
-                    date,
-                    reminder != null,
-                    reminder,
+            setState { CreateTaskState.Saving }
+
+            createTaskUseCase(
+                CreateTaskUseCase.Params(
+                    name = name,
+                    date = date,
+                    reminderEnabled = reminder != null,
+                    reminderTime = reminder,
+                    recurrenceType = recurrence,
                 ),
-            )
-                .collect { status ->
-                    when (status) {
-                        is InvokeStarted -> {
-                            setState { CreateTaskState.Loading }
-                        }
-
-                        is InvokeSuccess -> {
-                            setState { CreateTaskState.Success }
-                            atomAnalytics.track(CreateTaskAnalytics.TaskCreated)
-                        }
-
-                        is InvokeError -> {
-                            setState { CreateTaskState.Failure }
-                        }
-                    }
+            ).fold(
+                ifError = {
+                    setState { CreateTaskState.Failure }
+                },
+                ifResult = {
+                    atomAnalytics.track(CreateTaskAnalytics.TaskCreated)
+                    setState { CreateTaskState.Success }
                 }
+            )
         }
     }
 }

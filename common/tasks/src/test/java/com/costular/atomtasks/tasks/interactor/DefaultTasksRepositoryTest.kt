@@ -3,9 +3,9 @@ package com.costular.atomtasks.tasks.interactor
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
-import com.costular.atomtasks.tasks.repository.DefaultTasksRepository
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.repository.DefaultTasksRepository
 import com.costular.atomtasks.tasks.repository.TaskLocalDataSource
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth.assertThat
@@ -34,7 +34,7 @@ class DefaultTasksRepositoryTest {
     }
 
     @Test
-    fun `should call local data source add task when add task`() = runBlockingTest {
+    fun `should call local data source add task when add task`() = runTest {
         val taskName = "task name"
         val taskDate = LocalDate.now()
 
@@ -45,6 +45,7 @@ class DefaultTasksRepositoryTest {
             date = taskDate,
             reminderEnabled = false,
             reminderTime = null,
+            recurrenceType = null,
         )
 
         coVerify { localDataSource.createTask(capture(taskSlot)) }
@@ -52,32 +53,32 @@ class DefaultTasksRepositoryTest {
     }
 
     @Test
-    fun `should call local data source add reminder when add task with reminder`() =
-        runBlockingTest {
-            val taskName = "task name"
-            val taskDate = LocalDate.of(2022, 6, 4)
-            val taskReminderTime = LocalTime.of(9, 0)
-            val reminderEnabled = true
+    fun `should call local data source add reminder when add task with reminder`() = runTest {
+        val taskName = "task name"
+        val taskDate = LocalDate.of(2022, 6, 4)
+        val taskReminderTime = LocalTime.of(9, 0)
+        val reminderEnabled = true
 
-            val taskId = sut.createTask(
-                name = taskName,
-                date = taskDate,
-                reminderEnabled = reminderEnabled,
-                reminderTime = taskReminderTime,
+        val taskId = sut.createTask(
+            name = taskName,
+            date = taskDate,
+            reminderEnabled = reminderEnabled,
+            reminderTime = taskReminderTime,
+            recurrenceType = null,
+        )
+
+        coVerify {
+            localDataSource.createReminderForTask(
+                taskReminderTime,
+                taskDate,
+                reminderEnabled,
+                taskId,
             )
-
-            coVerify {
-                localDataSource.createReminderForTask(
-                    taskReminderTime,
-                    taskDate,
-                    reminderEnabled,
-                    taskId,
-                )
-            }
         }
+    }
 
     @Test
-    fun `should get task by id`() = runBlockingTest {
+    fun `should get task by id`() = runTest {
         val taskId = 101L
         val taskName = "just whatever"
         val createdAt = LocalDate.now()

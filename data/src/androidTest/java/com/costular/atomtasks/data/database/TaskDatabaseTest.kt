@@ -358,4 +358,52 @@ class TaskDatabaseTest {
 
         Truth.assertThat(result).isEqualTo(2)
     }
+
+    @Test
+    fun testAddTaskWithRecurrence() = runTest {
+        val task = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "whatever",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+            isRecurring = true,
+            recurrenceType = "daily"
+        )
+
+        val id = tasksDao.createTask(task)
+        val taskAggregated = tasksDao.getTaskById(id).first()
+
+        Truth.assertThat(taskAggregated.task.recurrenceType).isEqualTo("daily")
+    }
+
+    @Test
+    fun testTaskParentIdRemoval() = runTest {
+        val task = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "Parent",
+            day = LocalDate.now(),
+            isDone = false,
+            position = 1,
+            isRecurring = true,
+            recurrenceType = "daily"
+        )
+        val parentTaskId = tasksDao.addTask(task)
+        val recurrentTask = TaskEntity(
+            id = 0L,
+            createdAt = LocalDate.now(),
+            name = "Recurrent Task",
+            day = LocalDate.now().plusDays(1),
+            isDone = false,
+            isRecurring = true,
+            recurrenceType = "daily",
+            parentId = parentTaskId,
+        )
+        tasksDao.addTask(recurrentTask)
+        tasksDao.removeTaskById(parentTaskId)
+
+        Truth.assertThat(tasksDao.getAllTasks().size).isEqualTo(0)
+    }
 }

@@ -1,5 +1,6 @@
 package com.costular.atomtasks.tasks.repository
 
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.Task
 import java.time.LocalDate
 import java.time.LocalTime
@@ -12,6 +13,7 @@ interface TasksRepository {
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?,
+        recurrenceType: RecurrenceType?,
     ): Long
 
     fun getTaskById(id: Long): Flow<Task>
