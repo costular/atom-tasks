@@ -46,6 +46,7 @@ class DefaultTasksRepositoryTest {
             reminderEnabled = false,
             reminderTime = null,
             recurrenceType = null,
+            parentId = null,
         )
 
         coVerify { localDataSource.createTask(capture(taskSlot)) }
@@ -58,6 +59,7 @@ class DefaultTasksRepositoryTest {
         val taskDate = LocalDate.of(2022, 6, 4)
         val taskReminderTime = LocalTime.of(9, 0)
         val reminderEnabled = true
+        val parentId = 200L
 
         val taskId = sut.createTask(
             name = taskName,
@@ -65,6 +67,7 @@ class DefaultTasksRepositoryTest {
             reminderEnabled = reminderEnabled,
             reminderTime = taskReminderTime,
             recurrenceType = null,
+            parentId = null,
         )
 
         coVerify {

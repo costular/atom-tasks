@@ -1,7 +1,7 @@
 package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.data.Interactor
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import javax.inject.Inject
 

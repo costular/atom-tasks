@@ -12,8 +12,8 @@ import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
-import com.costular.atomtasks.tasks.manager.AutoforwardManager
+import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
+import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.usecase.invoke
@@ -37,7 +37,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     lateinit var sut: AgendaViewModel
 
     private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
-    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxed = true)
     private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
     private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
@@ -94,8 +94,8 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.onMarkTask(expected.first().id, true)
 
         coVerify {
-            updateTaskIsDoneInteractor(
-                UpdateTaskIsDoneInteractor.Params(
+            updateTaskIsDoneUseCase(
+                UpdateTaskIsDoneUseCase.Params(
                     taskId = expected.first().id,
                     isDone = true,
                 ),
@@ -432,7 +432,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     private fun initializeViewModel() {
         sut = AgendaViewModel(
             observeTasksUseCase = observeTasksUseCase,
-            updateTaskIsDoneInteractor = updateTaskIsDoneInteractor,
+            updateTaskIsDoneUseCase = updateTaskIsDoneUseCase,
             removeTaskInteractor = removeTaskInteractor,
             autoforwardManager = autoforwardManager,
             moveTaskUseCase = moveTaskUseCase,

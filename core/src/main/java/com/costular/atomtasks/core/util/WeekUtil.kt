@@ -22,6 +22,9 @@ object WeekUtil {
     fun getFirstDayOfWeek(locale: Locale = Locale.getDefault()): DayOfWeek =
         WeekFields.of(locale).firstDayOfWeek
 
+    fun LocalDate.isWeekday(): Boolean =
+        dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY
+
     fun LocalDate.isWeekend(): Boolean =
         dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY
 

@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.manager
+package com.costular.atomtasks.tasks.helper
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy

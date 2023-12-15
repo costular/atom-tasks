@@ -21,8 +21,8 @@ import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
-import com.costular.atomtasks.tasks.manager.AutoforwardManager
+import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
+import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
@@ -37,7 +37,7 @@ import org.burnoutcrew.reorderable.ItemPosition
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
     private val observeTasksUseCase: ObserveTasksUseCase,
-    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase,
     private val removeTaskInteractor: RemoveTaskInteractor,
     private val autoforwardManager: AutoforwardManager,
     private val moveTaskUseCase: MoveTaskUseCase,
@@ -89,7 +89,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onMarkTask(taskId: Long, isDone: Boolean) = viewModelScope.launch {
-        updateTaskIsDoneInteractor(UpdateTaskIsDoneInteractor.Params(taskId, isDone)).collect()
+        updateTaskIsDoneUseCase(UpdateTaskIsDoneUseCase.Params(taskId, isDone))
         checkIfReviewShouldBeShown(isDone)
 
         val event = if (isDone) {

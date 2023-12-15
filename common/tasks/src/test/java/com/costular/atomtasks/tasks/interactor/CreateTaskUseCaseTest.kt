@@ -1,19 +1,19 @@
 package com.costular.atomtasks.tasks.interactor
 
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
-import java.time.LocalDate
-import java.time.LocalTime
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDate
+import java.time.LocalTime
+import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
@@ -54,7 +54,8 @@ class CreateTaskUseCaseTest {
                 date,
                 true,
                 reminder,
-                RecurrenceType.WEEKLY
+                RecurrenceType.WEEKLY,
+                parentId = null,
             )
         }
     }
@@ -67,7 +68,7 @@ class CreateTaskUseCaseTest {
         val taskId = 100L
 
         coEvery {
-            tasksRepository.createTask(name, date, true, reminder, RecurrenceType.YEARLY)
+            tasksRepository.createTask(name, date, true, reminder, RecurrenceType.YEARLY, null)
         } returns taskId
 
         createTaskUseCase.invoke(

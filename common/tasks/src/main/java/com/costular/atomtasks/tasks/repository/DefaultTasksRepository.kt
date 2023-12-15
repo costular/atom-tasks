@@ -21,6 +21,7 @@ internal class DefaultTasksRepository @Inject constructor(
         reminderEnabled: Boolean,
         reminderTime: LocalTime?,
         recurrenceType: RecurrenceType?,
+        parentId: Long?,
     ): Long {
         val taskEntity = TaskEntity(
             id = 0,
@@ -30,6 +31,7 @@ internal class DefaultTasksRepository @Inject constructor(
             isDone = false,
             recurrenceType = recurrenceType?.asString(),
             isRecurring = recurrenceType != null,
+            parentId = parentId,
         )
         val taskId = localDataSource.createTask(taskEntity)
 

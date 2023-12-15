@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.manager
+package com.costular.atomtasks.tasks.helper
 
 import android.app.AlarmManager
 import android.app.PendingIntent

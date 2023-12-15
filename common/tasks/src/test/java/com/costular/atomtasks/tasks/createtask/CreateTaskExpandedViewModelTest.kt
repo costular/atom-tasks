@@ -3,6 +3,7 @@ package com.costular.atomtasks.tasks.createtask
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import java.time.LocalDate
@@ -75,12 +76,13 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)
         val reminder = LocalTime.of(9, 0)
-        val expected =
-            com.costular.atomtasks.tasks.createtask.CreateTaskResult(name, date, reminder)
+        val recurrence = RecurrenceType.WEEKLY
+        val expected = CreateTaskResult(name, date, reminder, recurrence)
 
         sut.setName(name)
         sut.setDate(date)
         sut.setReminder(reminder)
+        sut.setRecurrence(RecurrenceType.WEEKLY)
         sut.requestSave()
 
         sut.uiEvents.test {

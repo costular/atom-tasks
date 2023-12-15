@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.usecase.UseCase
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.CreateTaskError
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.repository.TasksRepository
@@ -32,6 +32,7 @@ class CreateTaskUseCase @Inject constructor(
                 reminderEnabled = params.reminderEnabled,
                 reminderTime = params.reminderTime,
                 recurrenceType = params.recurrenceType,
+                parentId = null,
             )
             if (params.reminderEnabled && params.reminderTime != null) {
                 taskReminderManager.set(taskId, params.reminderTime.atDate(params.date))

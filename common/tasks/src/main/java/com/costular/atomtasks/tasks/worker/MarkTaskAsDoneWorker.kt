@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.notifications.TaskNotificationManager
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
+import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -15,7 +15,7 @@ import dagger.assisted.AssistedInject
 class MarkTaskAsDoneWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor,
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase,
     private val taskNotificationManager: TaskNotificationManager,
 ) : CoroutineWorker(appContext, workerParams) {
 
@@ -28,8 +28,8 @@ class MarkTaskAsDoneWorker @AssistedInject constructor(
             }
             taskNotificationManager.removeTaskNotification(taskId)
 
-            updateTaskIsDoneInteractor.executeSync(
-                UpdateTaskIsDoneInteractor.Params(
+            updateTaskIsDoneUseCase.invoke(
+                UpdateTaskIsDoneUseCase.Params(
                     taskId,
                     true,
                 ),

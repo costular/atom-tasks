@@ -7,7 +7,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.tasks.interactor.GetTasksWithReminderInteractor
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

@@ -14,6 +14,7 @@ interface TasksRepository {
         reminderEnabled: Boolean,
         reminderTime: LocalTime?,
         recurrenceType: RecurrenceType?,
+        parentId: Long?,
     ): Long
 
     fun getTaskById(id: Long): Flow<Task>
