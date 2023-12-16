@@ -1,6 +1,7 @@
 package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import java.time.LocalDate
 import java.time.LocalTime
@@ -21,6 +22,7 @@ interface TasksRepository {
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
     suspend fun getTasksWithReminder(): List<Task>
     suspend fun removeTask(taskId: Long)
+    suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy)
     suspend fun markTask(taskId: Long, isDone: Boolean)
     suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime, reminderDate: LocalDate)
     suspend fun removeReminder(taskId: Long)

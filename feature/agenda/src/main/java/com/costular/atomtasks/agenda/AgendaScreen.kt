@@ -38,19 +38,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
+import com.costular.atomtasks.core.ui.date.Day
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
-import com.costular.atomtasks.core.ui.date.Day
 import com.costular.atomtasks.review.ui.ReviewHandler
+import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
+import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.*
+import com.costular.atomtasks.tasks.dialog.RemoveTaskDialog
 import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.model.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.components.DatePicker
 import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
-import com.costular.designsystem.dialogs.RemoveTaskDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
@@ -122,6 +125,7 @@ internal fun AgendaScreen(
         onSelectToday = viewModel::setSelectedDayToday,
         onMarkTask = viewModel::onMarkTask,
         deleteTask = viewModel::deleteTask,
+        deleteRecurringTask = viewModel::deleteRecurringTask,
         dismissDelete = viewModel::dismissDelete,
         openTaskAction = { task ->
             viewModel.onOpenTaskActions()
@@ -131,6 +135,7 @@ internal fun AgendaScreen(
                 isDone = task.isDone,
             )
         },
+
         onToggleExpandCollapse = viewModel::toggleHeader,
         onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
@@ -180,6 +185,7 @@ fun AgendaScreen(
     onSelectToday: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
+    deleteRecurringTask: (id: Long, strategy: RemovalStrategy) -> Unit,
     dismissDelete: () -> Unit,
     openTaskAction: (Task) -> Unit,
     onToggleExpandCollapse: () -> Unit,
@@ -188,14 +194,28 @@ fun AgendaScreen(
     onDismissTaskOrderTutorial: () -> Unit,
 ) {
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
-        RemoveTaskDialog(
-            onAccept = {
-                deleteTask(state.deleteTaskAction.taskId)
-            },
-            onCancel = {
-                dismissDelete()
-            },
-        )
+        if (state.deleteTaskAction.isRecurring) {
+            RemoveRecurrentTaskDialog(
+                onCancel = dismissDelete,
+                onRemove = { response ->
+                    val removalStrategy = when (response) {
+                        THIS -> RemovalStrategy.SINGLE
+                        THIS_AND_FUTURES -> RemovalStrategy.SINGLE_AND_FUTURE_ONES
+                        ALL -> RemovalStrategy.ALL
+                    }
+                    deleteRecurringTask(state.deleteTaskAction.taskId, removalStrategy)
+                }
+            )
+        } else {
+            RemoveTaskDialog(
+                onAccept = {
+                    deleteTask(state.deleteTaskAction.taskId)
+                },
+                onCancel = {
+                    dismissDelete()
+                },
+            )
+        }
     }
 
     Column {
@@ -462,6 +482,7 @@ fun AgendaPreview() {
             onMarkTask = { _, _ -> },
             onToggleExpandCollapse = {},
             deleteTask = {},
+            deleteRecurringTask = { _, _ -> },
             dismissDelete = {},
             openTaskAction = {},
             onMoveTask = { _, _ -> },

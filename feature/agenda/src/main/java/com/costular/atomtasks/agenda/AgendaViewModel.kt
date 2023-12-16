@@ -13,22 +13,22 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.OrderTask
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.SelectToday
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDeleteDialog
 import com.costular.atomtasks.analytics.AtomAnalytics
-import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.core.ui.date.asDay
+import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
+import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
+import com.costular.atomtasks.tasks.interactor.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
-import com.costular.atomtasks.tasks.helper.AutoforwardManager
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ItemPosition
@@ -38,7 +38,7 @@ import org.burnoutcrew.reorderable.ItemPosition
 class AgendaViewModel @Inject constructor(
     private val observeTasksUseCase: ObserveTasksUseCase,
     private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase,
-    private val removeTaskInteractor: RemoveTaskInteractor,
+    private val removeTaskUseCase: RemoveTaskUseCase,
     private val autoforwardManager: AutoforwardManager,
     private val moveTaskUseCase: MoveTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
@@ -119,8 +119,15 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun actionDelete(id: Long) {
+        val tasks = state.value.tasks
+
+        if (tasks !is TasksState.Success) {
+            return
+        }
+
+        val task = tasks.data.find { it.id == id }
         setState {
-            copy(deleteTaskAction = DeleteTaskAction.Shown(id))
+            copy(deleteTaskAction = DeleteTaskAction.Shown(id, task?.isRecurring ?: false))
         }
 
         atomAnalytics.track(ShowConfirmDeleteDialog)
@@ -128,14 +135,18 @@ class AgendaViewModel @Inject constructor(
 
     fun deleteTask(id: Long) {
         viewModelScope.launch {
-            removeTaskInteractor(RemoveTaskInteractor.Params(id))
-                .onStart {
-                    hideAskDelete()
-                }
-                .collect()
+            hideAskDelete()
+            removeTaskUseCase(RemoveTaskUseCase.Params(id))
         }
 
         atomAnalytics.track(ConfirmDelete)
+    }
+
+    fun deleteRecurringTask(id: Long, removalStrategy: RemovalStrategy) {
+        viewModelScope.launch {
+            removeTaskUseCase(RemoveTaskUseCase.Params(id, removalStrategy))
+            hideAskDelete()
+        }
     }
 
     fun onDragTask(from: ItemPosition, to: ItemPosition) {

@@ -79,4 +79,7 @@
     <string name="agenda_tutorial_task_order">¿Quieres ordenar tus tareas? Mantén presionado y arrastra</string>
     <string name="create_task_recurrence_picker_weekdays">Todos los días laborables</string>
     <string name="create_task_recurrence_picker_none">No se repite</string>
+    <string name="remove_recurring_task_dialog_this">Esta tarea</string>
+    <string name="remove_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
+    <string name="remove_recurring_task_dialog_all">Todas las tareas</string>
 </resources>

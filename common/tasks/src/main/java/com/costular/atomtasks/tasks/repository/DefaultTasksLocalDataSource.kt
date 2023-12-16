@@ -5,6 +5,7 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
@@ -54,6 +55,26 @@ internal class DefaultTasksLocalDataSource(
 
     override suspend fun removeTask(taskId: Long) {
         tasksDao.removeTaskById(taskId)
+    }
+
+    override suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy) {
+        when (removalStrategy) {
+            RemovalStrategy.SINGLE -> {
+                tasksDao.removeTaskById(taskId)
+            }
+
+            RemovalStrategy.ALL -> {
+                getTaskById(taskId).first().task.parentId?.let {
+                    tasksDao.removeAllRecurringTasks(taskId, it)
+                }
+            }
+
+            RemovalStrategy.SINGLE_AND_FUTURE_ONES -> {
+                getTaskById(taskId).first().task.parentId?.let {
+                    tasksDao.removeFutureRecurringTasks(taskId, it)
+                }
+            }
+        }
     }
 
     override suspend fun markTask(taskId: Long, isDone: Boolean) {

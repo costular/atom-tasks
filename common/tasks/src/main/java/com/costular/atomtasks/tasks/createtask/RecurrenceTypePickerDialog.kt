@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -27,21 +29,22 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.atomtasks.core.ui.R.string as S
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecurrenceTypePickerDialog(
     recurrenceType: RecurrenceType?,
     onRecurrenceTypeSelected: (RecurrenceType?) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    Dialog(
+    BasicAlertDialog(
         onDismissRequest = onDismissRequest,
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
+            shape = MaterialTheme.shapes.large,
         ) {
             Column(
-                modifier = Modifier.padding(vertical = AppTheme.dimens.spacingMedium)
+                modifier = Modifier.padding(vertical = AppTheme.DialogPadding)
             ) {
                 ListItem(
                     text = stringResource(S.create_task_recurrence_picker_none),
@@ -96,7 +99,7 @@ private fun ListItem(
             .clickable { onClick() },
     ) {
         RadioButton(
-            modifier = Modifier.padding(start = AppTheme.dimens.contentMargin),
+            modifier = Modifier.padding(start = AppTheme.DialogPadding),
             selected = isSelected,
             onClick = onClick
         )

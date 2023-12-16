@@ -1,4 +1,4 @@
-package com.costular.designsystem.dialogs
+package com.costular.atomtasks.tasks.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

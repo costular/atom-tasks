@@ -14,7 +14,7 @@ import java.time.LocalDate
             entity = TaskEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("parent_id"),
-            onDelete = ForeignKey.CASCADE,
+            onDelete = ForeignKey.NO_ACTION,
         )
     ],
     indices = [

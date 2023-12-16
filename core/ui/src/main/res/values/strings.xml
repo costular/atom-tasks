@@ -92,5 +92,8 @@
     <string name="create_task_notification_permission_rationale_description">To use the reminder feature, we require the notification permission. Without it, reminders won\'t work at all.</string>
     <string name="create_task_notification_permission_rationale_dismiss">No thanks</string>
     <string name="create_task_notification_permission_rationale_confirm">I\'m in</string>
+    <string name="remove_recurring_task_dialog_this">This task</string>
+    <string name="remove_recurring_task_dialog_this_and_future">This and following tasks</string>
+    <string name="remove_recurring_task_dialog_all">All tasks</string>
 
 </resources>

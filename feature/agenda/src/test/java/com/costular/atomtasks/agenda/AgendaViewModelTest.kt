@@ -11,7 +11,7 @@ import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
+import com.costular.atomtasks.tasks.interactor.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
@@ -38,7 +38,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
     private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxed = true)
-    private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
+    private val removeTaskUseCase: RemoveTaskUseCase = mockk(relaxed = true)
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
     private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
@@ -149,7 +149,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.actionDelete(taskId)
             sut.deleteTask(taskId)
 
-            coVerify { removeTaskInteractor(RemoveTaskInteractor.Params(taskId)) }
+            coVerify { removeTaskUseCase(RemoveTaskUseCase.Params(taskId)) }
         }
 
     @Test
@@ -433,7 +433,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut = AgendaViewModel(
             observeTasksUseCase = observeTasksUseCase,
             updateTaskIsDoneUseCase = updateTaskIsDoneUseCase,
-            removeTaskInteractor = removeTaskInteractor,
+            removeTaskUseCase = removeTaskUseCase,
             autoforwardManager = autoforwardManager,
             moveTaskUseCase = moveTaskUseCase,
             atomAnalytics = atomAnalytics,

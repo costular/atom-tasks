@@ -2,6 +2,7 @@ package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.model.asString
 import com.costular.atomtasks.tasks.model.toDomain
@@ -60,6 +61,10 @@ internal class DefaultTasksRepository @Inject constructor(
 
     override suspend fun removeTask(taskId: Long) {
         localDataSource.removeTask(taskId)
+    }
+
+    override suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy) {
+        localDataSource.removeRecurringTask(taskId, removalStrategy)
     }
 
     override suspend fun markTask(taskId: Long, isDone: Boolean) {
