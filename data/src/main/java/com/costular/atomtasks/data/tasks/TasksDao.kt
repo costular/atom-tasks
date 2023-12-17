@@ -43,23 +43,24 @@ interface TasksDao {
     @Query(
         value =
         """
-        DELETE FROM tasks 
-        WHERE
-            (id = :id 
-             OR (parent_id = :parentId OR parent_id = (SELECT parent_id FROM tasks WHERE id = :id))
-             AND date >= (SELECT date FROM tasks WHERE id = :id))
+            DELETE FROM tasks 
+            WHERE
+                (id = :id 
+                 OR (parent_id = :parentId OR parent_id = (SELECT parent_id FROM tasks WHERE id = :id))
+                 AND date >= (SELECT date FROM tasks WHERE id = :id))
         """
     )
     suspend fun removeFutureRecurringTasks(id: Long, parentId: Long)
 
     @Query(
-        value = """
+        value =
+        """
             DELETE FROM tasks 
             WHERE
                 id = :id
                 OR parent_id = :parentId
                 OR id = :parentId
-    """
+        """
     )
     suspend fun removeAllRecurringTasks(id: Long, parentId: Long)
 

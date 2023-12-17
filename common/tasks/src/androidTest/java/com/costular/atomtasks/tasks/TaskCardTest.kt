@@ -26,6 +26,7 @@ class TaskCardTest : AndroidTest() {
                 onMark = onMarkCallback,
                 onOpen = {},
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
 
@@ -50,6 +51,7 @@ class TaskCardTest : AndroidTest() {
                 onMark = {},
                 onOpen = onClickCallback,
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
 

@@ -5,23 +5,26 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
+import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -42,23 +45,30 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
+import com.costular.atomtasks.tasks.fake.TaskFinished
+import com.costular.atomtasks.tasks.fake.TaskRecurring
+import com.costular.atomtasks.tasks.fake.TaskRecurringWithReminder
+import com.costular.atomtasks.tasks.fake.TaskToday
+import com.costular.atomtasks.tasks.fake.TaskWithReminder
+import com.costular.atomtasks.tasks.format.localized
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.decorator.strikeThrough
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
-import java.time.LocalDate
-import java.time.LocalTime
 
 const val ReminderIconId = "reminder"
+const val RecurringIconId = "recurring"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskCard(
     title: String,
     isFinished: Boolean,
+    recurrenceType: RecurrenceType?,
     reminder: Reminder?,
     onMark: () -> Unit,
     onOpen: () -> Unit,
@@ -70,8 +80,12 @@ fun TaskCard(
 
     HandleHapticForInteractions(mutableInteractionSource)
 
-    val mediumColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val shouldShowReminder = remember(isFinished, reminder) { reminder != null && !isFinished }
+    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val shouldShowExtraDetails = remember(
+        isFinished,
+        reminder,
+        recurrenceType
+    ) { !isFinished && (reminder != null || recurrenceType != null) }
 
     ElevatedCard(
         onClick = onOpen,
@@ -79,7 +93,8 @@ fun TaskCard(
         interactionSource = mutableInteractionSource,
         colors = CardDefaults.cardColors(),
     ) {
-        val reminderInlineContent = reminderInline(mediumColor)
+        val reminderInlineContent = reminderInline(contentColor)
+        val recurringInlineContent = recurringInline(contentColor)
 
         Row(
             modifier = Modifier.padding(AppTheme.dimens.spacingLarge),
@@ -87,7 +102,7 @@ fun TaskCard(
         ) {
             Markable(
                 isMarked = isFinished,
-                borderColor = mediumColor,
+                borderColor = contentColor,
                 onClick = { onMark() },
                 contentColor = MaterialTheme.colorScheme.primary,
                 onContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -98,28 +113,84 @@ fun TaskCard(
             Column {
                 TaskTitle(isFinished = isFinished, title = title)
 
-                if (shouldShowReminder) {
+                if (shouldShowExtraDetails) {
                     Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
                 }
 
-                AnimatedVisibility(shouldShowReminder) {
-                    if (reminder != null) {
-                        Row {
-                            val alarmText = buildAnnotatedString {
-                                appendInlineContent(ReminderIconId, "[alarm]")
-                                append(" ")
-                                append(reminder.time.ofLocalizedTime())
-                            }
-                            Text(
-                                text = alarmText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = mediumColor,
-                                inlineContent = reminderInlineContent,
-                            )
-                        }
-                    }
+                AnimatedVisibility(shouldShowExtraDetails) {
+                    this@Column.TaskDetails(
+                        recurrenceType = recurrenceType,
+                        reminder = reminder,
+                        contentColor = contentColor,
+                        reminderInlineContent = reminderInlineContent,
+                        recurringInlineContent = recurringInlineContent
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ColumnScope.TaskDetails(
+    recurrenceType: RecurrenceType?,
+    reminder: Reminder?,
+    contentColor: Color,
+    reminderInlineContent: Map<String, InlineTextContent>,
+    recurringInlineContent: Map<String, InlineTextContent>
+) {
+    val recurringContent = if (recurrenceType != null) {
+        val label = recurrenceType.localized()
+        RecurringContent.Recurring(label)
+    } else {
+        RecurringContent.None
+    }
+
+    val hasReminder = reminder != null
+    val hasRecurringInfo = recurringContent is RecurringContent.Recurring
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        if (reminder != null) {
+            Row {
+                val alarmText = buildAnnotatedString {
+                    appendInlineContent(ReminderIconId, "[alarm]")
+                    append(" ")
+                    append(reminder.time.ofLocalizedTime())
+                }
+                Text(
+                    text = alarmText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = contentColor,
+                    inlineContent = reminderInlineContent,
+                )
+            }
+        }
+
+        if (hasReminder && hasRecurringInfo) {
+            Canvas(
+                modifier = Modifier
+                    .padding(horizontal = AppTheme.dimens.spacingMedium)
+                    .size(3.dp),
+                onDraw = {
+                    drawCircle(color = contentColor.copy(alpha = 0.66f))
+                }
+            )
+        }
+
+        if (hasRecurringInfo) {
+            val content = recurringContent as RecurringContent.Recurring
+
+            val recurringText = buildAnnotatedString {
+                appendInlineContent(RecurringIconId, "[recurring]")
+                append(" ")
+                append(content.recurrenceLabel)
+            }
+            Text(
+                text = recurringText,
+                style = MaterialTheme.typography.bodyMedium,
+                color = contentColor,
+                inlineContent = recurringInlineContent,
+            )
         }
     }
 }
@@ -163,7 +234,7 @@ private fun HandleHapticForInteractions(interactionSource: MutableInteractionSou
 }
 
 @Composable
-private fun reminderInline(mediumColor: Color) = mapOf(
+private fun reminderInline(color: Color) = mapOf(
     Pair(
         ReminderIconId,
         InlineTextContent(
@@ -176,10 +247,30 @@ private fun reminderInline(mediumColor: Color) = mapOf(
             Icon(
                 imageVector = Icons.Outlined.Alarm,
                 contentDescription = null,
-                tint = mediumColor,
+                tint = color,
             )
         },
     ),
+)
+
+@Composable
+private fun recurringInline(color: Color) = mapOf(
+    Pair(
+        RecurringIconId,
+        InlineTextContent(
+            Placeholder(
+                width = 16.sp,
+                height = 16.sp,
+                placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+            )
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Repeat,
+                contentDescription = null,
+                tint = color,
+            )
+        }
+    )
 )
 
 @Composable
@@ -200,62 +291,42 @@ private fun MutableInteractionSource.reorderableDragInteractions(isDragging: Boo
     }
 }
 
+private sealed interface RecurringContent {
+
+    data object None : RecurringContent
+
+    data class Recurring(
+        val recurrenceLabel: String,
+    ) : RecurringContent
+
+}
+
 @Preview(showBackground = true)
 @Composable
-private fun TaskCardPreview() {
+private fun TaskCardPreview(
+    @PreviewParameter(TaskPreviewProvider::class) task: Task,
+) {
     AtomTheme {
         TaskCard(
-            title = "Run every morning!",
-            isFinished = true,
+            title = task.name,
+            isFinished = task.isDone,
+            recurrenceType = task.recurrenceType,
             onMark = {},
             onOpen = {},
-            reminder = Reminder(
-                1L,
-                LocalTime.parse("10:00"),
-                LocalDate.now(),
-            ),
+            reminder = task.reminder,
             isBeingDragged = false,
             modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun TaskCardUnfinishedPreview() {
-    AtomTheme {
-        TaskCard(
-            title = "Run every morning!",
-            isFinished = false,
-            onMark = {},
-            onOpen = {},
-            reminder = Reminder(
-                1L,
-                LocalTime.parse("10:00"),
-                LocalDate.now(),
-            ),
-            isBeingDragged = false,
-            modifier = Modifier.fillMaxWidth(),
+private class TaskPreviewProvider : PreviewParameterProvider<Task> {
+    override val values: Sequence<Task>
+        get() = sequenceOf(
+            TaskToday,
+            TaskFinished,
+            TaskWithReminder,
+            TaskRecurring,
+            TaskRecurringWithReminder,
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun TaskCardLongNamePreview() {
-    AtomTheme {
-        TaskCard(
-            title = "A task with a really long name in order to see the strike thorugh",
-            isFinished = true,
-            onMark = {},
-            onOpen = {},
-            reminder = Reminder(
-                1L,
-                LocalTime.parse("10:00"),
-                LocalDate.now(),
-            ),
-            isBeingDragged = false,
-            modifier = Modifier.fillMaxWidth(),
-        )
-    }
 }

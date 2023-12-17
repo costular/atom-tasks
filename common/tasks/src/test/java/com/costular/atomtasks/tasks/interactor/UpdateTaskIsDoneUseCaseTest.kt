@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.interactor
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.tasks.fake.TaskToday
-import com.costular.atomtasks.tasks.fake.TaskWeekly
+import com.costular.atomtasks.tasks.fake.TaskRecurring
 import com.costular.atomtasks.tasks.model.UpdateTaskIsDoneError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth.assertThat
@@ -59,18 +59,18 @@ class UpdateTaskIsDoneUseCaseTest {
     @Test
     fun `Should create next task when execute usecase given it's a recurrent task`() = runTest {
         coEvery { tasksRepository.markTask(1L, true) } returns Unit
-        coEvery { tasksRepository.getTaskById(1L) } returns flowOf(TaskWeekly)
+        coEvery { tasksRepository.getTaskById(1L) } returns flowOf(TaskRecurring)
 
         sut(UpdateTaskIsDoneUseCase.Params(1L, true))
 
         coVerify {
             tasksRepository.createTask(
-                TaskWeekly.name,
-                TaskWeekly.day.plusWeeks(1),
-                reminderEnabled = TaskWeekly.reminder != null,
-                reminderTime = TaskWeekly.reminder?.time,
-                recurrenceType = TaskWeekly.recurrenceType,
-                parentId = TaskWeekly.parentId
+                TaskRecurring.name,
+                TaskRecurring.day.plusWeeks(1),
+                reminderEnabled = TaskRecurring.reminder != null,
+                reminderTime = TaskRecurring.reminder?.time,
+                recurrenceType = TaskRecurring.recurrenceType,
+                parentId = TaskRecurring.parentId
             )
         }
     }
@@ -78,7 +78,7 @@ class UpdateTaskIsDoneUseCaseTest {
     @Test
     fun `Should create next task with parent id when execute usecase given it's a recurrent task without parent id`() =
         runTest {
-            val task = TaskWeekly.copy(parentId = null)
+            val task = TaskRecurring.copy(parentId = null)
             coEvery { tasksRepository.markTask(1L, true) } returns Unit
             coEvery { tasksRepository.getTaskById(1L) } returns flowOf(task)
 
@@ -120,7 +120,7 @@ class UpdateTaskIsDoneUseCaseTest {
     fun `Should not create another task when execute the usecase given that the task is recurrent but it was mark as not done`() =
         runTest {
             coEvery { tasksRepository.markTask(1L, true) } returns Unit
-            coEvery { tasksRepository.getTaskById(1L) } returns flowOf(TaskWeekly)
+            coEvery { tasksRepository.getTaskById(1L) } returns flowOf(TaskRecurring)
 
             sut(UpdateTaskIsDoneUseCase.Params(1L, false))
 

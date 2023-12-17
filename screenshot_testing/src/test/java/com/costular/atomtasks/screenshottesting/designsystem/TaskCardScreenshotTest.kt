@@ -7,6 +7,7 @@ import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.TaskCard
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -18,7 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class TaskSnapshotTest {
+class TaskCardScreenshotTest {
 
     @TestParameter
     private lateinit var fontScale: FontSize
@@ -42,6 +43,7 @@ class TaskSnapshotTest {
                 onMark = {},
                 onOpen = {},
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
     }
@@ -59,6 +61,7 @@ class TaskSnapshotTest {
                 onMark = {},
                 onOpen = {},
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
     }
@@ -80,12 +83,13 @@ class TaskSnapshotTest {
                 onMark = { },
                 onOpen = { },
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
     }
 
     @Test
-    fun taskFinishedWithReminder() {
+    fun taskFinished() {
         paparazzi.screenshot(
             isDarkTheme = themeMode.isDarkTheme(),
             fontScale = fontScale.asFloat(),
@@ -93,14 +97,51 @@ class TaskSnapshotTest {
             TaskCard(
                 title = "This is a task with reminder",
                 isFinished = true,
+                reminder = null,
+                onMark = { },
+                onOpen = { },
+                isBeingDragged = false,
+                recurrenceType = null,
+            )
+        }
+    }
+
+    @Test
+    fun taskRecurring() {
+        paparazzi.screenshot(
+            isDarkTheme = themeMode.isDarkTheme(),
+            fontScale = fontScale.asFloat(),
+        ) {
+            TaskCard(
+                title = "This is a recurring task",
+                isFinished = false,
+                reminder = null,
+                onMark = { },
+                onOpen = { },
+                isBeingDragged = false,
+                recurrenceType = RecurrenceType.WEEKLY,
+            )
+        }
+    }
+
+    @Test
+    fun taskRecurringWithReminder() {
+        paparazzi.screenshot(
+            isDarkTheme = themeMode.isDarkTheme(),
+            fontScale = fontScale.asFloat(),
+        ) {
+            TaskCard(
+                title = "This is a task with reminder",
+                isFinished = false,
                 reminder = Reminder(
-                    0L,
-                    LocalTime.of(9, 0),
-                    LocalDate.now(),
+                    id = 1L,
+                    time = LocalTime.of(9, 0),
+                    date = LocalDate.now(),
                 ),
                 onMark = { },
                 onOpen = { },
                 isBeingDragged = false,
+                recurrenceType = RecurrenceType.DAILY,
             )
         }
     }
@@ -123,6 +164,7 @@ class TaskSnapshotTest {
                 onMark = { },
                 onOpen = { },
                 isBeingDragged = false,
+                recurrenceType = null,
             )
         }
     }

@@ -98,6 +98,7 @@ fun TaskList(
                             onOpen = { onClick(task) },
                             reminder = task.reminder,
                             isFinished = task.isDone,
+                            recurrenceType = task.recurrenceType,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .animateItemPlacement(),
