@@ -64,7 +64,7 @@ internal class DefaultTasksLocalDataSource(
             }
 
             RemovalStrategy.ALL -> {
-                val parentId = getTaskById(taskId).first().task.parentId ?: -1
+                val parentId = getTaskById(taskId).first().task.parentId ?: taskId
                 tasksDao.removeAllRecurringTasks(taskId, parentId)
             }
 
