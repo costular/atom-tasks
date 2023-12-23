@@ -20,22 +20,6 @@ class UpdateTaskIsDoneUseCase @Inject constructor(
     override suspend fun invoke(params: Params): Either<UpdateTaskIsDoneError, Unit> {
         return try {
             tasksRepository.markTask(params.taskId, params.isDone)
-
-            val task = tasksRepository.getTaskById(params.taskId).first()
-            if (params.isDone && task.isRecurring && task.recurrenceType != null) {
-                val recurrenceStrategy =
-                    RecurrenceStrategyFactory.recurrenceStrategy(task.recurrenceType)
-                val nextDate = recurrenceStrategy.calculateNextOccurrences(task.day, 1)
-
-                tasksRepository.createTask(
-                    name = task.name,
-                    date = nextDate.first(),
-                    reminderEnabled = task.reminder != null,
-                    reminderTime = task.reminder?.time,
-                    recurrenceType = task.recurrenceType,
-                    parentId = task.parentId ?: task.id,
-                )
-            }
             Either.Result(Unit)
         } catch (e: Exception) {
             Either.Error(UpdateTaskIsDoneError.UnknownError)

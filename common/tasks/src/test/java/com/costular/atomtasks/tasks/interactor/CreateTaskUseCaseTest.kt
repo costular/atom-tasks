@@ -23,12 +23,14 @@ class CreateTaskUseCaseTest {
 
     private val tasksRepository: TasksRepository = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
+    private val populateRecurringTasksUseCase: PopulateRecurringTasksUseCase = mockk()
 
     @Before
     fun setUp() {
         createTaskUseCase = CreateTaskUseCase(
             tasksRepository = tasksRepository,
             taskReminderManager = taskReminderManager,
+            populateRecurringTasksUseCase = populateRecurringTasksUseCase,
         )
     }
 

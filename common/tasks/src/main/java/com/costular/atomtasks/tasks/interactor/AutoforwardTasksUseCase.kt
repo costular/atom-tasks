@@ -1,8 +1,8 @@
 package com.costular.atomtasks.tasks.interactor
 
-import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.core.usecase.invoke
+import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first
@@ -35,6 +35,7 @@ class AutoforwardTasksUseCase @Inject constructor(
                         name = task.name,
                         date = task.day.plusDays(1),
                         reminderTime = task.reminder?.time,
+                        recurrenceType = task.recurrenceType,
                     ),
                 )
             }

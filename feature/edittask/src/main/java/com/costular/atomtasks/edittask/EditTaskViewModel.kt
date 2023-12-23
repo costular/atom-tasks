@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
 import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -32,6 +33,7 @@ class EditTaskViewModel @Inject constructor(
                                 name = task.name,
                                 date = task.day,
                                 reminder = task.reminder?.time,
+                                recurrenceType = task.recurrenceType,
                             ),
                         )
                     }
@@ -44,6 +46,7 @@ class EditTaskViewModel @Inject constructor(
         name: String,
         date: LocalDate,
         reminder: LocalTime?,
+        recurrenceType: RecurrenceType?,
     ) {
         viewModelScope.launch {
             val state = state.value
@@ -51,19 +54,22 @@ class EditTaskViewModel @Inject constructor(
                 return@launch
             }
 
-            try {
-                updateTaskUseCase(
-                    UpdateTaskUseCase.Params(
-                        taskId = state.taskState.taskId,
-                        name = name,
-                        date = date,
-                        reminderTime = reminder,
-                    ),
-                )
-                setState { copy(savingTask = SavingState.Success) }
-            } catch (e: Exception) {
-                setState { copy(savingTask = SavingState.Failure) }
-            }
+            updateTaskUseCase(
+                UpdateTaskUseCase.Params(
+                    taskId = state.taskState.taskId,
+                    name = name,
+                    date = date,
+                    reminderTime = reminder,
+                    recurrenceType = recurrenceType,
+                ),
+            ).fold(
+                ifError = {
+                    setState { copy(savingTask = SavingState.Failure) }
+                },
+                ifResult = {
+                    setState { copy(savingTask = SavingState.Success) }
+                }
+            )
         }
     }
 }
@@ -89,6 +95,7 @@ sealed class TaskState {
         val name: String,
         val date: LocalDate,
         val reminder: LocalTime?,
+        val recurrenceType: RecurrenceType?,
     ) : TaskState()
 }
 

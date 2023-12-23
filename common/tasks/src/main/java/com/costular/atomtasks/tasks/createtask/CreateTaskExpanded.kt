@@ -72,6 +72,7 @@ fun CreateTaskExpanded(
     onSave: (CreateTaskResult) -> Unit,
     modifier: Modifier = Modifier,
     reminder: LocalTime? = null,
+    recurrenceType: RecurrenceType? = null,
 ) {
     val context = LocalContext.current
 
@@ -94,6 +95,10 @@ fun CreateTaskExpanded(
 
     LaunchedEffect(reminder) {
         viewModel.setReminder(reminder)
+    }
+
+    LaunchedEffect(recurrenceType) {
+        viewModel.setRecurrence(recurrenceType)
     }
 
     LaunchedEffect(viewModel) {
@@ -299,11 +304,13 @@ internal fun CreateTaskExpanded(
         SaveButton(
             isEnabled = state.shouldShowSend,
             onSave = onSave,
-            modifier = Modifier.fillMaxWidth().padding(
-                start = AppTheme.dimens.contentMargin,
-                end = AppTheme.dimens.contentMargin,
-                bottom = AppTheme.dimens.spacingMedium,
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = AppTheme.dimens.contentMargin,
+                    end = AppTheme.dimens.contentMargin,
+                    bottom = AppTheme.dimens.spacingMedium,
+                ),
         )
     }
 }

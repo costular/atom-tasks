@@ -72,6 +72,7 @@ class AutoforwardTasksUseCaseTest {
                             task.name,
                             task.day.plusDays(1),
                             task.reminder?.time,
+                            task.recurrenceType,
                         ),
                     )
                 }

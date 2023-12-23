@@ -1,12 +1,15 @@
 package com.costular.atomtasks.tasks.interactor
 
-import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
+import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.repository.TasksRepository
 import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -34,10 +37,11 @@ class UpdateTaskUseCaseTest {
                 name = name,
                 date = newDay,
                 reminderTime = null,
+                recurrenceType = null,
             ),
         )
 
-        coVerify { repository.updateTask(taskId, newDay, name) }
+        coVerify { repository.updateTask(taskId, newDay, name, null) }
     }
 
     @Test
@@ -53,6 +57,7 @@ class UpdateTaskUseCaseTest {
                 name = name,
                 date = newDay,
                 reminderTime = reminder,
+                recurrenceType = null,
             ),
         )
 
@@ -72,6 +77,7 @@ class UpdateTaskUseCaseTest {
                 name = name,
                 date = newDay,
                 reminderTime = reminder,
+                recurrenceType = null,
             ),
         )
 
@@ -91,6 +97,7 @@ class UpdateTaskUseCaseTest {
                 name = name,
                 date = newDay,
                 reminderTime = reminder,
+                recurrenceType = null,
             ),
         )
 
@@ -110,6 +117,7 @@ class UpdateTaskUseCaseTest {
                 name = name,
                 date = newDay,
                 reminderTime = reminder,
+                recurrenceType = null,
             ),
         )
 

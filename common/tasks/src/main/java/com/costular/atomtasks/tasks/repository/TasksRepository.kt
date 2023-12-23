@@ -3,9 +3,9 @@ package com.costular.atomtasks.tasks.repository
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlinx.coroutines.flow.Flow
 
 interface TasksRepository {
 
@@ -26,6 +26,12 @@ interface TasksRepository {
     suspend fun markTask(taskId: Long, isDone: Boolean)
     suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime, reminderDate: LocalDate)
     suspend fun removeReminder(taskId: Long)
-    suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
+    suspend fun updateTask(
+        taskId: Long,
+        day: LocalDate,
+        name: String,
+        recurrenceType: RecurrenceType?
+    )
+
     suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
 }

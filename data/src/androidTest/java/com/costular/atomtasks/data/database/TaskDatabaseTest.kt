@@ -415,7 +415,7 @@ class TaskDatabaseTest {
         val childId = tasksDao.addTask(childTask)
         val secondChildId = tasksDao.addTask(secondChildTask)
 
-        tasksDao.removeAllRecurringTasks(childId, parentTaskId)
+        tasksDao.removeTaskAndAllOccurrences(childId, parentTaskId)
 
         assertThat(tasksDao.getAllTasks().size).isEqualTo(0)
     }
@@ -457,7 +457,7 @@ class TaskDatabaseTest {
         val childId = tasksDao.addTask(recurringTask)
         val secondChildId = tasksDao.addTask(secondRecurringTask)
 
-        tasksDao.removeAllRecurringTasks(parentTaskId, parentTaskId)
+        tasksDao.removeTaskAndAllOccurrences(parentTaskId, parentTaskId)
 
         assertThat(tasksDao.getAllTasks().size).isEqualTo(0)
     }
@@ -522,7 +522,7 @@ class TaskDatabaseTest {
         val thirdChildId = tasksDao.addTask(thirdChild)
         val fourthChildId = tasksDao.addTask(fourthChild)
 
-        tasksDao.removeFutureRecurringTasks(secondChildId, parentTaskId)
+        tasksDao.removeTaskAndFutureOcurrences(secondChildId, parentTaskId)
 
         val result = tasksDao.getAllTasks()
         assertThat(result.size).isEqualTo(2)

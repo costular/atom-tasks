@@ -6,7 +6,6 @@ import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.CreateTaskError
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.repository.TasksRepository
-import java.lang.Exception
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -14,6 +13,7 @@ import javax.inject.Inject
 class CreateTaskUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val taskReminderManager: TaskReminderManager,
+    private val populateRecurringTasksUseCase: PopulateRecurringTasksUseCase,
 ) : UseCase<CreateTaskUseCase.Params, Either<CreateTaskError, Unit>> {
 
     data class Params(
@@ -37,6 +37,8 @@ class CreateTaskUseCase @Inject constructor(
             if (params.reminderEnabled && params.reminderTime != null) {
                 taskReminderManager.set(taskId, params.reminderTime.atDate(params.date))
             }
+
+            populateRecurringTasksUseCase(PopulateRecurringTasksUseCase.Params(taskId)) // TODO handle error handling
 
             Either.Result(Unit)
         } catch (e: Exception) {

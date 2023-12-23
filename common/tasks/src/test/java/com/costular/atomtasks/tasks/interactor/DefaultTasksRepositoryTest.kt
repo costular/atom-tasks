@@ -140,9 +140,9 @@ class DefaultTasksRepositoryTest {
         val taskName = "Task name"
         val taskDay = LocalDate.of(2022, 6, 4)
 
-        sut.updateTask(taskId, taskDay, taskName)
+        sut.updateTask(taskId, taskDay, taskName, null,)
 
-        coVerify { localDataSource.updateTask(taskId, taskDay, taskName) }
+        coVerify { localDataSource.updateTask(taskId, taskDay, taskName, null) }
     }
 
     @Test

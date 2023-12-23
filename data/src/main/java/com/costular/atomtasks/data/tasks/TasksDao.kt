@@ -50,7 +50,7 @@ interface TasksDao {
                  AND date >= (SELECT date FROM tasks WHERE id = :id))
         """
     )
-    suspend fun removeFutureRecurringTasks(id: Long, parentId: Long)
+    suspend fun removeTaskAndFutureOcurrences(id: Long, parentId: Long)
 
     @Query(
         value =
@@ -62,7 +62,19 @@ interface TasksDao {
                 OR id = :parentId
         """
     )
-    suspend fun removeAllRecurringTasks(id: Long, parentId: Long)
+    suspend fun removeTaskAndAllOccurrences(id: Long, parentId: Long)
+
+    @Query(
+        value =
+        """
+            DELETE FROM tasks
+            WHERE
+            id = :parentId
+            OR parent_id = :parentId
+            AND date >= (SELECT date FROM tasks WHERE id = :id)
+        """
+    )
+    suspend fun removeFutureOccurrencesForRecurringTask(id: Long, parentId: Long)
 
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
     suspend fun updateTaskDone(id: Long, isDone: Boolean)
@@ -70,11 +82,15 @@ interface TasksDao {
     @Query("UPDATE tasks SET position = :position WHERE id = :id")
     suspend fun updateTaskPosition(id: Long, position: Int)
 
-    @Query("UPDATE tasks SET name = :name, date = :day WHERE id = :taskId")
-    suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
-
-    @Query("UPDATE tasks SET name = :name, date = :day, position = :position WHERE id = :taskId")
-    suspend fun updateTask(taskId: Long, day: LocalDate, name: String, position: Int)
+    @Query("UPDATE tasks SET name = :name, date = :day, position = :position, is_recurring = :isRecurring, recurrence_type = :recurrence WHERE id = :taskId")
+    suspend fun updateTask(
+        taskId: Long,
+        day: LocalDate,
+        name: String,
+        position: Int,
+        isRecurring: Boolean,
+        recurrence: String?,
+    )
 
     @Query("SELECT MAX(position) FROM tasks WHERE date = :day")
     suspend fun getMaxPositionForDate(day: LocalDate): Int

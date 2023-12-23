@@ -83,8 +83,13 @@ internal class DefaultTasksRepository @Inject constructor(
         localDataSource.removeReminder(taskId)
     }
 
-    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
-        localDataSource.updateTask(taskId, day, name)
+    override suspend fun updateTask(
+        taskId: Long,
+        day: LocalDate,
+        name: String,
+        recurrenceType: RecurrenceType?
+    ) {
+        localDataSource.updateTask(taskId, day, name, recurrenceType)
     }
 
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
