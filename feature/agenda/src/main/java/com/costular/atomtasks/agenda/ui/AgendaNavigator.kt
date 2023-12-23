@@ -1,4 +1,4 @@
-package com.costular.atomtasks.agenda
+package com.costular.atomtasks.agenda.ui
 
 interface AgendaNavigator {
     fun navigateToCreateTask(

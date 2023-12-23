@@ -1,4 +1,4 @@
-package com.costular.atomtasks.agenda
+package com.costular.atomtasks.agenda.ui
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics

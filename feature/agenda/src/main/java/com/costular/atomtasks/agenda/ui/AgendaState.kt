@@ -1,4 +1,4 @@
-package com.costular.atomtasks.agenda
+package com.costular.atomtasks.agenda.ui
 
 import com.costular.atomtasks.core.ui.date.Day
 import com.costular.atomtasks.core.ui.date.asDay

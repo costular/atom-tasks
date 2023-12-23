@@ -1,9 +1,11 @@
 package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
-import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Hidden
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
+import com.costular.atomtasks.agenda.ui.AgendaViewModel
+import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase

@@ -4,6 +4,9 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.agenda.ui.AgendaScreen
+import com.costular.atomtasks.agenda.ui.AgendaState
+import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R

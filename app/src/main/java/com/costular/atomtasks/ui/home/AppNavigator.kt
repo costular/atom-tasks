@@ -1,7 +1,7 @@
 package com.costular.atomtasks.ui.home
 
 import androidx.navigation.NavController
-import com.costular.atomtasks.agenda.AgendaNavigator
+import com.costular.atomtasks.agenda.ui.AgendaNavigator
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.settings.SettingsNavigator

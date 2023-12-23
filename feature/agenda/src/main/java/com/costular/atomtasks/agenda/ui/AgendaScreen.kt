@@ -1,4 +1,4 @@
-package com.costular.atomtasks.agenda
+package com.costular.atomtasks.agenda.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
