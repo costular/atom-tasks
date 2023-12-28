@@ -11,7 +11,7 @@ hilt = "2.46.1"
 hiltAndroidx = "1.0.0"
 testRunner = "1.5.0"
 testJetpack = "2.2.0"
-composeMaterial3 = "1.2.0-alpha12"
+composeMaterial3 = "1.2.0-beta01"
 accompanist = "0.32.0"
 workManager = "2.9.0"
 room = "2.6.1"
@@ -19,16 +19,15 @@ paparazzi = "1.3.1"
 composeDestinations = "1.9.55"
 junit5 = "5.9.0"
 
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.21-1.0.16"
 jacoco = "0.8.7"
 androidxComposeBom = "2023.10.01"
 composeCompiler = "1.5.6"
 reordeable = "0.9.6"
-collectionsImmutable = "0.3.5"
+collectionsImmutable = "0.3.7"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-material = "1.10.0"
 benchmarkBaselineProfileGradlePlugin = "1.2.2"
 uiautomator = "2.2.0"
 benchmark-macro-junit4 = "1.2.2"
@@ -51,7 +50,7 @@ startup = "androidx.startup:startup-runtime:1.1.1"
 preferences = "androidx.preference:preference-ktx:1.2.1"
 preferences-datastore = "androidx.datastore:datastore-preferences:1.0.0"
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-compose-activity = "androidx.activity:activity-compose:1.8.1"
+compose-activity = "androidx.activity:activity-compose:1.8.2"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-layout = { module = "androidx.compose.foundation:foundation-layout" }
@@ -62,7 +61,7 @@ compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "composeMaterial3" }
-compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.6.0-beta02" }
+compose-ui-text-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 accompanist-systemui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 work = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
@@ -72,7 +71,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
-calendar = "com.kizitonwose.calendar:compose:2.0.4"
+calendar = "com.kizitonwose.calendar:compose:2.5.0-beta01"
 android-junit = "androidx.test.ext:junit-ktx:1.1.5"
 firebase-bom = "com.google.firebase:firebase-bom:32.7.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
@@ -104,7 +103,6 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-benchmark-baseline-profile-gradle-plugin = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "benchmarkBaselineProfileGradlePlugin" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark-macro-junit4" }
