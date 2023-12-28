@@ -1,26 +1,10 @@
 package com.costular.atomtasks.agenda.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.outlined.Today
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -28,32 +12,27 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
-import com.costular.atomtasks.core.ui.date.Day
-import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.review.ui.ReviewHandler
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
-import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.*
+import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.ALL
+import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS
+import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS_AND_FUTURES
 import com.costular.atomtasks.tasks.dialog.RemoveTaskDialog
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.model.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
-import com.costular.designsystem.components.DatePicker
-import com.costular.designsystem.components.HorizontalCalendar
-import com.costular.designsystem.components.ScreenHeader
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
@@ -65,7 +44,6 @@ import java.time.LocalTime
 import kotlinx.collections.immutable.persistentListOf
 import org.burnoutcrew.reorderable.ItemPosition
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import com.costular.atomtasks.core.ui.R.string as S
 
 const val TestTagHeader = "AgendaTitle"
 
@@ -220,7 +198,7 @@ fun AgendaScreen(
 
     Column {
         AgendaHeader(
-            state = state,
+            selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
             canExpand = windowSizeClass.canExpand,
             isExpanded = state.isHeaderExpanded,
@@ -294,133 +272,6 @@ private fun TasksContent(
         is TasksState.Failure -> {}
         TasksState.Uninitialized -> {}
     }
-}
-
-@Suppress("LongMethod")
-@Composable
-private fun AgendaHeader(
-    modifier: Modifier = Modifier,
-    state: AgendaState,
-    onSelectDate: (LocalDate) -> Unit,
-    onSelectToday: () -> Unit,
-    canExpand: Boolean,
-    isExpanded: Boolean,
-    onToggleExpandCollapse: () -> Unit,
-) {
-    val shadowElevation = if (isExpanded) {
-        6.dp
-    } else {
-        2.dp
-    }
-
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
-        shadowElevation = shadowElevation,
-    ) {
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                val selectedDayText = dayAsText(state.selectedDay.date)
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable(enabled = canExpand, onClick = onToggleExpandCollapse),
-                ) {
-                    ScreenHeader(
-                        text = selectedDayText,
-                        modifier = Modifier
-                            .testTag(TestTagHeader)
-                            .padding(
-                                top = AppTheme.dimens.spacingLarge,
-                                bottom = AppTheme.dimens.spacingLarge,
-                                start = AppTheme.dimens.spacingLarge,
-                            ),
-                    )
-
-                    val degrees by animateFloatAsState(
-                        targetValue = if (isExpanded) 180f else 0f,
-                        animationSpec = tween(
-                            durationMillis = 200,
-                            easing = FastOutSlowInEasing,
-                        ),
-                        label = "Header collapsable arrow",
-                    )
-
-                    if (canExpand) {
-                        IconButton(onClick = { onToggleExpandCollapse() }) {
-                            Icon(
-                                imageVector = Icons.Default.ExpandMore,
-                                contentDescription = null,
-                                modifier = Modifier.rotate(degrees),
-                            )
-                        }
-                    }
-                }
-
-                IconButton(
-                    onClick = onSelectToday,
-                    modifier = Modifier
-                        .padding(end = AppTheme.dimens.spacingLarge)
-                        .width(40.dp)
-                        .height(40.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Today,
-                        contentDescription = stringResource(S.today),
-                    )
-                }
-            }
-
-            AnimatedContent(
-                targetState = isExpanded && canExpand,
-                label = "Header calendar",
-            ) { isCollapsed ->
-                if (isCollapsed) {
-                    HeaderCalendarExpanded(state.selectedDay, onSelectDate)
-                } else {
-                    HeaderCalendarCollapsed(state.selectedDay, onSelectDate)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HeaderCalendarExpanded(
-    selectedDay: Day,
-    onSelectDate: (LocalDate) -> Unit,
-) {
-    DatePicker(
-        modifier = Modifier
-            .supportWideScreen(480.dp)
-            .padding(horizontal = AppTheme.dimens.contentMargin)
-            .padding(bottom = AppTheme.dimens.spacingMedium),
-        selectedDay = selectedDay.date,
-        onDateSelected = onSelectDate,
-    )
-}
-
-@Composable
-private fun HeaderCalendarCollapsed(
-    selectedDay: Day,
-    onSelectDate: (LocalDate) -> Unit,
-) {
-    HorizontalCalendar(
-        modifier = Modifier
-            .supportWideScreen()
-            .padding(
-                start = AppTheme.dimens.spacingLarge,
-                end = AppTheme.dimens.spacingLarge,
-                bottom = AppTheme.dimens.spacingLarge,
-            ),
-        selectedDay = selectedDay,
-        onSelectDay = onSelectDate,
-    )
 }
 
 private val WindowSizeClass.canExpand: Boolean

@@ -90,6 +90,7 @@ dependencies {
     implementation(projects.feature.postponeTask)
 
     implementation(libs.fragment)
+    implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsize)

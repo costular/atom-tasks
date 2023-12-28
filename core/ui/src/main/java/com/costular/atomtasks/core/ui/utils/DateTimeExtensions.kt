@@ -10,6 +10,7 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.TemporalAccessor
+import java.time.temporal.WeekFields
 
 @Composable
 fun LocalTime.ofLocalizedTime(): String {
@@ -40,5 +41,13 @@ fun DateTimeFormatter.ofLocalized(temporalAccessor: TemporalAccessor): String {
     val locale = LocalConfiguration.current.locale
     return remember(this, locale) {
         this.withLocale(locale).format(temporalAccessor)
+    }
+}
+
+@Composable
+fun rememberFirstDayOfWeek(): DayOfWeek {
+    val locale = LocalConfiguration.current.locale
+    return remember(locale) {
+        WeekFields.of(locale).firstDayOfWeek
     }
 }

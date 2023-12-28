@@ -26,7 +26,6 @@ dependencies {
     implementation(projects.core.notifications)
     implementation(projects.core.logging)
 
-    implementation(libs.compose.activity)
     implementation(libs.compose.foundation)
     implementation(libs.compose.runtime)
     implementation(libs.compose.layout)
@@ -44,7 +43,6 @@ dependencies {
     implementation(libs.accompanist.permissions)
     kapt(libs.hilt.ext.compiler)
     api(libs.reordeable)
-    implementation(libs.balloon)
 
     testImplementation(projects.common.tasks)
     testImplementation(projects.core.testing)
