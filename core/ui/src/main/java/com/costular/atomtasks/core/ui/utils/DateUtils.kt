@@ -7,7 +7,6 @@ import com.costular.atomtasks.core.util.DateTimeFormatters
 import java.time.LocalDate
 
 object DateUtils {
-
     @Composable
     fun dayAsText(day: LocalDate): String {
         return when (day) {
