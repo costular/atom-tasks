@@ -20,6 +20,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -32,12 +34,15 @@ import com.costular.atomtasks.core.ui.date.Day
 import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.core.ui.utils.DateUtils
 import com.costular.designsystem.components.DatePicker
-import com.costular.designsystem.components.HorizontalCalendar
 import com.costular.designsystem.components.ScreenHeader
+import com.costular.designsystem.components.WeekCalendar
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
+import com.kizitonwose.calendar.compose.weekcalendar.WeekCalendarState
+import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @Suppress("LongMethod")
 @Composable
@@ -50,6 +55,16 @@ internal fun AgendaHeader(
     isExpanded: Boolean,
     onToggleExpandCollapse: () -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val startDate = remember(selectedDay) { selectedDay.date.minusDays(365) }
+    val endDate = remember(selectedDay) { selectedDay.date.plusDays(365) }
+
+    val weekCalendarState = rememberWeekCalendarState(
+        startDate = startDate,
+        endDate = endDate,
+        firstVisibleWeekDate = selectedDay.date,
+    )
+
     val shadowElevation = if (isExpanded) {
         6.dp
     } else {
@@ -106,7 +121,12 @@ internal fun AgendaHeader(
                 }
 
                 IconButton(
-                    onClick = onSelectToday,
+                    onClick = {
+                        coroutineScope.launch {
+                            weekCalendarState.animateScrollToWeek(LocalDate.now())
+                        }
+                        onSelectToday()
+                    },
                     modifier = Modifier
                         .padding(end = AppTheme.dimens.spacingLarge)
                         .width(40.dp)
@@ -126,7 +146,11 @@ internal fun AgendaHeader(
                 if (isCollapsed) {
                     ExpandedCalendar(selectedDay, onSelectDate)
                 } else {
-                    CollapsedCalendar(selectedDay, onSelectDate)
+                    CollapsedCalendar(
+                        selectedDay,
+                        onSelectDate,
+                        weekCalendarState,
+                    )
                 }
             }
         }
@@ -152,8 +176,9 @@ private fun ExpandedCalendar(
 private fun CollapsedCalendar(
     selectedDay: Day,
     onSelectDate: (LocalDate) -> Unit,
+    weekCalendarState: WeekCalendarState = rememberWeekCalendarState(),
 ) {
-    HorizontalCalendar(
+    WeekCalendar(
         modifier = Modifier
             .supportWideScreen()
             .padding(
@@ -163,6 +188,7 @@ private fun CollapsedCalendar(
             ),
         selectedDay = selectedDay,
         onSelectDay = onSelectDate,
+        weekCalendarState = weekCalendarState,
     )
 }
 

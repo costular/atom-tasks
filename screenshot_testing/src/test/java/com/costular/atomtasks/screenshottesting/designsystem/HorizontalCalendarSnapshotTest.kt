@@ -8,7 +8,7 @@ import com.costular.atomtasks.screenshottesting.utils.Theme
 import com.costular.atomtasks.screenshottesting.utils.asFloat
 import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
-import com.costular.designsystem.components.HorizontalCalendar
+import com.costular.designsystem.components.WeekCalendar
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
@@ -34,7 +34,7 @@ class HorizontalCalendarSnapshotTest {
             isDarkTheme = themeMode.isDarkTheme(),
             fontScale = fontScale.asFloat()
         ) {
-            HorizontalCalendar(
+            WeekCalendar(
                 onSelectDay = {},
                 weekDays = WeekDays,
                 selectedDay = LocalDate.of(2023, 9, 1).asDay(),
