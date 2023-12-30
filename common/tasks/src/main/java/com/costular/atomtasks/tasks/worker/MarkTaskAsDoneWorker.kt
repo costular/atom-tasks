@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.notifications.TaskNotificationManager
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.createtask
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.createtask.analytics.CreateTaskAnalytics
-import com.costular.atomtasks.tasks.interactor.CreateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate

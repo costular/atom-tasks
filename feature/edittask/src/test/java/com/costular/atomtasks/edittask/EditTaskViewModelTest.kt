@@ -3,8 +3,8 @@ package com.costular.atomtasks.edittask
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.fake.TaskToday
-import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
-import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
 import com.costular.atomtasks.ui.features.edittask.SavingState
 import com.costular.atomtasks.ui.features.edittask.TaskState

@@ -3,12 +3,9 @@ package com.costular.atomtasks.createtask
 import app.cash.turbine.test
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.Either
-import com.costular.atomtasks.core.InvokeError
-import com.costular.atomtasks.core.InvokeStarted
-import com.costular.atomtasks.core.InvokeSuccess
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.createtask.analytics.CreateTaskAnalytics
-import com.costular.atomtasks.tasks.interactor.CreateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.model.CreateTaskError
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.google.common.truth.Truth.assertThat
@@ -18,7 +15,6 @@ import io.mockk.verify
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

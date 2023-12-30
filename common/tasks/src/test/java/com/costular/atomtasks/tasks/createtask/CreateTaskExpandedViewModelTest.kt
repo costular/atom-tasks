@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.createtask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk

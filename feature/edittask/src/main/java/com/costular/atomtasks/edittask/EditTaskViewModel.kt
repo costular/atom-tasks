@@ -3,8 +3,8 @@ package com.costular.atomtasks.ui.features.edittask
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.interactor.GetTaskByIdUseCase
-import com.costular.atomtasks.tasks.interactor.UpdateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskUseCase
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate

@@ -11,10 +11,10 @@ import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
-import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
-import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.interactor.RemoveTaskUseCase
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneUseCase
+import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
+import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
+import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.Either

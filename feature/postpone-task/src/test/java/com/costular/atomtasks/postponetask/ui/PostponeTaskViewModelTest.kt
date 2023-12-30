@@ -3,7 +3,7 @@ package com.costular.atomtasks.postponetask.ui
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
 import com.costular.atomtasks.postponetask.domain.PostponeChoice
-import com.costular.atomtasks.tasks.interactor.PostponeTaskUseCase
+import com.costular.atomtasks.tasks.usecase.PostponeTaskUseCase
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.postponetask.domain.DefaultPostponeChoiceCalculator
 import com.google.common.truth.Truth.assertThat
