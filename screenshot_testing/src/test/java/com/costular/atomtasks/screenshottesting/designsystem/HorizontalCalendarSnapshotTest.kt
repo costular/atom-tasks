@@ -36,7 +36,6 @@ class HorizontalCalendarSnapshotTest {
         ) {
             WeekCalendar(
                 onSelectDay = {},
-                weekDays = WeekDays,
                 selectedDay = LocalDate.of(2023, 9, 1).asDay(),
             )
         }
