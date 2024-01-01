@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.firstOrNull
 class AutoforwardTasksUseCase @Inject constructor(
     private val isAutoforwardTasksSettingEnabledUseCase: IsAutoforwardTasksSettingEnabledUseCase,
     private val observeTasksUseCase: ObserveTasksUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val editTaskUseCase: EditTaskUseCase,
 ) : UseCase<AutoforwardTasksUseCase.Params, Unit> {
 
     data class Params(
@@ -29,8 +29,8 @@ class AutoforwardTasksUseCase @Inject constructor(
             .firstOrNull()
             ?.filter { !it.isDone }
             ?.forEach { task ->
-                updateTaskUseCase(
-                    UpdateTaskUseCase.Params(
+                editTaskUseCase(
+                    EditTaskUseCase.Params(
                         taskId = task.id,
                         name = task.name,
                         date = task.day.plusDays(1),

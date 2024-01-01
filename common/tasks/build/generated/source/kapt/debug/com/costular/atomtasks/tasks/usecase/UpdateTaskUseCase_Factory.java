@@ -22,7 +22,7 @@ import javax.inject.Provider;
     "KotlinInternal",
     "KotlinInternalInJava"
 })
-public final class UpdateTaskUseCase_Factory implements Factory<UpdateTaskUseCase> {
+public final class UpdateTaskUseCase_Factory implements Factory<EditTaskUseCase> {
   private final Provider<TasksRepository> tasksRepositoryProvider;
 
   private final Provider<TaskReminderManager> taskReminderManagerProvider;
@@ -34,7 +34,7 @@ public final class UpdateTaskUseCase_Factory implements Factory<UpdateTaskUseCas
   }
 
   @Override
-  public UpdateTaskUseCase get() {
+  public EditTaskUseCase get() {
     return newInstance(tasksRepositoryProvider.get(), taskReminderManagerProvider.get());
   }
 
@@ -43,8 +43,8 @@ public final class UpdateTaskUseCase_Factory implements Factory<UpdateTaskUseCas
     return new UpdateTaskUseCase_Factory(tasksRepositoryProvider, taskReminderManagerProvider);
   }
 
-  public static UpdateTaskUseCase newInstance(TasksRepository tasksRepository,
-      TaskReminderManager taskReminderManager) {
-    return new UpdateTaskUseCase(tasksRepository, taskReminderManager);
+  public static EditTaskUseCase newInstance(TasksRepository tasksRepository,
+                                            TaskReminderManager taskReminderManager) {
+    return new EditTaskUseCase(tasksRepository, taskReminderManager);
   }
 }

@@ -28,12 +28,12 @@ public final class PostponeTaskUseCase_Factory implements Factory<PostponeTaskUs
 
   private final Provider<TaskReminderManager> taskReminderManagerProvider;
 
-  private final Provider<UpdateTaskUseCase> updateTaskUseCaseProvider;
+  private final Provider<EditTaskUseCase> updateTaskUseCaseProvider;
 
   public PostponeTaskUseCase_Factory(Provider<GetTaskByIdUseCase> getTaskByIdUseCaseProvider,
       Provider<UpdateTaskReminderInteractor> updateTaskReminderInteractorProvider,
       Provider<TaskReminderManager> taskReminderManagerProvider,
-      Provider<UpdateTaskUseCase> updateTaskUseCaseProvider) {
+      Provider<EditTaskUseCase> updateTaskUseCaseProvider) {
     this.getTaskByIdUseCaseProvider = getTaskByIdUseCaseProvider;
     this.updateTaskReminderInteractorProvider = updateTaskReminderInteractorProvider;
     this.taskReminderManagerProvider = taskReminderManagerProvider;
@@ -49,13 +49,13 @@ public final class PostponeTaskUseCase_Factory implements Factory<PostponeTaskUs
       Provider<GetTaskByIdUseCase> getTaskByIdUseCaseProvider,
       Provider<UpdateTaskReminderInteractor> updateTaskReminderInteractorProvider,
       Provider<TaskReminderManager> taskReminderManagerProvider,
-      Provider<UpdateTaskUseCase> updateTaskUseCaseProvider) {
+      Provider<EditTaskUseCase> updateTaskUseCaseProvider) {
     return new PostponeTaskUseCase_Factory(getTaskByIdUseCaseProvider, updateTaskReminderInteractorProvider, taskReminderManagerProvider, updateTaskUseCaseProvider);
   }
 
   public static PostponeTaskUseCase newInstance(GetTaskByIdUseCase getTaskByIdUseCase,
-      UpdateTaskReminderInteractor updateTaskReminderInteractor,
-      TaskReminderManager taskReminderManager, UpdateTaskUseCase updateTaskUseCase) {
-    return new PostponeTaskUseCase(getTaskByIdUseCase, updateTaskReminderInteractor, taskReminderManager, updateTaskUseCase);
+                                                UpdateTaskReminderInteractor updateTaskReminderInteractor,
+                                                TaskReminderManager taskReminderManager, EditTaskUseCase editTaskUseCase) {
+    return new PostponeTaskUseCase(getTaskByIdUseCase, updateTaskReminderInteractor, taskReminderManager, editTaskUseCase);
   }
 }

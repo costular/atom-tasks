@@ -18,7 +18,7 @@ class AutoforwardTasksUseCaseTest {
     private val isAutoforwardTasksSettingEnabledUseCase: IsAutoforwardTasksSettingEnabledUseCase =
         mockk()
     private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
-    private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
+    private val editTaskUseCase: EditTaskUseCase = mockk(relaxed = true)
 
     private lateinit var sut: AutoforwardTasksUseCase
 
@@ -27,7 +27,7 @@ class AutoforwardTasksUseCaseTest {
         sut = AutoforwardTasksUseCase(
             isAutoforwardTasksSettingEnabledUseCase,
             observeTasksUseCase,
-            updateTaskUseCase,
+            editTaskUseCase,
         )
     }
 
@@ -39,7 +39,7 @@ class AutoforwardTasksUseCaseTest {
         sut(AutoforwardTasksUseCase.Params(date))
 
         verify(exactly = 0) { observeTasksUseCase.invoke(any()) }
-        coVerify(exactly = 0) { updateTaskUseCase.invoke(any()) }
+        coVerify(exactly = 0) { editTaskUseCase.invoke(any()) }
     }
 
     @Test
@@ -50,7 +50,7 @@ class AutoforwardTasksUseCaseTest {
 
             sut(AutoforwardTasksUseCase.Params(Day))
 
-            coVerify(exactly = 0) { updateTaskUseCase.invoke(any()) }
+            coVerify(exactly = 0) { editTaskUseCase.invoke(any()) }
         }
 
     @Test
@@ -66,8 +66,8 @@ class AutoforwardTasksUseCaseTest {
             }
             UndoneTasks.forEach { task ->
                 coVerify {
-                    updateTaskUseCase.invoke(
-                        UpdateTaskUseCase.Params(
+                    editTaskUseCase.invoke(
+                        EditTaskUseCase.Params(
                             task.id,
                             task.name,
                             task.day.plusDays(1),

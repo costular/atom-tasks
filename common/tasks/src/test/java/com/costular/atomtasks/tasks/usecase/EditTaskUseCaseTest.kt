@@ -10,16 +10,16 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
-class UpdateTaskUseCaseTest {
+class EditTaskUseCaseTest {
 
-    private lateinit var sut: UpdateTaskUseCase
+    private lateinit var sut: EditTaskUseCase
 
     private val repository: TasksRepository = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
 
     @Before
     fun setUp() {
-        sut = UpdateTaskUseCase(repository, taskReminderManager)
+        sut = EditTaskUseCase(repository, taskReminderManager)
     }
 
     @Test
@@ -29,7 +29,7 @@ class UpdateTaskUseCaseTest {
         val newDay = LocalDate.now()
 
         sut(
-            UpdateTaskUseCase.Params(
+            EditTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -49,7 +49,7 @@ class UpdateTaskUseCaseTest {
         val reminder = LocalTime.of(9, 0)
 
         sut(
-            UpdateTaskUseCase.Params(
+            EditTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -69,7 +69,7 @@ class UpdateTaskUseCaseTest {
         val reminder = LocalTime.of(9, 0)
 
         sut(
-            UpdateTaskUseCase.Params(
+            EditTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -89,7 +89,7 @@ class UpdateTaskUseCaseTest {
         val reminder = null
 
         sut(
-            UpdateTaskUseCase.Params(
+            EditTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -109,7 +109,7 @@ class UpdateTaskUseCaseTest {
         val reminder = null
 
         sut(
-            UpdateTaskUseCase.Params(
+            EditTaskUseCase.Params(
                 taskId = taskId,
                 name = name,
                 date = newDay,

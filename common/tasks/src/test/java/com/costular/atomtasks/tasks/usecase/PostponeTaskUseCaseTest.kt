@@ -21,7 +21,7 @@ class PostponeTaskUseCaseTest {
     private val getTaskByIdUseCase: GetTaskByIdUseCase = mockk(relaxed = true)
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
-    private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
+    private val editTaskUseCase: EditTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -29,7 +29,7 @@ class PostponeTaskUseCaseTest {
             getTaskByIdUseCase = getTaskByIdUseCase,
             updateTaskReminderInteractor = updateTaskReminderInteractor,
             taskReminderManager = taskReminderManager,
-            updateTaskUseCase = updateTaskUseCase,
+            editTaskUseCase = editTaskUseCase,
         )
     }
 
@@ -116,8 +116,8 @@ class PostponeTaskUseCaseTest {
         )
 
         coEvery {
-            updateTaskUseCase.invoke(
-                UpdateTaskUseCase.Params(
+            editTaskUseCase.invoke(
+                EditTaskUseCase.Params(
                     taskId = taskId,
                     name = "Whatever",
                     date = day,

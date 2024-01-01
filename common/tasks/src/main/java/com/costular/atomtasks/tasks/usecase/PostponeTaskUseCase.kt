@@ -15,7 +15,7 @@ class PostponeTaskUseCase @Inject constructor(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskReminderInteractor: UpdateTaskReminderInteractor,
     private val taskReminderManager: TaskReminderManager,
-    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val editTaskUseCase: EditTaskUseCase,
 ) : UseCase<PostponeTaskUseCase.Params, Either<PostponeTaskFailure, Unit>> {
 
     data class Params(
@@ -33,8 +33,8 @@ class PostponeTaskUseCase @Inject constructor(
                 return PostponeTaskFailure.MissingReminder.toError()
             }
 
-            updateTaskUseCase.invoke(
-                UpdateTaskUseCase.Params(
+            editTaskUseCase.invoke(
+                EditTaskUseCase.Params(
                     taskId = task.id,
                     name = task.name,
                     date = params.day,

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
-import com.costular.atomtasks.tasks.usecase.UpdateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val editTaskUseCase: EditTaskUseCase,
 ) : MviViewModel<EditTaskState>(EditTaskState.Empty) {
 
     fun loadTask(taskId: Long) {
@@ -54,8 +54,8 @@ class EditTaskViewModel @Inject constructor(
                 return@launch
             }
 
-            updateTaskUseCase(
-                UpdateTaskUseCase.Params(
+            editTaskUseCase(
+                EditTaskUseCase.Params(
                     taskId = state.taskState.taskId,
                     name = name,
                     date = date,

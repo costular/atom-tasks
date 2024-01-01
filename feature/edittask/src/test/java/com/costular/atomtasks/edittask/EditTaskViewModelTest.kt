@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.tasks.fake.TaskToday
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
-import com.costular.atomtasks.tasks.usecase.UpdateTaskUseCase
+import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
 import com.costular.atomtasks.ui.features.edittask.SavingState
 import com.costular.atomtasks.ui.features.edittask.TaskState
@@ -24,13 +24,13 @@ class EditTaskViewModelTest : MviViewModelTest() {
     lateinit var sut: EditTaskViewModel
 
     private val getTaskByIdUseCase: GetTaskByIdUseCase = mockk(relaxed = true)
-    private val updateTaskUseCase: UpdateTaskUseCase = mockk(relaxed = true)
+    private val editTaskUseCase: EditTaskUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         sut = EditTaskViewModel(
             getTaskByIdUseCase = getTaskByIdUseCase,
-            updateTaskUseCase = updateTaskUseCase,
+            editTaskUseCase = editTaskUseCase,
         )
     }
 
@@ -64,7 +64,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             recurrenceType = null,
         )
 
-        coVerify(exactly = 0) { updateTaskUseCase(any()) }
+        coVerify(exactly = 0) { editTaskUseCase(any()) }
     }
 
     @Test
@@ -93,7 +93,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
     fun `should emit error when edit task fails`() = runTest {
         val exception = Exception("some error")
         coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
-        coEvery { updateTaskUseCase.invoke(any()) } throws exception
+        coEvery { editTaskUseCase.invoke(any()) } throws exception
 
         val newTask = "whatever"
         val newDate = LocalDate.now().plusDays(1)

@@ -14,10 +14,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateTaskUseCase @Inject constructor(
+class EditTaskUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val taskReminderManager: TaskReminderManager,
-) : UseCase<UpdateTaskUseCase.Params, Either<UpdateTaskUseCaseError, Unit>> {
+) : UseCase<EditTaskUseCase.Params, Either<UpdateTaskUseCaseError, Unit>> {
 
     data class Params(
         val taskId: Long,
