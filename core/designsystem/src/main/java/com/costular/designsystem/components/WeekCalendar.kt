@@ -48,6 +48,10 @@ fun WeekCalendar(
         firstVisibleWeekDate = selectedDay.date,
     )
 ) {
+    LaunchedEffect(selectedDay) {
+        weekCalendarState.animateScrollToWeek(selectedDay.date)
+    }
+
     com.kizitonwose.calendar.compose.WeekCalendar(
         modifier = modifier,
         state = weekCalendarState,
