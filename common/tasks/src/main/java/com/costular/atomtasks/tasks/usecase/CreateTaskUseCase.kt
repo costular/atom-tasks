@@ -1,6 +1,7 @@
 package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.CreateTaskError
@@ -42,6 +43,7 @@ class CreateTaskUseCase @Inject constructor(
 
             Either.Result(Unit)
         } catch (e: Exception) {
+            atomLog { e }
             Either.Error(CreateTaskError.UnknownError)
         }
     }

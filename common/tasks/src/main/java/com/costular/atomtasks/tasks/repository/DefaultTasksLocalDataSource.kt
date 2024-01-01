@@ -12,9 +12,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
-internal class DefaultTasksLocalDataSource(
+internal class DefaultTasksLocalDataSource @Inject constructor(
     private val tasksDao: TasksDao,
     private val reminderDao: ReminderDao,
 ) : TaskLocalDataSource {
@@ -124,6 +125,10 @@ internal class DefaultTasksLocalDataSource(
                 parentId = task.task.parentId ?: taskId
             )
         }
+    }
+
+    override suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int {
+        return tasksDao.countFutureOccurrences(parentId, from)
     }
 
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {

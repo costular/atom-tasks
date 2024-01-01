@@ -8,7 +8,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 interface TasksRepository {
-
     suspend fun createTask(
         name: String,
         date: LocalDate,
@@ -32,6 +31,8 @@ interface TasksRepository {
         name: String,
         recurrenceType: RecurrenceType?
     )
+
+    suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int
 
     suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
 }

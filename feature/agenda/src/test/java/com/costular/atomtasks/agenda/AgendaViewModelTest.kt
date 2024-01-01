@@ -1,24 +1,25 @@
 package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Hidden
-import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
 import com.costular.atomtasks.agenda.ui.AgendaViewModel
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Hidden
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.analytics.AtomAnalytics
+import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
+import com.costular.atomtasks.core.usecase.invoke
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
+import com.costular.atomtasks.tasks.helper.AutoforwardManager
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
+import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
-import com.costular.atomtasks.tasks.helper.AutoforwardManager
-import com.costular.atomtasks.tasks.model.Task
-import com.costular.atomtasks.core.Either
-import com.costular.atomtasks.core.usecase.invoke
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -42,6 +43,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxed = true)
     private val removeTaskUseCase: RemoveTaskUseCase = mockk(relaxed = true)
     private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
+    private val recurrenceScheduler: RecurrenceScheduler = mockk(relaxed = true)
     private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
@@ -442,6 +444,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             shouldShowTaskOrderTutorialUseCase = shouldShowTaskOrderTutorialUseCase,
             taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
             shouldShowAskReviewUseCase = shouldAskReviewUseCase,
+            recurrenceScheduler = recurrenceScheduler,
         )
     }
 }

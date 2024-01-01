@@ -33,5 +33,7 @@ interface TaskLocalDataSource {
         recurrenceType: RecurrenceType?
     )
 
+    suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int
+
     suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
 }

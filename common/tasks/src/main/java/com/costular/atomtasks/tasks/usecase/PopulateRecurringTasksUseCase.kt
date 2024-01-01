@@ -3,6 +3,7 @@ package com.costular.atomtasks.tasks.usecase
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.usecase.UseCase
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead.numberOfOccurrencesForType
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceStrategyFactory
 import com.costular.atomtasks.tasks.model.PopulateRecurringTasksError
 import com.costular.atomtasks.tasks.model.RecurrenceType
@@ -16,6 +17,7 @@ class PopulateRecurringTasksUseCase @Inject constructor(
 
     data class Params(
         val taskId: Long,
+        val drop: Int? = null,
     )
 
     override suspend fun invoke(params: Params): Either<PopulateRecurringTasksError, Unit> {
@@ -31,7 +33,8 @@ class PopulateRecurringTasksUseCase @Inject constructor(
 
             val nextDates = recurrenceStrategy.calculateNextOccurrences(
                 startDate = task.day,
-                numberOfOccurrences = numberOfOccurrencesForType(task.recurrenceType)
+                numberOfOccurrences = numberOfOccurrencesForType(task.recurrenceType),
+                drop = params.drop,
             )
 
             nextDates.forEach { dayToBeCreated ->
@@ -48,16 +51,6 @@ class PopulateRecurringTasksUseCase @Inject constructor(
         } catch (e: Exception) {
             atomLog { e }
             Either.Error(PopulateRecurringTasksError.UnknownError)
-        }
-    }
-
-    private fun numberOfOccurrencesForType(recurrenceType: RecurrenceType): Int {
-        return when (recurrenceType) {
-            RecurrenceType.DAILY -> 14
-            RecurrenceType.WEEKDAYS -> 10
-            RecurrenceType.WEEKLY -> 4
-            RecurrenceType.MONTHLY -> 4
-            RecurrenceType.YEARLY -> 1
         }
     }
 }

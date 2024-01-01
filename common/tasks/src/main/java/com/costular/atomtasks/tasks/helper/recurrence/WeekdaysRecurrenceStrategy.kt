@@ -6,7 +6,8 @@ import java.time.LocalDate
 class WeekdaysRecurrenceStrategy : RecurrenceStrategy {
     override fun calculateNextOccurrences(
         startDate: LocalDate,
-        numberOfOccurrences: Int
+        numberOfOccurrences: Int,
+        drop: Int?,
     ): List<LocalDate> {
         var daysToReturn = mutableListOf<LocalDate>()
         var date = startDate
@@ -20,6 +21,8 @@ class WeekdaysRecurrenceStrategy : RecurrenceStrategy {
             }
         }
 
-        return daysToReturn.toList()
+        return daysToReturn
+            .drop(drop ?: 0)
+            .toList()
     }
 }

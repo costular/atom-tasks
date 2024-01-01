@@ -3,14 +3,14 @@ package com.costular.atomtasks.tasks.helper
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
+import com.costular.atomtasks.core.usecase.invoke
+import com.costular.atomtasks.core.util.getDelayUntil
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import com.costular.atomtasks.tasks.worker.AutoforwardTasksWorker
-import com.costular.atomtasks.core.usecase.invoke
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.time.Duration
+import kotlinx.coroutines.flow.first
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
 
 class AutoforwardManager @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -20,7 +20,7 @@ class AutoforwardManager @Inject constructor(
         val isEnabled = isAutoforwardTasksSettingEnabledUseCase().first()
 
         if (isEnabled) {
-            val delay = getDelayUntilAutoforward()
+            val delay = getDelayUntil(LocalTime.parse(TIME_FOR_AUTOFORWARD))
             val worker = AutoforwardTasksWorker.setUp(delay)
 
             WorkManager.getInstance(context)
@@ -36,19 +36,6 @@ class AutoforwardManager @Inject constructor(
 
     private fun cancelAutoforwardTasks() {
         WorkManager.getInstance(context).cancelAllWorkByTag(AutoforwardTasksWorker.TAG)
-    }
-
-    private fun getDelayUntilAutoforward(): Duration {
-        val now = LocalTime.now()
-        val time = LocalTime.parse(TIME_FOR_AUTOFORWARD)
-
-        return Duration.between(now, time).run {
-            if (isNegative) {
-                plusDays(1)
-            } else {
-                this
-            }
-        }
     }
 
     companion object {

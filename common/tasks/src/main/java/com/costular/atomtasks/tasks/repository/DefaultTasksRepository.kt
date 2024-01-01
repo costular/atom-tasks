@@ -92,6 +92,10 @@ internal class DefaultTasksRepository @Inject constructor(
         localDataSource.updateTask(taskId, day, name, recurrenceType)
     }
 
+    override suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int {
+        return localDataSource.numberFutureOccurrences(parentId, from)
+    }
+
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
         localDataSource.moveTask(day, fromPosition, toPosition)
     }

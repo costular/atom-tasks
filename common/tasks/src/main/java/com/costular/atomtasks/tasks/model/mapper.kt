@@ -19,7 +19,7 @@ fun TaskAggregated.toDomain(): Task = Task(
     parentId = task.parentId,
 )
 
-fun String.asRecurrenceType(): RecurrenceType = when (this) {
+fun String?.asRecurrenceType(): RecurrenceType = when (this) {
     "daily" -> RecurrenceType.DAILY
     "weekdays" -> RecurrenceType.WEEKDAYS
     "weekly" -> RecurrenceType.WEEKLY

@@ -8,6 +8,7 @@ import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.repository.DefaultTasksRepository
 import com.costular.atomtasks.tasks.repository.TaskLocalDataSource
 import com.costular.atomtasks.tasks.repository.TasksRepository
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -139,19 +140,31 @@ class DefaultTasksRepositoryTest {
         val taskName = "Task name"
         val taskDay = LocalDate.of(2022, 6, 4)
 
-        sut.updateTask(taskId, taskDay, taskName, null,)
+        sut.updateTask(taskId, taskDay, taskName, null)
 
         coVerify { localDataSource.updateTask(taskId, taskDay, taskName, null) }
     }
 
     @Test
     fun `should call local data source move task when move task`() = runTest {
-        val taskId = 1L
         val from = 1
         val to = 3
 
         sut.moveTask(LocalDate.now(), from, to)
 
         coVerify(exactly = 1) { localDataSource.moveTask(LocalDate.now(), from, to) }
+    }
+
+    @Test
+    fun `Should call local data source when call number future occurrences`() = runTest {
+        val parentId = 10L
+        val day = LocalDate.now()
+        val expectedCount = 10
+
+        coEvery { localDataSource.numberFutureOccurrences(parentId, day) } returns expectedCount
+
+        val result = sut.numberFutureOccurrences(parentId, day)
+
+        assertThat(result).isEqualTo(expectedCount)
     }
 }

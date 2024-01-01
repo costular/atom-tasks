@@ -5,14 +5,16 @@ import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.time.LocalDate
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDate
 
 class DefaultTasksLocalDataSourceTest {
 
@@ -148,4 +150,34 @@ class DefaultTasksLocalDataSourceTest {
                 )
             }
         }
+
+    @Test
+    fun `Should call dao when count future occurrences for recurring task`() = runTest {
+        val id = 10L
+        val expectedCount = 5
+
+        val taskAggregated = TaskAggregated(
+            task = TaskEntity(
+                id = id,
+                name = "Pierre Jimenez",
+                createdAt = LocalDate.now(),
+                day = LocalDate.now(),
+                isDone = false,
+                position = 1,
+                isRecurring = false,
+                recurrenceType = null,
+                recurrenceEndDate = null,
+                parentId = null,
+            ),
+            reminder = null,
+        )
+        coEvery { tasksDao.getTaskById(id) } returns flowOf(taskAggregated)
+        coEvery {
+            tasksDao.countFutureOccurrences(10L, LocalDate.now())
+        } returns expectedCount
+
+        val result = sut.numberFutureOccurrences(10L, LocalDate.now())
+
+        assertThat(result).isEqualTo(expectedCount)
+    }
 }

@@ -61,6 +61,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             name = "whatever",
             date = LocalDate.now(),
             reminder = null,
+            recurrenceType = null,
         )
 
         coVerify(exactly = 0) { updateTaskUseCase(any()) }
@@ -79,6 +80,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             name = newTask,
             date = newDate,
             reminder = newReminder,
+            recurrenceType = null,
         )
 
         sut.state.test {
@@ -102,6 +104,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             name = newTask,
             date = newDate,
             reminder = newReminder,
+            recurrenceType = null,
         )
 
         assertThat(sut.state.value.savingTask).isInstanceOf(SavingState.Failure::class.java)

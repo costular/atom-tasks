@@ -19,11 +19,12 @@ import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
-import com.costular.atomtasks.tasks.model.RemovalStrategy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
@@ -45,12 +46,18 @@ class AgendaViewModel @Inject constructor(
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase,
     private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase,
     private val shouldShowAskReviewUseCase: ShouldAskReviewUseCase,
+    private val recurrenceScheduler: RecurrenceScheduler,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
         loadTasks()
         scheduleAutoforwardTasks()
+        initializeRecurrenceScheduler()
         retrieveTutorials()
+    }
+
+    private fun initializeRecurrenceScheduler() {
+        recurrenceScheduler.initialize()
     }
 
     private fun retrieveTutorials() {
@@ -211,6 +218,8 @@ class AgendaViewModel @Inject constructor(
         } else {
             atomAnalytics.track(ExpandCalendar)
         }
+
+
     }
 
     fun onEditTask() {

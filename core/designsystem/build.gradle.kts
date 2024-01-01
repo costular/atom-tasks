@@ -36,7 +36,7 @@ dependencies {
     implementation(libs.accompanist.systemui)
     implementation(libs.viewmodel)
     implementation(libs.compose.ui.text.fonts)
-    implementation(libs.calendar)
+    api(libs.calendar)
 
     testImplementation(projects.core.testing)
     testImplementation(libs.android.junit)

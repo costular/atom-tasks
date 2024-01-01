@@ -30,6 +30,10 @@ import java.time.LocalDate
             value = ["date"],
             unique = false,
         ),
+        Index(
+            value = ["parent_id"],
+            unique = false,
+        )
     ],
 )
 data class TaskEntity(

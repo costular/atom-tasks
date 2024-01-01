@@ -6,5 +6,6 @@ interface RecurrenceStrategy {
     fun calculateNextOccurrences(
         startDate: LocalDate,
         numberOfOccurrences: Int,
+        drop: Int? = null,
     ): List<LocalDate>
 }

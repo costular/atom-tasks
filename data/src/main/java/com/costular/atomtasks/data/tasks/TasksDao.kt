@@ -76,6 +76,9 @@ interface TasksDao {
     )
     suspend fun removeFutureOccurrencesForRecurringTask(id: Long, parentId: Long)
 
+    @Query("SELECT COUNT(*) FROM tasks WHERE parent_id = :parentId AND date > :currentDate")
+    suspend fun countFutureOccurrences(parentId: Long, currentDate: LocalDate): Int
+
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
     suspend fun updateTaskDone(id: Long, isDone: Boolean)
 
