@@ -14,7 +14,7 @@ import java.time.LocalDate
             entity = TaskEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("parent_id"),
-            onDelete = ForeignKey.NO_ACTION,
+            onDelete = ForeignKey.SET_NULL,
         )
     ],
     indices = [
@@ -47,4 +47,6 @@ data class TaskEntity(
     @ColumnInfo(name = "recurrence_type") val recurrenceType: String? = null,
     @ColumnInfo(name = "recurrence_end_date") val recurrenceEndDate: LocalDate? = null,
     @ColumnInfo(name = "parent_id") val parentId: Long? = null,
-)
+) {
+    val isParent: Boolean get() = isRecurring && recurrenceType != null && parentId == null
+}

@@ -1,10 +1,13 @@
 package com.costular.atomtasks.edittask
 
 import app.cash.turbine.test
+import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
+import com.costular.atomtasks.core.toError
 import com.costular.atomtasks.tasks.fake.TaskToday
-import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.costular.atomtasks.tasks.model.UpdateTaskUseCaseError
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
+import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
 import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
 import com.costular.atomtasks.ui.features.edittask.SavingState
 import com.costular.atomtasks.ui.features.edittask.TaskState
@@ -70,6 +73,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
     @Test
     fun `should emit success when edit task succeeded`() = runTest {
         coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
+        coEvery { editTaskUseCase.invoke(any()) } returns Either.Result(Unit)
 
         val newTask = "whatever"
         val newDate = LocalDate.now().plusDays(1)
@@ -93,7 +97,9 @@ class EditTaskViewModelTest : MviViewModelTest() {
     fun `should emit error when edit task fails`() = runTest {
         val exception = Exception("some error")
         coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
-        coEvery { editTaskUseCase.invoke(any()) } throws exception
+        coEvery {
+            editTaskUseCase.invoke(any())
+        } returns UpdateTaskUseCaseError.UnknownError.toError()
 
         val newTask = "whatever"
         val newDate = LocalDate.now().plusDays(1)

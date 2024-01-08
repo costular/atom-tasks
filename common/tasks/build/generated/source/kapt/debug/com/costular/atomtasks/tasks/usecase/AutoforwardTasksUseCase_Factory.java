@@ -26,32 +26,32 @@ public final class AutoforwardTasksUseCase_Factory implements Factory<Autoforwar
 
   private final Provider<ObserveTasksUseCase> observeTasksUseCaseProvider;
 
-  private final Provider<EditTaskUseCase> updateTaskUseCaseProvider;
+  private final Provider<EditTaskUseCase> editTaskUseCaseProvider;
 
   public AutoforwardTasksUseCase_Factory(
       Provider<IsAutoforwardTasksSettingEnabledUseCase> isAutoforwardTasksSettingEnabledUseCaseProvider,
       Provider<ObserveTasksUseCase> observeTasksUseCaseProvider,
-      Provider<EditTaskUseCase> updateTaskUseCaseProvider) {
+      Provider<EditTaskUseCase> editTaskUseCaseProvider) {
     this.isAutoforwardTasksSettingEnabledUseCaseProvider = isAutoforwardTasksSettingEnabledUseCaseProvider;
     this.observeTasksUseCaseProvider = observeTasksUseCaseProvider;
-    this.updateTaskUseCaseProvider = updateTaskUseCaseProvider;
+    this.editTaskUseCaseProvider = editTaskUseCaseProvider;
   }
 
   @Override
   public AutoforwardTasksUseCase get() {
-    return newInstance(isAutoforwardTasksSettingEnabledUseCaseProvider.get(), observeTasksUseCaseProvider.get(), updateTaskUseCaseProvider.get());
+    return newInstance(isAutoforwardTasksSettingEnabledUseCaseProvider.get(), observeTasksUseCaseProvider.get(), editTaskUseCaseProvider.get());
   }
 
   public static AutoforwardTasksUseCase_Factory create(
       Provider<IsAutoforwardTasksSettingEnabledUseCase> isAutoforwardTasksSettingEnabledUseCaseProvider,
       Provider<ObserveTasksUseCase> observeTasksUseCaseProvider,
-      Provider<EditTaskUseCase> updateTaskUseCaseProvider) {
-    return new AutoforwardTasksUseCase_Factory(isAutoforwardTasksSettingEnabledUseCaseProvider, observeTasksUseCaseProvider, updateTaskUseCaseProvider);
+      Provider<EditTaskUseCase> editTaskUseCaseProvider) {
+    return new AutoforwardTasksUseCase_Factory(isAutoforwardTasksSettingEnabledUseCaseProvider, observeTasksUseCaseProvider, editTaskUseCaseProvider);
   }
 
   public static AutoforwardTasksUseCase newInstance(
-          IsAutoforwardTasksSettingEnabledUseCase isAutoforwardTasksSettingEnabledUseCase,
-          ObserveTasksUseCase observeTasksUseCase, EditTaskUseCase editTaskUseCase) {
+      IsAutoforwardTasksSettingEnabledUseCase isAutoforwardTasksSettingEnabledUseCase,
+      ObserveTasksUseCase observeTasksUseCase, EditTaskUseCase editTaskUseCase) {
     return new AutoforwardTasksUseCase(isAutoforwardTasksSettingEnabledUseCase, observeTasksUseCase, editTaskUseCase);
   }
 }

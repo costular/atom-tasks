@@ -67,11 +67,21 @@ interface TasksDao {
     @Query(
         value =
         """
-            DELETE FROM tasks
+            DELETE FROM tasks 
             WHERE
-            id = :parentId
-            OR parent_id = :parentId
-            AND date >= (SELECT date FROM tasks WHERE id = :id)
+                parent_id = :parentId
+                AND id != :parentId
+        """
+    )
+    suspend fun removeChildrenTasks(parentId: Long)
+
+    @Query(
+        value =
+        """
+            DELETE FROM tasks 
+            WHERE parent_id = :parentId 
+            AND date > (SELECT date FROM tasks WHERE id = :id)
+            AND id != :parentId;
         """
     )
     suspend fun removeFutureOccurrencesForRecurringTask(id: Long, parentId: Long)
@@ -142,6 +152,4 @@ interface TasksDao {
 
     @Query("SELECT COUNT(*) from tasks WHERE is_done = 1")
     suspend fun getDoneTasksCount(): Int
-
-
 }

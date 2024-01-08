@@ -5,14 +5,17 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead.numberOfOccurrencesForType
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceStrategyFactory
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.asString
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 @Suppress("TooManyFunctions")
 internal class DefaultTasksLocalDataSource @Inject constructor(
@@ -110,20 +113,63 @@ internal class DefaultTasksLocalDataSource @Inject constructor(
         }
         val wasRecurring = task.task.isRecurring
 
+        if (wasRecurring) {
+            if (task.task.isParent) {
+                tasksDao.removeChildrenTasks(task.task.id)
+            } else {
+                tasksDao.removeFutureOccurrencesForRecurringTask(
+                    id = taskId,
+                    parentId = task.task.parentId ?: taskId
+                )
+            }
+        }
+
         tasksDao.updateTask(
-            taskId,
-            day,
-            name,
-            newPosition,
-            recurrenceType != null,
-            recurrenceType?.asString(),
+            taskId = taskId,
+            day = day,
+            name = name,
+            position = newPosition,
+            isRecurring = recurrenceType != null,
+            recurrence = recurrenceType?.asString(),
         )
 
         if (wasRecurring) {
-            tasksDao.removeFutureOccurrencesForRecurringTask(
-                id = taskId,
-                parentId = task.task.parentId ?: taskId
+            val recurrenceType = requireNotNull(recurrenceType)
+
+            val recurrenceStrategy = RecurrenceStrategyFactory.recurrenceStrategy(recurrenceType)
+
+            val nextDates = recurrenceStrategy.calculateNextOccurrences(
+                startDate = day,
+                numberOfOccurrences = numberOfOccurrencesForType(recurrenceType),
             )
+
+            nextDates.forEach { dayToBeCreated ->
+                val taskId = createTask(
+                    TaskEntity(
+                        id = 0L,
+                        createdAt = LocalDate.now(),
+                        name = name,
+                        day = dayToBeCreated,
+                        isDone = false,
+                        position = tasksDao.getMaxPositionForDate(dayToBeCreated) + 1,
+                        isRecurring = true,
+                        recurrenceType = recurrenceType.asString(),
+                        recurrenceEndDate = null,
+                        parentId = if (task.task.isParent) task.task.id else task.task.parentId
+                    ),
+                )
+
+                if (task.reminder != null) {
+                    val time = requireNotNull(task.reminder?.time)
+
+                    createReminderForTask(
+                        time = time,
+                        date = dayToBeCreated,
+                        reminderEnabled = true,
+                        taskId = taskId,
+                    )
+                }
+            }
         }
     }
 

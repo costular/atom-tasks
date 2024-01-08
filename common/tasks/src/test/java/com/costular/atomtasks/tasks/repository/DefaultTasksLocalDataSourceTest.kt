@@ -5,7 +5,6 @@ import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -135,6 +134,8 @@ class DefaultTasksLocalDataSourceTest {
                 reminder = null,
             )
             coEvery { tasksDao.getTaskById(id) } returns flowOf(taskAggregated)
+            coEvery { tasksDao.getMaxPositionForDate(any()) } returns 1
+            coEvery { tasksDao.createTask(any()) } returns 1L
 
             sut.updateTask(
                 id,
@@ -143,10 +144,18 @@ class DefaultTasksLocalDataSourceTest {
                 recurrenceType = RecurrenceType.WEEKLY,
             )
 
-            coVerify {
-                tasksDao.removeFutureOccurrencesForRecurringTask(
-                    taskAggregated.task.id,
-                    taskAggregated.task.id
+            coVerify(exactly = 1) {
+                tasksDao.removeChildrenTasks(id)
+            }
+
+            coVerify(exactly = 1) {
+                tasksDao.updateTask(
+                    taskId = id,
+                    day = taskAggregated.task.day,
+                    name = "Whatever",
+                    position = 1,
+                    isRecurring = true,
+                    recurrence = "weekly",
                 )
             }
         }

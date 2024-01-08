@@ -2,7 +2,6 @@ package com.costular.atomtasks.tasks.model
 
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
-import com.costular.atomtasks.data.tasks.TaskEntity
 import java.lang.IllegalArgumentException
 
 fun TaskAggregated.toDomain(): Task = Task(
