@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 class MigrationsTest {
     private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5)
     private val TEST_DB = "migration-test"
-    private val LATEST_VERSION = 6
+    private val LATEST_VERSION = 7
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -109,6 +109,32 @@ class MigrationsTest {
                 } while (cursor.moveToNext())
 
                 Truth.assertThat(reminderTimes.first()).isEqualTo("09:00")
+            }
+        }
+        cursor.close()
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testMigration6To7() {
+        val db = helper.createDatabase(TEST_DB, 6).apply {
+            execSQL(
+                "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
+                        "('2023-08-23', 'This is a test', '2023-08-23', 0); "
+            )
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 7, true)
+
+        val cursor = db.query("SELECT * FROM tasks", arrayOf())
+
+        if (cursor.moveToFirst()) {
+            val positionColumnIndex = cursor.getColumnIndex("name")
+
+            if (positionColumnIndex != -1) {
+                cursor.moveToFirst()
+                val name = cursor.getString(positionColumnIndex)
+                Truth.assertThat(name).isEqualTo("This is a test")
             }
         }
         cursor.close()
