@@ -24,8 +24,10 @@ import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -42,6 +44,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
@@ -254,6 +257,7 @@ internal fun CreateTaskExpanded(
             value = state.name,
             focusRequester = focusRequester,
             onValueChange = onValueChange,
+            enabled = !state.saving
         )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
@@ -303,6 +307,7 @@ internal fun CreateTaskExpanded(
 
         SaveButton(
             isEnabled = state.shouldShowSend,
+            saving = state.saving,
             onSave = onSave,
             modifier = Modifier
                 .fillMaxWidth()
@@ -381,6 +386,7 @@ private fun RecurrenceButton(
 @Composable
 private fun CreateTaskInput(
     value: String,
+    enabled: Boolean,
     focusRequester: FocusRequester,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -400,12 +406,14 @@ private fun CreateTaskInput(
             .focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge,
         maxLines = 5,
+        enabled = enabled,
     )
 }
 
 @Composable
 fun SaveButton(
     isEnabled: Boolean,
+    saving: Boolean,
     onSave: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -414,13 +422,21 @@ fun SaveButton(
         modifier = modifier.testTag("CreateTaskExpandedSave"),
         enabled = isEnabled,
     ) {
-        Icon(
-            imageVector = Icons.Outlined.Check,
-            contentDescription = null,
-            modifier = Modifier.size(ButtonDefaults.IconSize),
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(stringResource(R.string.save))
+        if (saving) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(ButtonDefaults.IconSize),
+                strokeWidth = 2.dp,
+                color = LocalContentColor.current,
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.Check,
+                contentDescription = null,
+                modifier = Modifier.size(ButtonDefaults.IconSize),
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text(stringResource(R.string.save))
+        }
     }
 }
 
@@ -466,6 +482,7 @@ fun CreateTaskExpandedPreview() {
         CreateTaskExpanded(
             state = CreateTaskExpandedState(
                 name = "🏃🏻‍♀️ Go out for running!",
+                saving = false,
             ),
             focusRequester = FocusRequester(),
             onValueChange = {},
@@ -487,6 +504,7 @@ fun CreateTaskExpandedWithPastReminderErrorPreview() {
             state = CreateTaskExpandedState(
                 name = "🏃🏻‍♀️ Go out for running!",
                 reminder = LocalTime.now().minusHours(1),
+                saving = false,
             ),
             focusRequester = FocusRequester(),
             onValueChange = {},
@@ -510,6 +528,30 @@ fun CreateTaskExpandedFilledDataPreview() {
                 reminder = LocalTime.now().plusHours(4),
                 date = LocalDate.now().plusDays(4),
                 recurrenceType = RecurrenceType.WEEKLY,
+                saving = false,
+            ),
+            focusRequester = FocusRequester(),
+            onValueChange = {},
+            onClickReminder = {},
+            onClickDate = {},
+            onSave = {},
+            onClearReminder = {},
+            onClickRecurrence = {},
+            onClearRecurrence = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreateSavingPreview() {
+    AtomTheme {
+        CreateTaskExpanded(
+            state = CreateTaskExpandedState(
+                name = "🏃🏻‍♀️ Go out for running!",
+                reminder = LocalTime.now().plusHours(4),
+                date = LocalDate.now().plusDays(4),
+                saving = true,
             ),
             focusRequester = FocusRequester(),
             onValueChange = {},

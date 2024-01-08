@@ -14,6 +14,7 @@ data class CreateTaskExpandedState(
     val showSetRecurrence: Boolean = false,
     val shouldShowAlarmsRationale: Boolean = false,
     val recurrenceType: RecurrenceType? = null,
+    val saving: Boolean = false,
 ) {
     val shouldShowSend: Boolean
         get() = name.isNotBlank()

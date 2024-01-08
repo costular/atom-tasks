@@ -5,10 +5,10 @@ import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 @HiltViewModel
@@ -102,14 +102,15 @@ class CreateTaskExpandedViewModel @Inject constructor(
     }
 
     fun requestSave() {
+        setState {
+            copy(saving = true)
+        }
+
         sendEvent(
             CreateTaskUiEvents.SaveTask(
                 state.value.asCreateTaskResult(),
             ),
         )
-        setState {
-            CreateTaskExpandedState.Empty
-        }
     }
 
     private fun CreateTaskExpandedState.asCreateTaskResult(): CreateTaskResult =

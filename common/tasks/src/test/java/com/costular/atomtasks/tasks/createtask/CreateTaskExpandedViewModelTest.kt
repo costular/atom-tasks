@@ -93,22 +93,6 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should reset state when save succeed`() = runTest {
-        val name = "name"
-        val date = LocalDate.of(2021, 12, 24)
-        val reminder = LocalTime.of(9, 0)
-
-        sut.setName(name)
-        sut.setDate(date)
-        sut.setReminder(reminder)
-        sut.requestSave()
-
-        sut.state.test {
-            assertThat(expectMostRecentItem()).isEqualTo(CreateTaskExpandedState.Empty)
-        }
-    }
-
-    @Test
     fun `should show error when reminder is in the past`() = runTest {
         val reminder = LocalDateTime.now().minusHours(2)
 
