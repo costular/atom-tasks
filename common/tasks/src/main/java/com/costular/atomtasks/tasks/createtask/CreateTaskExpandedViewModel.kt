@@ -2,13 +2,13 @@ package com.costular.atomtasks.tasks.createtask
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 @HiltViewModel
@@ -37,7 +37,10 @@ class CreateTaskExpandedViewModel @Inject constructor(
 
     fun setDate(localDate: LocalDate) {
         setState {
-            copy(date = localDate, showSetDate = false)
+            copy(
+                date = localDate,
+                showSetDate = false
+            )
         }
     }
 

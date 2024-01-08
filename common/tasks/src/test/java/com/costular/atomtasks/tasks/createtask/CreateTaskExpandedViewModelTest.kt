@@ -7,6 +7,7 @@ import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.test.runTest
@@ -109,22 +110,20 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should show error when reminder is in the past`() = runTest {
-        val date = LocalDate.now()
-        val reminder = LocalTime.now().minusHours(2)
+        val reminder = LocalDateTime.now().minusHours(2)
 
-        sut.setDate(date)
-        sut.setReminder(reminder)
+        sut.setDate(reminder.toLocalDate())
+        sut.setReminder(reminder.toLocalTime())
 
         assertThat(sut.state.value.isReminderError).isTrue()
     }
 
     @Test
     fun `should show no error when reminder is in the future`() = runTest {
-        val date = LocalDate.now().plusDays(1)
-        val reminder = LocalTime.now().minusHours(2)
+        val reminder = LocalDateTime.now().plusHours(26)
 
-        sut.setDate(date)
-        sut.setReminder(reminder)
+        sut.setDate(reminder.toLocalDate())
+        sut.setReminder(reminder.toLocalTime())
 
         assertThat(sut.state.value.isReminderError).isFalse()
     }
