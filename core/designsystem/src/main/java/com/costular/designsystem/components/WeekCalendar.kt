@@ -15,9 +15,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,16 +29,16 @@ import com.costular.atomtasks.core.util.DateTimeFormatters.shortDayOfWeekFormatt
 import com.costular.designsystem.theme.AtomTheme
 import com.kizitonwose.calendar.compose.weekcalendar.WeekCalendarState
 import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
-import com.kizitonwose.calendar.core.Week
 import java.time.LocalDate
-import kotlinx.coroutines.flow.filter
+
+private const val DaysToShow = 365L
 
 @Composable
 fun WeekCalendar(
     modifier: Modifier = Modifier,
     selectedDay: Day = LocalDate.now().asDay(),
-    startDate: LocalDate = remember(selectedDay) { selectedDay.date.minusDays(365) },
-    endDate: LocalDate = remember(selectedDay) { selectedDay.date.plusDays(365) },
+    startDate: LocalDate = remember(selectedDay) { selectedDay.date.minusDays(DaysToShow) },
+    endDate: LocalDate = remember(selectedDay) { selectedDay.date.plusDays(DaysToShow) },
     onSelectDay: (LocalDate) -> Unit,
     weekCalendarState: WeekCalendarState = rememberWeekCalendarState(
         startDate = startDate,

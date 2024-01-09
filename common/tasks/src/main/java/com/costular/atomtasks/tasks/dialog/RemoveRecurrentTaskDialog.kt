@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.costular.atomtasks.common.tasks.R
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.atomtasks.core.ui.R.string as S
@@ -84,31 +83,44 @@ fun RemoveRecurrentTaskDialog(
 
                 Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = AppTheme.DialogPadding),
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(onClick = onCancel) {
-                        Text(
-                            text = "Cancel",
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
-                        )
-                    }
-                    TextButton(onClick = {
-                        onRemove(selected)
-                    }) {
-                        Text(
-                            text = "Remove",
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
-                        )
-                    }
-                }
+                DialogButtons(
+                    onCancel = onCancel,
+                    onRemove = onRemove,
+                    selected = selected
+                )
             }
         }
     }
 
+}
+
+@Composable
+private fun DialogButtons(
+    onCancel: () -> Unit,
+    onRemove: (RemoveRecurrentTaskResponse) -> Unit,
+    selected: RemoveRecurrentTaskResponse
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = AppTheme.DialogPadding),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(onClick = onCancel) {
+            Text(
+                text = "Cancel",
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
+            )
+        }
+        TextButton(onClick = {
+            onRemove(selected)
+        }) {
+            Text(
+                text = "Remove",
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
+            )
+        }
+    }
 }
 
 @Composable

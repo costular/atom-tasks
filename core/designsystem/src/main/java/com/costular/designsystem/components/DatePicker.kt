@@ -62,6 +62,8 @@ import java.time.format.TextStyle
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
+private const val MonthsToShow = 100L
+
 @Composable
 fun DatePicker(
     modifier: Modifier = Modifier,
@@ -69,8 +71,8 @@ fun DatePicker(
     onDateSelected: (LocalDate) -> Unit,
 ) {
     val currentMonth = remember(selectedDay) { selectedDay.yearMonth }
-    val startMonth = remember { currentMonth.minusMonths(100) }
-    val endMonth = remember { currentMonth.plusMonths(100) }
+    val startMonth = remember { currentMonth.minusMonths(MonthsToShow) }
+    val endMonth = remember { currentMonth.plusMonths(MonthsToShow) }
     val firstDayOfWeek = rememberFirstDayOfWeek()
     val coroutineScope = rememberCoroutineScope()
 

@@ -8,7 +8,6 @@ import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.repository.DefaultTasksRepository
 import com.costular.atomtasks.tasks.repository.TaskLocalDataSource
 import com.costular.atomtasks.tasks.repository.TasksRepository
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -18,8 +18,8 @@ class RecurrenceScheduler @Inject constructor(
         val delay = getDelayUntil(LocalTime.parse(TIME_FOR_POPULATE_WORKER))
 
         val worker = PeriodicWorkRequestBuilder<PopulateTasksWorker>(
-            repeatInterval = Duration.ofHours(24),
-            flexTimeInterval = Duration.ofMinutes(15),
+            repeatInterval = Duration.ofHours(RepetitionHours),
+            flexTimeInterval = Duration.ofMinutes(FlexIntervalMinutes),
         )
             .setInitialDelay(delay)
             .build()
@@ -34,5 +34,7 @@ class RecurrenceScheduler @Inject constructor(
 
     companion object {
         private const val TIME_FOR_POPULATE_WORKER = "00:05"
+        private const val RepetitionHours = 24L
+        private const val FlexIntervalMinutes = 15L
     }
 }

@@ -117,7 +117,6 @@ internal fun AgendaScreen(
         onToggleExpandCollapse = viewModel::toggleHeader,
         onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
-        onDismissTaskOrderTutorial = viewModel::orderTaskTutorialDismissed,
     )
 }
 
@@ -169,7 +168,6 @@ fun AgendaScreen(
     onToggleExpandCollapse: () -> Unit,
     onMoveTask: (Int, Int) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
-    onDismissTaskOrderTutorial: () -> Unit,
 ) {
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
         if (state.deleteTaskAction.isRecurring) {
@@ -213,7 +211,6 @@ fun AgendaScreen(
             modifier = Modifier.supportWideScreen(),
             onMoveTask = onMoveTask,
             onDragTask = onDragTask,
-            onDismissTaskOrderTutorial = onDismissTaskOrderTutorial,
         )
     }
 }
@@ -225,7 +222,6 @@ private fun TasksContent(
     onMarkTask: (Long, Boolean) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
     onMoveTask: (Int, Int) -> Unit,
-    onDismissTaskOrderTutorial: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -246,8 +242,6 @@ private fun TasksContent(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
                 },
-                shouldShowTaskOrderTutorial = state.shouldShowCardOrderTutorial,
-                onDismissTaskOrderTutorial = onDismissTaskOrderTutorial,
                 padding = PaddingValues(
                     start = AppTheme.dimens.contentMargin,
                     end = AppTheme.dimens.contentMargin,
@@ -338,7 +332,6 @@ fun AgendaPreview() {
             openTaskAction = {},
             onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
-            onDismissTaskOrderTutorial = {},
         )
     }
 }

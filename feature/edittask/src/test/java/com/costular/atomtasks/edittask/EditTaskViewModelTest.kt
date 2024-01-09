@@ -95,7 +95,6 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should emit error when edit task fails`() = runTest {
-        val exception = Exception("some error")
         coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
         coEvery {
             editTaskUseCase.invoke(any())

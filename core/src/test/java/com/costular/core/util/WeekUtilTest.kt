@@ -1,10 +1,8 @@
 package com.costular.core.util
 
-import com.costular.atomtasks.core.util.WeekUtil
 import com.costular.atomtasks.core.util.WeekUtil.findNextWeek
 import com.costular.atomtasks.core.util.WeekUtil.findNextWeekend
 import com.google.common.truth.Truth.assertThat
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.Locale
 import org.junit.Test

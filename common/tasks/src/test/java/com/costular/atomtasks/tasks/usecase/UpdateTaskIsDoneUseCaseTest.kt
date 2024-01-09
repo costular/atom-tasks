@@ -2,7 +2,6 @@ package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.tasks.fake.TaskToday
-import com.costular.atomtasks.tasks.fake.TaskRecurring
 import com.costular.atomtasks.tasks.model.UpdateTaskIsDoneError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth.assertThat

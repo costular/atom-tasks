@@ -38,24 +38,18 @@ fun TaskList(
     onClick: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
     state: ReorderableLazyListState,
-    shouldShowTaskOrderTutorial: Boolean,
-    onDismissTaskOrderTutorial: () -> Unit,
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
     if (tasks.isEmpty()) {
         Empty(modifier.padding(AppTheme.dimens.contentMargin))
     } else {
-        val backgroundColor = MaterialTheme.colorScheme.inverseSurface
-        val textColor = MaterialTheme.colorScheme.inverseOnSurface
-
         LazyColumn(
             modifier = modifier
                 .reorderable(state)
                 .detectReorderAfterLongPress(state),
             state = state.listState,
             contentPadding = padding,
-            verticalArrangement = Arrangement.spacedBy(TooltipPadding.dp),
         ) {
             items(tasks, { it.id }) { task ->
                 ReorderableItem(state, key = task.id) { isDragging ->
@@ -169,14 +163,6 @@ private fun TaskListPreview() {
             ),
             onClick = {},
             onMarkTask = { _, _ -> },
-            shouldShowTaskOrderTutorial = false,
-            onDismissTaskOrderTutorial = {},
         )
     }
 }
-
-private const val TooltipCornerRadius = 4f
-private const val TooltipHorizontalMargin = 24
-private const val TooltipDelay = 2000L
-private const val TooltipYOffset = 48
-private const val TooltipPadding = 8

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Suppress("TooManyFunctions")
 interface TasksRepository {
     suspend fun createTask(
         name: String,

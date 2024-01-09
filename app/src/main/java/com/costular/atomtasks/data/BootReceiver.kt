@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
-import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
 import com.costular.atomtasks.tasks.worker.SetTasksRemindersWorker
 import dagger.hilt.android.AndroidEntryPoint

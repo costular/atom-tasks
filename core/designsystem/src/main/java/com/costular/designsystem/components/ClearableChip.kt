@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.AssistChipDefaults.assistChipBorder
+import androidx.compose.material3.ChipColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,26 +45,7 @@ fun ClearableChip(
         assistChipBorder(enabled = true)
     }
 
-    val chipColors = when {
-        isSelected && !isError -> {
-            AssistChipDefaults.assistChipColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                leadingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                trailingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-        }
-
-        isError -> {
-            AssistChipDefaults.assistChipColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                labelColor = MaterialTheme.colorScheme.onErrorContainer,
-                leadingIconContentColor = MaterialTheme.colorScheme.onErrorContainer,
-            )
-        }
-
-        else -> AssistChipDefaults.assistChipColors()
-    }
+    val chipColors = buildChipColors(isSelected = isSelected, isError = isError)
 
     AssistChip(
         modifier = modifier,
@@ -83,24 +65,54 @@ fun ClearableChip(
         trailingIcon = {
             if (isSelected) {
                 CompositionLocalProvider(MinimumTouchArea provides false) {
-                    IconButton(
-                        modifier = Modifier.size(24.dp),
-                        onClick = onClear,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(
-                                R.string.content_description_chip_clear,
-                            ),
-                            modifier = Modifier.size(AppTheme.ChipIconSize),
-                        )
-                    }
+                    ClearIcon(onClear = onClear)
                 }
             }
         },
         border = border,
         colors = chipColors,
     )
+}
+
+@Composable
+private fun buildChipColors(
+    isSelected: Boolean,
+    isError: Boolean
+): ChipColors = when {
+    isSelected && !isError -> {
+        AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            leadingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            trailingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+    }
+
+    isError -> {
+        AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            labelColor = MaterialTheme.colorScheme.onErrorContainer,
+            leadingIconContentColor = MaterialTheme.colorScheme.onErrorContainer,
+        )
+    }
+
+    else -> AssistChipDefaults.assistChipColors()
+}
+
+@Composable
+private fun ClearIcon(onClear: () -> Unit) {
+    IconButton(
+        modifier = Modifier.size(24.dp),
+        onClick = onClear,
+    ) {
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = stringResource(
+                R.string.content_description_chip_clear,
+            ),
+            modifier = Modifier.size(AppTheme.ChipIconSize),
+        )
+    }
 }
 
 @Preview

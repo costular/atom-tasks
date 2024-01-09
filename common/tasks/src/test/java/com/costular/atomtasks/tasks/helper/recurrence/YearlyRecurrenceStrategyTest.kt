@@ -2,7 +2,6 @@ package com.costular.atomtasks.tasks.helper.recurrence
 
 import com.google.common.truth.Truth
 import java.time.LocalDate
-import org.junit.Assert.*
 import org.junit.Test
 
 class YearlyRecurrenceStrategyTest {

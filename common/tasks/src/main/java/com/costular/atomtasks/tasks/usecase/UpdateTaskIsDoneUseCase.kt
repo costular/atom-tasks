@@ -1,6 +1,7 @@
 package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.model.UpdateTaskIsDoneError
 import com.costular.atomtasks.tasks.repository.TasksRepository
@@ -20,6 +21,7 @@ class UpdateTaskIsDoneUseCase @Inject constructor(
             tasksRepository.markTask(params.taskId, params.isDone)
             Either.Result(Unit)
         } catch (e: Exception) {
+            atomLog { e }
             Either.Error(UpdateTaskIsDoneError.UnknownError)
         }
     }

@@ -2,7 +2,6 @@ package com.costular.atomtasks.core.util
 
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
 import java.util.Locale
 

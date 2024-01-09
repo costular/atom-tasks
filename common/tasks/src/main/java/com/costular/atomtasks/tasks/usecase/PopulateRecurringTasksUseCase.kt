@@ -6,7 +6,6 @@ import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead.numberOfOccurrencesForType
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceStrategyFactory
 import com.costular.atomtasks.tasks.model.PopulateRecurringTasksError
-import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first

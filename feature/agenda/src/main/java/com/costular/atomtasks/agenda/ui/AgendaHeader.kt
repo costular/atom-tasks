@@ -44,6 +44,8 @@ import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import java.time.LocalDate
 import kotlinx.coroutines.launch
 
+private const val DaysToShow = 365L
+
 @Suppress("LongMethod")
 @Composable
 internal fun AgendaHeader(
@@ -56,8 +58,8 @@ internal fun AgendaHeader(
     onToggleExpandCollapse: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val startDate = remember(selectedDay) { selectedDay.date.minusDays(365) }
-    val endDate = remember(selectedDay) { selectedDay.date.plusDays(365) }
+    val startDate = remember(selectedDay) { selectedDay.date.minusDays(DaysToShow) }
+    val endDate = remember(selectedDay) { selectedDay.date.plusDays(DaysToShow) }
 
     val weekCalendarState = rememberWeekCalendarState(
         startDate = startDate,

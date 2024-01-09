@@ -95,7 +95,17 @@ interface TasksDao {
     @Query("UPDATE tasks SET position = :position WHERE id = :id")
     suspend fun updateTaskPosition(id: Long, position: Int)
 
-    @Query("UPDATE tasks SET name = :name, date = :day, position = :position, is_recurring = :isRecurring, recurrence_type = :recurrence WHERE id = :taskId")
+    @Query(
+        """
+        UPDATE tasks SET 
+            name = :name,
+            date = :day,
+            position = :position,
+            is_recurring = :isRecurring,
+            recurrence_type = :recurrence
+        WHERE id = :taskId
+        """
+    )
     suspend fun updateTask(
         taskId: Long,
         day: LocalDate,

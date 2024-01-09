@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.costular.atomtasks.tasks.createtask
 
 import android.app.AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
@@ -262,46 +264,17 @@ internal fun CreateTaskExpanded(
 
         Spacer(Modifier.height(AppTheme.dimens.spacingSmall))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = AppTheme.dimens.contentMargin),
-        ) {
-            DueDateButton(
-                state.date,
-                onClickDate,
-                onClearReminder,
-            )
-
-            Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-
-            ReminderButton(
-                state.reminder,
-                state.isReminderError,
-                onClickReminder,
-                onClearReminder
-            )
-
-            Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
-
-            RecurrenceButton(
-                recurrenceType = state.recurrenceType,
-                onClick = onClickRecurrence,
-                onClearRecurrence = onClearRecurrence,
-            )
-        }
-
-        if (state.isReminderError) {
-            Text(
-                text = stringResource(R.string.create_task_reminder_past_error),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimens.contentMargin),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelMedium,
-            )
-        }
+        CreateTaskPickers(
+            date = state.date,
+            reminder = state.reminder,
+            isReminderError = state.isReminderError,
+            recurrenceType = state.recurrenceType,
+            onClickDate = onClickDate,
+            onClearReminder = onClearReminder,
+            onClickReminder = onClickReminder,
+            onClickRecurrence = onClickRecurrence,
+            onClearRecurrence = onClearRecurrence,
+        )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
@@ -316,6 +289,60 @@ internal fun CreateTaskExpanded(
                     end = AppTheme.dimens.contentMargin,
                     bottom = AppTheme.dimens.spacingMedium,
                 ),
+        )
+    }
+}
+
+@Composable
+private fun CreateTaskPickers(
+    date: LocalDate,
+    reminder: LocalTime?,
+    isReminderError: Boolean,
+    recurrenceType: RecurrenceType?,
+    onClickDate: () -> Unit,
+    onClearReminder: () -> Unit,
+    onClickReminder: () -> Unit,
+    onClickRecurrence: () -> Unit,
+    onClearRecurrence: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .padding(horizontal = AppTheme.dimens.contentMargin),
+    ) {
+        DueDateButton(
+            date,
+            onClickDate,
+            onClearReminder,
+        )
+
+        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+
+        ReminderButton(
+            reminder,
+            isReminderError,
+            onClickReminder,
+            onClearReminder
+        )
+
+        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+
+        RecurrenceButton(
+            recurrenceType = recurrenceType,
+            onClick = onClickRecurrence,
+            onClearRecurrence = onClearRecurrence,
+        )
+    }
+
+    if (isReminderError) {
+        Text(
+            text = stringResource(R.string.create_task_reminder_past_error),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = AppTheme.dimens.contentMargin),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.labelMedium,
         )
     }
 }
