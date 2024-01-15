@@ -9,6 +9,7 @@ import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
+import com.costular.atomtasks.core.toResult
 import com.costular.atomtasks.core.usecase.invoke
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
@@ -23,6 +24,7 @@ import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
@@ -39,18 +41,18 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     lateinit var sut: AgendaViewModel
 
-    private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
-    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxed = true)
-    private val removeTaskUseCase: RemoveTaskUseCase = mockk(relaxed = true)
-    private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
-    private val recurrenceScheduler: RecurrenceScheduler = mockk(relaxed = true)
-    private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
-    private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
+    private val observeTasksUseCase: ObserveTasksUseCase = mockk()
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxUnitFun = true)
+    private val removeTaskUseCase: RemoveTaskUseCase = mockk(relaxUnitFun = true)
+    private val autoforwardManager: AutoforwardManager = mockk(relaxUnitFun = true)
+    private val recurrenceScheduler: RecurrenceScheduler = mockk(relaxUnitFun = true)
+    private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxUnitFun = true)
+    private val atomAnalytics: AtomAnalytics = mockk(relaxUnitFun = true)
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
-        mockk(relaxed = true)
+        mockk(relaxUnitFun = true)
     private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase =
-        mockk(relaxed = true)
-    private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxed = true)
+        mockk(relaxUnitFun = true)
+    private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxUnitFun = true)
 
     @Before
     fun setUp() {
@@ -279,8 +281,14 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should track event when mark task as not done`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
 
+        every {
+            observeTasksUseCase.invoke(any())
+        } returns flowOf(expected)
+
+        givenOrderTasksTutorial(true)
+
+        initializeViewModel()
         sut.loadTasks()
         sut.onMarkTask(expected.last().id, false)
 
@@ -309,6 +317,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         val taskId = DEFAULT_TASKS.first().id
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
 
+
         sut.loadTasks()
         sut.actionDelete(taskId)
         sut.deleteTask(taskId)
@@ -320,6 +329,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should track navigate to day when select a new day`() = runTest {
+        every { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
         val day = LocalDate.of(2023, 9, 16)
 
         sut.setSelectedDay(day)
@@ -347,7 +357,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should show order task when land on screen given the tutorial hasn't been shown for the user yet`() =
         runTest {
-            coEvery { shouldShowTaskOrderTutorialUseCase.invoke() } returns flowOf(true)
+            givenOrderTasksTutorial(true)
 
             initializeViewModel()
 
@@ -366,6 +376,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose ask review when mark task as done given usecase returns true`() = runTest {
         coEvery { shouldAskReviewUseCase() } returns Either.Result(true)
+        coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
         givenSuccessTasks()
 
         sut.onMarkTask(DEFAULT_TASKS.first().id, true)
@@ -398,6 +409,10 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     private fun givenSuccessTasks() {
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(DEFAULT_TASKS)
+    }
+
+    private fun givenOrderTasksTutorial(isEnabled: Boolean) {
+        coEvery { shouldShowTaskOrderTutorialUseCase.invoke(Unit) } returns flowOf(isEnabled)
     }
 
     companion object {
@@ -434,6 +449,12 @@ class AgendaViewModelTest : MviViewModelTest() {
     }
 
     private fun initializeViewModel() {
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
+        coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
+        coEvery { removeTaskUseCase.invoke(any()) } returns Unit.toResult()
+        coEvery { shouldAskReviewUseCase.invoke(Unit) } returns false.toResult()
+        givenOrderTasksTutorial(true)
+
         sut = AgendaViewModel(
             observeTasksUseCase = observeTasksUseCase,
             updateTaskIsDoneUseCase = updateTaskIsDoneUseCase,
