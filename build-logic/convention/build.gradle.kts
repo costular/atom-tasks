@@ -54,5 +54,9 @@ gradlePlugin {
             id = "atomtasks.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
+        register("androidTest") {
+            id = "atomtasks.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
     }
 }

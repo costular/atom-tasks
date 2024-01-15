@@ -30,7 +30,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 benchmarkBaselineProfileGradlePlugin = "1.2.2"
 uiautomator = "2.2.0"
-benchmark-macro-junit4 = "1.2.2"
+benchmarkMacroJunit4 = "1.2.2"
 profileinstaller = "1.3.1"
 playReview = "2.0.1"
 material = "1.10.0"
@@ -106,7 +106,7 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 androidx-benchmark-baseline-profile-gradle-plugin = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "benchmarkBaselineProfileGradlePlugin" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark-macro-junit4" }
+benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
