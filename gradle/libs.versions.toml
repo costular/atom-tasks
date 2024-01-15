@@ -97,7 +97,7 @@ robolectric = "org.robolectric:robolectric:4.10.3"
 testparameterinjector = "com.google.testparameterinjector:test-parameter-injector:1.11"
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
 
-androidGradle = "com.android.tools.build:gradle:8.2.0"
+androidGradle = "com.android.tools.build:gradle:8.2.1"
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1"
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
