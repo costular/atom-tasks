@@ -18,6 +18,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.4.0] 2023-12-07
+
+### Added
+- In-App review dialog that will be shown when the user completes a determinate amount of tasks
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fix edit task's day that caused issues when editing a task changing it's day when there were other tasks with the same position
+
 ## [2.3.0] 2023-11-30
 
 ### Added

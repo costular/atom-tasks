@@ -1,7 +1,12 @@
 package com.costular.atomtasks.tasks.usecase
 
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.repository.TasksRepository
+========
+import com.costular.atomtasks.tasks.repository.TasksRepository
+import com.costular.atomtasks.tasks.manager.TaskReminderManager
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
 import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.LocalDate
@@ -10,16 +15,26 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
 class EditTaskUseCaseTest {
 
     private lateinit var sut: EditTaskUseCase
+========
+class UpdateTaskUseCaseTest {
+
+    private lateinit var sut: UpdateTaskUseCase
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
 
     private val repository: TasksRepository = mockk(relaxed = true)
     private val taskReminderManager: TaskReminderManager = mockk(relaxed = true)
 
     @Before
     fun setUp() {
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
         sut = EditTaskUseCase(repository, taskReminderManager)
+========
+        sut = UpdateTaskUseCase(repository, taskReminderManager)
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
     }
 
     @Test
@@ -29,7 +44,11 @@ class EditTaskUseCaseTest {
         val newDay = LocalDate.now()
 
         sut(
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
             EditTaskUseCase.Params(
+========
+            UpdateTaskUseCase.Params(
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -49,7 +68,11 @@ class EditTaskUseCaseTest {
         val reminder = LocalTime.of(9, 0)
 
         sut(
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
             EditTaskUseCase.Params(
+========
+            UpdateTaskUseCase.Params(
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -69,7 +92,11 @@ class EditTaskUseCaseTest {
         val reminder = LocalTime.of(9, 0)
 
         sut(
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
             EditTaskUseCase.Params(
+========
+            UpdateTaskUseCase.Params(
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -89,7 +116,11 @@ class EditTaskUseCaseTest {
         val reminder = null
 
         sut(
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
             EditTaskUseCase.Params(
+========
+            UpdateTaskUseCase.Params(
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
                 taskId = taskId,
                 name = name,
                 date = newDay,
@@ -109,7 +140,11 @@ class EditTaskUseCaseTest {
         val reminder = null
 
         sut(
+<<<<<<<< HEAD:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/EditTaskUseCaseTest.kt
             EditTaskUseCase.Params(
+========
+            UpdateTaskUseCase.Params(
+>>>>>>>> main:common/tasks/src/test/java/com/costular/atomtasks/tasks/usecase/UpdateTaskUseCaseTest.kt
                 taskId = taskId,
                 name = name,
                 date = newDay,

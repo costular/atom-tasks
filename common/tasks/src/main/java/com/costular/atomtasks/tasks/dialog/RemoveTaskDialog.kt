@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:common/tasks/src/main/java/com/costular/atomtasks/tasks/dialog/RemoveTaskDialog.kt
 package com.costular.atomtasks.tasks.dialog
+========
+package com.costular.designsystem.dialogs
+>>>>>>>> main:core/designsystem/src/main/java/com/costular/designsystem/dialogs/RemoveTaskDialog.kt
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
