@@ -62,6 +62,7 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("production")
+            baselineProfile.automaticGenerationDuringBuild = true
         }
     }
 }
@@ -90,6 +91,7 @@ dependencies {
     implementation(projects.feature.postponeTask)
 
     implementation(libs.fragment)
+    implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsize)
@@ -102,7 +104,6 @@ dependencies {
     implementation(libs.viewmodel)
     implementation(libs.hilt)
     implementation(libs.profileinstaller)
-    "baselineProfile"(project(":baselineprofile"))
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
@@ -125,6 +126,14 @@ dependencies {
     testImplementation(libs.compose.ui.test)
 
     androidTestImplementation(projects.core.testing)
+
+    baselineProfile(projects.benchmarks)
+}
+
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
 }
 
 class RoomSchemaArgProvider(

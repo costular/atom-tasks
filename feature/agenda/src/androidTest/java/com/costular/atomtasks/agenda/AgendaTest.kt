@@ -4,15 +4,20 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.costular.atomtasks.agenda.ui.AgendaScreen
+import com.costular.atomtasks.agenda.ui.AgendaState
+import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
-import com.costular.atomtasks.coreui.date.asDay
+import com.costular.atomtasks.core.ui.date.asDay
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import org.burnoutcrew.reorderable.ItemPosition
 import org.junit.Test
 
 @HiltAndroidTest
@@ -63,6 +68,10 @@ class AgendaTest : AndroidTest() {
             isDone = true,
             day = LocalDate.now(),
             position = 1,
+            isRecurring = false,
+            recurrenceEndDate = null,
+            recurrenceType = null,
+            parentId = null,
         )
 
         givenAgenda(
@@ -92,6 +101,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 
@@ -120,6 +133,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 
@@ -149,6 +166,10 @@ class AgendaTest : AndroidTest() {
                 reminder = null,
                 isDone = isDone,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
 
@@ -168,7 +189,6 @@ class AgendaTest : AndroidTest() {
         composeTestRule.setContent {
             AgendaScreen(
                 state = state,
-                onMarkTask = { _, _ -> },
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(480.dp, 800.dp)),
                 onSelectDate = {},
                 onSelectToday = {},
@@ -176,9 +196,10 @@ class AgendaTest : AndroidTest() {
                 dismissDelete = {},
                 openTaskAction = {},
                 onToggleExpandCollapse = {},
+                onMarkTask = { long: Long, bool: Boolean -> },
+                deleteRecurringTask = { id: Long, strategy: RemovalStrategy -> },
                 onMoveTask = { _, _ -> },
-                onDragTask = { _, _ -> },
-                onDismissTaskOrderTutorial = {},
+                onDragTask = { from: ItemPosition, to: ItemPosition -> },
             )
         }
     }

@@ -1,7 +1,10 @@
 package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskEntity
+import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.model.asString
 import com.costular.atomtasks.tasks.model.toDomain
 import java.time.LocalDate
 import java.time.LocalTime
@@ -9,6 +12,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+@Suppress("TooManyFunctions")
 internal class DefaultTasksRepository @Inject constructor(
     private val localDataSource: TaskLocalDataSource,
 ) : TasksRepository {
@@ -18,22 +22,27 @@ internal class DefaultTasksRepository @Inject constructor(
         date: LocalDate,
         reminderEnabled: Boolean,
         reminderTime: LocalTime?,
+        recurrenceType: RecurrenceType?,
+        parentId: Long?,
     ): Long {
         val taskEntity = TaskEntity(
-            0,
-            LocalDate.now(),
-            name,
-            date,
-            false,
+            id = 0,
+            createdAt = LocalDate.now(),
+            name = name,
+            day = date,
+            isDone = false,
+            recurrenceType = recurrenceType?.asString(),
+            isRecurring = recurrenceType != null,
+            parentId = parentId,
         )
         val taskId = localDataSource.createTask(taskEntity)
 
         if (reminderEnabled) {
             localDataSource.createReminderForTask(
-                requireNotNull(reminderTime),
-                date,
-                reminderEnabled,
-                taskId,
+                time = requireNotNull(reminderTime),
+                date = date,
+                reminderEnabled = reminderEnabled,
+                taskId = taskId,
             )
         }
         return taskId
@@ -55,6 +64,10 @@ internal class DefaultTasksRepository @Inject constructor(
         localDataSource.removeTask(taskId)
     }
 
+    override suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy) {
+        localDataSource.removeRecurringTask(taskId, removalStrategy)
+    }
+
     override suspend fun markTask(taskId: Long, isDone: Boolean) {
         localDataSource.markTask(taskId, isDone)
     }
@@ -71,8 +84,17 @@ internal class DefaultTasksRepository @Inject constructor(
         localDataSource.removeReminder(taskId)
     }
 
-    override suspend fun updateTask(taskId: Long, day: LocalDate, name: String) {
-        localDataSource.updateTask(taskId, day, name)
+    override suspend fun updateTask(
+        taskId: Long,
+        day: LocalDate,
+        name: String,
+        recurrenceType: RecurrenceType?
+    ) {
+        localDataSource.updateTask(taskId, day, name, recurrenceType)
+    }
+
+    override suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int {
+        return localDataSource.numberFutureOccurrences(parentId, from)
     }
 
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {

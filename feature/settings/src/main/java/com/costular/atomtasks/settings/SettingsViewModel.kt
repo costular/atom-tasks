@@ -10,7 +10,7 @@ import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.Theme
 import com.costular.atomtasks.settings.analytics.SettingsChangeAutoforward
 import com.costular.atomtasks.settings.analytics.SettingsChangeTheme
-import com.costular.core.usecase.invoke
+import com.costular.atomtasks.core.usecase.invoke
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect

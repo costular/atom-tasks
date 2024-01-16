@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
 import com.costular.atomtasks.postponetask.domain.PostponeChoice
-import com.costular.atomtasks.tasks.interactor.PostponeTaskUseCase
+import com.costular.atomtasks.tasks.usecase.PostponeTaskUseCase
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.postponetask.domain.PostponeChoiceCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel

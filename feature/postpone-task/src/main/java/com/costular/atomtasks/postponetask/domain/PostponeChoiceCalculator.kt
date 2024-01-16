@@ -1,8 +1,8 @@
 package com.costular.atomtasks.postponetask.domain
 
-import com.costular.core.util.PredefinedTimes
-import com.costular.core.util.WeekUtil.findNextWeek
-import com.costular.core.util.WeekUtil.findNextWeekend
+import com.costular.atomtasks.core.util.PredefinedTimes
+import com.costular.atomtasks.core.util.WeekUtil.findNextWeek
+import com.costular.atomtasks.core.util.WeekUtil.findNextWeekend
 import java.time.Clock
 import java.time.LocalDate
 import java.time.LocalDateTime

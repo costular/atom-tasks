@@ -40,17 +40,80 @@ interface TasksDao {
     @Query("DELETE FROM tasks WHERE id = :id")
     suspend fun removeTaskById(id: Long)
 
+    @Query(
+        value =
+        """
+            DELETE FROM tasks 
+            WHERE
+                (id = :id 
+                 OR (parent_id = :parentId OR parent_id = (SELECT parent_id FROM tasks WHERE id = :id))
+                 AND date >= (SELECT date FROM tasks WHERE id = :id))
+        """
+    )
+    suspend fun removeTaskAndFutureOcurrences(id: Long, parentId: Long)
+
+    @Query(
+        value =
+        """
+            DELETE FROM tasks 
+            WHERE
+                id = :id
+                OR parent_id = :parentId
+                OR id = :parentId
+        """
+    )
+    suspend fun removeTaskAndAllOccurrences(id: Long, parentId: Long)
+
+    @Query(
+        value =
+        """
+            DELETE FROM tasks 
+            WHERE
+                parent_id = :parentId
+                AND id != :parentId
+        """
+    )
+    suspend fun removeChildrenTasks(parentId: Long)
+
+    @Query(
+        value =
+        """
+            DELETE FROM tasks 
+            WHERE parent_id = :parentId 
+            AND date > (SELECT date FROM tasks WHERE id = :id)
+            AND id != :parentId;
+        """
+    )
+    suspend fun removeFutureOccurrencesForRecurringTask(id: Long, parentId: Long)
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE parent_id = :parentId AND date > :currentDate")
+    suspend fun countFutureOccurrences(parentId: Long, currentDate: LocalDate): Int
+
     @Query("UPDATE tasks SET is_done = :isDone WHERE id = :id")
     suspend fun updateTaskDone(id: Long, isDone: Boolean)
 
     @Query("UPDATE tasks SET position = :position WHERE id = :id")
     suspend fun updateTaskPosition(id: Long, position: Int)
 
-    @Query("UPDATE tasks SET name = :name, date = :day WHERE id = :taskId")
-    suspend fun updateTask(taskId: Long, day: LocalDate, name: String)
-
-    @Query("UPDATE tasks SET name = :name, date = :day, position = :position WHERE id = :taskId")
-    suspend fun updateTask(taskId: Long, day: LocalDate, name: String, position: Int)
+    @Query(
+        """
+        UPDATE tasks SET 
+            name = :name,
+            date = :day,
+            position = :position,
+            is_recurring = :isRecurring,
+            recurrence_type = :recurrence
+        WHERE id = :taskId
+        """
+    )
+    suspend fun updateTask(
+        taskId: Long,
+        day: LocalDate,
+        name: String,
+        position: Int,
+        isRecurring: Boolean,
+        recurrence: String?,
+    )
 
     @Query("SELECT MAX(position) FROM tasks WHERE date = :day")
     suspend fun getMaxPositionForDate(day: LocalDate): Int

@@ -1,11 +1,12 @@
 package com.costular.atomtasks.postponetask.ui
 
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
-import com.costular.atomtasks.postponetask.domain.PostponeChoice
-import com.costular.atomtasks.tasks.interactor.PostponeTaskUseCase
+import com.costular.atomtasks.core.toResult
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.postponetask.domain.DefaultPostponeChoiceCalculator
+import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
+import com.costular.atomtasks.postponetask.domain.PostponeChoice
+import com.costular.atomtasks.tasks.usecase.PostponeTaskUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -21,9 +22,10 @@ class PostponeTaskViewModelTest : MviViewModelTest() {
 
     private lateinit var sut: PostponeTaskViewModel
 
-    private val getPostponeChoiceListUseCase: GetPostponeChoiceListUseCase = mockk(relaxed = true)
-    private val postponeTaskUseCase: PostponeTaskUseCase = mockk(relaxed = true)
-    private val taskNotificationManager: TaskNotificationManager = mockk(relaxed = true)
+    private val getPostponeChoiceListUseCase: GetPostponeChoiceListUseCase =
+        mockk(relaxUnitFun = true)
+    private val postponeTaskUseCase: PostponeTaskUseCase = mockk(relaxUnitFun = true)
+    private val taskNotificationManager: TaskNotificationManager = mockk(relaxUnitFun = true)
 
     @Before
     fun setup() {
@@ -72,6 +74,7 @@ class PostponeTaskViewModelTest : MviViewModelTest() {
     fun `Should cancel the notification manager when the task is postponed`() = runTest {
         val taskId = 123L
         coEvery { getPostponeChoiceListUseCase(Unit) } returns FakeChoices
+        coEvery { postponeTaskUseCase.invoke(any()) } returns Unit.toResult()
 
         sut.initialize(taskId)
         sut.onSelectPostponeChoice(PostponeChoice.OneHour)

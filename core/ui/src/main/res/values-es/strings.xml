@@ -19,6 +19,16 @@
     <string name="agenda_create_new_task">Nueva tarea</string>
     <string name="agenda_edit_title">Editar tarea</string>
     <string name="today">Hoy</string>
+    <string name="create_task_set_recurrence">Repetir</string>
+    <string name="task_recurrence_daily">Diario</string>
+    <string name="task_recurrence_weekdays">Días laborables</string>
+    <string name="task_recurrence_weekly">Semanal</string>
+    <string name="task_recurrence_monthly">Mensual</string>
+    <string name="task_recurrence_yearly">Anual</string>
+    <string name="create_task_recurrence_picker_daily">Todos los días</string>
+    <string name="create_task_recurrence_picker_weekly">Cada semana</string>
+    <string name="create_task_recurrence_picker_monthly">Cada mes</string>
+    <string name="create_task_recurrence_picker_yearly">Cada año</string>
     <string name="remove_task_message">¿Estás seguro que quieres eliminar esta tarea?</string>
     <string name="create_task_set_reminder">Recordatorio</string>
     <string name="create_task_reminder_past_error">El recordatorio ya ha pasado, escoge un momento en el futuro</string>
@@ -67,4 +77,9 @@
     <string name="create_task_notification_permission_rationale_confirm">Vale</string>
     <string name="settings_about_title">Sobre Atom</string>
     <string name="agenda_tutorial_task_order">¿Quieres ordenar tus tareas? Mantén presionado y arrastra</string>
+    <string name="create_task_recurrence_picker_weekdays">Todos los días laborables</string>
+    <string name="create_task_recurrence_picker_none">No se repite</string>
+    <string name="remove_recurring_task_dialog_this">Esta tarea</string>
+    <string name="remove_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
+    <string name="remove_recurring_task_dialog_all">Todas las tareas</string>
 </resources>

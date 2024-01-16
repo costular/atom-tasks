@@ -1,6 +1,6 @@
 package com.costular.atomtasks.data.settings
 
-import com.costular.core.usecase.ObservableUseCase
+import com.costular.atomtasks.core.usecase.ObservableUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

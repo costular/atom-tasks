@@ -1,5 +1,8 @@
 package com.costular.core
 
+import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.getOrElse
+import com.costular.atomtasks.core.orNull
 import com.google.common.truth.Truth
 import org.junit.Test
 

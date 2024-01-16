@@ -3,6 +3,8 @@ package com.costular.atomtasks.tasks.manager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.test.platform.app.InstrumentationRegistry
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManagerImpl
 import com.google.common.truth.Truth.assertThat
 import java.time.LocalDateTime
 import org.junit.After

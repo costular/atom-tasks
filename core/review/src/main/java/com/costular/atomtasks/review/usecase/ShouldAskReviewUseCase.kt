@@ -3,8 +3,8 @@ package com.costular.atomtasks.review.usecase
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.review.model.ShouldAskReviewError
 import com.costular.atomtasks.review.strategy.ReviewStrategy
-import com.costular.core.Either
-import com.costular.core.usecase.UseCase
+import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.usecase.UseCase
 import java.lang.Exception
 import javax.inject.Inject
 
