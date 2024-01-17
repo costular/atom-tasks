@@ -212,8 +212,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.costular.atomtasks
           releaseFiles: app-production-release.aab
-          track: production
+          track: qa
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
           status: inProgress
-          userFraction: 0.33
