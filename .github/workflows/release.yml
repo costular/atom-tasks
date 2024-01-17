@@ -215,4 +215,3 @@ jobs:
           track: qa
           mappingFile: mapping.txt
           whatsNewDirectory: whatsNew
-          status: inProgress
