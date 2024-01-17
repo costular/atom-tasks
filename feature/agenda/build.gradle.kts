@@ -49,6 +49,7 @@ dependencies {
 
     implementation(projects.common.tasks)
     implementation(projects.core.review)
+    implementation(projects.core.logging)
     implementation(libs.calendar)
     implementation(libs.kotlinx.collections.immutable)
 

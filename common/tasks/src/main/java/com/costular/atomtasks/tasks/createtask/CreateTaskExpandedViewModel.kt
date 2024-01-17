@@ -2,7 +2,8 @@ package com.costular.atomtasks.tasks.createtask
 
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -36,7 +37,10 @@ class CreateTaskExpandedViewModel @Inject constructor(
 
     fun setDate(localDate: LocalDate) {
         setState {
-            copy(date = localDate, showSetDate = false)
+            copy(
+                date = localDate,
+                showSetDate = false
+            )
         }
     }
 
@@ -79,15 +83,34 @@ class CreateTaskExpandedViewModel @Inject constructor(
         }
     }
 
+    fun selectRecurrence() {
+        setState { copy(showSetRecurrence = true) }
+    }
+
+    fun closeSelectRecurrence() {
+        setState { copy(showSetRecurrence = false) }
+    }
+
+    fun setRecurrence(
+        recurrenceType: RecurrenceType?
+    ) {
+        setState { copy(recurrenceType = recurrenceType, showSetRecurrence = false) }
+    }
+
+    fun clearRecurrence() {
+        setState { copy(recurrenceType = null, showSetRecurrence = false) }
+    }
+
     fun requestSave() {
+        setState {
+            copy(saving = true)
+        }
+
         sendEvent(
             CreateTaskUiEvents.SaveTask(
                 state.value.asCreateTaskResult(),
             ),
         )
-        setState {
-            CreateTaskExpandedState.Empty
-        }
     }
 
     private fun CreateTaskExpandedState.asCreateTaskResult(): CreateTaskResult =
@@ -95,6 +118,7 @@ class CreateTaskExpandedViewModel @Inject constructor(
             name = name,
             date = date,
             reminder = reminder,
+            recurrenceType = recurrenceType,
         )
 
     fun navigateToExactAlarmSettings() {

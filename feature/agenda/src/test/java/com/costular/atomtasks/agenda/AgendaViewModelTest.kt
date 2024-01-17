@@ -1,25 +1,30 @@
 package com.costular.atomtasks.agenda
 
 import app.cash.turbine.test
-import com.costular.atomtasks.agenda.DeleteTaskAction.Hidden
-import com.costular.atomtasks.agenda.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
+import com.costular.atomtasks.agenda.ui.AgendaViewModel
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Hidden
+import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Shown
+import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.analytics.AtomAnalytics
+import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
+import com.costular.atomtasks.core.toResult
+import com.costular.atomtasks.core.usecase.invoke
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
-import com.costular.atomtasks.tasks.interactor.MoveTaskUseCase
-import com.costular.atomtasks.tasks.interactor.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.interactor.RemoveTaskInteractor
-import com.costular.atomtasks.tasks.interactor.UpdateTaskIsDoneInteractor
-import com.costular.atomtasks.tasks.manager.AutoforwardManager
+import com.costular.atomtasks.tasks.helper.AutoforwardManager
+import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.core.Either
-import com.costular.core.usecase.invoke
+import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
+import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
+import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
@@ -36,17 +41,18 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     lateinit var sut: AgendaViewModel
 
-    private val observeTasksUseCase: ObserveTasksUseCase = mockk(relaxed = true)
-    private val updateTaskIsDoneInteractor: UpdateTaskIsDoneInteractor = mockk(relaxed = true)
-    private val removeTaskInteractor: RemoveTaskInteractor = mockk(relaxed = true)
-    private val autoforwardManager: AutoforwardManager = mockk(relaxed = true)
-    private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxed = true)
-    private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
+    private val observeTasksUseCase: ObserveTasksUseCase = mockk()
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk(relaxUnitFun = true)
+    private val removeTaskUseCase: RemoveTaskUseCase = mockk(relaxUnitFun = true)
+    private val autoforwardManager: AutoforwardManager = mockk(relaxUnitFun = true)
+    private val recurrenceScheduler: RecurrenceScheduler = mockk(relaxUnitFun = true)
+    private val moveTaskUseCase: MoveTaskUseCase = mockk(relaxUnitFun = true)
+    private val atomAnalytics: AtomAnalytics = mockk(relaxUnitFun = true)
     private val shouldShowTaskOrderTutorialUseCase: ShouldShowTaskOrderTutorialUseCase =
-        mockk(relaxed = true)
+        mockk(relaxUnitFun = true)
     private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase =
-        mockk(relaxed = true)
-    private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxed = true)
+        mockk(relaxUnitFun = true)
+    private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxUnitFun = true)
 
     @Before
     fun setUp() {
@@ -94,8 +100,8 @@ class AgendaViewModelTest : MviViewModelTest() {
         sut.onMarkTask(expected.first().id, true)
 
         coVerify {
-            updateTaskIsDoneInteractor(
-                UpdateTaskIsDoneInteractor.Params(
+            updateTaskIsDoneUseCase(
+                UpdateTaskIsDoneUseCase.Params(
                     taskId = expected.first().id,
                     isDone = true,
                 ),
@@ -149,7 +155,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.actionDelete(taskId)
             sut.deleteTask(taskId)
 
-            coVerify { removeTaskInteractor(RemoveTaskInteractor.Params(taskId)) }
+            coVerify { removeTaskUseCase(RemoveTaskUseCase.Params(taskId)) }
         }
 
     @Test
@@ -275,8 +281,14 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should track event when mark task as not done`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
 
+        every {
+            observeTasksUseCase.invoke(any())
+        } returns flowOf(expected)
+
+        givenOrderTasksTutorial(true)
+
+        initializeViewModel()
         sut.loadTasks()
         sut.onMarkTask(expected.last().id, false)
 
@@ -305,6 +317,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         val taskId = DEFAULT_TASKS.first().id
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
 
+
         sut.loadTasks()
         sut.actionDelete(taskId)
         sut.deleteTask(taskId)
@@ -316,6 +329,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should track navigate to day when select a new day`() = runTest {
+        every { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
         val day = LocalDate.of(2023, 9, 16)
 
         sut.setSelectedDay(day)
@@ -343,7 +357,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should show order task when land on screen given the tutorial hasn't been shown for the user yet`() =
         runTest {
-            coEvery { shouldShowTaskOrderTutorialUseCase.invoke() } returns flowOf(true)
+            givenOrderTasksTutorial(true)
 
             initializeViewModel()
 
@@ -362,6 +376,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose ask review when mark task as done given usecase returns true`() = runTest {
         coEvery { shouldAskReviewUseCase() } returns Either.Result(true)
+        coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
         givenSuccessTasks()
 
         sut.onMarkTask(DEFAULT_TASKS.first().id, true)
@@ -396,6 +411,10 @@ class AgendaViewModelTest : MviViewModelTest() {
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(DEFAULT_TASKS)
     }
 
+    private fun givenOrderTasksTutorial(isEnabled: Boolean) {
+        coEvery { shouldShowTaskOrderTutorialUseCase.invoke(Unit) } returns flowOf(isEnabled)
+    }
+
     companion object {
         const val TASK1_ID = 1L
         const val TASK2ID = 2L
@@ -408,6 +427,10 @@ class AgendaViewModelTest : MviViewModelTest() {
                 reminder = null,
                 isDone = false,
                 position = 1,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
             Task(
                 id = TASK2ID,
@@ -417,21 +440,32 @@ class AgendaViewModelTest : MviViewModelTest() {
                 reminder = null,
                 isDone = true,
                 position = 2,
+                isRecurring = false,
+                recurrenceEndDate = null,
+                recurrenceType = null,
+                parentId = null,
             ),
         )
     }
 
     private fun initializeViewModel() {
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
+        coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
+        coEvery { removeTaskUseCase.invoke(any()) } returns Unit.toResult()
+        coEvery { shouldAskReviewUseCase.invoke(Unit) } returns false.toResult()
+        givenOrderTasksTutorial(true)
+
         sut = AgendaViewModel(
             observeTasksUseCase = observeTasksUseCase,
-            updateTaskIsDoneInteractor = updateTaskIsDoneInteractor,
-            removeTaskInteractor = removeTaskInteractor,
+            updateTaskIsDoneUseCase = updateTaskIsDoneUseCase,
+            removeTaskUseCase = removeTaskUseCase,
             autoforwardManager = autoforwardManager,
             moveTaskUseCase = moveTaskUseCase,
             atomAnalytics = atomAnalytics,
             shouldShowTaskOrderTutorialUseCase = shouldShowTaskOrderTutorialUseCase,
             taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
             shouldShowAskReviewUseCase = shouldAskReviewUseCase,
+            recurrenceScheduler = recurrenceScheduler,
         )
     }
 }

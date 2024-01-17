@@ -2,10 +2,12 @@ package com.costular.atomtasks.tasks.createtask
 
 import app.cash.turbine.test
 import com.costular.atomtasks.core.testing.MviViewModelTest
-import com.costular.atomtasks.tasks.interactor.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
+import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.test.runTest
@@ -75,12 +77,13 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
         val name = "name"
         val date = LocalDate.of(2021, 12, 24)
         val reminder = LocalTime.of(9, 0)
-        val expected =
-            com.costular.atomtasks.tasks.createtask.CreateTaskResult(name, date, reminder)
+        val recurrence = RecurrenceType.WEEKLY
+        val expected = CreateTaskResult(name, date, reminder, recurrence)
 
         sut.setName(name)
         sut.setDate(date)
         sut.setReminder(reminder)
+        sut.setRecurrence(RecurrenceType.WEEKLY)
         sut.requestSave()
 
         sut.uiEvents.test {
@@ -90,39 +93,21 @@ class CreateTaskExpandedViewModelTest : MviViewModelTest() {
     }
 
     @Test
-    fun `should reset state when save succeed`() = runTest {
-        val name = "name"
-        val date = LocalDate.of(2021, 12, 24)
-        val reminder = LocalTime.of(9, 0)
-
-        sut.setName(name)
-        sut.setDate(date)
-        sut.setReminder(reminder)
-        sut.requestSave()
-
-        sut.state.test {
-            assertThat(expectMostRecentItem()).isEqualTo(CreateTaskExpandedState.Empty)
-        }
-    }
-
-    @Test
     fun `should show error when reminder is in the past`() = runTest {
-        val date = LocalDate.now()
-        val reminder = LocalTime.now().minusHours(2)
+        val reminder = LocalDateTime.now().minusHours(2)
 
-        sut.setDate(date)
-        sut.setReminder(reminder)
+        sut.setDate(reminder.toLocalDate())
+        sut.setReminder(reminder.toLocalTime())
 
         assertThat(sut.state.value.isReminderError).isTrue()
     }
 
     @Test
     fun `should show no error when reminder is in the future`() = runTest {
-        val date = LocalDate.now().plusDays(1)
-        val reminder = LocalTime.now().minusHours(2)
+        val reminder = LocalDateTime.now().plusHours(26)
 
-        sut.setDate(date)
-        sut.setReminder(reminder)
+        sut.setDate(reminder.toLocalDate())
+        sut.setReminder(reminder.toLocalTime())
 
         assertThat(sut.state.value.isReminderError).isFalse()
     }

@@ -55,9 +55,11 @@ fun EditTaskScreen(
                         result.name,
                         result.date,
                         result.reminder,
+                        result.recurrenceType,
                     )
                 },
                 reminder = task.reminder,
+                recurrenceType = task.recurrenceType,
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()

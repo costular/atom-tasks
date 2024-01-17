@@ -7,7 +7,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.costular.atomtasks.core.logging.atomLog
-import com.costular.atomtasks.tasks.interactor.AutoforwardTasksUseCase
+import com.costular.atomtasks.tasks.usecase.AutoforwardTasksUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.Duration

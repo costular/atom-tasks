@@ -1,8 +1,8 @@
 package com.costular.atomtasks.tasks.di
 
 import android.content.Context
-import com.costular.atomtasks.tasks.manager.TaskReminderManager
-import com.costular.atomtasks.tasks.manager.TaskReminderManagerImpl
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
+import com.costular.atomtasks.tasks.helper.TaskReminderManagerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

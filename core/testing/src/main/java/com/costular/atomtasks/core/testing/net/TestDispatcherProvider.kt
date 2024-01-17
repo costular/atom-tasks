@@ -1,6 +1,6 @@
 package com.costular.atomtasks.core.testing.net
 
-import com.costular.core.net.DispatcherProvider
+import com.costular.atomtasks.core.net.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 

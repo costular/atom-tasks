@@ -18,6 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.5.0] 2024-01-17
+
+### Added
+- Recurrent tasks
+
+### Changed
+- Improved week & month calendar navigation adding the ability to swipe to move backward and forward
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+
 ## [2.4.0] 2023-12-07
 
 ### Added

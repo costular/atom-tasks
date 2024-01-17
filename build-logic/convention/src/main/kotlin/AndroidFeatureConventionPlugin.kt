@@ -31,7 +31,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":data"))
-                add("implementation", libs.findLibrary("compose.activity").get())
                 add("implementation", libs.findLibrary("compose.foundation").get())
                 add("implementation", libs.findLibrary("compose.runtime").get())
                 add("implementation", libs.findLibrary("compose.layout").get())

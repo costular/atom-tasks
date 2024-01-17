@@ -10,4 +10,8 @@ data class Task(
     val reminder: Reminder?,
     val isDone: Boolean,
     val position: Int,
+    val isRecurring: Boolean,
+    val recurrenceType: RecurrenceType?,
+    val recurrenceEndDate: LocalDate?,
+    val parentId: Long?,
 )

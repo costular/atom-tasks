@@ -46,7 +46,7 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateToSelectTheme(theme: String) = Unit
 }
 
-@Destination(start = true)
+@Destination
 @Composable
 fun SettingsScreen(
     navigator: SettingsNavigator,
