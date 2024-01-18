@@ -27,17 +27,19 @@ class AutoforwardTasksUseCase @Inject constructor(
 
         observeTasksUseCase(ObserveTasksUseCase.Params(day = params.today.minusDays(1)))
             .firstOrNull()
-            ?.filter { !it.isDone }
-            ?.forEach { task ->
-                editTaskUseCase(
-                    EditTaskUseCase.Params(
-                        taskId = task.id,
-                        name = task.name,
-                        date = task.day.plusDays(1),
-                        reminderTime = task.reminder?.time,
-                        recurrenceType = task.recurrenceType,
-                    ),
-                )
+            ?.tap { tasks ->
+                tasks.filter { !it.isDone }
+                    .forEach { task ->
+                        editTaskUseCase(
+                            EditTaskUseCase.Params(
+                                taskId = task.id,
+                                name = task.name,
+                                date = task.day.plusDays(1),
+                                reminderTime = task.reminder?.time,
+                                recurrenceType = task.recurrenceType,
+                            ),
+                        )
+                    }
             }
     }
 }
