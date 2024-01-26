@@ -50,6 +50,7 @@ fun TaskList(
                 .detectReorderAfterLongPress(state),
             state = state.listState,
             contentPadding = padding,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(tasks, { it.id }) { task ->
                 ReorderableItem(state, key = task.id) { isDragging ->
@@ -109,7 +110,7 @@ fun TaskListEmpty() {
 
 @Suppress("MagicNumber")
 @VariantsPreview
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun TaskListPreview() {
     AtomTheme {
@@ -135,7 +136,7 @@ private fun TaskListPreview() {
                     parentId = null,
                 ),
                 Task(
-                    id = 1L,
+                    id = 2L,
                     name = "Task2",
                     createdAt = LocalDate.now(),
                     day = LocalDate.now(),
@@ -148,7 +149,7 @@ private fun TaskListPreview() {
                     parentId = null,
                 ),
                 Task(
-                    id = 1L,
+                    id = 3L,
                     name = "Task3",
                     createdAt = LocalDate.now(),
                     day = LocalDate.now(),
