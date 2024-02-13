@@ -29,9 +29,9 @@ import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS_AND_FUTURES
 import com.costular.atomtasks.tasks.dialog.RemoveTaskDialog
 import com.costular.atomtasks.tasks.model.Reminder
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.atomtasks.tasks.model.TaskList
+import com.costular.atomtasks.core.ui.tasks.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
@@ -162,7 +162,7 @@ fun AgendaScreen(
     onSelectToday: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
-    deleteRecurringTask: (id: Long, strategy: RemovalStrategy) -> Unit,
+    deleteRecurringTask: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
     dismissDelete: () -> Unit,
     openTaskAction: (Task) -> Unit,
     onToggleExpandCollapse: () -> Unit,
@@ -174,12 +174,12 @@ fun AgendaScreen(
             RemoveRecurrentTaskDialog(
                 onCancel = dismissDelete,
                 onRemove = { response ->
-                    val removalStrategy = when (response) {
-                        THIS -> RemovalStrategy.SINGLE
-                        THIS_AND_FUTURES -> RemovalStrategy.SINGLE_AND_FUTURE_ONES
-                        ALL -> RemovalStrategy.ALL
+                    val recurringRemovalStrategy = when (response) {
+                        THIS -> RecurringRemovalStrategy.SINGLE
+                        THIS_AND_FUTURES -> RecurringRemovalStrategy.SINGLE_AND_FUTURE_ONES
+                        ALL -> RecurringRemovalStrategy.ALL
                     }
-                    deleteRecurringTask(state.deleteTaskAction.taskId, removalStrategy)
+                    deleteRecurringTask(state.deleteTaskAction.taskId, recurringRemovalStrategy)
                 }
             )
         } else {

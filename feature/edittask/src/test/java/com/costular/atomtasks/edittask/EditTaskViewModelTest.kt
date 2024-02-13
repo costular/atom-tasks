@@ -4,14 +4,18 @@ import app.cash.turbine.test
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.core.toError
+import com.costular.atomtasks.feature.edittask.EditRecurringTaskResponse.THIS
+import com.costular.atomtasks.feature.edittask.EditTaskViewModel
+import com.costular.atomtasks.feature.edittask.SavingState
+import com.costular.atomtasks.feature.edittask.TaskState
+import com.costular.atomtasks.tasks.fake.TaskRecurring
 import com.costular.atomtasks.tasks.fake.TaskToday
+import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.model.UpdateTaskUseCaseError
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
-import com.costular.atomtasks.ui.features.edittask.EditTaskViewModel
-import com.costular.atomtasks.ui.features.edittask.SavingState
-import com.costular.atomtasks.ui.features.edittask.TaskState
 import com.google.common.truth.Truth.assertThat
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -21,7 +25,9 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(TestParameterInjector::class)
 class EditTaskViewModelTest : MviViewModelTest() {
 
     lateinit var sut: EditTaskViewModel
@@ -39,7 +45,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should load task successfully`() = runTest {
-        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
+        givenTask()
 
         sut.loadTask(TaskToday.id)
 
@@ -65,6 +71,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             date = LocalDate.now(),
             reminder = null,
             recurrenceType = null,
+            recurringUpdateStrategy = null,
         )
 
         coVerify(exactly = 0) { editTaskUseCase(any()) }
@@ -72,7 +79,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should emit success when edit task succeeded`() = runTest {
-        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
+        givenTask()
         coEvery { editTaskUseCase.invoke(any()) } returns Either.Result(Unit)
 
         val newTask = "whatever"
@@ -85,6 +92,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
             date = newDate,
             reminder = newReminder,
             recurrenceType = null,
+            recurringUpdateStrategy = null,
         )
 
         sut.state.test {
@@ -95,7 +103,7 @@ class EditTaskViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should emit error when edit task fails`() = runTest {
-        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
+        givenTask()
         coEvery {
             editTaskUseCase.invoke(any())
         } returns UpdateTaskUseCaseError.UnknownError.toError()
@@ -110,8 +118,101 @@ class EditTaskViewModelTest : MviViewModelTest() {
             date = newDate,
             reminder = newReminder,
             recurrenceType = null,
+            recurringUpdateStrategy = null,
         )
 
         assertThat(sut.state.value.savingTask).isInstanceOf(SavingState.Failure::class.java)
+    }
+
+    @Test
+    fun `should set taskToSave successfully when update recurring task`() = runTest {
+        givenRecurringTask()
+
+        val newName = "whatever"
+        val newDate = LocalDate.now().plusDays(1)
+        val newReminder = LocalTime.of(10, 0)
+
+        sut.loadTask(TaskRecurring.id)
+
+        sut.editTask(
+            name = newName,
+            date = newDate,
+            reminder = newReminder,
+            recurrenceType = null,
+            recurringUpdateStrategy = null,
+        )
+
+        assertThat(sut.state.value.taskToSave?.date).isEqualTo(newDate)
+        assertThat(sut.state.value.taskToSave?.name).isEqualTo(newName)
+        assertThat(sut.state.value.taskToSave?.reminder).isEqualTo(newReminder)
+    }
+
+    @Test
+    fun `should set taskToSave to null when cancel edition given task is recurring`() = runTest {
+        givenRecurringTask()
+
+        val newName = "whatever"
+        val newDate = LocalDate.now().plusDays(1)
+        val newReminder = LocalTime.of(10, 0)
+
+        sut.loadTask(TaskToday.id)
+
+        sut.editTask(
+            name = newName,
+            date = newDate,
+            reminder = newReminder,
+            recurrenceType = null,
+            recurringUpdateStrategy = null,
+        )
+        sut.cancelRecurringEdition()
+
+        assertThat(sut.state.value.taskToSave).isNull()
+    }
+
+    @Test
+    fun `should edit task properly when confirm update recurring`() = runTest {
+        givenRecurringTask()
+        givenSuccessfulEditTaskUseCase()
+
+        val newName = "whatever"
+        val newDate = LocalDate.now().plusDays(1)
+        val newReminder = LocalTime.of(10, 0)
+
+        sut.loadTask(TaskRecurring.id)
+
+        sut.editTask(
+            name = newName,
+            date = newDate,
+            reminder = newReminder,
+            recurrenceType = null,
+            recurringUpdateStrategy = null,
+        )
+
+        sut.confirmRecurringEdition(THIS)
+
+        coVerify {
+            editTaskUseCase(
+                EditTaskUseCase.Params(
+                    TaskRecurring.id,
+                    newName,
+                    newDate,
+                    newReminder,
+                    null,
+                    RecurringUpdateStrategy.SINGLE,
+                )
+            )
+        }
+    }
+
+    private fun givenSuccessfulEditTaskUseCase() {
+        coEvery { editTaskUseCase.invoke(any()) } returns Either.Result(Unit)
+    }
+
+    private fun givenTask() {
+        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskToday)
+    }
+
+    private fun givenRecurringTask() {
+        coEvery { getTaskByIdUseCase.invoke(any()) } returns flowOf(TaskRecurring)
     }
 }

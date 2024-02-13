@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 
@@ -20,17 +21,21 @@ interface TasksDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTask(taskEntity: TaskEntity): Long
 
+    @Update
+    suspend fun update(taskEntity: TaskEntity): Int
+
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY position ASC, is_done ASC;")
-    fun observeAllTasks(): Flow<List<TaskAggregated>>
+    fun getAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
-    @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    fun getAllTasks(): List<TaskAggregated>
-
-    @Suppress("MaxLineLength")
-    @Transaction
-    @Query("SELECT * FROM tasks WHERE date = :date ORDER BY CASE WHEN is_done = 1 THEN 1 ELSE 0 END, position ASC;")
+    @Query(
+        """
+            SELECT * FROM tasks
+            WHERE date = :date
+            ORDER BY CASE WHEN is_done = 1 THEN 1 ELSE 0 END, position ASC;
+        """
+    )
     fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
 
     @Transaction
@@ -44,47 +49,30 @@ interface TasksDao {
         value =
         """
             DELETE FROM tasks 
-            WHERE
-                (id = :id 
-                 OR (parent_id = :parentId OR parent_id = (SELECT parent_id FROM tasks WHERE id = :id))
-                 AND date >= (SELECT date FROM tasks WHERE id = :id))
+            WHERE 
+                (parent_id = :id OR id = (SELECT parent_id FROM tasks WHERE id = :id) OR parent_id = (SELECT parent_id FROM tasks where id = :id) OR id = :id)
+                AND (date > (SELECT date FROM tasks WHERE id = :id) OR id = :id)
         """
     )
-    suspend fun removeTaskAndFutureOcurrences(id: Long, parentId: Long)
+    suspend fun removeFutureOccurrencesAndSelf(id: Long)
 
     @Query(
         value =
         """
             DELETE FROM tasks 
-            WHERE
-                id = :id
-                OR parent_id = :parentId
-                OR id = :parentId
-        """
-    )
-    suspend fun removeTaskAndAllOccurrences(id: Long, parentId: Long)
-
-    @Query(
-        value =
-        """
-            DELETE FROM tasks 
-            WHERE
-                parent_id = :parentId
-                AND id != :parentId
-        """
-    )
-    suspend fun removeChildrenTasks(parentId: Long)
-
-    @Query(
-        value =
-        """
-            DELETE FROM tasks 
-            WHERE parent_id = :parentId 
+            WHERE (parent_id = :id OR id = (SELECT parent_id FROM tasks WHERE id = :id) OR parent_id = (SELECT parent_id FROM tasks where id = :id))
             AND date > (SELECT date FROM tasks WHERE id = :id)
-            AND id != :parentId;
         """
     )
-    suspend fun removeFutureOccurrencesForRecurringTask(id: Long, parentId: Long)
+    suspend fun removeFutureOccurrences(id: Long)
+
+    @Query(
+        value = """
+            DELETE FROM tasks
+            WHERE parent_id = :id OR id = (SELECT parent_id FROM tasks WHERE id = :id) OR parent_id = (SELECT parent_id FROM tasks where id = :id) OR id = :id;
+        """
+    )
+    suspend fun removeAllOccurrences(id: Long)
 
     @Query("SELECT COUNT(*) FROM tasks WHERE parent_id = :parentId AND date > :currentDate")
     suspend fun countFutureOccurrences(parentId: Long, currentDate: LocalDate): Int
@@ -94,26 +82,6 @@ interface TasksDao {
 
     @Query("UPDATE tasks SET position = :position WHERE id = :id")
     suspend fun updateTaskPosition(id: Long, position: Int)
-
-    @Query(
-        """
-        UPDATE tasks SET 
-            name = :name,
-            date = :day,
-            position = :position,
-            is_recurring = :isRecurring,
-            recurrence_type = :recurrence
-        WHERE id = :taskId
-        """
-    )
-    suspend fun updateTask(
-        taskId: Long,
-        day: LocalDate,
-        name: String,
-        position: Int,
-        isRecurring: Boolean,
-        recurrence: String?,
-    )
 
     @Query("SELECT MAX(position) FROM tasks WHERE date = :day")
     suspend fun getMaxPositionForDate(day: LocalDate): Int

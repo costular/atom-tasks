@@ -20,7 +20,7 @@ import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
@@ -155,9 +155,9 @@ class AgendaViewModel @Inject constructor(
         atomAnalytics.track(ConfirmDelete)
     }
 
-    fun deleteRecurringTask(id: Long, removalStrategy: RemovalStrategy) {
+    fun deleteRecurringTask(id: Long, recurringRemovalStrategy: RecurringRemovalStrategy) {
         viewModelScope.launch {
-            removeTaskUseCase(RemoveTaskUseCase.Params(id, removalStrategy))
+            removeTaskUseCase(RemoveTaskUseCase.Params(id, recurringRemovalStrategy))
             hideAskDelete()
         }
     }

@@ -139,9 +139,22 @@ class DefaultTasksRepositoryTest {
         val taskName = "Task name"
         val taskDay = LocalDate.of(2022, 6, 4)
 
-        sut.updateTask(taskId, taskDay, taskName, null)
+        val task = TaskEntity(
+            id = taskId,
+            createdAt = LocalDate.now(),
+            name = taskName,
+            day = taskDay,
+            isDone = true,
+            position = 2,
+            isRecurring = true,
+            recurrenceType = "daily",
+            recurrenceEndDate = LocalDate.now().plusDays(1),
+            parentId = 1,
+        )
 
-        coVerify { localDataSource.updateTask(taskId, taskDay, taskName, null) }
+        sut.updateTask(task)
+
+        coVerify { localDataSource.updateTask(task) }
     }
 
     @Test

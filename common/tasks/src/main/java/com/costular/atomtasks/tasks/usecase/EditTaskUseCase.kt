@@ -2,21 +2,28 @@ package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.logging.atomLog
+import com.costular.atomtasks.core.toError
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.model.UpdateTaskUseCaseError
+import com.costular.atomtasks.tasks.model.asString
+import com.costular.atomtasks.tasks.model.toEntity
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import java.sql.SQLException
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.first
 
 @Singleton
 class EditTaskUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val taskReminderManager: TaskReminderManager,
+    private val populateRecurringTasksUseCase: PopulateRecurringTasksUseCase,
 ) : UseCase<EditTaskUseCase.Params, Either<UpdateTaskUseCaseError, Unit>> {
 
     data class Params(
@@ -25,26 +32,58 @@ class EditTaskUseCase @Inject constructor(
         val date: LocalDate,
         val reminderTime: LocalTime?,
         val recurrenceType: RecurrenceType?,
+        val recurringUpdateStrategy: RecurringUpdateStrategy?,
     )
 
     override suspend fun invoke(params: Params): Either<UpdateTaskUseCaseError, Unit> {
         return try {
             with(params) {
-                tasksRepository.updateTask(
-                    taskId,
-                    date,
-                    name,
-                    recurrenceType,
-                )
-
-                if (reminderTime != null) {
-                    tasksRepository.updateTaskReminder(taskId, reminderTime, date)
-                    taskReminderManager.set(taskId, reminderTime.atDate(date))
-                } else {
-                    tasksRepository.removeReminder(taskId)
-                    taskReminderManager.cancel(taskId)
+                if (name.isEmpty()) {
+                    return UpdateTaskUseCaseError.NameCannotBeEmpty.toError()
                 }
 
+                tasksRepository.runOrRollback {
+                    val task = tasksRepository.getTaskById(taskId).first()
+                    val oldDay = task.day
+                    val newPosition = if (oldDay != date) {
+                        tasksRepository.getMaxPositionForDate(date) + 1
+                    } else {
+                        task.position
+                    }
+
+                    val taskToUpdate = task.toEntity().copy(
+                        name = name,
+                        day = date,
+                        recurrenceType = recurrenceType?.asString(),
+                        position = newPosition,
+                    )
+
+                    val wasRecurring = task.isRecurring
+
+                    tasksRepository.updateTask(taskToUpdate)
+                    updateReminder(reminderTime)
+
+                    if (wasRecurring && recurringUpdateStrategy != null) {
+                        when (recurringUpdateStrategy) {
+                            RecurringUpdateStrategy.SINGLE -> {
+                                // do nothing, it got updated already actually
+                            }
+
+                            RecurringUpdateStrategy.SINGLE_AND_FUTURE -> {
+                                // Remove future tasks to re-create them with the new data
+                                tasksRepository.removeTask(
+                                    taskId = taskId,
+                                    recurringRemovalStrategy = RecurringRemovalStrategy.FUTURE_ONES
+                                )
+                                populateRecurringTasksUseCase(
+                                    PopulateRecurringTasksUseCase.Params(
+                                        taskId = taskId
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
                 Either.Result(Unit)
             }
         } catch (sql: SQLException) {
@@ -53,6 +92,18 @@ class EditTaskUseCase @Inject constructor(
         } catch (e: Exception) {
             atomLog { e }
             Either.Error(UpdateTaskUseCaseError.UnknownError)
+        }
+    }
+
+    private suspend fun Params.updateReminder(
+        reminderTime: LocalTime?
+    ) {
+        if (reminderTime != null) {
+            tasksRepository.updateTaskReminder(taskId, reminderTime, date)
+            taskReminderManager.set(taskId, reminderTime.atDate(date))
+        } else {
+            tasksRepository.removeReminder(taskId)
+            taskReminderManager.cancel(taskId)
         }
     }
 }

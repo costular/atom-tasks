@@ -14,7 +14,7 @@ import com.costular.atomtasks.screenshottesting.utils.isDarkTheme
 import com.costular.atomtasks.screenshottesting.utils.screenshot
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task
-import com.costular.atomtasks.tasks.model.TaskList
+import com.costular.atomtasks.core.ui.tasks.TaskList
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
@@ -108,7 +108,7 @@ class TaskListSnapshotTest {
     @Composable
     private fun GeneratedTaskList(tasks: List<Task>) {
         Scaffold {
-            TaskList(
+            com.costular.atomtasks.core.ui.tasks.TaskList(
                 tasks = tasks,
                 onClick = {},
                 onMarkTask = { _, _ -> },

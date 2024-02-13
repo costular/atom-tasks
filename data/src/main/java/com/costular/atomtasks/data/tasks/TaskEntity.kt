@@ -2,21 +2,12 @@ package com.costular.atomtasks.data.tasks
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.time.LocalDate
 
 @Entity(
     tableName = "tasks",
-    foreignKeys = [
-        ForeignKey(
-            entity = TaskEntity::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("parent_id"),
-            onDelete = ForeignKey.SET_NULL,
-        )
-    ],
     indices = [
         Index(
             value = ["created_at"],
@@ -47,6 +38,4 @@ data class TaskEntity(
     @ColumnInfo(name = "recurrence_type") val recurrenceType: String? = null,
     @ColumnInfo(name = "recurrence_end_date") val recurrenceEndDate: LocalDate? = null,
     @ColumnInfo(name = "parent_id") val parentId: Long? = null,
-) {
-    val isParent: Boolean get() = isRecurring && recurrenceType != null && parentId == null
-}
+)

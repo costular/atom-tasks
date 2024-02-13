@@ -4,9 +4,9 @@ import androidx.navigation.NavController
 import com.costular.atomtasks.agenda.ui.AgendaNavigator
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
+import com.costular.atomtasks.feature.edittask.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.settings.SettingsNavigator
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
-import com.costular.atomtasks.ui.features.edittask.destinations.EditTaskScreenDestination
 import com.ramcosta.composedestinations.navigation.navigate
 
 class AppNavigator(

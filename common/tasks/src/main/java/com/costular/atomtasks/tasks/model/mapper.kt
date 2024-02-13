@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.model
 
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
-import java.lang.IllegalArgumentException
+import com.costular.atomtasks.data.tasks.TaskEntity
 
 fun TaskAggregated.toDomain(): Task = Task(
     id = task.id,
@@ -16,6 +16,19 @@ fun TaskAggregated.toDomain(): Task = Task(
     recurrenceType = task.recurrenceType?.asRecurrenceType(),
     recurrenceEndDate = task.recurrenceEndDate,
     parentId = task.parentId,
+)
+
+fun Task.toEntity(): TaskEntity = TaskEntity(
+    id = id,
+    createdAt = createdAt,
+    name = name,
+    day = day,
+    isDone = isDone,
+    position = position,
+    isRecurring = isRecurring,
+    recurrenceType = recurrenceType?.asString(),
+    recurrenceEndDate = recurrenceEndDate,
+    parentId = parentId
 )
 
 fun String?.asRecurrenceType(): RecurrenceType = when (this) {

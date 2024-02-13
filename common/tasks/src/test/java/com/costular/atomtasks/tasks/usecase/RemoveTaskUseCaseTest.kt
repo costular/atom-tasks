@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RemoveTaskError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth
@@ -34,7 +34,7 @@ class RemoveTaskUseCaseTest {
 
         sut.invoke(RemoveTaskUseCase.Params(taskId))
 
-        coVerify(exactly = 1) { tasksRepository.removeTask(taskId) }
+        coVerify(exactly = 1) { tasksRepository.removeTask(taskId, null) }
     }
 
     @Test
@@ -50,7 +50,7 @@ class RemoveTaskUseCaseTest {
     @Test
     fun `Should return either error when execute usecase throws an exception`() = runTest {
         val taskId = 102L
-        coEvery { tasksRepository.removeTask(taskId) } throws Exception("")
+        coEvery { tasksRepository.removeTask(taskId, null) } throws Exception("")
 
         val result = sut.invoke(RemoveTaskUseCase.Params(taskId))
 
@@ -61,10 +61,10 @@ class RemoveTaskUseCaseTest {
     fun `Should call task repository remove recurring when execute usecase given removal strategy was passed via params`() =
         runTest {
             val taskId = 102L
-            val removalStrategy = RemovalStrategy.SINGLE_AND_FUTURE_ONES
+            val recurringRemovalStrategy = RecurringRemovalStrategy.SINGLE_AND_FUTURE_ONES
 
-            sut.invoke(RemoveTaskUseCase.Params(taskId, removalStrategy))
+            sut.invoke(RemoveTaskUseCase.Params(taskId, recurringRemovalStrategy))
 
-            coVerify(exactly = 1) { tasksRepository.removeRecurringTask(taskId, removalStrategy) }
+            coVerify(exactly = 1) { tasksRepository.removeTask(taskId, recurringRemovalStrategy) }
         }
 }

@@ -14,4 +14,6 @@ data class Task(
     val recurrenceType: RecurrenceType?,
     val recurrenceEndDate: LocalDate?,
     val parentId: Long?,
-)
+) {
+    val isParent: Boolean get() = isRecurring && recurrenceType != null && parentId == null
+}

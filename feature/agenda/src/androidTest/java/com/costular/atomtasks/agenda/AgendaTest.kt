@@ -11,7 +11,7 @@ import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.date.asDay
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate
@@ -197,7 +197,7 @@ class AgendaTest : AndroidTest() {
                 openTaskAction = {},
                 onToggleExpandCollapse = {},
                 onMarkTask = { long: Long, bool: Boolean -> },
-                deleteRecurringTask = { id: Long, strategy: RemovalStrategy -> },
+                deleteRecurringTask = { id: Long, strategy: RecurringRemovalStrategy -> },
                 onMoveTask = { _, _ -> },
                 onDragTask = { from: ItemPosition, to: ItemPosition -> },
             )

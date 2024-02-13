@@ -41,6 +41,8 @@ dependencies {
     implementation(libs.work)
     implementation(libs.compose.destinations)
     implementation(libs.accompanist.permissions)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
     kapt(libs.hilt.ext.compiler)
     api(libs.reordeable)
 

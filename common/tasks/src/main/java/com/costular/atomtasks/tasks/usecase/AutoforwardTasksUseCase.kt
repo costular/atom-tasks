@@ -37,6 +37,7 @@ class AutoforwardTasksUseCase @Inject constructor(
                                 date = task.day.plusDays(1),
                                 reminderTime = task.reminder?.time,
                                 recurrenceType = task.recurrenceType,
+                                recurringUpdateStrategy = null,
                             ),
                         )
                     }

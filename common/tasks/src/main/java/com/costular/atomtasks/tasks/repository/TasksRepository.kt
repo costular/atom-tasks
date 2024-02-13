@@ -1,7 +1,8 @@
 package com.costular.atomtasks.tasks.repository
 
+import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -20,20 +21,13 @@ interface TasksRepository {
 
     fun getTaskById(id: Long): Flow<Task>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
-    suspend fun getTasksWithReminder(): List<Task>
-    suspend fun removeTask(taskId: Long)
-    suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy)
+    suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?)
     suspend fun markTask(taskId: Long, isDone: Boolean)
     suspend fun updateTaskReminder(taskId: Long, reminderTime: LocalTime, reminderDate: LocalDate)
     suspend fun removeReminder(taskId: Long)
-    suspend fun updateTask(
-        taskId: Long,
-        day: LocalDate,
-        name: String,
-        recurrenceType: RecurrenceType?
-    )
-
+    suspend fun updateTask(taskEntity: TaskEntity)
     suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int
-
     suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int)
+    suspend fun getMaxPositionForDate(localDate: LocalDate): Int
+    suspend fun runOrRollback(body: suspend () -> Unit)
 }
