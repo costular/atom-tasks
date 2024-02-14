@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.model
+package com.costular.atomtasks.core.ui.tasks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.utils.VariantsPreview
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import java.time.LocalDate
@@ -50,6 +52,7 @@ fun TaskList(
                 .detectReorderAfterLongPress(state),
             state = state.listState,
             contentPadding = padding,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(tasks, { it.id }) { task ->
                 ReorderableItem(state, key = task.id) { isDragging ->
@@ -109,7 +112,7 @@ fun TaskListEmpty() {
 
 @Suppress("MagicNumber")
 @VariantsPreview
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun TaskListPreview() {
     AtomTheme {
@@ -135,7 +138,7 @@ private fun TaskListPreview() {
                     parentId = null,
                 ),
                 Task(
-                    id = 1L,
+                    id = 2L,
                     name = "Task2",
                     createdAt = LocalDate.now(),
                     day = LocalDate.now(),
@@ -148,7 +151,7 @@ private fun TaskListPreview() {
                     parentId = null,
                 ),
                 Task(
-                    id = 1L,
+                    id = 3L,
                     name = "Task3",
                     createdAt = LocalDate.now(),
                     day = LocalDate.now(),

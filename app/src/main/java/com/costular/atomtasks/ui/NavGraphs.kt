@@ -3,9 +3,9 @@ package com.costular.atomtasks.ui
 import com.costular.atomtasks.agenda.destinations.AgendaScreenDestination
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
+import com.costular.atomtasks.feature.edittask.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.settings.destinations.SettingsScreenDestination
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
-import com.costular.atomtasks.ui.features.edittask.destinations.EditTaskScreenDestination
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route

@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.model.asString
 import com.costular.atomtasks.tasks.model.toDomain
@@ -56,16 +56,8 @@ internal class DefaultTasksRepository @Inject constructor(
         return localDataSource.getTasks(day).map { tasks -> tasks.map { it.toDomain() } }
     }
 
-    override suspend fun getTasksWithReminder(): List<Task> {
-        return localDataSource.getTasksWithReminder().map { task -> task.toDomain() }
-    }
-
-    override suspend fun removeTask(taskId: Long) {
-        localDataSource.removeTask(taskId)
-    }
-
-    override suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy) {
-        localDataSource.removeRecurringTask(taskId, removalStrategy)
+    override suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?) {
+        localDataSource.removeTask(taskId, recurringRemovalStrategy)
     }
 
     override suspend fun markTask(taskId: Long, isDone: Boolean) {
@@ -84,13 +76,8 @@ internal class DefaultTasksRepository @Inject constructor(
         localDataSource.removeReminder(taskId)
     }
 
-    override suspend fun updateTask(
-        taskId: Long,
-        day: LocalDate,
-        name: String,
-        recurrenceType: RecurrenceType?
-    ) {
-        localDataSource.updateTask(taskId, day, name, recurrenceType)
+    override suspend fun updateTask(taskEntity: TaskEntity) {
+        localDataSource.updateTask(taskEntity)
     }
 
     override suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int {
@@ -99,5 +86,13 @@ internal class DefaultTasksRepository @Inject constructor(
 
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
         localDataSource.moveTask(day, fromPosition, toPosition)
+    }
+
+    override suspend fun getMaxPositionForDate(date: LocalDate): Int {
+        return localDataSource.getMaxPositionForDate(date)
+    }
+
+    override suspend fun runOrRollback(body: suspend () -> Unit) {
+        localDataSource.runAsTransaction(body)
     }
 }

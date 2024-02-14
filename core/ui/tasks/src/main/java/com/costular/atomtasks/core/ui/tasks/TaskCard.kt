@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.model
+package com.costular.atomtasks.core.ui.tasks
 
 
 import androidx.compose.animation.AnimatedVisibility
@@ -56,6 +56,9 @@ import com.costular.atomtasks.tasks.fake.TaskRecurringWithReminder
 import com.costular.atomtasks.tasks.fake.TaskToday
 import com.costular.atomtasks.tasks.fake.TaskWithReminder
 import com.costular.atomtasks.tasks.format.localized
+import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.Reminder
+import com.costular.atomtasks.tasks.model.Task
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.decorator.strikeThrough
 import com.costular.designsystem.theme.AppTheme
@@ -141,9 +144,9 @@ private fun ColumnScope.TaskDetails(
 ) {
     val recurringContent = if (recurrenceType != null) {
         val label = recurrenceType.localized()
-        RecurringContent.Recurring(label)
+        com.costular.atomtasks.core.ui.tasks.RecurringContent.Recurring(label)
     } else {
-        RecurringContent.None
+        com.costular.atomtasks.core.ui.tasks.RecurringContent.None
     }
 
     val hasReminder = reminder != null
@@ -153,7 +156,7 @@ private fun ColumnScope.TaskDetails(
         if (reminder != null) {
             Row {
                 val alarmText = buildAnnotatedString {
-                    appendInlineContent(ReminderIconId, "[alarm]")
+                    appendInlineContent(com.costular.atomtasks.core.ui.tasks.ReminderIconId, "[alarm]")
                     append(" ")
                     append(reminder.time.ofLocalizedTime())
                 }
@@ -181,7 +184,7 @@ private fun ColumnScope.TaskDetails(
             val content = recurringContent as RecurringContent.Recurring
 
             val recurringText = buildAnnotatedString {
-                appendInlineContent(RecurringIconId, "[recurring]")
+                appendInlineContent(com.costular.atomtasks.core.ui.tasks.RecurringIconId, "[recurring]")
                 append(" ")
                 append(content.recurrenceLabel)
             }

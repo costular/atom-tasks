@@ -70,7 +70,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should expose tasks when load succeed`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
 
         sut.loadTasks()
 
@@ -94,7 +94,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should load task accordingly when mark task as done`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
 
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
@@ -114,7 +114,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         runTest {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks.toResult())
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -130,7 +130,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         runTest {
             val tasks = DEFAULT_TASKS
             val taskId = DEFAULT_TASKS.first().id
-            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+            coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks.toResult())
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -149,7 +149,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             val taskId = DEFAULT_TASKS.first().id
             coEvery {
                 observeTasksUseCase.invoke(any())
-            } returns flowOf(DEFAULT_TASKS) andThen flowOf(expected)
+            } returns flowOf(DEFAULT_TASKS.toResult()) andThen flowOf(expected.toResult())
 
             sut.loadTasks()
             sut.actionDelete(taskId)
@@ -172,7 +172,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should update state when drag task`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
         val from = 0
         val to = 1
 
@@ -189,7 +189,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should call usecase when moving a task given tasks were loaded successfully`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
         val from = 0
         val to = 1
 
@@ -214,7 +214,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should NOT call usecase when moving a task given the drag task failed`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
         val from = 0
         val to = 1
 
@@ -255,7 +255,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should track event when moving a task`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
         val from = 0
         val to = 1
 
@@ -268,7 +268,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     @Test
     fun `should track event when mark task as done`() = runTest {
         val expected = DEFAULT_TASKS
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(expected.toResult())
 
         sut.loadTasks()
         sut.onMarkTask(expected.first().id, true)
@@ -284,7 +284,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
         every {
             observeTasksUseCase.invoke(any())
-        } returns flowOf(expected)
+        } returns flowOf(expected.toResult())
 
         givenOrderTasksTutorial(true)
 
@@ -301,7 +301,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     fun `should track show confirm delete when tap on delete`() = runTest {
         val tasks = DEFAULT_TASKS
         val taskId = DEFAULT_TASKS.first().id
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks.toResult())
 
         sut.loadTasks()
         sut.actionDelete(taskId)
@@ -315,7 +315,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     fun `should track confirm delete when confirm dialog`() = runTest {
         val tasks = DEFAULT_TASKS
         val taskId = DEFAULT_TASKS.first().id
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks.toResult())
 
 
         sut.loadTasks()
@@ -329,7 +329,7 @@ class AgendaViewModelTest : MviViewModelTest() {
 
     @Test
     fun `should track navigate to day when select a new day`() = runTest {
-        every { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
+        every { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList<Task>().toResult())
         val day = LocalDate.of(2023, 9, 16)
 
         sut.setSelectedDay(day)
@@ -343,7 +343,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     fun `should track cancel delete when dismiss confirm delete dialog`() = runTest {
         val tasks = DEFAULT_TASKS
         val taskId = DEFAULT_TASKS.first().id
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(tasks.toResult())
 
         sut.loadTasks()
         sut.actionDelete(taskId)
@@ -408,7 +408,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         }
 
     private fun givenSuccessTasks() {
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(DEFAULT_TASKS)
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(DEFAULT_TASKS.toResult())
     }
 
     private fun givenOrderTasksTutorial(isEnabled: Boolean) {
@@ -449,7 +449,7 @@ class AgendaViewModelTest : MviViewModelTest() {
     }
 
     private fun initializeViewModel() {
-        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList())
+        coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList<Task>().toResult())
         coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
         coEvery { removeTaskUseCase.invoke(any()) } returns Unit.toResult()
         coEvery { shouldAskReviewUseCase.invoke(Unit) } returns false.toResult()

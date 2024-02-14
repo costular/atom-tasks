@@ -45,6 +45,7 @@ configurations {
 dependencies {
     implementation(projects.core.analytics)
     implementation(libs.compose.destinations)
+    implementation(projects.core.ui.tasks)
     ksp(libs.compose.destinations.ksp)
 
     implementation(projects.common.tasks)

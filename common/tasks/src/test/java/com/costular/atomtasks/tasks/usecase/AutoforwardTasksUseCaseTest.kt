@@ -1,5 +1,6 @@
 package com.costular.atomtasks.tasks.usecase
 
+import com.costular.atomtasks.core.toResult
 import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseCase
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.usecase.invoke
@@ -73,6 +74,7 @@ class AutoforwardTasksUseCaseTest {
                             task.day.plusDays(1),
                             task.reminder?.time,
                             task.recurrenceType,
+                            recurringUpdateStrategy = null,
                         ),
                     )
                 }
@@ -88,12 +90,12 @@ class AutoforwardTasksUseCaseTest {
     }
 
     private fun givenUndoneTasks() {
-        every { observeTasksUseCase.invoke(any()) } returns flowOf(UndoneTasks)
+        every { observeTasksUseCase.invoke(any()) } returns flowOf(UndoneTasks.toResult())
     }
 
     private fun givenDoneTasks() {
         every { observeTasksUseCase.invoke(any()) } returns flowOf(
-            listOf(Task),
+            listOf(Task).toResult(),
         )
     }
 

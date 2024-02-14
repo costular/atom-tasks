@@ -1,25 +1,23 @@
 package com.costular.atomtasks.tasks.repository
 
+import com.costular.atomtasks.data.database.TransactionRunner
 import com.costular.atomtasks.data.tasks.ReminderDao
 import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
-import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead.numberOfOccurrencesForType
-import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceStrategyFactory
-import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RemovalStrategy
-import com.costular.atomtasks.tasks.model.asString
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Suppress("TooManyFunctions")
 internal class DefaultTasksLocalDataSource @Inject constructor(
     private val tasksDao: TasksDao,
     private val reminderDao: ReminderDao,
+    private val transactionRunner: TransactionRunner,
 ) : TaskLocalDataSource {
 
     override suspend fun createTask(taskEntity: TaskEntity): Long {
@@ -43,39 +41,38 @@ internal class DefaultTasksLocalDataSource @Inject constructor(
 
     override fun getTasks(day: LocalDate?): Flow<List<TaskAggregated>> {
         return if (day != null) {
-            tasksDao.getAllTasksForDate(day)
+            tasksDao.getAllTasksForDate(day).distinctUntilChanged()
         } else {
-            tasksDao.observeAllTasks()
+            tasksDao.getAllTasks().distinctUntilChanged()
         }
     }
 
     override fun getTaskById(id: Long): Flow<TaskAggregated> {
-        return tasksDao.getTaskById(id)
+        return tasksDao.getTaskById(id).distinctUntilChanged()
     }
 
-    override suspend fun getTasksWithReminder(): List<TaskAggregated> {
-        return tasksDao.getAllTasks()
-            .filter { it.reminder != null }
-    }
+    override suspend fun removeTask(
+        taskId: Long,
+        recurringRemovalStrategy: RecurringRemovalStrategy?
+    ) {
+        if (recurringRemovalStrategy == null) {
+            tasksDao.removeTaskById(taskId)
+        } else {
+            when (recurringRemovalStrategy) {
+                RecurringRemovalStrategy.SINGLE -> {
+                    tasksDao.removeTaskById(taskId)
+                }
 
-    override suspend fun removeTask(taskId: Long) {
-        tasksDao.removeTaskById(taskId)
-    }
+                RecurringRemovalStrategy.SINGLE_AND_FUTURE_ONES -> {
+                    tasksDao.removeFutureOccurrencesAndSelf(id = taskId)
+                }
 
-    override suspend fun removeRecurringTask(taskId: Long, removalStrategy: RemovalStrategy) {
-        when (removalStrategy) {
-            RemovalStrategy.SINGLE -> {
-                tasksDao.removeTaskById(taskId)
-            }
+                RecurringRemovalStrategy.FUTURE_ONES -> {
+                    tasksDao.removeFutureOccurrences(id = taskId)
+                }
 
-            RemovalStrategy.ALL -> {
-                val parentId = getTaskById(taskId).first().task.parentId ?: taskId
-                tasksDao.removeTaskAndAllOccurrences(taskId, parentId)
-            }
-
-            RemovalStrategy.SINGLE_AND_FUTURE_ONES -> {
-                getTaskById(taskId).first().task.parentId?.let {
-                    tasksDao.removeTaskAndFutureOcurrences(taskId, it)
+                RecurringRemovalStrategy.ALL -> {
+                    tasksDao.removeAllOccurrences(id = taskId)
                 }
             }
         }
@@ -97,94 +94,23 @@ internal class DefaultTasksLocalDataSource @Inject constructor(
         reminderDao.removeReminder(taskId)
     }
 
-    override suspend fun updateTask(
-        taskId: Long,
-        day: LocalDate,
-        name: String,
-        recurrenceType: RecurrenceType?
-    ) {
-        val task = tasksDao.getTaskById(taskId).first()
-        val oldDay = task.task.day
-        val newPosition = if (oldDay != day) {
-            tasksDao.getMaxPositionForDate(day) + 1
-        } else {
-            task.task.position
-        }
-        val wasRecurring = task.task.isRecurring
-
-        if (wasRecurring) {
-            if (task.task.isParent) {
-                tasksDao.removeChildrenTasks(task.task.id)
-            } else {
-                tasksDao.removeFutureOccurrencesForRecurringTask(
-                    id = taskId,
-                    parentId = task.task.parentId ?: taskId
-                )
-            }
-        }
-
-        tasksDao.updateTask(
-            taskId = taskId,
-            day = day,
-            name = name,
-            position = newPosition,
-            isRecurring = recurrenceType != null,
-            recurrence = recurrenceType?.asString(),
-        )
-
-        if (wasRecurring) {
-            populateRecurringTasks(recurrenceType, day, name, task)
-        }
-    }
-
-    private suspend fun DefaultTasksLocalDataSource.populateRecurringTasks(
-        recurrenceType: RecurrenceType?,
-        day: LocalDate,
-        name: String,
-        task: TaskAggregated
-    ) {
-        requireNotNull(recurrenceType)
-        val recurrenceStrategy = RecurrenceStrategyFactory.recurrenceStrategy(recurrenceType)
-
-        val nextDates = recurrenceStrategy.calculateNextOccurrences(
-            startDate = day,
-            numberOfOccurrences = numberOfOccurrencesForType(recurrenceType),
-        )
-
-        nextDates.forEach { dayToBeCreated ->
-            val taskId = createTask(
-                TaskEntity(
-                    id = 0L,
-                    createdAt = LocalDate.now(),
-                    name = name,
-                    day = dayToBeCreated,
-                    isDone = false,
-                    position = tasksDao.getMaxPositionForDate(dayToBeCreated) + 1,
-                    isRecurring = true,
-                    recurrenceType = recurrenceType.asString(),
-                    recurrenceEndDate = null,
-                    parentId = if (task.task.isParent) task.task.id else task.task.parentId
-                ),
-            )
-
-            if (task.reminder != null) {
-                val time = requireNotNull(task.reminder?.time)
-
-                createReminderForTask(
-                    time = time,
-                    date = dayToBeCreated,
-                    reminderEnabled = true,
-                    taskId = taskId,
-                )
-            }
-        }
+    override suspend fun updateTask(taskEntity: TaskEntity) {
+        tasksDao.update(taskEntity)
     }
 
     override suspend fun numberFutureOccurrences(parentId: Long, from: LocalDate): Int {
         return tasksDao.countFutureOccurrences(parentId, from)
     }
 
+    override suspend fun getMaxPositionForDate(date: LocalDate): Int {
+        return tasksDao.getMaxPositionForDate(date)
+    }
+
     override suspend fun moveTask(day: LocalDate, fromPosition: Int, toPosition: Int) {
         tasksDao.moveTask(day, fromPosition, toPosition)
+    }
+
+    override suspend fun runAsTransaction(block: suspend () -> Unit) {
+        transactionRunner.runAsTransaction(block)
     }
 }

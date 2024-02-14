@@ -4,7 +4,7 @@ import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RemoveTaskError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import javax.inject.Inject
@@ -16,17 +16,13 @@ class RemoveTaskUseCase @Inject constructor(
 
     data class Params(
         val taskId: Long,
-        val strategy: RemovalStrategy? = null,
+        val strategy: RecurringRemovalStrategy? = null,
     )
 
     override suspend fun invoke(params: Params): Either<RemoveTaskError, Unit> {
         return try {
-            if (params.strategy == null) {
-                tasksRepository.removeTask(params.taskId)
-                taskReminderManager.cancel(params.taskId)
-            } else {
-                tasksRepository.removeRecurringTask(params.taskId, params.strategy)
-            }
+            tasksRepository.removeTask(params.taskId, params.strategy)
+            taskReminderManager.cancel(params.taskId)
             Either.Result(Unit)
         } catch (e: Exception) {
             atomLog { e }

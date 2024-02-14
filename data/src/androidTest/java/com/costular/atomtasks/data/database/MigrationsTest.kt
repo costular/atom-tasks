@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 class MigrationsTest {
     private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5)
     private val TEST_DB = "migration-test"
-    private val LATEST_VERSION = 7
+    private val LATEST_VERSION = 6
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -81,62 +81,67 @@ class MigrationsTest {
 
     @Test
     @Throws(IOException::class)
-    fun testMigration5To6() {
-        val db = helper.createDatabase(TEST_DB, 5).apply {
-            execSQL(
+    fun testMigration5To6_reminders() {
+        helper.createDatabase(TEST_DB, 5).use { db ->
+            db.execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
                         "('2023-08-23', 'This is a test', '2023-08-23', 0); "
             )
-            execSQL(
+            db.execSQL(
                 "INSERT INTO reminders (reminder_id, time, date, is_enabled, task_id) VALUES " +
                         "(1, '09:00', '2023-10-15', 1, 1)"
             )
         }
 
-        helper.runMigrationsAndValidate(TEST_DB, 6, true)
+        helper.runMigrationsAndValidate(
+            name = TEST_DB,
+            version = 6,
+            validateDroppedTables = true
+        ).use { db ->
+            db.query("SELECT * FROM reminders", arrayOf()).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val positionColumnIndex = cursor.getColumnIndex("time")
 
-        val cursor = db.query("SELECT * FROM reminders", arrayOf())
+                    if (positionColumnIndex != -1) {
+                        val reminderTimes = mutableListOf<String>()
 
-        if (cursor.moveToFirst()) {
-            val positionColumnIndex = cursor.getColumnIndex("time")
+                        do {
+                            val reminderTime = cursor.getString(positionColumnIndex)
+                            reminderTimes.add(reminderTime)
+                        } while (cursor.moveToNext())
 
-            if (positionColumnIndex != -1) {
-                val reminderTimes = mutableListOf<String>()
-
-                do {
-                    val reminderTime = cursor.getString(positionColumnIndex)
-                    reminderTimes.add(reminderTime)
-                } while (cursor.moveToNext())
-
-                Truth.assertThat(reminderTimes.first()).isEqualTo("09:00")
+                        Truth.assertThat(reminderTimes.first()).isEqualTo("09:00")
+                    }
+                }
             }
         }
-        cursor.close()
     }
 
     @Test
     @Throws(IOException::class)
-    fun testMigration6To7() {
-        val db = helper.createDatabase(TEST_DB, 6).apply {
-            execSQL(
+    fun testMigration5To6_tasks() {
+        helper.createDatabase(TEST_DB, 5).use { db ->
+            db.execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
                         "('2023-08-23', 'This is a test', '2023-08-23', 0); "
             )
         }
 
-        helper.runMigrationsAndValidate(TEST_DB, 7, true)
-
-        val cursor = db.query("SELECT * FROM tasks", arrayOf())
-
-        if (cursor.moveToFirst()) {
-            val positionColumnIndex = cursor.getColumnIndex("name")
-
-            if (positionColumnIndex != -1) {
+        helper.runMigrationsAndValidate(
+            name = TEST_DB,
+            version = 6,
+            validateDroppedTables = true
+        ).use { db ->
+            db.query("SELECT * FROM tasks", arrayOf()).use { cursor ->
+                Truth.assertThat(cursor.count).isEqualTo(1)
                 cursor.moveToFirst()
-                val name = cursor.getString(positionColumnIndex)
+
+                val name = cursor.getString(cursor.getColumnIndex("name"))
+                val isRecurring = cursor.getInt(cursor.getColumnIndex("is_recurring")) == 1
+
                 Truth.assertThat(name).isEqualTo("This is a test")
+                Truth.assertThat(isRecurring).isFalse()
             }
         }
-        cursor.close()
     }
 }

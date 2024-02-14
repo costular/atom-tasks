@@ -40,6 +40,7 @@ class PostponeTaskUseCase @Inject constructor(
                     date = params.day,
                     reminderTime = params.time,
                     recurrenceType = task.recurrenceType,
+                    recurringUpdateStrategy = null,
                 )
             )
             updateTaskReminderInteractor(

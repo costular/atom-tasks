@@ -20,7 +20,7 @@ import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
-import com.costular.atomtasks.tasks.model.RemovalStrategy
+import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
@@ -29,7 +29,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ItemPosition
@@ -88,10 +87,17 @@ class AgendaViewModel @Inject constructor(
 
     fun loadTasks() {
         viewModelScope.launch {
-            observeTasksUseCase(ObserveTasksUseCase.Params(day = state.value.selectedDay.date))
+            observeTasksUseCase.invoke(ObserveTasksUseCase.Params(day = state.value.selectedDay.date))
                 .onStart { setState { copy(tasks = TasksState.Loading) } }
-                .catch { setState { copy(tasks = TasksState.Failure) } }
-                .collect { setState { copy(tasks = TasksState.Success(it.toImmutableList())) } }
+                .collect {
+                    it.fold(
+                        ifError = {
+                            setState { copy(tasks = TasksState.Failure) }
+                        },
+                        ifResult = {
+                            setState { copy(tasks = TasksState.Success(it.toImmutableList())) }
+                        })
+                }
         }
     }
 
@@ -149,9 +155,9 @@ class AgendaViewModel @Inject constructor(
         atomAnalytics.track(ConfirmDelete)
     }
 
-    fun deleteRecurringTask(id: Long, removalStrategy: RemovalStrategy) {
+    fun deleteRecurringTask(id: Long, recurringRemovalStrategy: RecurringRemovalStrategy) {
         viewModelScope.launch {
-            removeTaskUseCase(RemoveTaskUseCase.Params(id, removalStrategy))
+            removeTaskUseCase(RemoveTaskUseCase.Params(id, recurringRemovalStrategy))
             hideAskDelete()
         }
     }

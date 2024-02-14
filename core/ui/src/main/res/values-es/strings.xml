@@ -82,4 +82,9 @@
     <string name="remove_recurring_task_dialog_this">Esta tarea</string>
     <string name="remove_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
     <string name="remove_recurring_task_dialog_all">Todas las tareas</string>
+    <string name="remove_recurring_task_dialog_title">Eliminar tarea periódica</string>
+    <string name="accept">Aceptar</string>
+    <string name="update_recurring_task_dialog_title">Actualizar tarea periódica</string>
+    <string name="update_recurring_task_dialog_this">Esta tarea</string>
+    <string name="update_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
 </resources>

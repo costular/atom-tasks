@@ -1,6 +1,6 @@
 package com.costular.atomtasks.data.settings
 
-import com.costular.atomtasks.data.SubjectInteractor
+import com.costular.atomtasks.core.SubjectInteractor
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

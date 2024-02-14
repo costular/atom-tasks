@@ -12,7 +12,7 @@ import com.costular.atomtasks.data.tasks.TasksDao
 @TypeConverters(DbTypeConverters::class)
 @Database(
     entities = [TaskEntity::class, ReminderEntity::class],
-    version = 7,
+    version = 6,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(
@@ -20,10 +20,6 @@ import com.costular.atomtasks.data.tasks.TasksDao
             to = 6,
             spec = MigrationDeleteIsEnabledReminder::class,
         ),
-        AutoMigration(
-            from = 6,
-            to = 7,
-        )
     ]
 )
 abstract class AtomTasksDatabase : RoomDatabase() {

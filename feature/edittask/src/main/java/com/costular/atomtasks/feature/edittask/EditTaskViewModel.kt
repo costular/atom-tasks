@@ -1,11 +1,13 @@
-package com.costular.atomtasks.ui.features.edittask
+package com.costular.atomtasks.feature.edittask
 
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
-import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
+import com.costular.atomtasks.feature.edittask.EditRecurringTaskResponse.THIS
+import com.costular.atomtasks.feature.edittask.EditRecurringTaskResponse.THIS_AND_FUTURE_ONES
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
+import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
+import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -41,16 +43,45 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught", "SwallowedException")
+    fun cancelRecurringEdition() {
+        setState { copy(taskToSave = null) }
+    }
+
+    fun confirmRecurringEdition(response: EditRecurringTaskResponse) {
+        val taskToSave = state.value.taskToSave
+        requireNotNull(taskToSave) {
+            "taskToSave must not be null"
+        }
+
+        val recurringUpdateStrategy = when (response) {
+            THIS -> RecurringUpdateStrategy.SINGLE
+            THIS_AND_FUTURE_ONES -> RecurringUpdateStrategy.SINGLE_AND_FUTURE
+        }
+
+        editTask(
+            name = taskToSave.name,
+            date = taskToSave.date,
+            reminder = taskToSave.reminder,
+            recurrenceType = taskToSave.recurrenceType,
+            recurringUpdateStrategy = recurringUpdateStrategy,
+        )
+    }
+
     fun editTask(
         name: String,
         date: LocalDate,
         reminder: LocalTime?,
         recurrenceType: RecurrenceType?,
+        recurringUpdateStrategy: RecurringUpdateStrategy?,
     ) {
         viewModelScope.launch {
             val state = state.value
             if (state.taskState !is TaskState.Success) {
+                return@launch
+            }
+
+            if (state.taskState.recurrenceType != null && recurringUpdateStrategy == null) {
+                setState { copy(taskToSave = TaskToSave(name, date, reminder, recurrenceType)) }
                 return@launch
             }
 
@@ -61,6 +92,7 @@ class EditTaskViewModel @Inject constructor(
                     date = date,
                     reminderTime = reminder,
                     recurrenceType = recurrenceType,
+                    recurringUpdateStrategy = recurringUpdateStrategy,
                 ),
             ).fold(
                 ifError = {
@@ -72,38 +104,4 @@ class EditTaskViewModel @Inject constructor(
             )
         }
     }
-}
-
-data class EditTaskState(
-    val taskState: TaskState = TaskState.Idle,
-    val savingTask: SavingState = SavingState.Uninitialized,
-) {
-
-    companion object {
-        val Empty = EditTaskState()
-    }
-}
-
-sealed class TaskState {
-
-    object Idle : TaskState()
-
-    object Loading : TaskState()
-
-    data class Success(
-        val taskId: Long,
-        val name: String,
-        val date: LocalDate,
-        val reminder: LocalTime?,
-        val recurrenceType: RecurrenceType?,
-    ) : TaskState()
-}
-
-@Stable
-sealed interface SavingState {
-
-    data object Uninitialized : SavingState
-    data object Saving : SavingState
-    data object Failure : SavingState
-    data object Success : SavingState
 }

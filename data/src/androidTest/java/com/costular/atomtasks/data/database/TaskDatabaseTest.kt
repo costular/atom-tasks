@@ -54,7 +54,7 @@ class TaskDatabaseTest {
 
         tasksDao.addTask(task)
 
-        tasksDao.observeAllTasks().test {
+        tasksDao.getAllTasks().test {
             val item = awaitItem()
             assertThat(item.first().task.name).isEqualTo("whatever")
             assertThat(item.size).isEqualTo(1)
@@ -82,7 +82,7 @@ class TaskDatabaseTest {
         tasksDao.createTask(task)
         tasksDao.createTask(task2)
 
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
         assertThat(result.size).isEqualTo(2)
     }
 
@@ -107,7 +107,7 @@ class TaskDatabaseTest {
 
         tasksDao.addTask(task2)
         tasksDao.addTask(task1)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.first().task.position).isEqualTo(1)
         assertThat(result.last().task.position).isEqualTo(2)
@@ -135,7 +135,7 @@ class TaskDatabaseTest {
         val task1Id = tasksDao.addTask(task1)
         val task2Id = tasksDao.addTask(task2)
         tasksDao.updateTaskPosition(task1Id, 3)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.last().task.id).isEqualTo(task1Id)
     }
@@ -197,7 +197,7 @@ class TaskDatabaseTest {
         val id2 = tasksDao.createTask(task2)
         val id3 = tasksDao.createTask(task3)
         tasksDao.moveTask(LocalDate.now(), 1, 3)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.find { it.task.id == id2 }!!.task.position).isEqualTo(1)
         assertThat(result.find { it.task.id == id3 }!!.task.position).isEqualTo(2)
@@ -253,7 +253,7 @@ class TaskDatabaseTest {
         val id12 = tasksDao.createTask(task12)
         val id3 = tasksDao.createTask(task3)
         tasksDao.moveTask(LocalDate.now(), 1, 2)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.find { it.task.id == id1 }!!.task.position).isEqualTo(1)
         assertThat(result.find { it.task.id == id2 }!!.task.position).isEqualTo(2)
@@ -293,7 +293,7 @@ class TaskDatabaseTest {
         val id2 = tasksDao.createTask(task2)
         val id3 = tasksDao.createTask(task3)
         tasksDao.moveTask(LocalDate.now(), 3, 1)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.find { it.task.id == id3 }!!.task.position).isEqualTo(1)
         assertThat(result.find { it.task.id == id1 }!!.task.position).isEqualTo(2)
@@ -323,7 +323,7 @@ class TaskDatabaseTest {
         val id2 = tasksDao.createTask(task2)
 
         tasksDao.moveTask(LocalDate.now(), 2, 1)
-        val result = tasksDao.observeAllTasks().first()
+        val result = tasksDao.getAllTasks().first()
 
         assertThat(result.find { it.task.id == id1 }!!.task.position).isEqualTo(2)
         assertThat(result.find { it.task.id == id2 }!!.task.position).isEqualTo(1)
@@ -401,6 +401,7 @@ class TaskDatabaseTest {
             isRecurring = true,
             recurrenceType = "daily",
             parentId = parentTaskId,
+            position = 2,
         )
         val secondChildTask = TaskEntity(
             id = 0L,
@@ -411,13 +412,16 @@ class TaskDatabaseTest {
             isRecurring = true,
             recurrenceType = "daily",
             parentId = parentTaskId,
+            position = 3,
         )
         val childId = tasksDao.addTask(childTask)
         val secondChildId = tasksDao.addTask(secondChildTask)
 
-        tasksDao.removeTaskAndAllOccurrences(childId, parentTaskId)
+        tasksDao.removeAllOccurrences(id = childId)
 
-        assertThat(tasksDao.getAllTasks().size).isEqualTo(0)
+        val result = tasksDao.getAllTasks().first()
+
+        assertThat(result.size).isEqualTo(0)
     }
 
     @Test
@@ -433,33 +437,37 @@ class TaskDatabaseTest {
             recurrenceType = "daily"
         )
         val parentTaskId = tasksDao.addTask(task)
+
         val recurringTask = TaskEntity(
             id = 0L,
             createdAt = LocalDate.now(),
-            name = "Recurrent Task",
+            name = "Child1",
             day = LocalDate.now().plusDays(1),
             isDone = false,
             isRecurring = true,
             recurrenceType = "daily",
             parentId = parentTaskId,
+            position = 2,
         )
         val secondRecurringTask = TaskEntity(
             id = 0L,
             createdAt = LocalDate.now(),
-            name = "Recurrent Task",
+            name = "Child2",
             day = LocalDate.now().plusDays(1),
             isDone = false,
             isRecurring = true,
             recurrenceType = "daily",
             parentId = parentTaskId,
+            position = 3,
         )
 
         val childId = tasksDao.addTask(recurringTask)
         val secondChildId = tasksDao.addTask(secondRecurringTask)
 
-        tasksDao.removeTaskAndAllOccurrences(parentTaskId, parentTaskId)
+        tasksDao.removeAllOccurrences(id = parentTaskId)
+        val result = tasksDao.getAllTasks().first()
 
-        assertThat(tasksDao.getAllTasks().size).isEqualTo(0)
+        assertThat(result.size).isEqualTo(0)
     }
 
     @Test
@@ -522,9 +530,9 @@ class TaskDatabaseTest {
         val thirdChildId = tasksDao.addTask(thirdChild)
         val fourthChildId = tasksDao.addTask(fourthChild)
 
-        tasksDao.removeTaskAndFutureOcurrences(secondChildId, parentTaskId)
+        tasksDao.removeFutureOccurrencesAndSelf(id = secondChildId)
 
-        val result = tasksDao.getAllTasks()
+        val result = tasksDao.getAllTasks().first()
         assertThat(result.size).isEqualTo(2)
         assertThat(result.find { it.task.id == secondChildId }).isNull()
         assertThat(result.find { it.task.id == thirdChildId }).isNull()

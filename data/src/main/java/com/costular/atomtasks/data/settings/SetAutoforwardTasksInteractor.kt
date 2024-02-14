@@ -1,6 +1,6 @@
 package com.costular.atomtasks.data.settings
 
-import com.costular.atomtasks.data.Interactor
+import com.costular.atomtasks.core.Interactor
 import javax.inject.Inject
 
 class SetAutoforwardTasksInteractor @Inject constructor(

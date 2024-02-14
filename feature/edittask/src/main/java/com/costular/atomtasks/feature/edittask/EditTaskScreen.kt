@@ -1,4 +1,4 @@
-package com.costular.atomtasks.ui.features.edittask
+package com.costular.atomtasks.feature.edittask
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -40,6 +40,13 @@ fun EditTaskScreen(
         viewModel.loadTask(taskId)
     }
 
+    if (state.taskToSave != null) {
+        EditRecurringTaskConfirmDialog(
+            onCancel = viewModel::cancelRecurringEdition,
+            onEdit = viewModel::confirmRecurringEdition,
+        )
+    }
+
     val task = state.taskState
     if (task is TaskState.Success) {
         AtomSheet(
@@ -52,10 +59,11 @@ fun EditTaskScreen(
                 date = task.date,
                 onSave = { result ->
                     viewModel.editTask(
-                        result.name,
-                        result.date,
-                        result.reminder,
-                        result.recurrenceType,
+                        name = result.name,
+                        date = result.date,
+                        reminder = result.reminder,
+                        recurrenceType = result.recurrenceType,
+                        recurringUpdateStrategy = null,
                     )
                 },
                 reminder = task.reminder,

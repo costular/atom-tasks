@@ -53,7 +53,7 @@ fun RemoveRecurrentTaskDialog(
         ) {
             Column(modifier = Modifier.padding(vertical = AppTheme.DialogPadding)) {
                 Text(
-                    text = "Remove recurrence task",
+                    text = stringResource(S.remove_recurring_task_dialog_title),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(horizontal = AppTheme.DialogPadding)
                 )
@@ -85,8 +85,9 @@ fun RemoveRecurrentTaskDialog(
 
                 DialogButtons(
                     onCancel = onCancel,
-                    onRemove = onRemove,
-                    selected = selected
+                    onRemove = {
+                        onRemove(selected)
+                    },
                 )
             }
         }
@@ -97,8 +98,7 @@ fun RemoveRecurrentTaskDialog(
 @Composable
 private fun DialogButtons(
     onCancel: () -> Unit,
-    onRemove: (RemoveRecurrentTaskResponse) -> Unit,
-    selected: RemoveRecurrentTaskResponse
+    onRemove: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -108,15 +108,13 @@ private fun DialogButtons(
     ) {
         TextButton(onClick = onCancel) {
             Text(
-                text = "Cancel",
+                text = stringResource(S.cancel),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
             )
         }
-        TextButton(onClick = {
-            onRemove(selected)
-        }) {
+        TextButton(onClick = onRemove) {
             Text(
-                text = "Remove",
+                text = stringResource(S.accept),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
             )
         }
@@ -161,7 +159,7 @@ enum class RemoveRecurrentTaskResponse {
 
 @Preview
 @Composable
-fun RemoveRecurrentTaskDialogPreview() {
+private fun RemoveRecurrentTaskDialogPreview() {
     AtomTheme {
         RemoveRecurrentTaskDialog(
             onCancel = {},

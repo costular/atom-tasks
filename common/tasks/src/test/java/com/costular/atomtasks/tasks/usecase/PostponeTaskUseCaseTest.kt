@@ -123,6 +123,7 @@ class PostponeTaskUseCaseTest {
                     date = day,
                     reminderTime = time,
                     recurrenceType = null,
+                    recurringUpdateStrategy = null,
                 )
             )
         }
