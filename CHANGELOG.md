@@ -18,6 +18,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.5.1] - 2024-02-14
+
+### Added
+- Now it's possible to apply changes to single or future related tasks when editing a recurring task 
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Recurring tasks now work perfectly. There was a problem with removing recurring tasks
+
+### Security
+
 ## [2.5.0] 2024-01-17
 
 ### Added
