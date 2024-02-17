@@ -12,7 +12,7 @@ import com.costular.atomtasks.data.tasks.TasksDao
 @TypeConverters(DbTypeConverters::class)
 @Database(
     entities = [TaskEntity::class, ReminderEntity::class],
-    version = 6,
+    version = 7,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(

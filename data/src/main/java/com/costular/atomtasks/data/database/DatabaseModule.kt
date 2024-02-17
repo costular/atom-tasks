@@ -21,7 +21,10 @@ abstract class DatabaseModule {
         @Provides
         fun provideDatabase(@ApplicationContext context: Context): AtomTasksDatabase =
             Room.databaseBuilder(context, AtomTasksDatabase::class.java, "atomtasks.db")
-                .addMigrations(MIGRATION_4_5)
+                .addMigrations(
+                    MIGRATION_4_5,
+                    MIGRATION_6_7,
+                )
                 .build()
     }
 }

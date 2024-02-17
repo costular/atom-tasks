@@ -13,9 +13,9 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MigrationsTest {
-    private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5)
+    private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5, MIGRATION_6_7)
     private val TEST_DB = "migration-test"
-    private val LATEST_VERSION = 6
+    private val LATEST_VERSION = 7
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
