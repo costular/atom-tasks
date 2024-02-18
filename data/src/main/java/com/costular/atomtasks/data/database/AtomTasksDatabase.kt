@@ -16,9 +16,9 @@ import com.costular.atomtasks.data.tasks.TasksDao
     exportSchema = true,
     autoMigrations = [
         AutoMigration(
-            from = 5,
-            to = 6,
-            spec = MigrationDeleteIsEnabledReminder::class,
+            from = 6,
+            to = 7,
+            spec = Migration6To7Spec::class
         ),
     ]
 )

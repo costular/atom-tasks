@@ -1,44 +1,46 @@
 package com.costular.atomtasks.data.database
 
-import androidx.room.DeleteColumn
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 val MIGRATION_4_5 = object : Migration(4, 5) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL(
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
             "CREATE TABLE IF NOT EXISTS `_new_tasks` (`id` INTEGER PRIMARY KEY" +
                 " AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `name` TEXT NOT NULL," +
                 " `date` TEXT NOT NULL, `is_done` INTEGER NOT NULL, `position`" +
                 " INTEGER NOT NULL DEFAULT 0)",
         )
-        database.execSQL(
+        db.execSQL(
             "INSERT INTO `_new_tasks` (`id`,`created_at`,`name`,`date`," +
                 "`is_done`) SELECT `id`,`created_at`,`name`,`date`,`is_done` FROM `tasks`",
         )
-        database.execSQL("DROP TABLE `tasks`")
-        database.execSQL("ALTER TABLE `_new_tasks` RENAME TO `tasks`")
-        database.execSQL(
+        db.execSQL("DROP TABLE `tasks`")
+        db.execSQL("ALTER TABLE `_new_tasks` RENAME TO `tasks`")
+        db.execSQL(
             "UPDATE tasks SET position = (SELECT COUNT ( *) FROM tasks " +
                 "AS t WHERE t.ID <= tasks.ID);",
         )
-        database.execSQL(
+        db.execSQL(
             "CREATE INDEX IF NOT EXISTS `index_tasks_created_at` " +
                 "ON `tasks` (`created_at`)",
         )
-        database.execSQL(
+        db.execSQL(
             "CREATE UNIQUE INDEX IF NOT EXISTS `index_tasks_position_date` " +
                 "ON `tasks` (`position`, `date`)",
         )
     }
 }
 
-val MIGRATION_6_7 = object : Migration(6, 7) {
+val MIGRATION_5_6 = object : Migration(5, 6) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("DROP INDEX IF EXISTS `index_tasks_created_at`")
+        db.execSQL("ALTER TABLE reminders DROP COLUMN is_enabled;")
     }
 }
 
-@DeleteColumn(tableName = "reminders", columnName = "is_enabled")
-internal class MigrationDeleteIsEnabledReminder : AutoMigrationSpec
+class Migration6To7Spec : AutoMigrationSpec {
+    override fun onPostMigrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP INDEX IF EXISTS `index_tasks_created_at`;")
+    }
+}

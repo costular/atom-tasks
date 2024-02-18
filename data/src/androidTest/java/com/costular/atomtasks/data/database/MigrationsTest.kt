@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MigrationsTest {
-    private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5, MIGRATION_6_7)
+    private val ALL_MIGRATIONS = arrayOf(MIGRATION_4_5, MIGRATION_5_6)
     private val TEST_DB = "migration-test"
     private val LATEST_VERSION = 7
 
@@ -81,7 +81,7 @@ class MigrationsTest {
 
     @Test
     @Throws(IOException::class)
-    fun testMigration5To6_reminders() {
+    fun testMigration5to6() {
         helper.createDatabase(TEST_DB, 5).use { db ->
             db.execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
@@ -96,7 +96,8 @@ class MigrationsTest {
         helper.runMigrationsAndValidate(
             name = TEST_DB,
             version = 6,
-            validateDroppedTables = true
+            validateDroppedTables = true,
+            migrations = arrayOf(MIGRATION_5_6),
         ).use { db ->
             db.query("SELECT * FROM reminders", arrayOf()).use { cursor ->
                 if (cursor.moveToFirst()) {
@@ -119,8 +120,8 @@ class MigrationsTest {
 
     @Test
     @Throws(IOException::class)
-    fun testMigration5To6_tasks() {
-        helper.createDatabase(TEST_DB, 5).use { db ->
+    fun testMigration6to7() {
+        helper.createDatabase(TEST_DB, 6).use { db ->
             db.execSQL(
                 "INSERT INTO tasks (created_at, name, date, is_done) VALUES " +
                         "('2023-08-23', 'This is a test', '2023-08-23', 0); "
@@ -129,7 +130,7 @@ class MigrationsTest {
 
         helper.runMigrationsAndValidate(
             name = TEST_DB,
-            version = 6,
+            version = 7,
             validateDroppedTables = true
         ).use { db ->
             db.query("SELECT * FROM tasks", arrayOf()).use { cursor ->

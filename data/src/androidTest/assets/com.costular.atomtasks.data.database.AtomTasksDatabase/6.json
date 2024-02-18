@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "b7edbbddb7b6074b82058cc10fc85bbb",
+    "identityHash": "0fb719da15b9a11591a0ec26f11628e6",
     "entities": [
       {
         "tableName": "tasks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `name` TEXT NOT NULL, `date` TEXT NOT NULL, `is_done` INTEGER NOT NULL, `position` INTEGER NOT NULL DEFAULT 0, `is_recurring` INTEGER NOT NULL DEFAULT 0, `recurrence_type` TEXT, `recurrence_end_date` TEXT, `parent_id` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` TEXT NOT NULL, `name` TEXT NOT NULL, `date` TEXT NOT NULL, `is_done` INTEGER NOT NULL, `position` INTEGER NOT NULL DEFAULT 0)",
         "fields": [
           {
             "fieldPath": "id",
@@ -44,31 +44,6 @@
             "affinity": "INTEGER",
             "notNull": true,
             "defaultValue": "0"
-          },
-          {
-            "fieldPath": "isRecurring",
-            "columnName": "is_recurring",
-            "affinity": "INTEGER",
-            "notNull": true,
-            "defaultValue": "0"
-          },
-          {
-            "fieldPath": "recurrenceType",
-            "columnName": "recurrence_type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "recurrenceEndDate",
-            "columnName": "recurrence_end_date",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "parentId",
-            "columnName": "parent_id",
-            "affinity": "INTEGER",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -96,24 +71,6 @@
             ],
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tasks_position_date` ON `${TABLE_NAME}` (`position`, `date`)"
-          },
-          {
-            "name": "index_tasks_date",
-            "unique": false,
-            "columnNames": [
-              "date"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_tasks_date` ON `${TABLE_NAME}` (`date`)"
-          },
-          {
-            "name": "index_tasks_parent_id",
-            "unique": false,
-            "columnNames": [
-              "parent_id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_tasks_parent_id` ON `${TABLE_NAME}` (`parent_id`)"
           }
         ],
         "foreignKeys": []
@@ -160,7 +117,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b7edbbddb7b6074b82058cc10fc85bbb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0fb719da15b9a11591a0ec26f11628e6')"
     ]
   }
 }

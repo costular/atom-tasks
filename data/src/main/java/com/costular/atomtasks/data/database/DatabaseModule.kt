@@ -23,7 +23,7 @@ abstract class DatabaseModule {
             Room.databaseBuilder(context, AtomTasksDatabase::class.java, "atomtasks.db")
                 .addMigrations(
                     MIGRATION_4_5,
-                    MIGRATION_6_7,
+                    MIGRATION_5_6,
                 )
                 .build()
     }
