@@ -25,7 +25,7 @@ interface TasksDao {
     suspend fun update(taskEntity: TaskEntity): Int
 
     @Transaction
-    @Query("SELECT * FROM tasks ORDER BY position ASC, is_done ASC;")
+    @Query("SELECT * FROM tasks ORDER BY position ASC;")
     fun getAllTasks(): Flow<List<TaskAggregated>>
 
     @Transaction
@@ -33,7 +33,7 @@ interface TasksDao {
         """
             SELECT * FROM tasks
             WHERE date = :date
-            ORDER BY CASE WHEN is_done = 1 THEN 1 ELSE 0 END, position ASC;
+            ORDER BY position ASC;
         """
     )
     fun getAllTasksForDate(date: LocalDate): Flow<List<TaskAggregated>>
