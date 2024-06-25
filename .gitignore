@@ -194,6 +194,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Kotlin 2.0
+.kotlin/
+
 ### AndroidStudio Patch ###
 
 !/build-logic/gradle/wrapper/gradle-wrapper.jar
