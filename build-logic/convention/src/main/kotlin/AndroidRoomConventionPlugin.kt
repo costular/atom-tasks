@@ -1,3 +1,4 @@
+import com.costular.atomtasks.libs
 import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -23,7 +24,6 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
                 // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration.
                 arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             }
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
                 add("implementation", libs.findLibrary("room.runtime").get())

@@ -28,7 +28,7 @@ enum class AtomBuildType(val applicationIdSuffix: String? = null) {
 }
 
 fun configureFlavors(
-    commonExtensions: CommonExtension<*, *, *, *, *>,
+    commonExtensions: CommonExtension<*, *, *, *, *, *>,
     flavorConfigurationBlock: ProductFlavor.(atomFlavor: AtomFlavor) -> Unit = {},
 ) {
     commonExtensions.apply {

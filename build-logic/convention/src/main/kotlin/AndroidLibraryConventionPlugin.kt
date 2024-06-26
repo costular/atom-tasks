@@ -1,5 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import com.costular.atomtasks.configureKotlinAndroid
+import com.costular.atomtasks.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -20,7 +21,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = 34
             }
 
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 configurations.configureEach {
                     resolutionStrategy {

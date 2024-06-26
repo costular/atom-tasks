@@ -5,6 +5,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import com.android.build.gradle.LibraryExtension
+import com.costular.atomtasks.libs
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
 
@@ -26,7 +27,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     }
                 }
             }
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
                 add("implementation", project(":core:designsystem"))

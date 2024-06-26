@@ -1,3 +1,4 @@
+import com.costular.atomtasks.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -13,8 +14,6 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
                 // See: https://stackoverflow.com/questions/70550883/warning-the-following-options-were-not-recognized-by-any-processor-dagger-f
                 apply("org.jetbrains.kotlin.kapt")
             }
-
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
                 "implementation"(libs.findLibrary("hilt").get())
