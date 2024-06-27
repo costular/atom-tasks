@@ -2,12 +2,15 @@
 
 package com.costular.atomtasks.tasks.createtask
 
+import android.app.AlarmManager
 import android.app.AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION_CODES.S
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
@@ -47,6 +50,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
@@ -68,6 +73,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import java.time.LocalDate
 import java.time.LocalTime
+
 
 @ExperimentalMaterial3Api
 @Suppress("MagicNumber", "LongMethod")
@@ -114,7 +120,7 @@ fun CreateTaskExpanded(
             }
 
             is CreateTaskUiEvents.NavigateToExactAlarmSettings -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (Build.VERSION.SDK_INT >= S) {
                     context.startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
                 }
             }
@@ -474,6 +480,10 @@ private fun NotificationPermissionEffect(
 ) {
     if (LocalInspectionMode.current) return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+
+    val context = LocalContext.current
+    val alarmManager = context.applicationContext.getSystemService<AlarmManager>()
+
     val notificationsPermissionState = rememberPermissionState(
         android.Manifest.permission.POST_NOTIFICATIONS,
     )
@@ -489,6 +499,13 @@ private fun NotificationPermissionEffect(
                 notificationsPermissionState.launchPermissionRequest()
             }
         )
+    }
+
+    checkNotNull(alarmManager)
+    if (Build.VERSION.SDK_INT >= S && !alarmManager.canScheduleExactAlarms()) {
+        val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+        intent.setData(Uri.fromParts("package", context.packageName, null))
+        context.startActivity(intent)
     }
 
     LaunchedEffect(notificationsPermissionState) {
