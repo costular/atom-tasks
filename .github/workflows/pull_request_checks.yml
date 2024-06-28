@@ -51,32 +51,6 @@ jobs:
       - name: Unit tests
         run: ./gradlew test -x :screenshot_testing:test
 
-  ui_tests:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        api-level: [ 26, 30 ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Java 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 17
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.ref != 'refs/heads/develop' }}
-
-      - name: Decode google-services.json
-        env:
-          FIREBASE_CONFIG: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $FIREBASE_CONFIG > app/google-services.json
-
   screenshot_tests:
     runs-on: ubuntu-latest
     steps:
