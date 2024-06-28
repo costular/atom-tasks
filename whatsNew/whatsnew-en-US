@@ -1,3 +1,3 @@
-Recurrent tasks are here! 🔁🎉
-
-Also, now you can navigate easier through weeks and months swiping on the header week/month calendar
+- Enhanced overall app performance for a smoother and faster user experience.
+- Updated task management: Tasks are no longer automatically reordered when marked as done or undone. You can now customize the order of your tasks by dragging them to your preferred position.
+- Fixed an issue with reminder notifications that occasionally failed to appear on time due to Android's permissions. Notifications should now function reliably.

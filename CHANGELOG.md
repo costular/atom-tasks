@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] 
+## [Unreleased]
 
 ### Added
 
@@ -15,6 +15,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
+
+### Security
+
+## [2.5.2] - 2024-06-28 
+
+### Added
+
+### Changed
+- Enhanced overall app performance
+- Updated task management: Tasks are no longer automatically reordered when marked as done or undone. You can now customize the order of your tasks by dragging them to your preferred position
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Resolved an issue with reminder notifications that occasionally failed to appear on time due to Android's permissions. Notifications should now function reliably.
 
 ### Security
 
