@@ -6,7 +6,11 @@ import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.core.ui.R.string as S
 
 @Composable
-fun RecurrenceType.localized(): String {
+fun RecurrenceType?.localized(): String {
+    if (this == null) {
+        return stringResource(S.task_recurrence_never)
+    }
+
     val stringRes = when(this) {
         RecurrenceType.DAILY -> S.task_recurrence_daily
         RecurrenceType.WEEKDAYS -> S.task_recurrence_weekdays

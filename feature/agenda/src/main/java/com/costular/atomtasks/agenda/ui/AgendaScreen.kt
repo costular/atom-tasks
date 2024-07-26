@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
+import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.review.ui.ReviewHandler
@@ -74,19 +75,33 @@ internal fun AgendaScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        setFabOnClick {
-            viewModel.onCreateTask()
-            navigator.navigateToCreateTask(state.selectedDay.date.toString())
+    EventObserver(viewModel.uiEvents) { event ->
+        when (event) {
+            is AgendaUiEvents.GoToNewTaskScreen -> {
+                if (event.shouldShowNewScreen) {
+                    navigator.navigateToDetailScreenForCreateTask(event.date.toString())
+                } else {
+                    navigator.navigateToCreateTask(event.date.toString())
+                }
+            }
+
+            is AgendaUiEvents.GoToEditScreen -> {
+                if (event.shouldShowNewScreen) {
+                    navigator.navigateToDetailScreenToEdit(event.taskId)
+                } else {
+                    navigator.navigateToEditTask(event.taskId)
+                }
+            }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        setFabOnClick(viewModel::onCreateTask)
     }
 
     HandleResultRecipients(
         resultRecipient = resultRecipient,
-        onEdit = { taskId ->
-            viewModel.onEditTask()
-            navigator.navigateToEditTask(taskId)
-        },
+        onEdit = viewModel::onEditTask,
         onDelete = viewModel::actionDelete,
         onMarkTask = viewModel::onMarkTask,
     )

@@ -3,11 +3,10 @@ package com.costular.designsystem.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AtomOutlinedTextField(
     value: String,
@@ -37,8 +35,6 @@ fun AtomOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-    val colors = TextFieldDefaults.outlinedTextFieldColors()
-
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -58,6 +54,6 @@ fun AtomOutlinedTextField(
         maxLines = maxLines,
         interactionSource = interactionSource,
         shape = shape,
-        colors = colors,
+        colors = OutlinedTextFieldDefaults.colors(),
     )
 }
