@@ -232,7 +232,7 @@ class AgendaViewModel @Inject constructor(
             sendEvent(
                 AgendaUiEvents.GoToEditScreen(
                     taskId = taskId,
-                    shouldShowNewScreen = shouldOpenNewScreen()
+                    shouldShowNewScreen = true
                 )
             )
         }
