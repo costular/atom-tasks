@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.atomtasks.feature.detail
 
 import android.content.Intent
@@ -79,6 +81,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 import com.costular.atomtasks.core.ui.R.string as S
 
+private const val FieldMaxLines = 5
+private const val FieldMinLines = 1
+
 @OptIn(ExperimentalFoundationApi::class)
 @Destination(style = DestinationStyleBottomSheet::class, navArgsDelegate = TaskDetailNavArgs::class)
 @Composable
@@ -123,6 +128,7 @@ fun TaskDetailScreen(
     )
 }
 
+@Suppress("LongParameterList")
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
 @Composable
@@ -231,30 +237,10 @@ private fun TaskDetailContent(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(
-                onClick = onClose,
-                modifier = Modifier.padding(start = 2.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = null
-                )
-            }
-
-            Button(
-                onClick = onSave,
-                modifier = Modifier.padding(end = AppTheme.dimens.spacingLarge)
-            ) {
-                Text(
-                    text = stringResource(S.save)
-                )
-            }
-        }
+        Header(
+            onClose = onClose,
+            onSave = onSave
+        )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
@@ -281,6 +267,34 @@ private fun TaskDetailContent(
         )
 
         Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
+    }
+}
+
+@Composable
+private fun Header(onClose: () -> Unit, onSave: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        IconButton(
+            onClick = onClose,
+            modifier = Modifier.padding(start = 2.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = null
+            )
+        }
+
+        Button(
+            onClick = onSave,
+            modifier = Modifier.padding(end = AppTheme.dimens.spacingLarge)
+        ) {
+            Text(
+                text = stringResource(S.save)
+            )
+        }
     }
 }
 
@@ -357,6 +371,7 @@ private fun ColumnScope.TaskReminderSection(
     }
 }
 
+
 @ExperimentalFoundationApi
 @Composable
 private fun TaskInput(
@@ -377,7 +392,7 @@ private fun TaskInput(
 
         BasicTextField(
             state = name,
-            lineLimits = TextFieldLineLimits.MultiLine(1, 5),
+            lineLimits = TextFieldLineLimits.MultiLine(FieldMinLines, FieldMaxLines),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimens.spacingLarge)

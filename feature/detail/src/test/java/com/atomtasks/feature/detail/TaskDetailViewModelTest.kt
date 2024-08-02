@@ -2,8 +2,6 @@ package com.atomtasks.feature.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.costular.atomtasks.analytics.AtomAnalytics
-import com.costular.atomtasks.tasks.createtask.CreateTaskResult
-import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
@@ -55,25 +53,5 @@ class TaskDetailViewModelTest {
         sut.onReminderChanged(localTime)
 
         assertThat(sut.state.value.reminder).isEqualTo(localTime)
-    }
-
-    @Test
-    fun `should send save event with according data when request save`() = runTest {
-        val name = "name"
-        val date = LocalDate.of(2021, 12, 24)
-        val reminder = LocalTime.of(9, 0)
-        val recurrence = RecurrenceType.WEEKLY
-        val expected = CreateTaskResult(name, date, reminder, recurrence)
-
-//        sut.setName(name)
-//        sut.setDate(date)
-//        sut.setReminder(reminder)
-//        sut.setRecurrence(RecurrenceType.WEEKLY)
-//        sut.requestSave()
-//
-//        sut.uiEvents.test {
-//            assertThat(expectMostRecentItem()).isEqualTo(CreateTaskUiEvents.SaveTask(expected))
-//            cancelAndIgnoreRemainingEvents()
-//        }
     }
 }

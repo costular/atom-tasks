@@ -253,13 +253,11 @@ class AgendaViewModel @Inject constructor(
             sendEvent(
                 AgendaUiEvents.GoToNewTaskScreen(
                     date = state.value.selectedDay.date,
-                    shouldShowNewScreen = shouldOpenNewScreen()
+                    shouldShowNewScreen = true // Use remote config in the future
                 )
             )
         }
     }
-
-    private suspend fun shouldOpenNewScreen(): Boolean = true // TODO: Fetch this from remote config
 
     fun orderTaskTutorialDismissed() {
         viewModelScope.launch {

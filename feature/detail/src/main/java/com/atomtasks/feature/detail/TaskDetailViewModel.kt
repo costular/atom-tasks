@@ -8,7 +8,6 @@ import com.atomtasks.feature.detail.EditRecurringTaskResponse.THIS_AND_FUTURE_ON
 import com.atomtasks.feature.detail.destinations.TaskDetailScreenDestination
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
-import com.costular.atomtasks.tasks.createtask.CreateTaskUiEvents
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
@@ -21,6 +20,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 @HiltViewModel
 class TaskDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -178,6 +178,7 @@ class TaskDetailViewModel @Inject constructor(
         )
     }
 
+    @Suppress("ForbiddenComment")
     private fun createTask() {
         viewModelScope.launch {
             val currentState = state.value
