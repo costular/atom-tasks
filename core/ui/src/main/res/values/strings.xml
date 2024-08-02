@@ -29,27 +29,41 @@
     <string name="agenda_mark_as_undone">Mark as undone</string>
     <string name="agenda_create_new_task">New task</string>
     <string name="agenda_tutorial_task_order">Want your tasks in order? Long press and drag!</string>
-
     <string name="today">Today</string>
-    <string name="create_task_set_date">Choose a Date</string>
-    <string name="create_task_set_reminder">Set reminder</string>
-    <string name="create_task_set_recurrence">Repeat</string>
+    <string name="task_recurrence_never">Just once</string>
     <string name="task_recurrence_daily">Daily</string>
     <string name="task_recurrence_weekdays">Weekdays</string>
     <string name="task_recurrence_weekly">Weekly</string>
     <string name="task_recurrence_monthly">Monthly</string>
     <string name="task_recurrence_yearly">Yearly</string>
+    <string name="remove_task_message">Are you sure to remove this task?</string>
+    <string name="no_reminder">No reminder</string>
+    <string name="enable_reminder">Enable reminder</string>
+    <string name="task_list_empty_title">No tasks</string>
+    <string name="task_list_empty_description">Create a task and start organizing your life!</string>
+
+    <!-- Create task -->
+    <string name="create_task_set_date">Choose a Date</string>
+    <string name="create_task_set_reminder">Set reminder</string>
+    <string name="create_task_set_recurrence">Repeat</string>
     <string name="create_task_recurrence_picker_none">Does not repeat</string>
     <string name="create_task_recurrence_picker_daily">Every Day</string>
     <string name="create_task_recurrence_picker_weekdays">Every Weekday</string>
     <string name="create_task_recurrence_picker_weekly">Every Week</string>
     <string name="create_task_recurrence_picker_monthly">Every Month</string>
     <string name="create_task_recurrence_picker_yearly">Every Year</string>
-    <string name="remove_task_message">Are you sure to remove this task?</string>
-    <string name="no_reminder">No reminder</string>
-    <string name="enable_reminder">Enable reminder</string>
-    <string name="task_list_empty_title">No tasks</string>
-    <string name="task_list_empty_description">Create a task and start organizing your life!</string>
+
+    <!-- Task detail -->
+    <string name="task_detail_day_subhead">Date</string>
+    <string name="task_detail_reminder_subhead">Reminder</string>
+    <string name="task_detail_reminder_add_reminder">Reminder</string>
+    <string name="task_detail_recurrence_subhead">Repeat</string>
+    <string name="task_detail_recurrence_picker_none">Does not repeat</string>
+    <string name="task_detail_recurrence_picker_daily">Every Day</string>
+    <string name="task_detail_recurrence_picker_weekdays">Every Weekday</string>
+    <string name="task_detail_recurrence_picker_weekly">Every Week</string>
+    <string name="task_detail_recurrence_picker_monthly">Every Month</string>
+    <string name="task_detail_recurrence_picker_yearly">Every Year</string>
 
     <string name="notification_channel_reminders_title">Reminders</string>
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>

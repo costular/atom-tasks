@@ -479,7 +479,10 @@ private fun NotificationPermissionEffect(
     onAccept: @Composable () -> Unit,
 ) {
     if (LocalInspectionMode.current) return
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        onAccept()
+        return
+    }
 
     val context = LocalContext.current
     val alarmManager = context.applicationContext.getSystemService<AlarmManager>()

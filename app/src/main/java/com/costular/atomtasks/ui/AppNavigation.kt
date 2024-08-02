@@ -13,7 +13,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.costular.atomtasks.ui.home.AppNavigator
 import com.costular.atomtasks.ui.home.AtomAppState
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.dependency
@@ -55,7 +54,6 @@ fun DestinationScopeWithNoDependencies<*>.currentNavigator(): AppNavigator {
     return AppNavigator(navController)
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalAnimationApi
 @Composable
 internal fun AppNavigation(
