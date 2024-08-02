@@ -1,5 +1,9 @@
 package com.atomtasks.feature.detail
 
+import android.content.Intent
+import android.os.Build
+import android.os.Build.VERSION_CODES
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,7 +37,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -48,10 +52,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -80,11 +86,18 @@ fun TaskDetailScreen(
     navigator: DestinationsNavigator,
     viewModel: TaskDetailViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     EventObserver(viewModel.uiEvents) { event ->
         when (event) {
             is TaskDetailUiEvent.Close -> navigator.navigateUp()
+
+            is TaskDetailUiEvent.NavigateToExactAlarmSettings -> {
+                if (Build.VERSION.SDK_INT >= VERSION_CODES.S) {
+                    context.startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+                }
+            }
         }
     }
 
@@ -394,7 +407,6 @@ fun ColumnScope.TaskDetailSection(
     content()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Field(
     icon: ImageVector,
@@ -436,7 +448,9 @@ fun Field(
         )
 
         if (isClearable) {
-            CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+            CompositionLocalProvider(
+                value = LocalMinimumInteractiveComponentSize provides Dp.Unspecified
+            ) {
                 IconButton(
                     onClick = onClear,
                     modifier = Modifier.size(18.dp),

@@ -8,6 +8,7 @@ import com.atomtasks.feature.detail.EditRecurringTaskResponse.THIS_AND_FUTURE_ON
 import com.atomtasks.feature.detail.destinations.TaskDetailScreenDestination
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
+import com.costular.atomtasks.tasks.createtask.CreateTaskUiEvents
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
@@ -150,7 +151,7 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun navigateToExactAlarmSettings() {
-        // sendEvent(CreateTaskUiEvents.NavigateToExactAlarmSettings)
+        sendEvent(TaskDetailUiEvent.NavigateToExactAlarmSettings)
     }
 
     fun exactAlarmSettingChanged() {
