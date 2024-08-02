@@ -1,7 +1,7 @@
 package com.atomtasks.feature.detail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.input.TextFieldState
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import java.time.LocalDate
 import java.time.LocalTime

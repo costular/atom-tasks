@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
+    id("dagger.hilt.android.plugin")
 }
 
 android {

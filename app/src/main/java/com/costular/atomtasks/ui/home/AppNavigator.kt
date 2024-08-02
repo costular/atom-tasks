@@ -2,29 +2,33 @@ package com.costular.atomtasks.ui.home
 
 import androidx.navigation.NavController
 import com.atomtasks.feature.detail.destinations.TaskDetailScreenDestination
-import com.costular.atomtasks.agenda.ui.AgendaNavigator
 import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
+import com.costular.atomtasks.agenda.ui.AgendaNavigator
 import com.costular.atomtasks.createtask.destinations.CreateTaskScreenDestination
 import com.costular.atomtasks.feature.edittask.destinations.EditTaskScreenDestination
 import com.costular.atomtasks.settings.SettingsNavigator
 import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.utils.toDestinationsNavigator
 import java.time.LocalDate
 
 class AppNavigator(
     private val navController: NavController,
 ) : SettingsNavigator, AgendaNavigator {
 
+    private val destinationsNavigator by lazy {
+        navController.toDestinationsNavigator()
+    }
+
     override fun navigateToCreateTask(date: String) {
-        navController.navigate(CreateTaskScreenDestination(date))
+        destinationsNavigator.navigate(CreateTaskScreenDestination(date))
     }
 
     override fun navigateToEditTask(taskId: Long) {
-        navController.navigate(EditTaskScreenDestination(taskId))
+        destinationsNavigator.navigate(EditTaskScreenDestination(taskId))
     }
 
     override fun navigateToDetailScreenForCreateTask(date: String) {
-        navController.navigate(
+        destinationsNavigator.navigate(
             TaskDetailScreenDestination(
                 defaultDate = LocalDate.parse(date),
                 taskId = null,
@@ -33,7 +37,7 @@ class AppNavigator(
     }
 
     override fun navigateToDetailScreenToEdit(taskId: Long) {
-        navController.navigate(
+        destinationsNavigator.navigate(
             TaskDetailScreenDestination(
                 defaultDate = null,
                 taskId = taskId
@@ -42,14 +46,14 @@ class AppNavigator(
     }
 
     override fun openTaskActions(taskId: Long, taskName: String, isDone: Boolean) {
-        navController.navigate(TasksActionsBottomSheetDestination(taskId, taskName, isDone))
+        destinationsNavigator.navigate(TasksActionsBottomSheetDestination(taskId, taskName, isDone))
     }
 
     override fun navigateUp() {
-        navController.navigateUp()
+        destinationsNavigator.navigateUp()
     }
 
     override fun navigateToSelectTheme(theme: String) {
-        navController.navigate(ThemeSelectorScreenDestination(theme))
+        destinationsNavigator.navigate(ThemeSelectorScreenDestination(theme))
     }
 }

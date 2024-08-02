@@ -44,13 +44,12 @@ import com.costular.atomtasks.ui.AppNavigation
 import com.costular.atomtasks.ui.NavGraphs
 import com.costular.atomtasks.ui.currentScreenAsState
 import com.costular.designsystem.theme.AtomTheme
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.costular.atomtasks.core.ui.R.string as S
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun App(
     windowSizeClass: WindowSizeClass,
