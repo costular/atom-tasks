@@ -224,12 +224,18 @@ class AgendaViewModel @Inject constructor(
         } else {
             atomAnalytics.track(ExpandCalendar)
         }
-
-
     }
 
-    fun onEditTask() {
-        atomAnalytics.track(AgendaAnalytics.EditTask)
+    fun onEditTask(taskId: Long) {
+        viewModelScope.launch {
+            atomAnalytics.track(AgendaAnalytics.EditTask)
+            sendEvent(
+                AgendaUiEvents.GoToEditScreen(
+                    taskId = taskId,
+                    shouldShowNewScreen = true
+                )
+            )
+        }
     }
 
     fun onOpenTaskActions() {
@@ -241,7 +247,16 @@ class AgendaViewModel @Inject constructor(
     }
 
     fun onCreateTask() {
-        atomAnalytics.track(AgendaAnalytics.CreateNewTask)
+        viewModelScope.launch {
+            atomAnalytics.track(AgendaAnalytics.CreateNewTask)
+
+            sendEvent(
+                AgendaUiEvents.GoToNewTaskScreen(
+                    date = state.value.selectedDay.date,
+                    shouldShowNewScreen = true // Use remote config in the future
+                )
+            )
+        }
     }
 
     fun orderTaskTutorialDismissed() {

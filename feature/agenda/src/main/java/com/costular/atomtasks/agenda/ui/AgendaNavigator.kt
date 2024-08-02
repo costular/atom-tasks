@@ -3,10 +3,17 @@ package com.costular.atomtasks.agenda.ui
 interface AgendaNavigator {
     fun navigateToCreateTask(
         date: String,
-        text: String? = null,
     )
 
     fun navigateToEditTask(
+        taskId: Long,
+    )
+
+    fun navigateToDetailScreenForCreateTask(
+        date: String,
+    )
+
+    fun navigateToDetailScreenToEdit(
         taskId: Long,
     )
 

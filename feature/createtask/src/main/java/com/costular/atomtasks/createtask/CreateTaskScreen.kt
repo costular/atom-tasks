@@ -21,7 +21,6 @@ import java.time.LocalDate
 @Destination(style = DestinationStyleBottomSheet::class)
 @Composable
 fun CreateTaskScreen(
-    text: String?,
     date: String?,
     navigator: DestinationsNavigator,
 ) {
@@ -43,7 +42,7 @@ fun CreateTaskScreen(
     }
 
     CreateTaskExpanded(
-        value = text ?: "",
+        value = "",
         date = localDate,
         onSave = { result ->
             viewModel.createTask(

@@ -89,6 +89,7 @@ dependencies {
     implementation(projects.common.tasks)
     implementation(projects.feature.edittask)
     implementation(projects.feature.postponeTask)
+    implementation(projects.feature.detail)
 
     implementation(libs.fragment)
     implementation(libs.compose.activity)
