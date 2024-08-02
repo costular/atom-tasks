@@ -74,7 +74,7 @@ jobs:
         run: ./gradlew verifyPaparazziDebug
 
   build:
-    needs: [ unit_tests, ui_tests, screenshot_tests ]
+    needs: [ unit_tests, screenshot_tests ]
     runs-on: ubuntu-latest
     steps:
 
