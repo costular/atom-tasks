@@ -18,6 +18,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.6.0] - 2024-08-02
+
+### Added
+- New task detail screen
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fix notification permission
+- Fix schedule exact alarm permission 
+
+### Security
+
 ## [2.5.2] - 2024-06-28 
 
 ### Added
