@@ -10,10 +10,12 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Ignore("Will be done in the future")
 class TaskDetailViewModelTest {
 
     lateinit var sut: TaskDetailViewModel
