@@ -13,7 +13,7 @@ data class AgendaState(
     val isHeaderExpanded: Boolean = false,
     val fromToPositions: Pair<Int, Int>? = null,
     val shouldShowCardOrderTutorial: Boolean = false,
-    val shouldShowReviewDialog: Boolean = false,
+    val shouldShowReviewDialog: Boolean = true,
 ) {
     companion object {
         val Empty = AgendaState()
