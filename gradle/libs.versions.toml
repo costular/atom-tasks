@@ -73,7 +73,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
-calendar = "com.kizitonwose.calendar:compose:2.6.0beta03"
+calendar = "com.kizitonwose.calendar:compose:2.6.0-beta03"
 android-junit = "androidx.test.ext:junit-ktx:1.2.0"
 firebase-bom = "com.google.firebase:firebase-bom:33.1.1"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
