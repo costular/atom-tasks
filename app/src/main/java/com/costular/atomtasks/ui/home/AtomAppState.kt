@@ -9,6 +9,9 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.costular.atomtasks.agenda.destinations.AgendaScreenDestination
+import com.costular.atomtasks.settings.destinations.SettingsScreenDestination
+import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 
 @Composable
@@ -26,15 +29,24 @@ class AtomAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
 ) {
-    val currentDestination: NavBackStackEntry?
+    private val currentDestination: NavBackStackEntry?
         @Composable get() = navController.currentBackStackEntryAsState().value
+
+    val shouldShowNavigation: Boolean
+        @Composable get() = currentDestination?.destination?.route in listOf(
+            AgendaScreenDestination,
+            SettingsScreenDestination,
+            ThemeSelectorScreenDestination,
+        ).map { it.route }
 
     val atomNavigationType: AtomNavigationType
         get() = when (windowSizeClass.widthSizeClass) {
             WindowWidthSizeClass.Compact ->
                 AtomNavigationType.BOTTOM_NAVIGATION
+
             WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded ->
                 AtomNavigationType.RAIL_NAVIGATION
+
             else -> AtomNavigationType.BOTTOM_NAVIGATION
         }
 

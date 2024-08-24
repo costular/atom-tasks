@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -85,7 +86,7 @@ private const val FieldMaxLines = 5
 private const val FieldMinLines = 1
 
 @OptIn(ExperimentalFoundationApi::class)
-@Destination(style = DestinationStyleBottomSheet::class, navArgsDelegate = TaskDetailNavArgs::class)
+@Destination(navArgsDelegate = TaskDetailNavArgs::class)
 @Composable
 fun TaskDetailScreen(
     navigator: DestinationsNavigator,
@@ -225,18 +226,7 @@ private fun TaskDetailContent(
         focusRequester.requestFocus()
     }
 
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-            .imePadding()
-    ) {
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
-
-        Draggable(
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-
+    Column(Modifier.fillMaxSize()) {
         Header(
             onClose = onClose,
             onSave = onSave

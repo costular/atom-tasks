@@ -100,13 +100,15 @@ private fun Home(
         AtomNavigationType.BOTTOM_NAVIGATION -> {
             DestinationsScaffold(
                 bottomBar = {
-                    AtomBottomNavigation(
-                        selectedNavigation = currentSelectedItem,
-                        onNavigationSelected = { selected ->
-                            atomAppState.navigateToTopLevelDestination(selected)
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                    if (atomAppState.shouldShowNavigation) {
+                        AtomBottomNavigation(
+                            selectedNavigation = currentSelectedItem,
+                            onNavigationSelected = { selected ->
+                                atomAppState.navigateToTopLevelDestination(selected)
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 },
                 floatingActionButton = {
                     AddTaskFloatingActionButton(

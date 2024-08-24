@@ -21,6 +21,15 @@ object NavGraphs {
         override val destinationsByRoute = listOf<DestinationSpec<*>>(
             AgendaScreenDestination,
             TasksActionsBottomSheetDestination,
+        ).associateBy { it.route }
+    }
+
+    val taskDetail = object : NavGraphSpec {
+        override val route: String = "detail"
+
+        override val startRoute: Route = TaskDetailScreenDestination
+
+        override val destinationsByRoute = listOf<DestinationSpec<*>>(
             TaskDetailScreenDestination,
         ).associateBy { it.route }
     }
@@ -68,6 +77,7 @@ object NavGraphs {
 
         override val nestedNavGraphs: List<NavGraphSpec> = listOf(
             agenda,
+            taskDetail,
             createTask,
             settings,
             editTask,
