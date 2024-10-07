@@ -1,5 +1,6 @@
 package com.costular.designsystem.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -84,8 +85,18 @@ private fun CalendarDay(
         CardDefaults.outlinedCardColors()
     }
 
+    val border = if (isToday) {
+        BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.primary
+        )
+    } else {
+        CardDefaults.outlinedCardBorder()
+    }
+
     OutlinedCard(
         colors = cardColors,
+        border = border,
         modifier = modifier
             .height(70.dp)
             .clip(RoundedCornerShape(12.dp))
@@ -104,29 +115,8 @@ private fun CalendarDay(
                 text = day.toString(),
                 style = MaterialTheme.typography.titleMedium
             )
-
-            if (isToday) {
-                IndicatorToday(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.60f)
-                )
-            }
         }
     }
-}
-
-@Composable
-fun IndicatorToday(
-    modifier: Modifier = Modifier,
-    color: Color,
-) {
-    Canvas(
-        modifier = modifier.size(4.dp),
-        onDraw = {
-            drawCircle(
-                color = color,
-            )
-        }
-    )
 }
 
 @Preview
