@@ -2,7 +2,6 @@ package com.costular.atomtasks.core.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.navigation.ModalBottomSheetLayout
 import androidx.compose.material.navigation.rememberBottomSheetNavigator
@@ -38,7 +37,7 @@ fun DestinationsBottomSheet(
     navController.navigatorProvider += bottomSheetNavigator
 
     ModalBottomSheetLayout(
-        modifier = Modifier.safeContentPadding(),
+        modifier = Modifier.imePadding(),
         bottomSheetNavigator = bottomSheetNavigator,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetBackgroundColor = MaterialTheme.colorScheme.surface,

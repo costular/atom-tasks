@@ -201,12 +201,11 @@ fun AgendaScreen(
         AgendaHeader(
             selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
-            canExpand = true, // TODO: Use a better solution
-            isExpanded = state.isHeaderExpanded,
-            onToggleExpandCollapse = onToggleExpandCollapse,
             modifier = Modifier.fillMaxWidth(),
             onSelectToday = onSelectToday,
+            onClickCalendar = {}, // It's still a work in progress to show the dialog calendar
         )
+
         TasksContent(
             state = state,
             onOpenTask = openTaskAction,
