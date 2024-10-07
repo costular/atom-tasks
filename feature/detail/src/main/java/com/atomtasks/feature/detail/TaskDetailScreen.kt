@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -70,14 +68,12 @@ import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
 import com.costular.atomtasks.tasks.createtask.RecurrenceTypePickerDialog
 import com.costular.atomtasks.tasks.format.localized
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.designsystem.components.Draggable
 import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import java.time.LocalDate
 import java.time.LocalTime
 import com.costular.atomtasks.core.ui.R.string as S
@@ -86,7 +82,10 @@ private const val FieldMaxLines = 5
 private const val FieldMinLines = 1
 
 @OptIn(ExperimentalFoundationApi::class)
-@Destination(navArgsDelegate = TaskDetailNavArgs::class)
+@Destination<TaskDetailGraph>(
+    start = true,
+    navArgs = TaskDetailNavArgs::class,
+)
 @Composable
 fun TaskDetailScreen(
     navigator: DestinationsNavigator,

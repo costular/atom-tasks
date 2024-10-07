@@ -1,7 +1,6 @@
 plugins {
     id("atomtasks.android.library")
     id("kotlin-android")
-    kotlin("kapt")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("atomtasks.android.hilt")
@@ -9,10 +8,6 @@ plugins {
 
 android {
     namespace = "com.costular.atomtasks.core.testing"
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 dependencies {

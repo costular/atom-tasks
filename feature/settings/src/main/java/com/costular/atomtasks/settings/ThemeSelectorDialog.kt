@@ -32,9 +32,9 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.costular.atomtasks.core.ui.R
-import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
+import com.ramcosta.composedestinations.bottomsheet.spec.DestinationStyleBottomSheet
 
-@Destination(style = DestinationStyleBottomSheet::class)
+@Destination<SettingsGraph>(style = DestinationStyleBottomSheet::class)
 @Composable
 fun ThemeSelectorScreen(
     selectedTheme: String,

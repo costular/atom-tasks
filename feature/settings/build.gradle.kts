@@ -4,18 +4,16 @@ plugins {
     id("atomtasks.android.library.compose")
     id("atomtasks.android.library.ksp")
     id("kotlin-android")
-    kotlin("kapt")
     alias(libs.plugins.ksp)
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
+    id("atomtasks.android.hilt")
 }
 
 android {
     namespace = "com.costular.atomtasks.feature.settings"
 
     ksp {
-        arg("compose-destinations.mode", "destinations")
         arg("compose-destinations.moduleName", "settings")
     }
 }
@@ -23,8 +21,7 @@ android {
 dependencies {
     implementation(projects.core.analytics)
     implementation(project(mapOf("path" to ":feature:agenda")))
-    kapt(libs.hilt.compiler)
-    implementation(libs.compose.destinations)
+    ksp(libs.hilt.compiler)
     ksp(libs.compose.destinations.ksp)
     implementation(libs.compose.ui.manifest)
     implementation(libs.calendar)

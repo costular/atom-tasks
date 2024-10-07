@@ -23,17 +23,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.costular.atomtasks.agenda.ui.AgendaGraph
 import com.costular.atomtasks.core.ui.R
 import com.costular.designsystem.components.ActionItem
 import com.costular.designsystem.components.Draggable
 import com.costular.designsystem.theme.AlphaDivider
 import com.costular.designsystem.theme.AppTheme
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.bottomsheet.spec.DestinationStyleBottomSheet
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
-import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 
-@Destination(style = DestinationStyleBottomSheet::class)
+@Destination<AgendaGraph>(style = DestinationStyleBottomSheet::class)
 @Composable
 fun ColumnScope.TasksActionsBottomSheet(
     result: ResultBackNavigator<TaskActionsResult>,

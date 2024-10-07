@@ -27,11 +27,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.data.settings.Theme
-import com.costular.atomtasks.settings.destinations.ThemeSelectorScreenDestination
 import com.costular.designsystem.components.AtomTopBar
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.settings.destinations.ThemeSelectorScreenDestination
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr
 import org.jetbrains.annotations.VisibleForTesting
@@ -46,7 +46,9 @@ object EmptySettingsNavigator : SettingsNavigator {
     override fun navigateToSelectTheme(theme: String) = Unit
 }
 
-@Destination
+@Destination<SettingsGraph>(
+    start = true,
+)
 @Composable
 fun SettingsScreen(
     navigator: SettingsNavigator,

@@ -3,7 +3,6 @@ plugins {
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("atomtasks.android.hilt")
-    kotlin("kapt")
 }
 
 android {

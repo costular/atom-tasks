@@ -4,7 +4,7 @@ plugins {
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -13,7 +13,7 @@ android {
 
 dependencies {
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.work)
 
     testImplementation(libs.work.testing)

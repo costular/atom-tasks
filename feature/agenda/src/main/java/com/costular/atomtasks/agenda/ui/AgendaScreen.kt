@@ -19,10 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
-import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
-import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.review.ui.ReviewHandler
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.ALL
@@ -38,6 +36,7 @@ import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.agenda.destinations.TasksActionsBottomSheetDestination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import java.time.LocalDate
@@ -48,19 +47,19 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 
 const val TestTagHeader = "AgendaTitle"
 
-@Destination
+@Destination<AgendaGraph>(
+    start = true,
+)
 @Composable
 fun AgendaScreen(
     navigator: AgendaNavigator,
     setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
-    windowSizeClass: WindowSizeClass,
 ) {
     AgendaScreen(
         navigator = navigator,
         setFabOnClick = setFabOnClick,
         resultRecipient = resultRecipient,
-        windowSizeClass = windowSizeClass,
         viewModel = hiltViewModel(),
     )
 }
@@ -70,7 +69,6 @@ internal fun AgendaScreen(
     navigator: AgendaNavigator,
     setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
-    windowSizeClass: WindowSizeClass,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -78,19 +76,11 @@ internal fun AgendaScreen(
     EventObserver(viewModel.uiEvents) { event ->
         when (event) {
             is AgendaUiEvents.GoToNewTaskScreen -> {
-                if (event.shouldShowNewScreen) {
-                    navigator.navigateToDetailScreenForCreateTask(event.date.toString())
-                } else {
-                    navigator.navigateToCreateTask(event.date.toString())
-                }
+                navigator.navigateToDetailScreenForCreateTask(event.date.toString())
             }
 
             is AgendaUiEvents.GoToEditScreen -> {
-                if (event.shouldShowNewScreen) {
                     navigator.navigateToDetailScreenToEdit(event.taskId)
-                } else {
-                    navigator.navigateToEditTask(event.taskId)
-                }
             }
         }
     }
@@ -113,7 +103,6 @@ internal fun AgendaScreen(
 
     AgendaScreen(
         state = state,
-        windowSizeClass = windowSizeClass,
         onSelectDate = viewModel::setSelectedDay,
         onSelectToday = viewModel::setSelectedDayToday,
         onMarkTask = viewModel::onMarkTask,
@@ -168,11 +157,10 @@ private fun HandleResultRecipients(
     }
 }
 
-@Suppress("LongMethod", "LongParameterList")
+@Suppress("LongMethod", "LongParameterList", "ForbiddenComment")
 @Composable
 fun AgendaScreen(
     state: AgendaState,
-    windowSizeClass: WindowSizeClass,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
@@ -213,7 +201,7 @@ fun AgendaScreen(
         AgendaHeader(
             selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
-            canExpand = windowSizeClass.canExpand,
+            canExpand = true, // TODO: Use a better solution
             isExpanded = state.isHeaderExpanded,
             onToggleExpandCollapse = onToggleExpandCollapse,
             modifier = Modifier.fillMaxWidth(),
@@ -292,8 +280,6 @@ private val WindowSizeClass.canExpand: Boolean
 @DevicesPreview
 @Composable
 fun AgendaPreview() {
-    val windowSizeClass = generateWindowSizeClass()
-
     AtomTheme {
         AgendaScreen(
             state = AgendaState(
@@ -336,7 +322,6 @@ fun AgendaPreview() {
                     ),
                 ),
             ),
-            windowSizeClass = windowSizeClass,
             onSelectDate = {},
             onSelectToday = {},
             onMarkTask = { _, _ -> },

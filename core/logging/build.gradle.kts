@@ -1,7 +1,6 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.detekt")
-    id("kotlin-kapt")
 }
 
 android {
