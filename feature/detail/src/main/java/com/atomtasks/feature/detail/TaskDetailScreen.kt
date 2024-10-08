@@ -370,7 +370,7 @@ private fun TaskInput(
     Box {
         if (name.text.isEmpty()) {
             Text(
-                text = "Add title",
+                text = stringResource(S.task_detail_task_name_placeholder),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = AppTheme.dimens.spacingLarge),

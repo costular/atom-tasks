@@ -20,6 +20,7 @@
     <string name="agenda_edit_title">Editar tarea</string>
     <string name="today">Hoy</string>
     <string name="create_task_set_recurrence">Repetir</string>
+    <string name="task_recurrence_never">No se repite</string>
     <string name="task_recurrence_daily">Diario</string>
     <string name="task_recurrence_weekdays">Días laborables</string>
     <string name="task_recurrence_weekly">Semanal</string>
@@ -97,4 +98,5 @@
     <string name="update_recurring_task_dialog_title">Actualizar tarea periódica</string>
     <string name="update_recurring_task_dialog_this">Esta tarea</string>
     <string name="update_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
+    <string name="task_detail_task_name_placeholder">Título de la tarea</string>
 </resources>
