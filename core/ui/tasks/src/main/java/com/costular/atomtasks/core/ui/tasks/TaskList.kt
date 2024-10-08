@@ -63,9 +63,7 @@ fun TaskList(
                         reminder = task.reminder,
                         isFinished = task.isDone,
                         recurrenceType = task.recurrenceType,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateItemPlacement(),
+                        modifier = Modifier.animateItem(fadeInSpec = null, fadeOutSpec = null),
                         isBeingDragged = isDragging,
                     )
                 }
