@@ -104,16 +104,16 @@ class TaskListSnapshotTest {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun GeneratedTaskList(tasks: List<Task>) {
         Scaffold {
-            com.costular.atomtasks.core.ui.tasks.TaskList(
+            TaskList(
                 tasks = tasks,
                 onClick = {},
                 onMarkTask = { _, _ -> },
                 modifier = Modifier.fillMaxWidth(),
                 state = rememberReorderableLazyListState(onMove = { _, _ -> }),
+                onClickMore = {},
             )
         }
     }

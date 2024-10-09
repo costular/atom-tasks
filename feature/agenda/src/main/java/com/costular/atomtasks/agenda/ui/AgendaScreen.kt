@@ -118,9 +118,11 @@ internal fun AgendaScreen(
             )
         },
 
-        onToggleExpandCollapse = viewModel::toggleHeader,
         onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
+        openTaskDetail = {
+            viewModel.onEditTask(it.id)
+        }
     )
 }
 
@@ -167,8 +169,8 @@ fun AgendaScreen(
     deleteTask: (id: Long) -> Unit,
     deleteRecurringTask: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
     dismissDelete: () -> Unit,
+    openTaskDetail: (Task) -> Unit,
     openTaskAction: (Task) -> Unit,
-    onToggleExpandCollapse: () -> Unit,
     onMoveTask: (Int, Int) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
 ) {
@@ -208,11 +210,12 @@ fun AgendaScreen(
 
         TasksContent(
             state = state,
-            onOpenTask = openTaskAction,
+            onOpenTask = openTaskDetail,
             onMarkTask = onMarkTask,
             modifier = Modifier.supportWideScreen(),
             onMoveTask = onMoveTask,
             onDragTask = onDragTask,
+            onClickTaskMore = openTaskAction,
         )
     }
 }
@@ -221,6 +224,7 @@ fun AgendaScreen(
 private fun TasksContent(
     state: AgendaState,
     onOpenTask: (Task) -> Unit,
+    onClickTaskMore: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
     onMoveTask: (Int, Int) -> Unit,
@@ -253,6 +257,7 @@ private fun TasksContent(
                 modifier = modifier
                     .fillMaxSize()
                     .testTag("AgendaTaskList"),
+                onClickMore = onClickTaskMore,
             )
         }
 
@@ -324,13 +329,13 @@ fun AgendaPreview() {
             onSelectDate = {},
             onSelectToday = {},
             onMarkTask = { _, _ -> },
-            onToggleExpandCollapse = {},
             deleteTask = {},
             deleteRecurringTask = { _, _ -> },
             dismissDelete = {},
             openTaskAction = {},
             onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
+            openTaskDetail = {},
         )
     }
 }

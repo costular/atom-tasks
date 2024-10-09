@@ -41,9 +41,10 @@ class TaskCardScreenshotTest {
                 isFinished = false,
                 reminder = null,
                 onMark = {},
-                onOpen = {},
+                onClick = {},
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
     }
@@ -59,9 +60,10 @@ class TaskCardScreenshotTest {
                 isFinished = true,
                 reminder = null,
                 onMark = {},
-                onOpen = {},
+                onClick = {},
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
     }
@@ -81,9 +83,10 @@ class TaskCardScreenshotTest {
                     LocalDate.now(),
                 ),
                 onMark = { },
-                onOpen = { },
+                onClick = { },
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
     }
@@ -99,9 +102,10 @@ class TaskCardScreenshotTest {
                 isFinished = true,
                 reminder = null,
                 onMark = { },
-                onOpen = { },
+                onClick = { },
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
     }
@@ -117,9 +121,10 @@ class TaskCardScreenshotTest {
                 isFinished = false,
                 reminder = null,
                 onMark = { },
-                onOpen = { },
+                onClick = { },
                 isBeingDragged = false,
                 recurrenceType = RecurrenceType.WEEKLY,
+                onClickMore = {},
             )
         }
     }
@@ -139,9 +144,10 @@ class TaskCardScreenshotTest {
                     date = LocalDate.now(),
                 ),
                 onMark = { },
-                onOpen = { },
+                onClick = { },
                 isBeingDragged = false,
                 recurrenceType = RecurrenceType.DAILY,
+                onClickMore = {},
             )
         }
     }
@@ -162,9 +168,10 @@ class TaskCardScreenshotTest {
                     LocalDate.now(),
                 ),
                 onMark = { },
-                onOpen = { },
+                onClick = { },
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
     }

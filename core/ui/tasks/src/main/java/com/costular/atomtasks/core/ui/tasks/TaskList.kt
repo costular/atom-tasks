@@ -38,6 +38,7 @@ import org.burnoutcrew.reorderable.reorderable
 fun TaskList(
     tasks: List<Task>,
     onClick: (Task) -> Unit,
+    onClickMore: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
     state: ReorderableLazyListState,
     modifier: Modifier = Modifier,
@@ -56,15 +57,18 @@ fun TaskList(
         ) {
             items(tasks, { it.id }) { task ->
                 ReorderableItem(state, key = task.id) { isDragging ->
+                    Modifier
+                        .fillMaxWidth()
                     TaskCard(
                         title = task.name,
                         onMark = { onMarkTask(task.id, !task.isDone) },
-                        onOpen = { onClick(task) },
+                        onClick = { onClick(task) },
                         reminder = task.reminder,
                         isFinished = task.isDone,
                         recurrenceType = task.recurrenceType,
                         modifier = Modifier.animateItem(fadeInSpec = null, fadeOutSpec = null),
                         isBeingDragged = isDragging,
+                        onClickMore = { onClickMore(task) },
                     )
                 }
             }
@@ -164,6 +168,7 @@ private fun TaskListPreview() {
             ),
             onClick = {},
             onMarkTask = { _, _ -> },
+            onClickMore = {},
         )
     }
 }
