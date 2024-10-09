@@ -49,6 +49,7 @@ internal fun AgendaHeader(
     onSelectToday: () -> Unit,
     onClickCalendar: () -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val startDate = remember(selectedDay) { selectedDay.date.minusDays(DaysToShow) }
     val endDate = remember(selectedDay) { selectedDay.date.plusDays(DaysToShow) }
 
@@ -70,7 +71,12 @@ internal fun AgendaHeader(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable(onClick = onSelectToday),
+                        .clickable(onClick = {
+                            coroutineScope.launch {
+                                weekCalendarState.animateScrollToWeek(LocalDate.now())
+                            }
+                            onSelectToday()
+                        }),
                 ) {
                     ScreenHeader(
                         text = selectedDayText,
