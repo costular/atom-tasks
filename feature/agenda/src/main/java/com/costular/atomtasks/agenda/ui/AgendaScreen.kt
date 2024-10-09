@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.ui.tasks.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
+import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
@@ -80,7 +82,7 @@ internal fun AgendaScreen(
             }
 
             is AgendaUiEvents.GoToEditScreen -> {
-                    navigator.navigateToDetailScreenToEdit(event.taskId)
+                navigator.navigateToDetailScreenToEdit(event.taskId)
             }
         }
     }
@@ -109,6 +111,7 @@ internal fun AgendaScreen(
         deleteTask = viewModel::deleteTask,
         deleteRecurringTask = viewModel::deleteRecurringTask,
         dismissDelete = viewModel::dismissDelete,
+        onClickOpenCalendarView = viewModel::openCalendarView,
         openTaskAction = { task ->
             viewModel.onOpenTaskActions()
             navigator.openTaskActions(
@@ -122,7 +125,8 @@ internal fun AgendaScreen(
         onDragTask = viewModel::onDragTask,
         openTaskDetail = {
             viewModel.onEditTask(it.id)
-        }
+        },
+        onDismissCalendarView = viewModel::dismissCalendarView,
     )
 }
 
@@ -159,12 +163,15 @@ private fun HandleResultRecipients(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("LongMethod", "LongParameterList", "ForbiddenComment")
 @Composable
 fun AgendaScreen(
     state: AgendaState,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
+    onClickOpenCalendarView: () -> Unit,
+    onDismissCalendarView: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
     deleteRecurringTask: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
@@ -199,13 +206,24 @@ fun AgendaScreen(
         }
     }
 
+    if (state.shouldShowCalendarView) {
+        DatePickerDialog(
+            onDismiss = onDismissCalendarView,
+            currentDate = state.selectedDay.date,
+            onDateSelected = {
+                onSelectDate(it)
+                onDismissCalendarView()
+            },
+        )
+    }
+
     Column {
         AgendaHeader(
             selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
             modifier = Modifier.fillMaxWidth(),
             onSelectToday = onSelectToday,
-            onClickCalendar = {}, // It's still a work in progress to show the dialog calendar
+            onClickCalendar = onClickOpenCalendarView,
         )
 
         TasksContent(
@@ -336,6 +354,8 @@ fun AgendaPreview() {
             onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
             openTaskDetail = {},
+            onDismissCalendarView = {},
+            onClickOpenCalendarView = {},
         )
     }
 }

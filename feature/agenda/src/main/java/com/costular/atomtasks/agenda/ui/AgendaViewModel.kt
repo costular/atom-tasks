@@ -264,4 +264,16 @@ class AgendaViewModel @Inject constructor(
             taskOrderTutorialDismissedUseCase(Unit)
         }
     }
+
+    fun openCalendarView() {
+        viewModelScope.launch {
+            setState { copy(shouldShowCalendarView = true) }
+        }
+    }
+
+    fun dismissCalendarView() {
+        viewModelScope.launch {
+            setState { copy(shouldShowCalendarView = false) }
+        }
+    }
 }
