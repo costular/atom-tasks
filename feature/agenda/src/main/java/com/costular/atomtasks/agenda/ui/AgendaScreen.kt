@@ -293,11 +293,6 @@ private fun TasksContent(
     }
 }
 
-private val WindowSizeClass.canExpand: Boolean
-    get() =
-        widthSizeClass == WindowWidthSizeClass.Compact ||
-                widthSizeClass == WindowWidthSizeClass.Medium
-
 @Suppress("MagicNumber")
 @DevicesPreview
 @Composable
