@@ -126,6 +126,9 @@ internal fun AgendaScreen(
         openTaskDetail = {
             viewModel.onEditTask(it.id)
         },
+        onDeleteTask = {
+            viewModel.actionDelete(it.id)
+        },
         onDismissCalendarView = viewModel::dismissCalendarView,
     )
 }
@@ -179,6 +182,7 @@ fun AgendaScreen(
     openTaskDetail: (Task) -> Unit,
     openTaskAction: (Task) -> Unit,
     onMoveTask: (Int, Int) -> Unit,
+    onDeleteTask: (Task) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
 ) {
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
@@ -233,6 +237,7 @@ fun AgendaScreen(
             modifier = Modifier.supportWideScreen(),
             onMoveTask = onMoveTask,
             onDragTask = onDragTask,
+            onDeleteTask = onDeleteTask,
             onClickTaskMore = openTaskAction,
         )
     }
@@ -246,6 +251,7 @@ private fun TasksContent(
     onMarkTask: (Long, Boolean) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
     onMoveTask: (Int, Int) -> Unit,
+    onDeleteTask: (Task) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -276,6 +282,7 @@ private fun TasksContent(
                     .fillMaxSize()
                     .testTag("AgendaTaskList"),
                 onClickMore = onClickTaskMore,
+                onDeleteTask = onDeleteTask,
             )
         }
 
@@ -351,6 +358,7 @@ fun AgendaPreview() {
             openTaskDetail = {},
             onDismissCalendarView = {},
             onClickOpenCalendarView = {},
+            onDeleteTask = {},
         )
     }
 }

@@ -114,6 +114,7 @@ class TaskListSnapshotTest {
                 modifier = Modifier.fillMaxWidth(),
                 state = rememberReorderableLazyListState(onMove = { _, _ -> }),
                 onClickMore = {},
+                onDeleteTask = {},
             )
         }
     }
