@@ -33,19 +33,9 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.costular.atomtasks.core.ui.R.string as S
 
 @Composable
-fun App() {
-    val viewModel: AppViewModel = hiltViewModel()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val isSystemDarkMode = isSystemInDarkTheme()
-
-    val isDarkTheme = remember(state.theme) {
-        when (state.theme) {
-            is Theme.Light -> false
-            is Theme.Dark -> true
-            is Theme.System -> isSystemDarkMode
-        }
-    }
-
+fun App(
+    isDarkTheme: Boolean,
+) {
     AtomTheme(darkTheme = isDarkTheme) {
         val engine = rememberNavHostEngine()
         val navController = engine.rememberNavController()
