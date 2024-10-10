@@ -1,3 +1,7 @@
-- Enhanced overall app performance for a smoother and faster user experience.
-- Updated task management: Tasks are no longer automatically reordered when marked as done or undone. You can now customize the order of your tasks by dragging them to your preferred position.
-- Fixed an issue with reminder notifications that occasionally failed to appear on time due to Android's permissions. Notifications should now function reliably.
+- New adaptative layout
+- Detail task getting rid of the old new task and edit task
+- New Cleaner and condesnsed design with less distractions
+- New today indicator
+- Get rid of the expanded header to just show a calendar dialog to select today
+- Updated edge to edge
+- Swipe to remove
