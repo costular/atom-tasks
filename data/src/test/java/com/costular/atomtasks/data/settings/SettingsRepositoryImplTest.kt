@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -25,40 +25,37 @@ class SettingsRepositoryImplTest {
     }
 
     @Test
-    fun `should return light theme when local data source stores light as string`() =
-        runBlockingTest {
-            every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.LIGHT)
+    fun `should return light theme when local data source stores light as string`() = runTest {
+        every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.LIGHT)
 
-            sut.observeTheme().test {
-                assertThat(awaitItem()).isInstanceOf(Theme.Light::class.java)
-                cancelAndIgnoreRemainingEvents()
-            }
+        sut.observeTheme().test {
+            assertThat(awaitItem()).isInstanceOf(Theme.Light::class.java)
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `should return dark theme when local data source stores dark as string`() =
-        runBlockingTest {
-            every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.DARK)
+    fun `should return dark theme when local data source stores dark as string`() = runTest {
+        every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.DARK)
 
-            sut.observeTheme().test {
-                assertThat(awaitItem()).isInstanceOf(Theme.Dark::class.java)
-                cancelAndIgnoreRemainingEvents()
-            }
+        sut.observeTheme().test {
+            assertThat(awaitItem()).isInstanceOf(Theme.Dark::class.java)
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `should return system theme when local data source stores system as string`() =
-        runBlockingTest {
-            every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.SYSTEM)
+    fun `should return system theme when local data source stores system as string`() = runTest {
+        every { settingsLocalDataSource.observeTheme() } returns flowOf(Theme.SYSTEM)
 
-            sut.observeTheme().test {
-                assertThat(awaitItem()).isInstanceOf(Theme.System::class.java)
-                cancelAndIgnoreRemainingEvents()
-            }
+        sut.observeTheme().test {
+            assertThat(awaitItem()).isInstanceOf(Theme.System::class.java)
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `should set dark theme successfully`() = runBlockingTest {
+    fun `should set dark theme successfully`() = runTest {
         val theme = Theme.Dark
 
         sut.setTheme(theme)
@@ -67,7 +64,7 @@ class SettingsRepositoryImplTest {
     }
 
     @Test
-    fun `should set light theme successfully`() = runBlockingTest {
+    fun `should set light theme successfully`() = runTest {
         val theme = Theme.Light
 
         sut.setTheme(theme)
@@ -76,7 +73,7 @@ class SettingsRepositoryImplTest {
     }
 
     @Test
-    fun `should set system theme successfully`() = runBlockingTest {
+    fun `should set system theme successfully`() = runTest {
         val theme = Theme.System
 
         sut.setTheme(theme)
