@@ -1,10 +1,8 @@
 package com.costular.atomtasks.core.ui.tasks
 
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,18 +30,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,6 +55,8 @@ import org.burnoutcrew.reorderable.ReorderableLazyListState
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+
+private const val MillisecondsToResetSwipeBoxState = 1000L
 
 @Composable
 fun TaskList(
@@ -161,7 +155,7 @@ private fun TaskRemoveBackground(
 
     if (state.currentValue != SwipeToDismissBoxValue.Settled) {
         LaunchedEffect(Unit) {
-            delay(1000)
+            delay(MillisecondsToResetSwipeBoxState)
             state.reset()
         }
     }
