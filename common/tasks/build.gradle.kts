@@ -3,6 +3,7 @@ plugins {
     id("atomtasks.android.library.compose")
     id("atomtasks.detekt")
     id("atomtasks.android.hilt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -34,16 +35,16 @@ dependencies {
     implementation(libs.compose.material.icons)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
-    implementation(libs.accompanist.systemui)
     implementation(libs.viewmodel)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.work)
     implementation(libs.work)
-    implementation(libs.compose.destinations)
+    implementation(libs.compose.destinations.core)
+    implementation(libs.compose.destinations.bottomsheet)
     implementation(libs.accompanist.permissions)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
-    kapt(libs.hilt.ext.compiler)
+    ksp(libs.room.compiler)
+    ksp(libs.hilt.ext.compiler)
     api(libs.reordeable)
 
     testImplementation(projects.common.tasks)

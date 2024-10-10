@@ -14,6 +14,7 @@ data class AgendaState(
     val fromToPositions: Pair<Int, Int>? = null,
     val shouldShowCardOrderTutorial: Boolean = false,
     val shouldShowReviewDialog: Boolean = false,
+    val shouldShowCalendarView: Boolean = false,
 ) {
     companion object {
         val Empty = AgendaState()

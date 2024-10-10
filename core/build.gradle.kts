@@ -1,7 +1,7 @@
 plugins {
     id("atomtasks.android.library")
     id("atomtasks.detekt")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -11,7 +11,7 @@ android {
 dependencies {
     api(libs.coroutines)
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.truth)
 }

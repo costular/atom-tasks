@@ -16,13 +16,11 @@ import androidx.navigation.plusAssign
 @Composable
 fun DestinationsScaffold(
     navController: NavHostController,
-    bottomBar: @Composable () -> Unit,
     floatingActionButton: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     DestinationsBottomSheet(navController = navController) {
         Scaffold(
-            bottomBar = bottomBar,
             floatingActionButton = floatingActionButton,
         ) {
             content(it)

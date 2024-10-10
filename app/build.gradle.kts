@@ -2,7 +2,6 @@ import com.costular.atomtasks.Versioning
 
 plugins {
     id("atomtasks.android.application")
-    kotlin("kapt")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -67,10 +66,6 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 configurations {
     androidTestImplementation {
         exclude(group = "io.mockk", module = "mockk-agent-jvm")
@@ -84,20 +79,17 @@ dependencies {
     implementation(projects.core.logging)
     implementation(project(":data"))
     implementation(project(":feature:agenda"))
-    implementation(project(":feature:createtask"))
     implementation(project(":feature:settings"))
     implementation(projects.common.tasks)
-    implementation(projects.feature.edittask)
     implementation(projects.feature.postponeTask)
     implementation(projects.feature.detail)
 
-    implementation(libs.fragment)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsize)
+    implementation(libs.compose.adaptative.navigation)
     implementation(libs.compose.material.icons)
-    implementation(libs.accompanist.systemui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.core)
     implementation(libs.appcompat)
@@ -105,7 +97,7 @@ dependencies {
     implementation(libs.viewmodel)
     implementation(libs.hilt)
     implementation(libs.profileinstaller)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.work)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.startup)
@@ -115,7 +107,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.compose.destinations)
+    implementation(libs.compose.destinations.core)
+    implementation(libs.compose.destinations.bottomsheet)
+    ksp(libs.compose.destinations.ksp)
 
     testImplementation(libs.android.junit)
     testImplementation(libs.junit)

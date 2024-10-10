@@ -4,7 +4,7 @@ plugins {
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -15,7 +15,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.truth)
     testImplementation(libs.turbine)

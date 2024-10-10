@@ -15,10 +15,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -53,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -69,14 +69,12 @@ import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
 import com.costular.atomtasks.tasks.createtask.RecurrenceTypePickerDialog
 import com.costular.atomtasks.tasks.format.localized
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.designsystem.components.Draggable
 import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import java.time.LocalDate
 import java.time.LocalTime
 import com.costular.atomtasks.core.ui.R.string as S
@@ -85,7 +83,10 @@ private const val FieldMaxLines = 5
 private const val FieldMinLines = 1
 
 @OptIn(ExperimentalFoundationApi::class)
-@Destination(style = DestinationStyleBottomSheet::class, navArgsDelegate = TaskDetailNavArgs::class)
+@Destination<TaskDetailGraph>(
+    start = true,
+    navArgs = TaskDetailNavArgs::class,
+)
 @Composable
 fun TaskDetailScreen(
     navigator: DestinationsNavigator,
@@ -225,18 +226,7 @@ private fun TaskDetailContent(
         focusRequester.requestFocus()
     }
 
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-            .imePadding()
-    ) {
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
-
-        Draggable(
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-
+    Column(Modifier.fillMaxSize()) {
         Header(
             onClose = onClose,
             onSave = onSave
@@ -381,7 +371,7 @@ private fun TaskInput(
     Box {
         if (name.text.isEmpty()) {
             Text(
-                text = "Add title",
+                text = stringResource(S.task_detail_task_name_placeholder),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = AppTheme.dimens.spacingLarge),
@@ -397,7 +387,10 @@ private fun TaskInput(
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimens.spacingLarge)
                 .focusRequester(focusRequester),
-            textStyle = MaterialTheme.typography.headlineSmall,
+            textStyle = MaterialTheme.typography.headlineSmall.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         )
     }
 }

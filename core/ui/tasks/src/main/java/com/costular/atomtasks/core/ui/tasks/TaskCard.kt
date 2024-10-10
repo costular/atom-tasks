@@ -22,10 +22,12 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -74,7 +76,8 @@ fun TaskCard(
     recurrenceType: RecurrenceType?,
     reminder: Reminder?,
     onMark: () -> Unit,
-    onOpen: () -> Unit,
+    onClick: () -> Unit,
+    onClickMore: () -> Unit,
     isBeingDragged: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -91,7 +94,7 @@ fun TaskCard(
     ) { !isFinished && (reminder != null || recurrenceType != null) }
 
     ElevatedCard(
-        onClick = onOpen,
+        onClick = onClick,
         modifier = modifier,
         interactionSource = mutableInteractionSource,
         colors = CardDefaults.cardColors(),
@@ -100,9 +103,11 @@ fun TaskCard(
         val recurringInlineContent = recurringInline(contentColor)
 
         Row(
-            modifier = Modifier.padding(AppTheme.dimens.spacingLarge),
+            modifier = Modifier.padding(vertical = AppTheme.dimens.spacingMedium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            Spacer(Modifier.width(AppTheme.dimens.spacingLarge))
+
             Markable(
                 isMarked = isFinished,
                 borderColor = contentColor,
@@ -113,7 +118,9 @@ fun TaskCard(
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))
 
-            Column {
+            Column(
+                modifier = Modifier.weight(1f),
+            ) {
                 TaskTitle(isFinished = isFinished, title = title)
 
                 if (shouldShowExtraDetails) {
@@ -130,6 +137,15 @@ fun TaskCard(
                     )
                 }
             }
+
+            IconButton(
+                onClick = onClickMore,
+                modifier = Modifier
+                    .align(Alignment.Top)
+                    .padding(end = AppTheme.dimens.spacingSmall)
+            ) {
+                Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = null)
+            }
         }
     }
 }
@@ -144,9 +160,9 @@ private fun ColumnScope.TaskDetails(
 ) {
     val recurringContent = if (recurrenceType != null) {
         val label = recurrenceType.localized()
-        com.costular.atomtasks.core.ui.tasks.RecurringContent.Recurring(label)
+        RecurringContent.Recurring(label)
     } else {
-        com.costular.atomtasks.core.ui.tasks.RecurringContent.None
+        RecurringContent.None
     }
 
     val hasReminder = reminder != null
@@ -156,7 +172,10 @@ private fun ColumnScope.TaskDetails(
         if (reminder != null) {
             Row {
                 val alarmText = buildAnnotatedString {
-                    appendInlineContent(com.costular.atomtasks.core.ui.tasks.ReminderIconId, "[alarm]")
+                    appendInlineContent(
+                        ReminderIconId,
+                        "[alarm]"
+                    )
                     append(" ")
                     append(reminder.time.ofLocalizedTime())
                 }
@@ -184,7 +203,10 @@ private fun ColumnScope.TaskDetails(
             val content = recurringContent as RecurringContent.Recurring
 
             val recurringText = buildAnnotatedString {
-                appendInlineContent(com.costular.atomtasks.core.ui.tasks.RecurringIconId, "[recurring]")
+                appendInlineContent(
+                    RecurringIconId,
+                    "[recurring]"
+                )
                 append(" ")
                 append(content.recurrenceLabel)
             }
@@ -315,10 +337,11 @@ private fun TaskCardPreview(
             isFinished = task.isDone,
             recurrenceType = task.recurrenceType,
             onMark = {},
-            onOpen = {},
+            onClick = {},
             reminder = task.reminder,
             isBeingDragged = false,
             modifier = Modifier.fillMaxWidth(),
+            onClickMore = {},
         )
     }
 }

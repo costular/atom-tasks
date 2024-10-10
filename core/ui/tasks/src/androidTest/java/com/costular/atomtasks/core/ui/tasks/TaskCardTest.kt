@@ -23,9 +23,10 @@ class TaskCardTest : AndroidTest() {
                 isFinished = false,
                 reminder = null,
                 onMark = onMarkCallback,
-                onOpen = {},
+                onClick = {},
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
 
@@ -48,9 +49,10 @@ class TaskCardTest : AndroidTest() {
                 isFinished = true,
                 reminder = null,
                 onMark = {},
-                onOpen = onClickCallback,
+                onClick = onClickCallback,
                 isBeingDragged = false,
                 recurrenceType = null,
+                onClickMore = {},
             )
         }
 

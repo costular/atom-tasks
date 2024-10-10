@@ -30,7 +30,7 @@
     <string name="agenda_create_new_task">New task</string>
     <string name="agenda_tutorial_task_order">Want your tasks in order? Long press and drag!</string>
     <string name="today">Today</string>
-    <string name="task_recurrence_never">Just once</string>
+    <string name="task_recurrence_never">Does not repeat</string>
     <string name="task_recurrence_daily">Daily</string>
     <string name="task_recurrence_weekdays">Weekdays</string>
     <string name="task_recurrence_weekly">Weekly</string>
@@ -54,6 +54,7 @@
     <string name="create_task_recurrence_picker_yearly">Every Year</string>
 
     <!-- Task detail -->
+    <string name="task_detail_task_name_placeholder">Add title</string>
     <string name="task_detail_day_subhead">Date</string>
     <string name="task_detail_reminder_subhead">Reminder</string>
     <string name="task_detail_reminder_add_reminder">Reminder</string>

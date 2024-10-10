@@ -1,6 +1,5 @@
 plugins {
     id("atomtasks.android.library")
-    kotlin("kapt")
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
@@ -20,7 +19,7 @@ dependencies {
     implementation(projects.core.preferences)
 
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.work)
     implementation(libs.preferences.datastore)
     implementation(libs.preferences)

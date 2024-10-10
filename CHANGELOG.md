@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Swipe to remove
 
 ### Changed
+- New adaptative layout
+- Task detail screen is used by default now
+- New today indicator
+- Cleaner and more condensed design
+- Header is not expandable now, it's been replaced by the select day dialog
 
 ### Deprecated
 

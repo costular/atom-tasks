@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,10 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
-import com.costular.atomtasks.agenda.destinations.TasksActionsBottomSheetDestination
 import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
-import com.costular.atomtasks.core.ui.utils.generateWindowSizeClass
 import com.costular.atomtasks.review.ui.ReviewHandler
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.ALL
@@ -34,10 +31,12 @@ import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.ui.tasks.TaskList
 import com.costular.designsystem.components.CircularLoadingIndicator
+import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.costular.designsystem.util.supportWideScreen
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.agenda.destinations.TasksActionsBottomSheetDestination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import java.time.LocalDate
@@ -48,19 +47,19 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 
 const val TestTagHeader = "AgendaTitle"
 
-@Destination
+@Destination<AgendaGraph>(
+    start = true,
+)
 @Composable
 fun AgendaScreen(
     navigator: AgendaNavigator,
     setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
-    windowSizeClass: WindowSizeClass,
 ) {
     AgendaScreen(
         navigator = navigator,
         setFabOnClick = setFabOnClick,
         resultRecipient = resultRecipient,
-        windowSizeClass = windowSizeClass,
         viewModel = hiltViewModel(),
     )
 }
@@ -70,7 +69,6 @@ internal fun AgendaScreen(
     navigator: AgendaNavigator,
     setFabOnClick: (() -> Unit) -> Unit,
     resultRecipient: ResultRecipient<TasksActionsBottomSheetDestination, TaskActionsResult>,
-    windowSizeClass: WindowSizeClass,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -78,19 +76,11 @@ internal fun AgendaScreen(
     EventObserver(viewModel.uiEvents) { event ->
         when (event) {
             is AgendaUiEvents.GoToNewTaskScreen -> {
-                if (event.shouldShowNewScreen) {
-                    navigator.navigateToDetailScreenForCreateTask(event.date.toString())
-                } else {
-                    navigator.navigateToCreateTask(event.date.toString())
-                }
+                navigator.navigateToDetailScreenForCreateTask(event.date.toString())
             }
 
             is AgendaUiEvents.GoToEditScreen -> {
-                if (event.shouldShowNewScreen) {
-                    navigator.navigateToDetailScreenToEdit(event.taskId)
-                } else {
-                    navigator.navigateToEditTask(event.taskId)
-                }
+                navigator.navigateToDetailScreenToEdit(event.taskId)
             }
         }
     }
@@ -113,13 +103,13 @@ internal fun AgendaScreen(
 
     AgendaScreen(
         state = state,
-        windowSizeClass = windowSizeClass,
         onSelectDate = viewModel::setSelectedDay,
         onSelectToday = viewModel::setSelectedDayToday,
         onMarkTask = viewModel::onMarkTask,
         deleteTask = viewModel::deleteTask,
         deleteRecurringTask = viewModel::deleteRecurringTask,
         dismissDelete = viewModel::dismissDelete,
+        onClickOpenCalendarView = viewModel::openCalendarView,
         openTaskAction = { task ->
             viewModel.onOpenTaskActions()
             navigator.openTaskActions(
@@ -129,9 +119,15 @@ internal fun AgendaScreen(
             )
         },
 
-        onToggleExpandCollapse = viewModel::toggleHeader,
         onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
+        openTaskDetail = {
+            viewModel.onEditTask(it.id)
+        },
+        onDeleteTask = {
+            viewModel.actionDelete(it.id)
+        },
+        onDismissCalendarView = viewModel::dismissCalendarView,
     )
 }
 
@@ -168,20 +164,23 @@ private fun HandleResultRecipients(
     }
 }
 
-@Suppress("LongMethod", "LongParameterList")
+@OptIn(ExperimentalMaterial3Api::class)
+@Suppress("LongMethod", "LongParameterList", "ForbiddenComment")
 @Composable
 fun AgendaScreen(
     state: AgendaState,
-    windowSizeClass: WindowSizeClass,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
+    onClickOpenCalendarView: () -> Unit,
+    onDismissCalendarView: () -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     deleteTask: (id: Long) -> Unit,
     deleteRecurringTask: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
     dismissDelete: () -> Unit,
+    openTaskDetail: (Task) -> Unit,
     openTaskAction: (Task) -> Unit,
-    onToggleExpandCollapse: () -> Unit,
     onMoveTask: (Int, Int) -> Unit,
+    onDeleteTask: (Task) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
 ) {
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
@@ -209,23 +208,35 @@ fun AgendaScreen(
         }
     }
 
+    if (state.shouldShowCalendarView) {
+        DatePickerDialog(
+            onDismiss = onDismissCalendarView,
+            currentDate = state.selectedDay.date,
+            onDateSelected = {
+                onSelectDate(it)
+                onDismissCalendarView()
+            },
+        )
+    }
+
     Column {
         AgendaHeader(
             selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
-            canExpand = windowSizeClass.canExpand,
-            isExpanded = state.isHeaderExpanded,
-            onToggleExpandCollapse = onToggleExpandCollapse,
             modifier = Modifier.fillMaxWidth(),
             onSelectToday = onSelectToday,
+            onClickCalendar = onClickOpenCalendarView,
         )
+
         TasksContent(
             state = state,
-            onOpenTask = openTaskAction,
+            onOpenTask = openTaskDetail,
             onMarkTask = onMarkTask,
             modifier = Modifier.supportWideScreen(),
             onMoveTask = onMoveTask,
             onDragTask = onDragTask,
+            onDeleteTask = onDeleteTask,
+            onClickTaskMore = openTaskAction,
         )
     }
 }
@@ -234,9 +245,11 @@ fun AgendaScreen(
 private fun TasksContent(
     state: AgendaState,
     onOpenTask: (Task) -> Unit,
+    onClickTaskMore: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
     onMoveTask: (Int, Int) -> Unit,
+    onDeleteTask: (Task) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -266,6 +279,8 @@ private fun TasksContent(
                 modifier = modifier
                     .fillMaxSize()
                     .testTag("AgendaTaskList"),
+                onClickMore = onClickTaskMore,
+                onDeleteTask = onDeleteTask,
             )
         }
 
@@ -283,17 +298,10 @@ private fun TasksContent(
     }
 }
 
-private val WindowSizeClass.canExpand: Boolean
-    get() =
-        widthSizeClass == WindowWidthSizeClass.Compact ||
-                widthSizeClass == WindowWidthSizeClass.Medium
-
 @Suppress("MagicNumber")
 @DevicesPreview
 @Composable
 fun AgendaPreview() {
-    val windowSizeClass = generateWindowSizeClass()
-
     AtomTheme {
         AgendaScreen(
             state = AgendaState(
@@ -336,17 +344,19 @@ fun AgendaPreview() {
                     ),
                 ),
             ),
-            windowSizeClass = windowSizeClass,
             onSelectDate = {},
             onSelectToday = {},
             onMarkTask = { _, _ -> },
-            onToggleExpandCollapse = {},
             deleteTask = {},
             deleteRecurringTask = { _, _ -> },
             dismissDelete = {},
             openTaskAction = {},
             onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
+            openTaskDetail = {},
+            onDismissCalendarView = {},
+            onClickOpenCalendarView = {},
+            onDeleteTask = {},
         )
     }
 }

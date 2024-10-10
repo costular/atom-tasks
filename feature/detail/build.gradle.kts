@@ -4,18 +4,16 @@ plugins {
     id("atomtasks.android.library.compose")
     id("atomtasks.android.library.ksp")
     id("kotlin-android")
-    kotlin("kapt")
     alias(libs.plugins.ksp)
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
+    id("atomtasks.android.hilt")
 }
 
 android {
     namespace = "com.costular.atomtasks.feature.detail"
 
     ksp {
-        arg("compose-destinations.mode", "destinations")
         arg("compose-destinations.moduleName", "detail")
     }
     libraryVariants.all {
@@ -30,7 +28,6 @@ android {
 dependencies {
     implementation(projects.common.tasks)
     implementation(projects.core.analytics)
-    implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
     implementation(libs.accompanist.permissions)
 

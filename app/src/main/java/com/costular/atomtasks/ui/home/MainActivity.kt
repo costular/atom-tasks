@@ -1,22 +1,72 @@
 package com.costular.atomtasks.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.core.view.WindowCompat
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.costular.atomtasks.data.settings.Theme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: AppViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        var uiState: AppState by mutableStateOf(AppState.Empty)
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state
+                    .collect {
+                        uiState = it
+                    }
+            }
+        }
+
+        enableEdgeToEdge()
 
         setContent {
-            App(windowSizeClass = calculateWindowSizeClass(this))
+
+            val isDarkTheme = when (uiState.theme) {
+                is Theme.Light -> false
+                is Theme.Dark -> true
+                is Theme.System -> isSystemInDarkTheme()
+            }
+
+            DisposableEffect(isDarkTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.auto(
+                        lightScrim = Color.TRANSPARENT,
+                        darkScrim = Color.TRANSPARENT,
+                        detectDarkMode = { isDarkTheme }),
+                    navigationBarStyle = SystemBarStyle.auto(
+                        lightScrim = LightScrim,
+                        darkScrim = DarkScrim,
+                        detectDarkMode = { isDarkTheme })
+                )
+
+                onDispose { }
+            }
+
+            App(isDarkTheme = isDarkTheme)
         }
     }
 }
+
+private val LightScrim = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+private val DarkScrim = Color.argb(0x80, 0x1b, 0x1b, 0x1b)

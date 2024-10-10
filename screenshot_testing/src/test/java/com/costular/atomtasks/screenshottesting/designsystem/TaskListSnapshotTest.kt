@@ -1,7 +1,6 @@
 package com.costular.atomtasks.screenshottesting.designsystem
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -104,16 +103,17 @@ class TaskListSnapshotTest {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun GeneratedTaskList(tasks: List<Task>) {
         Scaffold {
-            com.costular.atomtasks.core.ui.tasks.TaskList(
+            TaskList(
                 tasks = tasks,
                 onClick = {},
                 onMarkTask = { _, _ -> },
                 modifier = Modifier.fillMaxWidth(),
                 state = rememberReorderableLazyListState(onMove = { _, _ -> }),
+                onClickMore = {},
+                onDeleteTask = {},
             )
         }
     }

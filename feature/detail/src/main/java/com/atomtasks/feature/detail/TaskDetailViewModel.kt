@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.atomtasks.feature.detail.EditRecurringTaskResponse.THIS
 import com.atomtasks.feature.detail.EditRecurringTaskResponse.THIS_AND_FUTURE_ONES
-import com.atomtasks.feature.detail.destinations.TaskDetailScreenDestination
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.model.RecurrenceType
@@ -14,6 +13,7 @@ import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.ramcosta.composedestinations.generated.detail.destinations.TaskDetailScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate

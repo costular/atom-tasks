@@ -12,7 +12,7 @@ android {
 
 dependencies {
     api(project(":core"))
-    api(libs.compose.bom)
+    api(platform(libs.compose.bom.alpha))
     api(libs.lifecycle.compose)
 
     implementation(libs.androidx.core)
@@ -20,7 +20,8 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsize)
-    implementation(libs.compose.destinations)
+    implementation(libs.compose.destinations.core)
+    implementation(libs.compose.destinations.bottomsheet)
     implementation(libs.compose.ui.tooling)
 
     implementation(libs.viewmodel)

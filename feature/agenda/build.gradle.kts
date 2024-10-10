@@ -2,14 +2,13 @@ plugins {
     id("atomtasks.android.feature")
     id("atomtasks.android.library")
     id("atomtasks.android.library.compose")
+    alias(libs.plugins.ksp)
     id("atomtasks.android.library.ksp")
     id("kotlin-android")
-    kotlin("kapt")
     id("kotlin-parcelize")
-    alias(libs.plugins.ksp)
     id("atomtasks.detekt")
     id("atomtasks.android.library.jacoco")
-    id("dagger.hilt.android.plugin")
+    id("atomtasks.android.hilt")
 }
 
 android {
@@ -18,7 +17,6 @@ android {
     }
 
     ksp {
-        arg("compose-destinations.mode", "destinations")
         arg("compose-destinations.moduleName", "agenda")
     }
 
@@ -44,7 +42,6 @@ configurations {
 
 dependencies {
     implementation(projects.core.analytics)
-    implementation(libs.compose.destinations)
     implementation(projects.core.ui.tasks)
     ksp(libs.compose.destinations.ksp)
 
@@ -72,5 +69,4 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockk.android)
     debugImplementation(libs.compose.ui.manifest)
-    kaptAndroidTest(libs.hilt.compiler)
 }
