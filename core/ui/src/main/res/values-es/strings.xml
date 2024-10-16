@@ -101,4 +101,6 @@
     <string name="task_detail_task_name_placeholder">Título de la tarea</string>
     <string name="postpone_task_three_hours">3 horas</string>
     <string name="postpone_task_custom">Escoge fecha y hora</string>
+    <string name="postpone_task_custom_date">Día</string>
+    <string name="postpone_task_custom_time">Hora</string>
 </resources>

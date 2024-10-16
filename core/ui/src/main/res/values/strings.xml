@@ -82,6 +82,8 @@
     <string name="postpone_task_next_weekend">Next weekend</string>
     <string name="postpone_task_next_week">Next week</string>
     <string name="postpone_task_custom">Pick a date &amp; time</string>
+    <string name="postpone_task_custom_date">Date</string>
+    <string name="postpone_task_custom_time">Time</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

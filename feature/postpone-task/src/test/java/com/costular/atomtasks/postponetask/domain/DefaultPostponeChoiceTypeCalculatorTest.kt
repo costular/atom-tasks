@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-class DefaultPostponeChoiceCalculatorTest {
+class DefaultPostponeChoiceTypeCalculatorTest {
 
     lateinit var sut: PostponeChoiceCalculator
 
@@ -22,19 +22,19 @@ class DefaultPostponeChoiceCalculatorTest {
     }
 
     @Test
-    fun `Should return datetime today in 15 minutes when calculate postpone 15 minutes is selected`() {
-        val expected = LocalDateTime.now().plusMinutes(15)
-        val result = sut.calculatePostpone(PostponeChoice.FifteenMinutes)
+    fun `Should return datetime today in 30 minues when calculate postpone 30 minutes is selected`() {
+        val expected = LocalDateTime.now().plusMinutes(30)
+        val result = sut.calculatePostpone(PostponeChoiceType.ThirtyMinutes)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
     fun `Should return datetime today in 60 minutes when calculate postpone one hour is selected`() {
         val expected = LocalDateTime.now().plusHours(1)
-        val result = sut.calculatePostpone(PostponeChoice.OneHour)
+        val result = sut.calculatePostpone(PostponeChoiceType.OneHour)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -46,9 +46,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.now().atTime(20, 0)
-        val result = sut.calculatePostpone(PostponeChoice.Tonight)
+        val result = sut.calculatePostpone(PostponeChoiceType.Tonight)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -60,9 +60,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.now().plusDays(1).atTime(20, 0)
-        val result = sut.calculatePostpone(PostponeChoice.Tonight)
+        val result = sut.calculatePostpone(PostponeChoiceType.Tonight)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -74,9 +74,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.now().plusDays(1).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.TomorrowMorning)
+        val result = sut.calculatePostpone(PostponeChoiceType.TomorrowMorning)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -88,9 +88,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.now().plusDays(1).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.TomorrowMorning)
+        val result = sut.calculatePostpone(PostponeChoiceType.TomorrowMorning)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -102,9 +102,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.of(2023, 10, 15).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.NextWeekend)
+        val result = sut.calculatePostpone(PostponeChoiceType.NextWeekend)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Test
@@ -116,9 +116,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.of(2023, 10, 14).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.NextWeekend)
+        val result = sut.calculatePostpone(PostponeChoiceType.NextWeekend)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Ignore("Flaky test on the CI")
@@ -131,9 +131,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.of(2023, 10, 16).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.NextWeek)
+        val result = sut.calculatePostpone(PostponeChoiceType.NextWeek)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     @Ignore("Flaky test on the CI")
@@ -146,9 +146,9 @@ class DefaultPostponeChoiceCalculatorTest {
         givenPostponeChoiceCalculator(clock)
 
         val expected = LocalDate.of(2023, 10, 23).atTime(8, 0)
-        val result = sut.calculatePostpone(PostponeChoice.NextWeek)
+        val result = sut.calculatePostpone(PostponeChoiceType.NextWeek)
 
-        Truth.assertThat(result.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
+        Truth.assertThat(result?.withoutMilliseconds()).isEqualTo(expected.withoutMilliseconds())
     }
 
     private fun LocalDateTime.withoutMilliseconds(): LocalDateTime = truncatedTo(ChronoUnit.SECONDS)
