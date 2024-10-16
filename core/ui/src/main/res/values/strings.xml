@@ -73,13 +73,15 @@
     <string name="notification_reminder_postpone">Postpone</string>
 
     <!-- Postpone task picker -->
-    <string name="postpone_task_title">Not now? Pick when</string>
-    <string name="postpone_task_fifteen_minutes">15 minutes</string>
-    <string name="postpone_task_one_hour">1 hour</string>
+    <string name="postpone_task_title">Reschedule task</string>
+    <string name="postpone_task_thirty_minutes">In 30 minutes</string>
+    <string name="postpone_task_one_hour">In 1 hour</string>
+    <string name="postpone_task_three_hours">In 3 hours</string>
     <string name="postpone_task_tonight">Tonight</string>
     <string name="postpone_task_tomorrow_morning">Tomorrow morning</string>
     <string name="postpone_task_next_weekend">Next weekend</string>
     <string name="postpone_task_next_week">Next week</string>
+    <string name="postpone_task_custom">Pick a date &amp; time</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
