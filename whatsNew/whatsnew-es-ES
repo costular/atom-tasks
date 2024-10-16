@@ -1,3 +1,6 @@
-- Mejor rendimiento general de la aplicación.
-- Las tareas ya no se reordenan automáticamente al marcarlas como hechas o no hechas. Ahora puedes cambiar su orden arrastrándolas a la posición que prefieras.
-- Solucionado el problema con las notificaciones de recordatorio que a veces no se mostraban.
+- Nuevo diseño adaptativo a distintas pantallas
+- Nueva pantalla para crear y editar tareas
+- Nuevo diseño más minimalista y condensado para reducir distracciones
+- Nuevo encabezado de la agenda, para mejorar la navegación y la vista de mes
+- Mejorado el diseño en pantalla completa
+- Añadida la función de arrastrar para eliminar
