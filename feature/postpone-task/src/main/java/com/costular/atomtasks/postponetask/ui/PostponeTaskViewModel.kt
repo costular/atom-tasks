@@ -1,13 +1,16 @@
 package com.costular.atomtasks.postponetask.ui
 
 import androidx.lifecycle.viewModelScope
+import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
 import com.costular.atomtasks.postponetask.domain.PostponeChoice
 import com.costular.atomtasks.tasks.usecase.PostponeTaskUseCase
 import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.postponetask.domain.PostponeChoiceCalculator
+import com.costular.atomtasks.tasks.analytics.NotificationsActionsPostpone
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hilt_aggregated_deps._com_costular_atomtasks_postponetask_ui_PostponeTaskActivity_GeneratedInjector
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -17,9 +20,11 @@ class PostponeTaskViewModel @Inject constructor(
     private val postponeTaskUseCase: PostponeTaskUseCase,
     private val taskNotificationManager: TaskNotificationManager,
     private val postponeChoiceCalculator: PostponeChoiceCalculator,
+    private val analytics: AtomAnalytics,
 ) : MviViewModel<PostponeTaskScreenUiState>(PostponeTaskScreenUiState()) {
 
     fun initialize(taskId: Long) {
+        analytics.track(NotificationsActionsPostpone)
         setTaskId(taskId)
         loadPostponeChoices()
     }
