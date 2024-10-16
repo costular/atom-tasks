@@ -28,12 +28,6 @@ class PostponeTaskActivity : ComponentActivity() {
     }
 
     companion object {
-        fun buildIntent(context: Context, taskId: Long): Intent {
-            return Intent(context, PostponeTaskActivity::class.java).apply {
-                putExtra(ParamTaskId, taskId)
-            }
-        }
-
         private const val ParamTaskId = "postpone_param_task_id"
     }
 }

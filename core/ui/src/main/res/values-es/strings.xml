@@ -52,7 +52,7 @@
     <string name="notification_reminder_postpone">Posponer</string>
     <string name="agenda_mark_as_done">Marcar como hecho</string>
     <string name="agenda_mark_as_undone">Marcar como no hecho</string>
-    <string name="postpone_task_fifteen_minutes">15 minutos</string>
+    <string name="postpone_task_thirty_minutes">30 minutos</string>
     <string name="postpone_task_one_hour">1 hora</string>
     <string name="postpone_task_tonight">Esta noche</string>
     <string name="postpone_task_tomorrow_morning">Mañana por la mañana</string>
@@ -81,7 +81,7 @@
     <string name="create_task_schedule_exact_reminder_permission_missing_description">Para utilizar la función de recordatorios, necesitamos el permiso para alarmas exactas. Sin él, los recordatorios no funcionarán</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">Lo entiendo</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_confirm">Ir a Ajustes</string>
-    <string name="postpone_task_title">" ¿No es el momento? Decide cuándo"</string>
+    <string name="postpone_task_title">Posponer tarea</string>
     <string name="create_task_notification_permission_rationale_title">El permiso de notificaciones es necesario</string>
     <string name="create_task_notification_permission_rationale_description">"Para utilizar la función de recordatorios, necesitamos el permiso de notificaciones. Sin él, los recordatorios no funcionarán "</string>
     <string name="create_task_notification_permission_rationale_dismiss">No gracias</string>
@@ -99,4 +99,8 @@
     <string name="update_recurring_task_dialog_this">Esta tarea</string>
     <string name="update_recurring_task_dialog_this_and_future">Esta tarea y las posteriores</string>
     <string name="task_detail_task_name_placeholder">Título de la tarea</string>
+    <string name="postpone_task_three_hours">3 horas</string>
+    <string name="postpone_task_custom">Escoge fecha y hora</string>
+    <string name="postpone_task_custom_date">Día</string>
+    <string name="postpone_task_custom_time">Hora</string>
 </resources>

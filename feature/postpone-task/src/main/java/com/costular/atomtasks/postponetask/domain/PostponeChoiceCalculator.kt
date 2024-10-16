@@ -8,24 +8,28 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface PostponeChoiceCalculator {
-    fun calculatePostpone(postponeChoice: PostponeChoice): LocalDateTime
+    fun calculatePostpone(postponeChoiceType: PostponeChoiceType): LocalDateTime?
 }
 
 @Suppress("MagicNumber")
 class DefaultPostponeChoiceCalculator(
     private val clock: Clock,
 ) : PostponeChoiceCalculator {
-    override fun calculatePostpone(postponeChoice: PostponeChoice): LocalDateTime {
-        return when (postponeChoice) {
-            PostponeChoice.FifteenMinutes -> {
-                now().plusMinutes(15)
+    override fun calculatePostpone(postponeChoiceType: PostponeChoiceType): LocalDateTime? {
+        return when (postponeChoiceType) {
+            PostponeChoiceType.ThirtyMinutes -> {
+                now().plusMinutes(30)
             }
 
-            PostponeChoice.OneHour -> {
+            PostponeChoiceType.OneHour -> {
                 now().plusHours(1)
             }
 
-            PostponeChoice.Tonight -> {
+            PostponeChoiceType.ThreeHours -> {
+                now().plusHours(3)
+            }
+
+            PostponeChoiceType.Tonight -> {
                 val tonigth = today().atTime(PredefinedTimes.Night)
                 if (tonigth.isBefore(LocalDateTime.now(clock))) {
                     tonigth.plusDays(1)
@@ -34,16 +38,20 @@ class DefaultPostponeChoiceCalculator(
                 }
             }
 
-            PostponeChoice.TomorrowMorning -> {
+            PostponeChoiceType.TomorrowMorning -> {
                 today().plusDays(1).atTime(PredefinedTimes.Morning)
             }
 
-            PostponeChoice.NextWeekend -> {
+            PostponeChoiceType.NextWeekend -> {
                 today().findNextWeekend().atTime(PredefinedTimes.Morning)
             }
 
-            PostponeChoice.NextWeek -> {
+            PostponeChoiceType.NextWeek -> {
                 today().findNextWeek().atTime(PredefinedTimes.Morning)
+            }
+
+            PostponeChoiceType.Custom -> {
+                null
             }
         }
     }
