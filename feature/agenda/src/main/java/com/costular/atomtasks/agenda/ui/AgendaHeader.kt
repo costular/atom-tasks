@@ -1,6 +1,6 @@
 package com.costular.atomtasks.agenda.ui
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +11,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,6 +37,7 @@ import com.kizitonwose.calendar.compose.weekcalendar.WeekCalendarState
 import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import java.time.LocalDate
 import kotlinx.coroutines.launch
+import com.costular.atomtasks.core.ui.R.string as S
 
 private const val DaysToShow = 365L
 
@@ -42,6 +46,7 @@ private const val DaysToShow = 365L
 internal fun AgendaHeader(
     modifier: Modifier = Modifier,
     selectedDay: Day,
+    shouldShowTodayAction: Boolean,
     onSelectDate: (LocalDate) -> Unit,
     onSelectToday: () -> Unit,
     onClickCalendar: () -> Unit,
@@ -64,27 +69,31 @@ internal fun AgendaHeader(
             ) {
                 val selectedDayText = DateUtils.dayAsText(selectedDay.date)
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                ScreenHeader(
+                    text = selectedDayText,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable(onClick = {
-                            coroutineScope.launch {
-                                weekCalendarState.animateScrollToWeek(LocalDate.now())
-                            }
-                            onSelectToday()
-                        }),
-                ) {
-                    ScreenHeader(
-                        text = selectedDayText,
-                        modifier = Modifier
-                            .testTag(TestTagHeader)
-                            .padding(
-                                top = AppTheme.dimens.spacingLarge,
-                                bottom = AppTheme.dimens.spacingLarge,
-                                start = AppTheme.dimens.spacingLarge,
-                            ),
-                    )
+                        .testTag(TestTagHeader)
+                        .padding(
+                            top = AppTheme.dimens.spacingLarge,
+                            bottom = AppTheme.dimens.spacingLarge,
+                            start = AppTheme.dimens.spacingLarge,
+                        ),
+                )
+
+                AnimatedVisibility(visible = shouldShowTodayAction) {
+                    TextButton(onClick = {
+                        coroutineScope.launch {
+                            weekCalendarState.animateScrollToWeek(LocalDate.now())
+                        }
+                        onSelectToday()
+                    }) {
+                        Text(
+                            text = stringResource(S.today),
+                            style = MaterialTheme.typography.titleMedium
+                                .copy(color = MaterialTheme.colorScheme.onSurface)
+                        )
+                    }
                 }
 
                 IconButton(
@@ -136,6 +145,7 @@ private fun HeaderCollapsedPreview() {
     AtomTheme {
         AgendaHeader(
             selectedDay = LocalDate.now().asDay(),
+            shouldShowTodayAction = true,
             onSelectDate = {},
             onSelectToday = {},
             modifier = Modifier.fillMaxWidth(),

@@ -223,9 +223,11 @@ fun AgendaScreen(
         AgendaHeader(
             selectedDay = state.selectedDay,
             onSelectDate = onSelectDate,
-            modifier = Modifier.fillMaxWidth(),
+            // Start using date provider instead of fixed date
+            shouldShowTodayAction = state.selectedDay.date != LocalDate.now(),
             onSelectToday = onSelectToday,
             onClickCalendar = onClickOpenCalendarView,
+            modifier = Modifier.fillMaxWidth(),
         )
 
         TasksContent(
