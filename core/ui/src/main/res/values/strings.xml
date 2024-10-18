@@ -40,7 +40,7 @@
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>
     <string name="task_list_empty_title">No tasks</string>
-    <string name="task_list_empty_description">Create a task and start organizing your life!</string>
+    <string name="task_list_empty_description">No task for this day yet!</string>
 
     <!-- Create task -->
     <string name="create_task_set_date">Choose a Date</string>
@@ -92,8 +92,8 @@
     <string name="settings_tasks_autoforward_tasks_title">Auto-Postpone</string>
     <string name="settings_tasks_autoforward_tasks_description">Unfinished tasks will be moved to the next day automatically.</string>
     <string name="settings_about_title">About</string>
-    <string name="settings_about_donate_title">"Fuel Atom\'s ad-free journey!"</string>
-    <string name="settings_about_donate_description">"Time, dedication, and caffeine ☕️ go into this project. Liked Atom? A coffee donation helps keep it top-notch and ad-free. Big thanks! 🙌💚 "</string>
+    <string name="settings_about_donate_title">Support Atom Tasks</string>
+    <string name="settings_about_donate_description">Help keep Atom Tasks ad-free and open source by making a donation. Your support makes a difference! :)</string>
 
     <string name="save">Save</string>
     <string name="content_description_chip_clear">Clear</string>

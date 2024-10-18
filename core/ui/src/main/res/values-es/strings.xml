@@ -71,12 +71,12 @@
     <string name="settings_tasks_title">Tareas</string>
     <string name="settings_tasks_autoforward_tasks_title">Auto-Posponer</string>
     <string name="settings_tasks_autoforward_tasks_description">"Las tareas no finalizadas se pospondrán automáticamente para el siguiente día.  "</string>
-    <string name="settings_about_donate_title">Apoya la calidad de Atom y su libertad de anuncios</string>
-    <string name="settings_about_donate_description">Detrás de Atom hay pasión, dedicación y muchas tazas de café ☕️. ¿Disfrutas la app? Invitarme a un café refuerza mi motivación y energía para seguir perfeccionándola, siempre libre de anuncios. Agradezco tu generosidad de corazón 🙌💚.</string>
+    <string name="settings_about_donate_title">Apoya a Atom Tareas</string>
+    <string name="settings_about_donate_description">Ayuda a mantener Atom Task sin anuncios y de código abierto con una donación. Tu apoyo marca la diferencia :)</string>
     <string name="save">Guardar</string>
     <string name="content_description_chip_clear">Limpiar</string>
     <string name="task_list_empty_title">Sin tareas</string>
-    <string name="task_list_empty_description">¡Crea una tarea y empieza organizando tu vida!</string>
+    <string name="task_list_empty_description">Aún no hay tareas para este día</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_title">Permiso necesario para recordatorios</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_description">Para utilizar la función de recordatorios, necesitamos el permiso para alarmas exactas. Sin él, los recordatorios no funcionarán</string>
     <string name="create_task_schedule_exact_reminder_permission_missing_dismiss">Lo entiendo</string>
