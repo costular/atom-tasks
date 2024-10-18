@@ -40,6 +40,6 @@ internal class SettingsLocalDataSourceImpl(
     }
 
     private companion object {
-        const val DefaultMoveUndoneTasks = true
+        const val DefaultMoveUndoneTasks = false
     }
 }
