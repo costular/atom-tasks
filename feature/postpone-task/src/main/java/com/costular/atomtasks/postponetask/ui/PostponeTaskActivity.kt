@@ -1,7 +1,5 @@
 package com.costular.atomtasks.postponetask.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,12 +26,6 @@ class PostponeTaskActivity : ComponentActivity() {
     }
 
     companion object {
-        fun buildIntent(context: Context, taskId: Long): Intent {
-            return Intent(context, PostponeTaskActivity::class.java).apply {
-                putExtra(ParamTaskId, taskId)
-            }
-        }
-
         private const val ParamTaskId = "postpone_param_task_id"
     }
 }

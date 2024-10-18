@@ -1,25 +1,31 @@
 package com.costular.atomtasks.postponetask.ui
 
 import androidx.lifecycle.viewModelScope
+import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
-import com.costular.atomtasks.postponetask.domain.PostponeChoice
+import com.costular.atomtasks.postponetask.domain.PostponeChoiceType
 import com.costular.atomtasks.tasks.usecase.PostponeTaskUseCase
 import com.costular.atomtasks.notifications.TaskNotificationManager
-import com.costular.atomtasks.postponetask.domain.PostponeChoiceCalculator
+import com.costular.atomtasks.postponetask.domain.PostponeChoice
+import com.costular.atomtasks.tasks.analytics.NotificationsActionsPostpone
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
+@Suppress("TooManyFunctions")
 @HiltViewModel
 class PostponeTaskViewModel @Inject constructor(
     private val getPostponeChoiceListUseCase: GetPostponeChoiceListUseCase,
     private val postponeTaskUseCase: PostponeTaskUseCase,
     private val taskNotificationManager: TaskNotificationManager,
-    private val postponeChoiceCalculator: PostponeChoiceCalculator,
+    private val analytics: AtomAnalytics,
 ) : MviViewModel<PostponeTaskScreenUiState>(PostponeTaskScreenUiState()) {
-
     fun initialize(taskId: Long) {
+        analytics.track(NotificationsActionsPostpone)
         setTaskId(taskId)
         loadPostponeChoices()
     }
@@ -48,25 +54,128 @@ class PostponeTaskViewModel @Inject constructor(
         viewModelScope.launch {
             val taskId = state.value.taskId
 
-            // Remove notification as soon as the user decides to postpone the task, not before
-            taskNotificationManager.removeTaskNotification(taskId)
+            if (postponeChoice.postponeChoiceType is PostponeChoiceType.Custom) {
+                showCustomPostpone()
+                return@launch
+            }
 
-            val reminder = postponeChoiceCalculator.calculatePostpone(postponeChoice)
+            analytics.track(
+                PostponeDefaultOptionClicked(postponeChoice.postponeChoiceType.toString())
+            )
 
-            postponeTaskUseCase.invoke(
-                PostponeTaskUseCase.Params(
-                    taskId = taskId,
-                    day = reminder.toLocalDate(),
-                    time = reminder.toLocalTime(),
-                )
-            ).fold(
-                ifError = {
-                    // For now we won't handle the error
-                },
-                ifResult = {
-                    sendEvent(PostponeTaskUiEvents.PostponedSuccessfully)
-                }
+            rescheduleWithDateTime(
+                taskId,
+                postponeChoice.postponeDateTime!!.toLocalDate(),
+                postponeChoice.postponeDateTime.toLocalTime()
             )
         }
+    }
+
+    private suspend fun rescheduleWithDateTime(
+        taskId: Long,
+        day: LocalDate,
+        time: LocalTime,
+    ) {
+        taskNotificationManager.removeTaskNotification(taskId)
+
+        postponeTaskUseCase.invoke(
+            PostponeTaskUseCase.Params(
+                taskId = taskId,
+                day = day,
+                time = time,
+            )
+        ).fold(
+            ifError = {
+                // For now we won't handle the error
+            },
+            ifResult = {
+                sendEvent(PostponeTaskUiEvents.PostponedSuccessfully)
+            }
+        )
+    }
+
+    private fun showCustomPostpone() {
+        analytics.track(PostponeCustomOptionClicked)
+        val automaticPostpone = LocalDateTime.now().plusMinutes(DefaultPostponeMinutes)
+
+        setState {
+            copy(
+                showCustomPostponeChoice = true,
+                customPostponeDate = automaticPostpone.toLocalDate(),
+                customPostponeTime = automaticPostpone.toLocalTime(),
+            )
+        }
+    }
+
+    fun onClickCustomDate() {
+        analytics.track(PostponeCustomDatePickerOpened)
+        setState {
+            copy(
+                isSelectDayDialogOpen = true,
+            )
+        }
+    }
+
+    fun dismissCustomDate() {
+        setState {
+            copy(
+                isSelectDayDialogOpen = false,
+            )
+        }
+    }
+
+    fun onUpdateDate(date: LocalDate) {
+        setState {
+            copy(
+                isSelectDayDialogOpen = false,
+                customPostponeDate = date
+            )
+        }
+    }
+
+    fun onClickCustomTime() {
+        analytics.track(PostponeCustomTimePickerOpened)
+        setState {
+            copy(
+                isSelectTimeDialogOpen = true,
+            )
+        }
+    }
+
+    fun dismissCustomTime() {
+        setState {
+            copy(
+                isSelectTimeDialogOpen = false,
+            )
+        }
+    }
+
+    fun onUpdateTime(time: LocalTime) {
+        setState {
+            copy(
+                isSelectTimeDialogOpen = false,
+                customPostponeTime = time
+            )
+        }
+    }
+
+    fun customReschedule() {
+        viewModelScope.launch {
+            val date = requireNotNull(state.value.customPostponeDate)
+            val time = requireNotNull(state.value.customPostponeTime)
+            val taskId = state.value.taskId
+
+            analytics.track(PostponeCustomRescheduled(date, time))
+
+            rescheduleWithDateTime(
+                taskId,
+                date,
+                time,
+            )
+        }
+    }
+
+    private companion object {
+        const val DefaultPostponeMinutes = 15L
     }
 }
