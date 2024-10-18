@@ -4,8 +4,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.costular.atomtasks.postponetask.domain.DefaultPostponeChoiceCalculator
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
 import com.costular.atomtasks.postponetask.domain.PostponeChoice
-import com.costular.atomtasks.postponetask.domain.PostponeChoiceCalculator
-import com.costular.atomtasks.postponetask.domain.PostponeChoiceType
 import java.time.Clock
 
 internal class PostponeTaskScreenPreviewData : PreviewParameterProvider<PostponeTaskScreenUiState> {

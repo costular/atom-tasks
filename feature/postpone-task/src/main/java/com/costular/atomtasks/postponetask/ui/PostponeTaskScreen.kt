@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -200,53 +201,67 @@ private fun PostponeTaskScreenContent(
             }
         }
 
-        AnimatedVisibility(state.showCustomPostponeChoice) {
-            Column {
-                DateTimePicker(
-                    label = stringResource(S.postpone_task_custom_date),
-                    content = state.customPostponeDate?.let { dayAsText(state.customPostponeDate) }
-                        ?: "--",
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.CalendarToday,
-                            contentDescription = null,
-                        )
-                    },
-                    onClick = onClickCustomDate,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = AppTheme.dimens.contentMargin)
-                )
+        CustomPostponeChoice(
+            state = state,
+            onClickCustomDate = onClickCustomDate,
+            onClickCustomTime = onClickCustomTime,
+            customReschedule = customReschedule
+        )
+    }
+}
 
-                Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
+@Composable
+private fun ColumnScope.CustomPostponeChoice(
+    state: PostponeTaskScreenUiState,
+    onClickCustomDate: () -> Unit,
+    onClickCustomTime: () -> Unit,
+    customReschedule: () -> Unit
+) {
+    AnimatedVisibility(state.showCustomPostponeChoice) {
+        Column {
+            DateTimePicker(
+                label = stringResource(S.postpone_task_custom_date),
+                content = state.customPostponeDate?.let { dayAsText(state.customPostponeDate) }
+                    ?: "--",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.CalendarToday,
+                        contentDescription = null,
+                    )
+                },
+                onClick = onClickCustomDate,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = AppTheme.dimens.contentMargin)
+            )
 
-                DateTimePicker(
-                    label = stringResource(S.postpone_task_custom_time),
-                    content = state.customPostponeTime?.ofLocalizedTime() ?: "--",
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.AccessTime,
-                            contentDescription = null,
-                        )
-                    },
-                    onClick = onClickCustomTime,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = AppTheme.dimens.contentMargin)
-                )
+            Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
 
-                Spacer(modifier = Modifier.height(AppTheme.dimens.spacingLarge))
+            DateTimePicker(
+                label = stringResource(S.postpone_task_custom_time),
+                content = state.customPostponeTime?.ofLocalizedTime() ?: "--",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AccessTime,
+                        contentDescription = null,
+                    )
+                },
+                onClick = onClickCustomTime,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = AppTheme.dimens.contentMargin)
+            )
 
-                PrimaryButton(
-                    onClick = customReschedule,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = AppTheme.dimens.contentMargin)
-                ) {
-                    Text("Reschedule")
-                }
+            Spacer(modifier = Modifier.height(AppTheme.dimens.spacingLarge))
+
+            PrimaryButton(
+                onClick = customReschedule,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = AppTheme.dimens.contentMargin)
+            ) {
+                Text("Reschedule")
             }
-
         }
     }
 }

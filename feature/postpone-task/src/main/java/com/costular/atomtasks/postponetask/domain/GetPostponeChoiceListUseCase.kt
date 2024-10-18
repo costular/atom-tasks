@@ -2,7 +2,6 @@ package com.costular.atomtasks.postponetask.domain
 
 import com.costular.atomtasks.core.usecase.UseCase
 import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class GetPostponeChoiceListUseCase @Inject constructor(

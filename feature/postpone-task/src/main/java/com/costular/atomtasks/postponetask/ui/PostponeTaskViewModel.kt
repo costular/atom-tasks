@@ -1,7 +1,6 @@
 package com.costular.atomtasks.postponetask.ui
 
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.postponetask.domain.GetPostponeChoiceListUseCase
@@ -17,6 +16,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
+@Suppress("TooManyFunctions")
 @HiltViewModel
 class PostponeTaskViewModel @Inject constructor(
     private val getPostponeChoiceListUseCase: GetPostponeChoiceListUseCase,
@@ -24,7 +24,6 @@ class PostponeTaskViewModel @Inject constructor(
     private val taskNotificationManager: TaskNotificationManager,
     private val analytics: AtomAnalytics,
 ) : MviViewModel<PostponeTaskScreenUiState>(PostponeTaskScreenUiState()) {
-
     fun initialize(taskId: Long) {
         analytics.track(NotificationsActionsPostpone)
         setTaskId(taskId)
@@ -97,7 +96,7 @@ class PostponeTaskViewModel @Inject constructor(
 
     private fun showCustomPostpone() {
         analytics.track(PostponeCustomOptionClicked)
-        val automaticPostpone = LocalDateTime.now().plusMinutes(15)
+        val automaticPostpone = LocalDateTime.now().plusMinutes(DefaultPostponeMinutes)
 
         setState {
             copy(
@@ -174,5 +173,9 @@ class PostponeTaskViewModel @Inject constructor(
                 time,
             )
         }
+    }
+
+    private companion object {
+        const val DefaultPostponeMinutes = 15L
     }
 }
