@@ -103,4 +103,8 @@
     <string name="postpone_task_custom">Escoge fecha y hora</string>
     <string name="postpone_task_custom_date">Día</string>
     <string name="postpone_task_custom_time">Hora</string>
+    <string name="notification_channel_daily_reminder">Recordatorio de planificación</string>
+    <string name="notification_channel_daily_reminder_description">Recordatorio diario para planificar las tareas para el día</string>
+    <string name="notification_daily_reminder_title">¿Qué tienes que hacer hoy?</string>
+    <string name="notification_daily_reminder_description">Haz clic aquí para organizar tus tareas del día</string>
 </resources>

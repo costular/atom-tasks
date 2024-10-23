@@ -36,17 +36,20 @@ fun SettingItem(
     modifier: Modifier = Modifier,
     start: @Composable (RowScope.() -> Unit)? = null,
     end: @Composable (RowScope.() -> Unit)? = null,
+    enabled: Boolean = true,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable { onClick() }
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(AppTheme.dimens.contentMargin)
             .semantics(mergeDescendants = true) {},
     ) {
-        val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+
+        val onSurfaceVariant =
+            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 1f else 0.38f)
         CompositionLocalProvider(LocalContentColor provides onSurfaceVariant) {
             if (start != null) {
                 start()
@@ -145,6 +148,38 @@ private fun TitleWithDescriptionAndEndPreview() {
             },
             onClick = {},
             modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingItemDisabledPreview() {
+    AtomTheme {
+        SettingItem(
+            title = {
+                Column {
+                    Text(
+                        "This is a title",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        "This is description wadwadawdaw daw daw daw awdaw dawd sdadad",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            },
+            end = {
+                Switch(
+                    checked = true,
+                    onCheckedChange = { },
+                    enabled = false,
+                )
+            },
+            onClick = {},
+            modifier = Modifier.fillMaxWidth(),
+            enabled = false,
         )
     }
 }

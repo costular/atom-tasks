@@ -27,7 +27,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.data.settings.Theme
+import com.costular.atomtasks.settings.sections.GeneralSection
+import com.costular.atomtasks.settings.sections.SettingsAboutSection
+import com.costular.atomtasks.settings.sections.TasksSettingsSection
 import com.costular.designsystem.components.AtomTopBar
+import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -35,6 +39,7 @@ import com.ramcosta.composedestinations.generated.settings.destinations.ThemeSel
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.getOr
 import org.jetbrains.annotations.VisibleForTesting
+import java.time.LocalTime
 
 interface SettingsNavigator {
     fun navigateUp()
@@ -63,10 +68,20 @@ fun SettingsScreen(
         }
     }
 
+    if (state.isDailyReminderTimePickerOpen) {
+        TimePickerDialog(
+            onDismiss = viewModel::dismissDailyReminderTimePicker,
+            selectedTime = state.dailyReminder?.time ?: LocalTime.now(),
+            onSelectTime = viewModel::updateDailyReminderTime,
+        )
+    }
+
     SettingsScreen(
         state = state,
         navigator = navigator,
         onUpdateAutoforwardTasks = viewModel::setAutoforwardTasksEnabled,
+        onEnableDailyReminder = viewModel::updateDailyReminder,
+        onClickDailyReminder = viewModel::clickOnDailyReminderTimePicker,
     )
 }
 
@@ -78,6 +93,8 @@ fun SettingsScreen(
     state: SettingsState,
     navigator: SettingsNavigator,
     onUpdateAutoforwardTasks: (Boolean) -> Unit,
+    onEnableDailyReminder: (Boolean) -> Unit,
+    onClickDailyReminder: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -88,7 +105,12 @@ fun SettingsScreen(
                         text = stringResource(R.string.settings),
                     )
                 },
-                windowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
+                windowInsets = WindowInsets(
+                    left = 0.dp,
+                    top = 0.dp,
+                    right = 0.dp,
+                    bottom = 0.dp
+                ),
             )
         },
     ) { contentPadding ->
@@ -112,6 +134,9 @@ fun SettingsScreen(
             TasksSettingsSection(
                 isMoveUndoneTasksTomorrowEnabled = state.moveUndoneTasksTomorrowAutomatically,
                 onSetMoveUndoneTasksTomorrow = onUpdateAutoforwardTasks,
+                dailyReminder = state.dailyReminder,
+                onEnableDailyReminder = onEnableDailyReminder,
+                onClickDailyReminder = onClickDailyReminder,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -148,6 +173,8 @@ private fun SettingsScreenPreview() {
             state = SettingsState(),
             navigator = EmptySettingsNavigator,
             onUpdateAutoforwardTasks = {},
+            onEnableDailyReminder = {},
+            onClickDailyReminder = {},
         )
     }
 }

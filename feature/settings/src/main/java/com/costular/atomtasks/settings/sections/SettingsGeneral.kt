@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.settings.sections
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.data.settings.Theme
+import com.costular.atomtasks.settings.SettingSection
 import com.costular.atomtasks.settings.components.SettingOption
 import com.costular.designsystem.theme.AtomTheme
 

@@ -4,6 +4,8 @@ plugins {
     id("atomtasks.android.library.jacoco")
     id("dagger.hilt.android.plugin")
     id("atomtasks.android.room")
+    alias(libs.plugins.kotlinx.serialization)
+    id("atomtasks.android.hilt")
 }
 
 android {
@@ -17,6 +19,8 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(projects.core.preferences)
+    implementation(projects.core.notifications)
+    implementation(projects.core.logging)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
@@ -24,6 +28,7 @@ dependencies {
     implementation(libs.preferences.datastore)
     implementation(libs.preferences)
     implementation(libs.hilt.work)
+    implementation(libs.kotlinx.serialization)
 
     testImplementation(projects.common.tasks)
     testImplementation(libs.android.junit)

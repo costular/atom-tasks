@@ -32,6 +32,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.costular.atomtasks.core.ui.R
+import com.costular.atomtasks.settings.sections.parseTheme
 import com.ramcosta.composedestinations.bottomsheet.spec.DestinationStyleBottomSheet
 
 @Destination<SettingsGraph>(style = DestinationStyleBottomSheet::class)

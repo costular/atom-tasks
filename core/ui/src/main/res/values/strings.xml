@@ -99,6 +99,12 @@
     <string name="settings_about_donate_title">Support Atom Tasks</string>
     <string name="settings_about_donate_description">Help keep Atom Tasks ad-free and open source by making a donation. Your support makes a difference! :)</string>
 
+    <!-- Daily reminder notification -->
+    <string name="notification_channel_daily_reminder">Daily reminder</string>
+    <string name="notification_channel_daily_reminder_description">Daily reminder to plan your tasks for that day</string>
+    <string name="notification_daily_reminder_title">What do you need to do today?</string>
+    <string name="notification_daily_reminder_description">Tap here to organize them on Minitask</string>
+
     <string name="save">Save</string>
     <string name="content_description_chip_clear">Clear</string>
     <string name="agenda_edit_title">Edit task</string>

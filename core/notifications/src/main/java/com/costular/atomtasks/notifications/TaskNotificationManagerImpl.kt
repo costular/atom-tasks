@@ -29,10 +29,6 @@ class TaskNotificationManagerImpl @Inject constructor(
     }
 
     private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return
-        }
-
         val name = context.getString(R.string.notification_channel_reminders_title)
         val descriptionText =
             context.getString(R.string.notification_channel_reminders_description)
@@ -48,7 +44,7 @@ class TaskNotificationManagerImpl @Inject constructor(
     }
 
     override fun remindTask(taskId: Long, taskName: String) {
-        val builder = buildNotificationBase(NotificationChannels.Reminders)
+        val builder = context.buildNotificationBase(NotificationChannels.Reminders)
             .setContentTitle(context.getString(R.string.notification_reminder))
             .setContentText(taskName)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -56,22 +52,7 @@ class TaskNotificationManagerImpl @Inject constructor(
                 NotificationCompat.BigTextStyle()
                     .bigText(taskName),
             )
-            .setContentIntent(
-                PendingIntent.getActivity(
-                    context,
-                    REQUEST_OPEN_APP,
-                    Intent().apply {
-                        action = Intent.ACTION_VIEW
-                        component = ComponentName(
-                            context.packageName,
-                            MAIN_ACTIVITY_NAME,
-                        )
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    },
-                    UPDATE_FLAG,
-                    null,
-                ),
-            )
+            .openAppContentIntent(context)
             .setAutoCancel(true)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .addAction(
@@ -136,19 +117,7 @@ class TaskNotificationManagerImpl @Inject constructor(
         notificationManager.notify(id, notification)
     }
 
-    private fun buildNotificationBase(channel: String): NotificationCompat.Builder =
-        NotificationCompat.Builder(context, channel)
-            .setSmallIcon(R.drawable.ic_atom)
-            .setColor(context.getColor(R.color.primary))
-
-    private fun generateRandomRequestCode(): Int {
-        return (0..Int.MAX_VALUE).random()
-    }
-
     companion object {
-        const val REQUEST_OPEN_APP = 20
-        const val UPDATE_FLAG = FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
-        const val MAIN_ACTIVITY_NAME = "com.costular.atomtasks.ui.home.MainActivity"
         const val POSTPONE_ACTIVITY_NAME =
             "com.costular.atomtasks.postponetask.ui.PostponeTaskActivity"
         const val MARK_TASK_AS_DONE_RECEIVER =

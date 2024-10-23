@@ -5,11 +5,17 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.costular.atomtasks.data.settings.dailyreminder.DailyReminderDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.time.LocalTime
+import javax.inject.Inject
 
-internal class SettingsLocalDataSourceImpl(
+class SettingsLocalDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
+    private val json: Json,
 ) : SettingsLocalDataSource {
 
     private val preferenceTheme = stringPreferencesKey("theme")
@@ -21,6 +27,12 @@ internal class SettingsLocalDataSourceImpl(
     private val preferenceMoveUndoneTasksTomorrow = booleanPreferencesKey("tasks_autoforward")
     val moveUndoneTasksTomorrow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[preferenceMoveUndoneTasksTomorrow] ?: DefaultMoveUndoneTasks
+    }
+
+    private val preferenceDailyReminder = stringPreferencesKey("daily_reminder")
+    private val dailyReminder: Flow<DailyReminderDto> = dataStore.data.map { preferences ->
+        preferences[preferenceDailyReminder]?.let<String, DailyReminderDto>(json::decodeFromString)
+            ?: return@map DailyReminderDto(true, "08:00")
     }
 
     override fun observeTheme(): Flow<String> = theme
@@ -36,6 +48,15 @@ internal class SettingsLocalDataSourceImpl(
     override suspend fun setMoveUndoneTaskTomorrow(isEnabled: Boolean) {
         dataStore.edit { settings ->
             settings[preferenceMoveUndoneTasksTomorrow] = isEnabled
+        }
+    }
+
+    override fun getDailyReminder(): Flow<DailyReminderDto> = dailyReminder
+
+    override suspend fun updateDailyReminder(isEnabled: Boolean, time: LocalTime) {
+        dataStore.edit { settings ->
+            settings[preferenceDailyReminder] =
+                json.encodeToString(DailyReminderDto(isEnabled, time.toString()))
         }
     }
 
