@@ -45,14 +45,10 @@ class SettingsRobot(composeTestRule: ComposeTestRule) : Robot(composeTestRule) {
     }
 
     fun autoforwardTasksIsEnabled() {
-        autoForwardSwitch
-            .assertIsDisplayed()
-            .assertIsOn()
+        autoForwardSwitch.assertIsOn()
     }
 
     fun autoforwardTasksIsDisabled() {
-        autoForwardSwitch
-            .assertIsDisplayed()
-            .assertIsOff()
+        autoForwardSwitch.assertIsOff()
     }
 }

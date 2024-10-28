@@ -11,6 +11,7 @@ import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.core.toResult
 import com.costular.atomtasks.core.usecase.invoke
+import com.costular.atomtasks.data.tutorial.ShouldShowOnboardingUseCase
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
@@ -53,9 +54,11 @@ class AgendaViewModelTest : MviViewModelTest() {
     private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase =
         mockk(relaxUnitFun = true)
     private val shouldAskReviewUseCase: ShouldAskReviewUseCase = mockk(relaxUnitFun = true)
+    private val shouldShowOnboardingUseCase: ShouldShowOnboardingUseCase = mockk()
 
     @Before
     fun setUp() {
+        givenOnboarding(false)
         initializeViewModel()
     }
 
@@ -448,6 +451,12 @@ class AgendaViewModelTest : MviViewModelTest() {
         )
     }
 
+    private fun givenOnboarding(shouldBeShown: Boolean) {
+        coEvery {
+            shouldShowOnboardingUseCase.invoke(Unit)
+        } returns flowOf(shouldBeShown).toResult()
+    }
+
     private fun initializeViewModel() {
         coEvery { observeTasksUseCase.invoke(any()) } returns flowOf(emptyList<Task>().toResult())
         coEvery { updateTaskIsDoneUseCase.invoke(any()) } returns Unit.toResult()
@@ -466,6 +475,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             taskOrderTutorialDismissedUseCase = taskOrderTutorialDismissedUseCase,
             shouldShowAskReviewUseCase = shouldAskReviewUseCase,
             recurrenceScheduler = recurrenceScheduler,
+            shouldShowOnboardingUseCase = shouldShowOnboardingUseCase,
         )
     }
 }
