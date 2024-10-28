@@ -1,6 +1,5 @@
 package com.costular.atomtasks.notifications
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
@@ -25,21 +24,21 @@ internal fun NotificationCompat.Builder.openAppContentIntent(
     return setContentIntent(
         PendingIntent.getActivity(
             context,
-            REQUEST_OPEN_APP,
+            RequestOpenApp,
             Intent().apply {
                 action = Intent.ACTION_VIEW
                 component = ComponentName(
                     context.packageName,
-                    MAIN_ACTIVITY_NAME,
+                    MainActivityName,
                 )
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             },
-            UPDATE_FLAG,
+            UpdateFlag,
             null,
         ),
     )
 }
 
-internal const val UPDATE_FLAG = FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
-private const val REQUEST_OPEN_APP = 20
-private const val MAIN_ACTIVITY_NAME = "com.costular.atomtasks.ui.home.MainActivity"
+internal const val UpdateFlag = FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+private const val RequestOpenApp = 20
+private const val MainActivityName = "com.costular.atomtasks.ui.home.MainActivity"

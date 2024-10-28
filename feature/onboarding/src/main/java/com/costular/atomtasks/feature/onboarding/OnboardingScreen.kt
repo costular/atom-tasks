@@ -2,7 +2,6 @@ package com.costular.atomtasks.feature.onboarding
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION_CODES.TIRAMISU
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -62,6 +61,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import com.costular.atomtasks.core.ui.R.string as S
+
+private const val AnimationMillis = 300
 
 @SuppressLint("InlinedApi")
 @Destination<OnboardingGraph>(
@@ -226,7 +227,7 @@ private fun PageIndicator(
                     1f
                 },
                 label = "Pager line",
-                animationSpec = tween(300, easing = EaseInOut)
+                animationSpec = tween(AnimationMillis, easing = EaseInOut)
             )
 
             val color = animateColorAsState(
@@ -235,7 +236,7 @@ private fun PageIndicator(
                 } else {
                     MaterialTheme.colorScheme.surfaceContainerHighest
                 },
-                animationSpec = tween(durationMillis = 300, easing = EaseInOut),
+                animationSpec = tween(durationMillis = AnimationMillis, easing = EaseInOut),
                 label = "Indicator color",
             )
 

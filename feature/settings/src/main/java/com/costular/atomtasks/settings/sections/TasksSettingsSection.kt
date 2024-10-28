@@ -39,29 +39,9 @@ fun TasksSettingsSection(
         title = stringResource(R.string.settings_tasks_title),
         modifier = modifier.fillMaxWidth(),
     ) {
-        SettingSwitch(
-            title = {
-                Column {
-                    Text(
-                        text = "Daily reminder",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = "Get a daily reminder to remind you of your tasks",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-            },
-            start = {
-                Icon(
-                    imageVector = Icons.Outlined.Alarm,
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.Top)
-                )
-            },
-            isSelected = dailyReminder?.isEnabled ?: false,
-            onSelect = onEnableDailyReminder,
+        DailyReminderItem(
+            dailyReminder = dailyReminder,
+            onEnableDailyReminder = onEnableDailyReminder
         )
 
         SettingOption(
@@ -74,34 +54,75 @@ fun TasksSettingsSection(
 
         SettingDivider()
 
-        SettingSwitch(
-            start = {
-                Icon(
-                    imageVector = Icons.Outlined.FastForward,
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.Top)
-                )
-            },
-            title = {
-                Column {
-                    Text(
-                        text = stringResource(R.string.settings_tasks_autoforward_tasks_title),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(
-                            R.string.settings_tasks_autoforward_tasks_description,
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-            },
-            isSelected = isMoveUndoneTasksTomorrowEnabled,
-            onSelect = onSetMoveUndoneTasksTomorrow,
-            modifier = modifier,
+        AutoPostponeItem(
+            isMoveUndoneTasksTomorrowEnabled = isMoveUndoneTasksTomorrowEnabled,
+            onSetMoveUndoneTasksTomorrow = onSetMoveUndoneTasksTomorrow,
         )
     }
+}
+
+@Composable
+private fun DailyReminderItem(
+    dailyReminder: DailyReminder?,
+    onEnableDailyReminder: (Boolean) -> Unit
+) {
+    SettingSwitch(
+        title = {
+            Column {
+                Text(
+                    text = "Daily reminder",
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "Get a daily reminder to remind you of your tasks",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        },
+        start = {
+            Icon(
+                imageVector = Icons.Outlined.Alarm,
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.Top)
+            )
+        },
+        isSelected = dailyReminder?.isEnabled ?: false,
+        onSelect = onEnableDailyReminder,
+    )
+}
+
+@Composable
+private fun AutoPostponeItem(
+    isMoveUndoneTasksTomorrowEnabled: Boolean,
+    onSetMoveUndoneTasksTomorrow: (Boolean) -> Unit,
+) {
+    SettingSwitch(
+        start = {
+            Icon(
+                imageVector = Icons.Outlined.FastForward,
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.Top)
+            )
+        },
+        title = {
+            Column {
+                Text(
+                    text = stringResource(R.string.settings_tasks_autoforward_tasks_title),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(
+                        R.string.settings_tasks_autoforward_tasks_description,
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        },
+        isSelected = isMoveUndoneTasksTomorrowEnabled,
+        onSelect = onSetMoveUndoneTasksTomorrow,
+    )
 }
 
 @Preview

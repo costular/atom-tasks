@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 
+@Suppress("LongParameterList")
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val getThemeUseCase: GetThemeUseCase,
