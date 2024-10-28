@@ -23,6 +23,7 @@ fun SettingSwitch(
     onSelect: (isSelected: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     start: @Composable (RowScope.() -> Unit)? = null,
+    enabled: Boolean = true,
 ) {
     SettingItem(
         title = title,
@@ -30,8 +31,13 @@ fun SettingSwitch(
         onClick = { onSelect(!isSelected) },
         modifier = modifier,
         end = {
-            Switch(checked = isSelected, onCheckedChange = { onSelect(it) })
+            Switch(
+                checked = isSelected,
+                onCheckedChange = { onSelect(it) },
+                enabled = enabled
+            )
         },
+        enabled = enabled
     )
 }
 

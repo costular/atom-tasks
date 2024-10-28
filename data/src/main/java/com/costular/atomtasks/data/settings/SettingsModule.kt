@@ -1,23 +1,27 @@
 package com.costular.atomtasks.data.settings
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.costular.atomtasks.data.settings.dailyreminder.DailyReminderAlarmScheduler
+import com.costular.atomtasks.data.settings.dailyreminder.DailyReminderAlarmSchedulerImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-class SettingsModule {
+internal interface SettingsModule {
+    @Binds
+    fun bindsSettingsLocalDataSource(
+        impl: SettingsLocalDataSourceImpl,
+    ): SettingsLocalDataSource
 
-    @Provides
-    fun provideSettingsLocalDataSource(
-        dataStore: DataStore<Preferences>,
-    ): SettingsLocalDataSource = SettingsLocalDataSourceImpl(dataStore)
+    @Binds
+    fun bindsSettingsRepository(
+        impl: SettingsRepositoryImpl,
+    ): SettingsRepository
 
-    @Provides
-    fun provideSettingsRepository(
-        settingsLocalDataSource: SettingsLocalDataSource,
-    ): SettingsRepository = SettingsRepositoryImpl(settingsLocalDataSource)
+    @Binds
+    fun bindsDailyReminderAlarmScheduler(
+        impl: DailyReminderAlarmSchedulerImpl,
+    ): DailyReminderAlarmScheduler
 }

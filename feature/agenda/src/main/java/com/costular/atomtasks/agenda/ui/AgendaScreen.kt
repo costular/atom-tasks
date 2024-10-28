@@ -82,6 +82,10 @@ internal fun AgendaScreen(
             is AgendaUiEvents.GoToEditScreen -> {
                 navigator.navigateToDetailScreenToEdit(event.taskId)
             }
+
+            is AgendaUiEvents.OpenOnboarding -> {
+                navigator.navigateToOnboarding()
+            }
         }
     }
 

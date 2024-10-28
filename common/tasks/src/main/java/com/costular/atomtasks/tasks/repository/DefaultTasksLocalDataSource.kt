@@ -39,6 +39,10 @@ internal class DefaultTasksLocalDataSource @Inject constructor(
         reminderDao.insertReminder(reminder)
     }
 
+    override suspend fun getTasksCount(): Int {
+        return tasksDao.getTaskCount()
+    }
+
     override fun getTasks(day: LocalDate?): Flow<List<TaskAggregated>> {
         return if (day != null) {
             tasksDao.getAllTasksForDate(day).distinctUntilChanged()

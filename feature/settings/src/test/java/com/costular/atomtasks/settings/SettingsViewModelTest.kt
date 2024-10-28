@@ -8,6 +8,8 @@ import com.costular.atomtasks.data.settings.IsAutoforwardTasksSettingEnabledUseC
 import com.costular.atomtasks.data.settings.SetAutoforwardTasksInteractor
 import com.costular.atomtasks.data.settings.SetThemeUseCase
 import com.costular.atomtasks.data.settings.Theme
+import com.costular.atomtasks.data.settings.dailyreminder.ObserveDailyReminderUseCase
+import com.costular.atomtasks.data.settings.dailyreminder.UpdateDailyReminderUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,6 +31,8 @@ class SettingsViewModelTest : MviViewModelTest() {
         mockk(relaxed = true)
     private val setAutoforwardTasksInteractor: SetAutoforwardTasksInteractor = mockk(relaxed = true)
     private val atomAnalytics: AtomAnalytics = mockk(relaxed = true)
+    private val getDailyReminderUseCase: ObserveDailyReminderUseCase = mockk(relaxed = true)
+    private val updateDailyReminder: UpdateDailyReminderUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -42,6 +46,8 @@ class SettingsViewModelTest : MviViewModelTest() {
             isAutoforwardTasksSettingEnabledUseCase = isAutoforwardTasksInteractor,
             setAutoforwardTasksInteractor = setAutoforwardTasksInteractor,
             atomAnalytics = atomAnalytics,
+            getDailyReminderUseCase = getDailyReminderUseCase,
+            updateDailyReminderUseCase = updateDailyReminder,
         )
     }
 

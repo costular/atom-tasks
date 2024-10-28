@@ -1,4 +1,4 @@
-package com.costular.atomtasks.settings
+package com.costular.atomtasks.settings.sections
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.core.ui.R
+import com.costular.atomtasks.settings.SettingLink
+import com.costular.atomtasks.settings.SettingSection
 import com.costular.designsystem.theme.AtomTheme
 
 @Composable

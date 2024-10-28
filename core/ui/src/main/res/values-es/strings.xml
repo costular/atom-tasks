@@ -103,4 +103,19 @@
     <string name="postpone_task_custom">Escoge fecha y hora</string>
     <string name="postpone_task_custom_date">Día</string>
     <string name="postpone_task_custom_time">Hora</string>
+    <string name="notification_channel_daily_reminder">Recordatorio de planificación</string>
+    <string name="notification_channel_daily_reminder_description">Recordatorio diario para planificar las tareas para el día</string>
+    <string name="notification_daily_reminder_title">¿Qué tienes que hacer hoy?</string>
+    <string name="notification_daily_reminder_description">Haz clic aquí para organizar tus tareas del día</string>
+    <string name="onboarding_tasks_title">Tu lista de tareas, simplificada</string>
+    <string name="onboarding_tasks_description">Con Minitask, organiza tus tareas con una interfaz minimalista y sin distracciones. Todo lo que necesitas, nada más.</string>
+    <string name="onboarding_free_title">100% gratis y sin anuncios</string>
+    <string name="onboarding_free_description">Minitask es de código abierto, totalmente gratuito y sin publicidad. Usa la app sin límites, de por vida.</string>
+    <string name="onboarding_secure_title">Privacidad total, tus datos son tuyos</string>
+    <string name="onboarding_secure_description">Tus tareas se almacenan solo en tu dispositivo. Sin sincronización en la nube, mantienes el control total de tu información.</string>
+    <string name="onboarding_notifications_title">No olvides tus tareas importantes</string>
+    <string name="onboarding_notifications_description">Activa las notificaciones para recibir recordatorios y nunca perder el hilo de tus tareas pendientes. Mantente al día con tus objetivos.</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_skip">Saltar</string>
+    <string name="onboarding_finish">Terminar</string>
 </resources>

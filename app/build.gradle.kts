@@ -83,6 +83,7 @@ dependencies {
     implementation(projects.common.tasks)
     implementation(projects.feature.postponeTask)
     implementation(projects.feature.detail)
+    implementation(projects.feature.onboarding)
 
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)

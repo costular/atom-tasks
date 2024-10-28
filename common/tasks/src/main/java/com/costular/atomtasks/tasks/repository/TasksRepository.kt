@@ -18,7 +18,7 @@ interface TasksRepository {
         recurrenceType: RecurrenceType?,
         parentId: Long?,
     ): Long
-
+    suspend fun getTaskCount(): Int
     fun getTaskById(id: Long): Flow<Task>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
     suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?)

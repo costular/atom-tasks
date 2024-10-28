@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    ksp(libs.hilt.ext.compiler)
     api(libs.reordeable)
 
     testImplementation(projects.common.tasks)

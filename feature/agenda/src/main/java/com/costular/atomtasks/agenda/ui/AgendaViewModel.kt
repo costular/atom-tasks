@@ -15,6 +15,8 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDelete
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
+import com.costular.atomtasks.core.usecase.EmptyParams
+import com.costular.atomtasks.data.tutorial.ShouldShowOnboardingUseCase
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
 import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
@@ -29,6 +31,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.ItemPosition
@@ -46,9 +49,11 @@ class AgendaViewModel @Inject constructor(
     private val taskOrderTutorialDismissedUseCase: TaskOrderTutorialDismissedUseCase,
     private val shouldShowAskReviewUseCase: ShouldAskReviewUseCase,
     private val recurrenceScheduler: RecurrenceScheduler,
+    private val shouldShowOnboardingUseCase: ShouldShowOnboardingUseCase,
 ) : MviViewModel<AgendaState>(AgendaState()) {
 
     init {
+        shouldShowOnboarding()
         loadTasks()
         scheduleAutoforwardTasks()
         initializeRecurrenceScheduler()
@@ -57,6 +62,18 @@ class AgendaViewModel @Inject constructor(
 
     private fun initializeRecurrenceScheduler() {
         recurrenceScheduler.initialize()
+    }
+
+    private fun shouldShowOnboarding() {
+        viewModelScope.launch {
+            shouldShowOnboardingUseCase.invoke(EmptyParams).tap { result ->
+                result.collectLatest {
+                    if (it) {
+                        sendEvent(AgendaUiEvents.OpenOnboarding)
+                    }
+                }
+            }
+        }
     }
 
     private fun retrieveTutorials() {

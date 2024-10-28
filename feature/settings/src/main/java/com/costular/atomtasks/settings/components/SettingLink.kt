@@ -23,6 +23,7 @@ fun SettingLink(
     title: @Composable () -> Unit,
     icon: ImageVector,
     onClick: () -> Unit,
+    enabled: Boolean = true,
 ) {
     SettingItem(
         start = {
@@ -43,6 +44,7 @@ fun SettingLink(
             )
         },
         onClick = onClick,
+        enabled = enabled,
     )
 }
 

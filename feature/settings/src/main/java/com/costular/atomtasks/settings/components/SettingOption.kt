@@ -24,18 +24,21 @@ import com.costular.designsystem.theme.AtomTheme
 fun SettingOption(
     title: String,
     option: String,
-    icon: ImageVector,
+    icon: ImageVector?,
     onClick: () -> Unit,
+    enabled: Boolean = true,
 ) {
     SettingItem(
-        start = {
-            Icon(
-                painter = rememberVectorPainter(icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
-                    .align(Alignment.Top),
-            )
+        start = icon?.let {
+            {
+                Icon(
+                    painter = rememberVectorPainter(icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .align(Alignment.Top),
+                )
+            }
         },
         title = {
             Column {
@@ -62,6 +65,7 @@ fun SettingOption(
             )
         },
         onClick = onClick,
+        enabled = enabled,
     )
 }
 

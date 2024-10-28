@@ -7,11 +7,15 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NotificationsModule {
+interface NotificationsModule {
 
     @Binds
-    abstract fun bindTaskNotificationsManager(
+    fun bindTaskNotificationsManager(
         taskNotificationManagerImpl: TaskNotificationManagerImpl
     ): TaskNotificationManager
 
+    @Binds
+    fun bindDailyReminderNotificationManager(
+        impl: DailyReminderNotificationManagerImpl
+    ): DailyReminderNotificationManager
 }
