@@ -14,4 +14,6 @@ interface AgendaNavigator {
         taskName: String,
         isDone: Boolean,
     )
+
+    fun navigateToOnboarding()
 }

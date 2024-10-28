@@ -7,9 +7,9 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class TutorialModule {
+interface TutorialModule {
     @Binds
-    abstract fun bindsTutorialRepository(
+    fun bindsTutorialRepository(
         tutorialRepositoryImpl: TutorialRepositoryImpl,
     ): TutorialRepository
 }

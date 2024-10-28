@@ -16,7 +16,7 @@ interface TaskLocalDataSource {
         reminderEnabled: Boolean,
         taskId: Long,
     )
-
+    suspend fun getTasksCount(): Int
     fun getTasks(day: LocalDate? = null): Flow<List<TaskAggregated>>
     fun getTaskById(id: Long): Flow<TaskAggregated>
     suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?)

@@ -466,6 +466,7 @@ fun Field(
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }

@@ -48,6 +48,10 @@ internal class DefaultTasksRepository @Inject constructor(
         return taskId
     }
 
+    override suspend fun getTaskCount(): Int {
+        return localDataSource.getTasksCount()
+    }
+
     override fun getTaskById(id: Long): Flow<Task> {
         return localDataSource.getTaskById(id).map { it.toDomain() }
     }

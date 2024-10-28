@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 @Suppress("TooManyFunctions")
 @Dao
 interface TasksDao {
+    @Query("SELECT COUNT(*) FROM tasks;")
+    suspend fun getTaskCount(): Int
+
     @Transaction
     suspend fun createTask(taskEntity: TaskEntity): Long {
         val latestPosition = getMaxPositionForDate(taskEntity.day)
