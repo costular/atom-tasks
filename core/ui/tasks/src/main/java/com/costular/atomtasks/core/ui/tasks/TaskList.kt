@@ -4,6 +4,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CardDefaults
@@ -47,14 +50,12 @@ import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
-import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.LocalTime
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.ReorderableLazyListState
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import kotlinx.coroutines.delay
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.ReorderableLazyListState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 private const val MillisecondsToResetSwipeBoxState = 1000L
 
@@ -65,29 +66,39 @@ fun TaskList(
     onClickMore: (Task) -> Unit,
     onDeleteTask: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
-    state: ReorderableLazyListState,
+    onMove: (from: ItemPosition, to: ItemPosition) -> Unit,
+    onDragStopped: () -> Unit,
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
+    reorderableLazyListState: ReorderableLazyListState = rememberReorderableLazyListState(
+        lazyListState = lazyListState,
+        onMove = { from, to ->
+            onMove(
+                ItemPosition(from.index, from.key as Long),
+                ItemPosition(to.index, to.key as Long),
+            )
+        }
+    ),
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
     if (tasks.isEmpty()) {
         Empty(modifier.padding(AppTheme.dimens.contentMargin))
     } else {
         LazyColumn(
-            modifier = modifier
-                .reorderable(state)
-                .detectReorderAfterLongPress(state),
-            state = state.listState,
+            modifier = modifier,
+            state = lazyListState,
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(tasks, { it.id }) { task ->
+            items(tasks, key = { it.id }) { task ->
                 TaskItem(
-                    state = state,
+                    state = reorderableLazyListState,
                     task = task,
                     onDeleteTask = onDeleteTask,
                     onMarkTask = onMarkTask,
                     onClick = onClick,
-                    onClickMore = onClickMore
+                    onClickMore = onClickMore,
+                    onDragStopped = onDragStopped,
                 )
             }
         }
@@ -101,25 +112,28 @@ private fun LazyItemScope.TaskItem(
     onDeleteTask: (Task) -> Unit,
     onMarkTask: (taskId: Long, isDone: Boolean) -> Unit,
     onClick: (Task) -> Unit,
-    onClickMore: (Task) -> Unit
+    onClickMore: (Task) -> Unit,
+    onDragStopped: () -> Unit,
 ) {
+    val view = LocalView.current
     val dismissState = rememberSwipeToDismissBoxState()
+    val interactionSource = remember { MutableInteractionSource() }
 
-    SwipeToDismissBox(
-        state = dismissState,
-        enableDismissFromEndToStart = true,
-        enableDismissFromStartToEnd = false,
-        backgroundContent = {
-            TaskRemoveBackground(dismissState)
-        },
-    ) {
-        when (dismissState.currentValue) {
-            SwipeToDismissBoxValue.EndToStart -> onDeleteTask(task)
-            SwipeToDismissBoxValue.StartToEnd -> Unit
-            SwipeToDismissBoxValue.Settled -> Unit
-        }
+    ReorderableItem(state, key = task.id) { isDragging ->
+        SwipeToDismissBox(
+            state = dismissState,
+            enableDismissFromEndToStart = true,
+            enableDismissFromStartToEnd = false,
+            backgroundContent = {
+                TaskRemoveBackground(dismissState)
+            },
+        ) {
+            when (dismissState.currentValue) {
+                SwipeToDismissBoxValue.EndToStart -> onDeleteTask(task)
+                SwipeToDismissBoxValue.StartToEnd -> Unit
+                SwipeToDismissBoxValue.Settled -> Unit
+            }
 
-        ReorderableItem(state, key = task.id) { isDragging ->
             TaskCard(
                 title = task.name,
                 onMark = { onMarkTask(task.id, !task.isDone) },
@@ -127,8 +141,18 @@ private fun LazyItemScope.TaskItem(
                 reminder = task.reminder,
                 isFinished = task.isDone,
                 recurrenceType = task.recurrenceType,
-                modifier = Modifier.animateItem(fadeInSpec = null, fadeOutSpec = null),
-                isBeingDragged = isDragging,
+                interactionSource = interactionSource,
+                modifier = Modifier
+                    .longPressDraggableHandle(
+                        interactionSource = interactionSource,
+                        onDragStarted = {
+                            view.performHapticFeedback(HapticFeedbackConstantsCompat.DRAG_START)
+                        },
+                        onDragStopped = {
+                            view.performHapticFeedback(HapticFeedbackConstantsCompat.GESTURE_END)
+                            onDragStopped()
+                        },
+                    ),
                 onClickMore = { onClickMore(task) },
             )
         }
@@ -233,7 +257,6 @@ fun TaskListEmpty() {
 private fun TaskListPreview() {
     AtomTheme {
         TaskList(
-            state = rememberReorderableLazyListState(onMove = { _, _ -> }),
             modifier = Modifier.fillMaxWidth(),
             tasks = listOf(
                 Task(
@@ -284,6 +307,8 @@ private fun TaskListPreview() {
             onMarkTask = { _, _ -> },
             onClickMore = {},
             onDeleteTask = {},
+            onMove = { _, _ -> },
+            onDragStopped = {},
         )
     }
 }
