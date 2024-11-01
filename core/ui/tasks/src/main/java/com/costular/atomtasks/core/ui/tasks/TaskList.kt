@@ -122,7 +122,7 @@ private fun LazyItemScope.TaskItem(
         ReorderableItem(state, key = task.id) { isDragging ->
             TaskCard(
                 title = task.name,
-                onMark = { onMarkTask(task.id, !task.isDone) },
+                onMark = { onMarkTask(task.id, it) },
                 onClick = { onClick(task) },
                 reminder = task.reminder,
                 isFinished = task.isDone,

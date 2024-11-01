@@ -57,7 +57,7 @@
     <string name="task_detail_task_name_placeholder">Add title</string>
     <string name="task_detail_day_subhead">Date</string>
     <string name="task_detail_reminder_subhead">Reminder</string>
-    <string name="task_detail_reminder_add_reminder">Reminder</string>
+    <string name="task_detail_reminder_add_reminder">Add reminder</string>
     <string name="task_detail_recurrence_subhead">Repeat</string>
     <string name="task_detail_recurrence_picker_none">Does not repeat</string>
     <string name="task_detail_recurrence_picker_daily">Every Day</string>

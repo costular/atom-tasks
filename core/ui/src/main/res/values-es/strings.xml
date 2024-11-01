@@ -37,7 +37,7 @@
     <string name="enable_reminder">Activar recordatorio</string>
     <string name="task_detail_day_subhead">Fecha</string>
     <string name="task_detail_reminder_subhead">Recordatorio</string>
-    <string name="task_detail_reminder_add_reminder">Recordatorio</string>
+    <string name="task_detail_reminder_add_reminder">Añadir recordatorio</string>
     <string name="task_detail_recurrence_subhead">Repetir</string>
     <string name="task_detail_recurrence_picker_none">No se repite</string>
     <string name="task_detail_recurrence_picker_daily">Todos los días</string>

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -75,7 +76,7 @@ fun TaskCard(
     isFinished: Boolean,
     recurrenceType: RecurrenceType?,
     reminder: Reminder?,
-    onMark: () -> Unit,
+    onMark: (Boolean) -> Unit,
     onClick: () -> Unit,
     onClickMore: () -> Unit,
     isBeingDragged: Boolean,
@@ -110,10 +111,7 @@ fun TaskCard(
 
             Markable(
                 isMarked = isFinished,
-                borderColor = contentColor,
-                onClick = { onMark() },
-                contentColor = MaterialTheme.colorScheme.primary,
-                onContentColor = MaterialTheme.colorScheme.onPrimary,
+                onMarkChanged = onMark,
             )
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))

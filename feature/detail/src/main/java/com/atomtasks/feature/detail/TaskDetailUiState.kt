@@ -19,6 +19,7 @@ data class TaskDetailUiState(
     val recurrenceType: RecurrenceType? = null,
     val isSaving: Boolean = false,
     val taskToSave: TaskToSave? = null,
+    val isDone: Boolean = false,
 ) {
     val isEditMode: Boolean
         get() = taskId != null

@@ -138,6 +138,10 @@ class TaskDetailViewModel @Inject constructor(
         setState { copy(recurrenceType = null, showSetRecurrence = false) }
     }
 
+    fun onMarkTask(isDone: Boolean) {
+        setState { copy(isDone = isDone) }
+    }
+
     fun save() {
         setState {
             copy(isSaving = true)

@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,15 +28,16 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.costular.designsystem.theme.AtomTheme
 
 @Composable
 fun Markable(
     isMarked: Boolean,
-    onClick: () -> Unit,
-    contentColor: Color,
-    onContentColor: Color,
-    borderColor: Color,
+    onMarkChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    onContentColor: Color = MaterialTheme.colorScheme.onPrimary,
     borderWidth: Dp = 2.dp,
     width: Dp = 24.dp,
     height: Dp = 24.dp,
@@ -61,7 +63,7 @@ fun Markable(
                 role = Role.Checkbox,
                 indication = ripple(),
                 enabled = true,
-                onClick = onClick,
+                onClick = { onMarkChanged(!isMarked) },
             )
             .testTag("Markable")
     ) {
@@ -87,23 +89,21 @@ fun Markable(
 @Preview(showBackground = true)
 @Composable
 private fun MarkableMarkedPreview() {
-    Markable(
-        isMarked = true,
-        borderColor = Color.Black,
-        onClick = {},
-        contentColor = Color.Cyan,
-        onContentColor = Color.Black,
-    )
+    AtomTheme {
+        Markable(
+            isMarked = true,
+            onMarkChanged = {},
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun MarkableUnmarkedPreview() {
-    Markable(
-        isMarked = false,
-        borderColor = Color.Black,
-        onClick = {},
-        contentColor = Color.Cyan,
-        onContentColor = Color.Black,
-    )
+    AtomTheme {
+        Markable(
+            isMarked = false,
+            onMarkChanged = {},
+        )
+    }
 }
