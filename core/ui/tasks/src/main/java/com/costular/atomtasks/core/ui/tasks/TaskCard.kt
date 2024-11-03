@@ -1,14 +1,11 @@
 package com.costular.atomtasks.core.ui.tasks
 
-
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -33,7 +30,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,8 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.TextLayoutResult
@@ -79,14 +73,9 @@ fun TaskCard(
     onMark: (Boolean) -> Unit,
     onClick: () -> Unit,
     onClickMore: () -> Unit,
-    isBeingDragged: Boolean,
     modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource? = null,
 ) {
-    val mutableInteractionSource = remember { MutableInteractionSource() }
-    mutableInteractionSource.reorderableDragInteractions(isDragging = isBeingDragged)
-
-    HandleHapticForInteractions(mutableInteractionSource)
-
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val shouldShowExtraDetails = remember(
         isFinished,
@@ -97,7 +86,7 @@ fun TaskCard(
     ElevatedCard(
         onClick = onClick,
         modifier = modifier,
-        interactionSource = mutableInteractionSource,
+        interactionSource = interactionSource,
         colors = CardDefaults.cardColors(),
     ) {
         val reminderInlineContent = reminderInline(contentColor)
@@ -245,18 +234,6 @@ private fun TaskTitle(isFinished: Boolean, title: String) {
 }
 
 @Composable
-private fun HandleHapticForInteractions(interactionSource: MutableInteractionSource) {
-    val haptic = LocalHapticFeedback.current
-    val isDragging by interactionSource.collectIsDraggedAsState()
-
-    LaunchedEffect(isDragging) {
-        if (isDragging) {
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-        }
-    }
-}
-
-@Composable
 private fun reminderInline(color: Color) = mapOf(
     Pair(
         ReminderIconId,
@@ -296,24 +273,6 @@ private fun recurringInline(color: Color) = mapOf(
     )
 )
 
-@Composable
-private fun MutableInteractionSource.reorderableDragInteractions(isDragging: Boolean) {
-    val dragState = remember {
-        object {
-            var start: DragInteraction.Start? = null
-        }
-    }
-    LaunchedEffect(isDragging) {
-        when (val start = dragState.start) {
-            null -> if (isDragging) dragState.start = DragInteraction.Start().also { emit(it) }
-            else -> if (!isDragging) {
-                dragState.start = null
-                emit(DragInteraction.Stop(start))
-            }
-        }
-    }
-}
-
 private sealed interface RecurringContent {
 
     data object None : RecurringContent
@@ -337,7 +296,6 @@ private fun TaskCardPreview(
             onMark = {},
             onClick = {},
             reminder = task.reminder,
-            isBeingDragged = false,
             modifier = Modifier.fillMaxWidth(),
             onClickMore = {},
         )

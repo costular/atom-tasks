@@ -15,6 +15,7 @@ import com.costular.atomtasks.agenda.analytics.AgendaAnalytics.ShowConfirmDelete
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.date.asDay
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
+import com.costular.atomtasks.core.ui.tasks.ItemPosition
 import com.costular.atomtasks.core.usecase.EmptyParams
 import com.costular.atomtasks.data.tutorial.ShouldShowOnboardingUseCase
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
@@ -34,7 +35,6 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import org.burnoutcrew.reorderable.ItemPosition
 
 @Suppress("TooManyFunctions", "LongParameterList")
 @HiltViewModel
@@ -202,8 +202,7 @@ class AgendaViewModel @Inject constructor(
         }
     }
 
-    @Suppress("UnusedParameter")
-    fun onMoveTask(from: Int, to: Int) {
+    fun onDragStopped() {
         viewModelScope.launch {
             val state = state.value
 
