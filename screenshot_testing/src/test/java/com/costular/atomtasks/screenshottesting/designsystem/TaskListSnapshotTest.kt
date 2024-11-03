@@ -18,7 +18,6 @@ import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
 import java.time.LocalTime
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
@@ -111,9 +110,10 @@ class TaskListSnapshotTest {
                 onClick = {},
                 onMarkTask = { _, _ -> },
                 modifier = Modifier.fillMaxWidth(),
-                state = rememberReorderableLazyListState(onMove = { _, _ -> }),
                 onClickMore = {},
                 onDeleteTask = {},
+                onMove = { _, _ -> },
+                onDragStopped = {},
             )
         }
     }

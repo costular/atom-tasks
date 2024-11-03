@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.agenda.actions.TaskActionsResult
 import com.costular.atomtasks.core.ui.mvi.EventObserver
+import com.costular.atomtasks.core.ui.tasks.ItemPosition
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.review.ui.ReviewHandler
 import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
@@ -42,8 +43,6 @@ import com.ramcosta.composedestinations.result.ResultRecipient
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.collections.immutable.persistentListOf
-import org.burnoutcrew.reorderable.ItemPosition
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 
 const val TestTagHeader = "AgendaTitle"
 
@@ -122,9 +121,8 @@ internal fun AgendaScreen(
                 isDone = task.isDone,
             )
         },
-
-        onMoveTask = viewModel::onMoveTask,
         onDragTask = viewModel::onDragTask,
+        onDragStopped = viewModel::onDragStopped,
         openTaskDetail = {
             viewModel.onEditTask(it.id)
         },
@@ -183,9 +181,9 @@ fun AgendaScreen(
     dismissDelete: () -> Unit,
     openTaskDetail: (Task) -> Unit,
     openTaskAction: (Task) -> Unit,
-    onMoveTask: (Int, Int) -> Unit,
     onDeleteTask: (Task) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
+    onDragStopped: () -> Unit,
 ) {
     if (state.deleteTaskAction is DeleteTaskAction.Shown) {
         if (state.deleteTaskAction.isRecurring) {
@@ -239,7 +237,7 @@ fun AgendaScreen(
             onOpenTask = openTaskDetail,
             onMarkTask = onMarkTask,
             modifier = Modifier.supportWideScreen(),
-            onMoveTask = onMoveTask,
+            onDragStopped = onDragStopped,
             onDragTask = onDragTask,
             onDeleteTask = onDeleteTask,
             onClickTaskMore = openTaskAction,
@@ -254,7 +252,7 @@ private fun TasksContent(
     onClickTaskMore: (Task) -> Unit,
     onMarkTask: (Long, Boolean) -> Unit,
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
-    onMoveTask: (Int, Int) -> Unit,
+    onDragStopped: () -> Unit,
     onDeleteTask: (Task) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -263,10 +261,7 @@ private fun TasksContent(
     when (val tasks = state.tasks) {
         is TasksState.Success -> {
             TaskList(
-                state = rememberReorderableLazyListState(
-                    onMove = onDragTask,
-                    onDragEnd = onMoveTask,
-                ),
+                onMove = onDragTask,
                 tasks = tasks.data,
                 onClick = onOpenTask,
                 onMarkTask = { taskId, isDone ->
@@ -287,6 +282,7 @@ private fun TasksContent(
                     .testTag("AgendaTaskList"),
                 onClickMore = onClickTaskMore,
                 onDeleteTask = onDeleteTask,
+                onDragStopped = onDragStopped,
             )
         }
 
@@ -357,8 +353,8 @@ fun AgendaPreview() {
             deleteRecurringTask = { _, _ -> },
             dismissDelete = {},
             openTaskAction = {},
-            onMoveTask = { _, _ -> },
             onDragTask = { _, _ -> },
+            onDragStopped = {},
             openTaskDetail = {},
             onDismissCalendarView = {},
             onClickOpenCalendarView = {},

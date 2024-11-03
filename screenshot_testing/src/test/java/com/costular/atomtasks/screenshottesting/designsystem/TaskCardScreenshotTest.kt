@@ -42,7 +42,6 @@ class TaskCardScreenshotTest {
                 reminder = null,
                 onMark = {},
                 onClick = {},
-                isBeingDragged = false,
                 recurrenceType = null,
                 onClickMore = {},
             )
@@ -61,7 +60,6 @@ class TaskCardScreenshotTest {
                 reminder = null,
                 onMark = {},
                 onClick = {},
-                isBeingDragged = false,
                 recurrenceType = null,
                 onClickMore = {},
             )
@@ -84,7 +82,6 @@ class TaskCardScreenshotTest {
                 ),
                 onMark = { },
                 onClick = { },
-                isBeingDragged = false,
                 recurrenceType = null,
                 onClickMore = {},
             )
@@ -103,7 +100,6 @@ class TaskCardScreenshotTest {
                 reminder = null,
                 onMark = { },
                 onClick = { },
-                isBeingDragged = false,
                 recurrenceType = null,
                 onClickMore = {},
             )
@@ -122,7 +118,6 @@ class TaskCardScreenshotTest {
                 reminder = null,
                 onMark = { },
                 onClick = { },
-                isBeingDragged = false,
                 recurrenceType = RecurrenceType.WEEKLY,
                 onClickMore = {},
             )
@@ -145,7 +140,6 @@ class TaskCardScreenshotTest {
                 ),
                 onMark = { },
                 onClick = { },
-                isBeingDragged = false,
                 recurrenceType = RecurrenceType.DAILY,
                 onClickMore = {},
             )
@@ -169,7 +163,6 @@ class TaskCardScreenshotTest {
                 ),
                 onMark = { },
                 onClick = { },
-                isBeingDragged = false,
                 recurrenceType = null,
                 onClickMore = {},
             )

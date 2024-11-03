@@ -10,6 +10,7 @@ import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.testing.MviViewModelTest
 import com.costular.atomtasks.core.toResult
+import com.costular.atomtasks.core.ui.tasks.ItemPosition
 import com.costular.atomtasks.core.usecase.invoke
 import com.costular.atomtasks.data.tutorial.ShouldShowOnboardingUseCase
 import com.costular.atomtasks.data.tutorial.ShouldShowTaskOrderTutorialUseCase
@@ -33,7 +34,6 @@ import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.burnoutcrew.reorderable.ItemPosition
 import org.junit.Before
 import org.junit.Test
 
@@ -201,7 +201,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             ItemPosition(from, DEFAULT_TASKS.first().id),
             ItemPosition(to, DEFAULT_TASKS[1].id)
         )
-        sut.onMoveTask(from, to)
+        sut.onDragStopped()
 
         coVerify(exactly = 1) {
             moveTaskUseCase(
@@ -222,7 +222,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         val to = 1
 
         sut.loadTasks()
-        sut.onMoveTask(from, to)
+        sut.onDragStopped()
 
         coVerify(exactly = 0) {
             moveTaskUseCase(any())
@@ -263,7 +263,7 @@ class AgendaViewModelTest : MviViewModelTest() {
         val to = 1
 
         sut.loadTasks()
-        sut.onMoveTask(from, to)
+        sut.onDragStopped()
 
         verify { atomAnalytics.track(AgendaAnalytics.OrderTask) }
     }

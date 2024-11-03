@@ -1,9 +1,5 @@
 package com.costular.atomtasks.agenda
 
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.costular.atomtasks.agenda.ui.AgendaScreen
 import com.costular.atomtasks.agenda.ui.AgendaState
 import com.costular.atomtasks.agenda.ui.TasksState
@@ -11,13 +7,11 @@ import com.costular.atomtasks.core.testing.ui.AndroidTest
 import com.costular.atomtasks.core.testing.ui.getString
 import com.costular.atomtasks.core.ui.R
 import com.costular.atomtasks.core.ui.date.asDay
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import dagger.hilt.android.testing.HiltAndroidTest
 import java.time.LocalDate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import org.burnoutcrew.reorderable.ItemPosition
 import org.junit.Test
 
 @HiltAndroidTest
@@ -184,22 +178,23 @@ class AgendaTest : AndroidTest() {
         }
     }
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     private fun givenAgenda(state: AgendaState = AgendaState.Empty) {
         composeTestRule.setContent {
             AgendaScreen(
                 state = state,
-                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(480.dp, 800.dp)),
                 onSelectDate = {},
                 onSelectToday = {},
+                onClickOpenCalendarView = {},
+                onDismissCalendarView = {},
+                onMarkTask = { _, _ -> },
                 deleteTask = {},
+                deleteRecurringTask = { _, _ -> },
                 dismissDelete = {},
+                openTaskDetail = {},
                 openTaskAction = {},
-                onToggleExpandCollapse = {},
-                onMarkTask = { long: Long, bool: Boolean -> },
-                deleteRecurringTask = { id: Long, strategy: RecurringRemovalStrategy -> },
-                onMoveTask = { _, _ -> },
-                onDragTask = { from: ItemPosition, to: ItemPosition -> },
+                onDeleteTask = {},
+                onDragTask = { _, _ -> },
+                onDragStopped = {},
             )
         }
     }
