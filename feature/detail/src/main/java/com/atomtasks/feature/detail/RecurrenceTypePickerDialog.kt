@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.createtask
+package com.atomtasks.feature.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

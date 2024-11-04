@@ -2,8 +2,9 @@ package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RemoveTaskError
+import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import com.google.common.truth.Truth
 import io.mockk.coEvery

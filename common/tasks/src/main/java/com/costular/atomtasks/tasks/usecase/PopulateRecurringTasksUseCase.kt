@@ -2,13 +2,14 @@ package com.costular.atomtasks.tasks.usecase
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.logging.atomLog
+import com.costular.atomtasks.core.toError
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceLookAhead.numberOfOccurrencesForType
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceStrategyFactory
 import com.costular.atomtasks.tasks.model.PopulateRecurringTasksError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class PopulateRecurringTasksUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
@@ -21,7 +22,11 @@ class PopulateRecurringTasksUseCase @Inject constructor(
 
     override suspend fun invoke(params: Params): Either<PopulateRecurringTasksError, Unit> {
         return try {
-            val task = tasksRepository.getTaskById(params.taskId).first()
+            val task = tasksRepository.getTaskById(params.taskId).firstOrNull()
+
+            if (task == null) {
+                return PopulateRecurringTasksError.TaskNotFound.toError()
+            }
 
             if (!task.isRecurring || task.recurrenceType == null) {
                 return Either.Error(PopulateRecurringTasksError.NotRecurringTask)

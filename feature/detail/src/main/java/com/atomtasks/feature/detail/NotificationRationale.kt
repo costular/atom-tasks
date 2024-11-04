@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.createtask
+package com.atomtasks.feature.detail
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

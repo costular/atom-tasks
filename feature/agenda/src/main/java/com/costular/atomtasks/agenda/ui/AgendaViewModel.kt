@@ -23,10 +23,11 @@ import com.costular.atomtasks.data.tutorial.TaskOrderTutorialDismissedUseCase
 import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiState
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
+import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -157,7 +158,7 @@ class AgendaViewModel @Inject constructor(
 
         val task = tasks.data.find { it.id == id }
         setState {
-            copy(deleteTaskAction = DeleteTaskAction.Shown(id, task?.isRecurring ?: false))
+            copy(removeTaskConfirmationUiState = RemoveTaskConfirmationUiState.Shown(id, task?.isRecurring ?: false))
         }
 
         atomAnalytics.track(ShowConfirmDeleteDialog)
@@ -248,7 +249,6 @@ class AgendaViewModel @Inject constructor(
             sendEvent(
                 AgendaUiEvents.GoToEditScreen(
                     taskId = taskId,
-                    shouldShowNewScreen = true
                 )
             )
         }
@@ -259,7 +259,7 @@ class AgendaViewModel @Inject constructor(
     }
 
     private fun hideAskDelete() {
-        setState { copy(deleteTaskAction = DeleteTaskAction.Hidden) }
+        setState { copy(removeTaskConfirmationUiState = RemoveTaskConfirmationUiState.Hidden) }
     }
 
     fun onCreateTask() {
@@ -269,7 +269,6 @@ class AgendaViewModel @Inject constructor(
             sendEvent(
                 AgendaUiEvents.GoToNewTaskScreen(
                     date = state.value.selectedDay.date,
-                    shouldShowNewScreen = true // Use remote config in the future
                 )
             )
         }

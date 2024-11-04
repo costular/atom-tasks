@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,11 +26,8 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Alarm
-import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Repeat
@@ -37,8 +35,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,9 +59,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
-import com.costular.atomtasks.tasks.createtask.RecurrenceTypePickerDialog
 import com.costular.atomtasks.tasks.format.localized
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiHandler
 import com.costular.designsystem.components.AtomTopBar
 import com.costular.designsystem.components.Markable
 import com.costular.designsystem.components.PrimaryButton
@@ -71,7 +70,6 @@ import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
 import com.costular.designsystem.theme.AtomTheme
-import com.costular.designsystem.util.readOnlyClickable
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.time.LocalDate
@@ -126,7 +124,10 @@ fun TaskDetailScreen(
         onClose = viewModel::onClose,
         onClearRecurrence = viewModel::clearRecurrence,
         onMarkTask = viewModel::onMarkTask,
-        onDelete = {} // TODO:
+        onDelete = viewModel::onDelete,
+        onConfirmDeleteRecurring = viewModel::deleteRecurringTask,
+        onConfirmDelete = viewModel::deleteTask,
+        onDismissDelete = viewModel::dismissDeleteConfirmation,
     )
 }
 
@@ -155,6 +156,9 @@ fun TaskDetailScreen(
     onConfirmRecurringEdition: (EditRecurringTaskResponse) -> Unit,
     onMarkTask: (Boolean) -> Unit,
     onDelete: () -> Unit,
+    onDismissDelete: () -> Unit,
+    onConfirmDelete: (id: Long) -> Unit,
+    onConfirmDeleteRecurring: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
 ) {
     if (uiState.showSetDate) {
         DatePickerDialog(
@@ -198,6 +202,13 @@ fun TaskDetailScreen(
             onEdit = onConfirmRecurringEdition,
         )
     }
+
+    RemoveTaskConfirmationUiHandler(
+        uiState = uiState.removeTaskConfirmationUiState,
+        onDismiss = onDismissDelete,
+        onDeleteRecurring = onConfirmDeleteRecurring,
+        onDelete = onConfirmDelete,
+    )
 
     TaskDetailContent(
         uiState = uiState,
@@ -278,7 +289,7 @@ private fun TaskDetailContent(
                     localDate = uiState.date,
                     onSelectDate = onSelectDate,
                 )
-                
+
                 TaskReminderSection(
                     reminder = uiState.reminder,
                     onSelectReminder = onSelectReminder,
@@ -322,7 +333,6 @@ private fun Header(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         },
@@ -332,7 +342,6 @@ private fun Header(
                     Icon(
                         imageVector = Icons.Outlined.Delete,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error,
                     )
                 }
             }
@@ -351,6 +360,7 @@ private fun ColumnScope.TaskDateSection(
         content = {
             Text(text = dayAsText(localDate))
         },
+        hasValue = true,
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -368,9 +378,12 @@ private fun ColumnScope.TaskReminderSection(
         icon = Icons.Outlined.Alarm,
         onClick = onSelectReminder,
         content = {
-            Text(text = text)
+            AnimatedContent(text, label = "Reminder") {
+                Text(text = it)
+            }
         },
         isClearable = reminder != null,
+        hasValue = reminder != null,
         onClear = onClearReminder,
         modifier = Modifier.fillMaxWidth()
     )
@@ -389,6 +402,7 @@ private fun ColumnScope.TaskRecurrenceSection(
         content = {
             Text(text = recurrenceType.localized())
         },
+        hasValue = recurrenceType != null,
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -433,10 +447,17 @@ fun Field(
     icon: ImageVector,
     content: @Composable () -> Unit,
     onClick: () -> Unit,
+    hasValue: Boolean,
     modifier: Modifier = Modifier,
     isClearable: Boolean = false,
     onClear: () -> Unit = {},
 ) {
+    val contentColor = if (hasValue) {
+        MaterialTheme.colorScheme.secondary
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
     ListItem(
         leadingContent = {
             Icon(
@@ -455,6 +476,11 @@ fun Field(
             }
         },
         headlineContent = content,
+        colors = ListItemDefaults.colors(
+            headlineColor = contentColor,
+            leadingIconColor = contentColor,
+            trailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
         modifier = modifier.clickable(enabled = true, onClick = onClick),
     )
 }
@@ -487,6 +513,9 @@ private fun TaskDetailScreenPreview(
             onClearRecurrence = {},
             onMarkTask = {},
             onDelete = {},
+            onConfirmDelete = {},
+            onDismissDelete = {},
+            onConfirmDeleteRecurring = { _, _ -> },
         )
     }
 }

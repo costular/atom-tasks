@@ -1,12 +1,11 @@
 package com.atomtasks.feature.detail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text.input.TextFieldState
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiState
 import java.time.LocalDate
 import java.time.LocalTime
 
-@OptIn(ExperimentalFoundationApi::class)
 data class TaskDetailUiState(
     val taskId: Long? = null,
     val name: TextFieldState = TextFieldState(),
@@ -20,6 +19,7 @@ data class TaskDetailUiState(
     val isSaving: Boolean = false,
     val taskToSave: TaskToSave? = null,
     val isDone: Boolean = false,
+    val removeTaskConfirmationUiState: RemoveTaskConfirmationUiState = RemoveTaskConfirmationUiState.Hidden,
 ) {
     val isEditMode: Boolean
         get() = taskId != null

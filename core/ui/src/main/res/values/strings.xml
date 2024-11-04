@@ -31,11 +31,11 @@
     <string name="agenda_tutorial_task_order">Want your tasks in order? Long press and drag!</string>
     <string name="today">Today</string>
     <string name="task_recurrence_never">Does not repeat</string>
-    <string name="task_recurrence_daily">Daily</string>
-    <string name="task_recurrence_weekdays">Weekdays</string>
-    <string name="task_recurrence_weekly">Weekly</string>
-    <string name="task_recurrence_monthly">Monthly</string>
-    <string name="task_recurrence_yearly">Yearly</string>
+    <string name="task_recurrence_daily">Repeats every day</string>
+    <string name="task_recurrence_weekdays">Repeats on weekdays</string>
+    <string name="task_recurrence_weekly">Repeats every week</string>
+    <string name="task_recurrence_monthly">Repeats every month</string>
+    <string name="task_recurrence_yearly">Repeats every year</string>
     <string name="remove_task_message">Are you sure to remove this task?</string>
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>

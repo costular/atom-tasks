@@ -6,7 +6,7 @@ import com.costular.atomtasks.core.toError
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.model.UpdateTaskUseCaseError
 import com.costular.atomtasks.tasks.model.asString
@@ -18,6 +18,7 @@ import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 @Singleton
 class EditTaskUseCase @Inject constructor(
@@ -42,8 +43,13 @@ class EditTaskUseCase @Inject constructor(
                     return UpdateTaskUseCaseError.NameCannotBeEmpty.toError()
                 }
 
+                val task = tasksRepository.getTaskById(taskId).firstOrNull()
+
+                if (task == null) {
+                    return UpdateTaskUseCaseError.TaskNotFound.toError()
+                }
+
                 tasksRepository.runOrRollback {
-                    val task = tasksRepository.getTaskById(taskId).first()
                     val oldDay = task.day
                     val newPosition = if (oldDay != date) {
                         tasksRepository.getMaxPositionForDate(date) + 1

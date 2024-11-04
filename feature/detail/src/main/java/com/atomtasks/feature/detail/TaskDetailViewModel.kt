@@ -9,16 +9,21 @@ import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.ui.mvi.MviViewModel
 import com.costular.atomtasks.tasks.model.RecurrenceType
 import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiState
+import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.ramcosta.composedestinations.generated.detail.destinations.TaskDetailScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 @HiltViewModel
@@ -29,6 +34,8 @@ class TaskDetailViewModel @Inject constructor(
     private val editTaskUseCase: EditTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val atomAnalytics: AtomAnalytics,
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase,
+    private val removeTaskUseCase: RemoveTaskUseCase,
 ) : MviViewModel<TaskDetailUiState>(TaskDetailUiState()) {
 
     private val navArgs: TaskDetailNavArgs = TaskDetailScreenDestination.argsFrom(savedStateHandle)
@@ -46,15 +53,18 @@ class TaskDetailViewModel @Inject constructor(
     private fun loadTask(taskId: Long) {
         viewModelScope.launch {
             getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId))
-                .collect { task ->
-                    setState {
-                        copy(
-                            taskId = task.id,
-                            name = TextFieldState(task.name),
-                            date = task.day,
-                            reminder = task.reminder?.time,
-                            recurrenceType = task.recurrenceType,
-                        )
+                .collectLatest {
+                    it?.let { task ->
+                        setState {
+                            copy(
+                                taskId = task.id,
+                                name = TextFieldState(task.name),
+                                date = task.day,
+                                reminder = task.reminder?.time,
+                                recurrenceType = task.recurrenceType,
+                                isDone = task.isDone,
+                            )
+                        }
                     }
                 }
         }
@@ -67,6 +77,41 @@ class TaskDetailViewModel @Inject constructor(
                 copy(shouldShowExactAlarmRationale = !areExactRemindersEnabled)
             }
         }
+    }
+
+    fun onDelete() {
+        val taskId = state.value.taskId
+
+        if (!state.value.isEditMode || taskId == null) {
+            return
+        }
+
+        setState {
+            copy(
+                removeTaskConfirmationUiState = RemoveTaskConfirmationUiState.Shown(
+                    taskId = taskId,
+                    this.recurrenceType != null,
+                )
+            )
+        }
+    }
+
+    fun deleteTask(taskId: Long) {
+        viewModelScope.launch {
+            removeTaskUseCase(RemoveTaskUseCase.Params(taskId))
+            sendEvent(TaskDetailUiEvent.Close)
+        }
+    }
+
+    fun deleteRecurringTask(id: Long, recurringRemovalStrategy: RecurringRemovalStrategy) {
+        viewModelScope.launch {
+            removeTaskUseCase(RemoveTaskUseCase.Params(id, recurringRemovalStrategy))
+            sendEvent(TaskDetailUiEvent.Close)
+        }
+    }
+
+    fun dismissDeleteConfirmation() {
+        setState { copy(removeTaskConfirmationUiState = RemoveTaskConfirmationUiState.Hidden) }
     }
 
     fun onDateChanged(localDate: LocalDate) {
@@ -139,7 +184,22 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun onMarkTask(isDone: Boolean) {
-        setState { copy(isDone = isDone) }
+        viewModelScope.launch {
+            val taskId = state.value.taskId ?: return@launch
+
+            if (state.value.isEditMode) {
+                updateTaskIsDoneUseCase.invoke(
+                    UpdateTaskIsDoneUseCase.Params(
+                        taskId = taskId,
+                        isDone = isDone,
+                    )
+                ).tap {
+                    setState { copy(isDone = isDone) }
+                }
+            } else {
+                setState { copy(isDone = isDone) }
+            }
+        }
     }
 
     fun save() {

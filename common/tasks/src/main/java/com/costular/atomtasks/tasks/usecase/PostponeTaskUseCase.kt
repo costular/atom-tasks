@@ -1,15 +1,15 @@
 package com.costular.atomtasks.tasks.usecase
 
-import com.costular.atomtasks.core.logging.atomLog
-import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.core.Either
+import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.toError
 import com.costular.atomtasks.core.toResult
 import com.costular.atomtasks.core.usecase.UseCase
+import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class PostponeTaskUseCase @Inject constructor(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
@@ -27,7 +27,8 @@ class PostponeTaskUseCase @Inject constructor(
     @Suppress("SwallowedException", "TooGenericExceptionCaught")
     override suspend fun invoke(params: Params): Either<PostponeTaskFailure, Unit> {
         return try {
-            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(params.taskId)).first()
+            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(params.taskId)).firstOrNull()
+                ?: return PostponeTaskFailure.Unknown.toError()
 
             if (task.reminder == null) {
                 return PostponeTaskFailure.MissingReminder.toError()

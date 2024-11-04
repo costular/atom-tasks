@@ -21,11 +21,11 @@
     <string name="today">Hoy</string>
     <string name="create_task_set_recurrence">Repetir</string>
     <string name="task_recurrence_never">No se repite</string>
-    <string name="task_recurrence_daily">Diario</string>
-    <string name="task_recurrence_weekdays">Días laborables</string>
-    <string name="task_recurrence_weekly">Semanal</string>
-    <string name="task_recurrence_monthly">Mensual</string>
-    <string name="task_recurrence_yearly">Anual</string>
+    <string name="task_recurrence_daily">A diario</string>
+    <string name="task_recurrence_weekdays">En días laborables</string>
+    <string name="task_recurrence_weekly">Cada semana</string>
+    <string name="task_recurrence_monthly">Cada mes</string>
+    <string name="task_recurrence_yearly">Cada año</string>
     <string name="create_task_recurrence_picker_daily">Todos los días</string>
     <string name="create_task_recurrence_picker_weekly">Cada semana</string>
     <string name="create_task_recurrence_picker_monthly">Cada mes</string>

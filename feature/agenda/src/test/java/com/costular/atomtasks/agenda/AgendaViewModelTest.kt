@@ -21,7 +21,7 @@ import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
-import com.costular.atomtasks.tasks.usecase.RemoveTaskUseCase
+import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -123,7 +123,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.actionDelete(taskId)
 
             sut.state.test {
-                assertThat(expectMostRecentItem().deleteTaskAction).isInstanceOf(Shown::class.java)
+                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(Shown::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -140,7 +140,7 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.dismissDelete()
 
             sut.state.test {
-                assertThat(expectMostRecentItem().deleteTaskAction).isInstanceOf(Hidden::class.java)
+                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(Hidden::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
