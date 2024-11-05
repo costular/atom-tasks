@@ -46,7 +46,12 @@ class TaskDetailViewModel @Inject constructor(
         if (navArgs.taskId != null) {
             loadTask(navArgs.taskId)
         } else {
-            setState { copy(date = requireNotNull(navArgs.defaultDate)) }
+            setState {
+                copy(
+                    initialTaskState = initialTaskState.copy(date = requireNotNull(navArgs.defaultDate)),
+                    taskState = taskState.copy(date = requireNotNull(navArgs.defaultDate)),
+                )
+            }
         }
     }
 
@@ -55,13 +60,18 @@ class TaskDetailViewModel @Inject constructor(
             getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId))
                 .collectLatest {
                     it?.let { task ->
+                        val taskState = TaskState(
+                            name = TextFieldState(task.name),
+                            date = task.day,
+                            reminder = task.reminder?.time,
+                            recurrenceType = task.recurrenceType,
+                        )
+
                         setState {
                             copy(
-                                taskId = task.id,
-                                name = TextFieldState(task.name),
-                                date = task.day,
-                                reminder = task.reminder?.time,
-                                recurrenceType = task.recurrenceType,
+                                initialTaskState = taskState,
+                                taskState = taskState,
+                                isEditMode = true,
                                 isDone = task.isDone,
                             )
                         }
@@ -80,7 +90,7 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun onDelete() {
-        val taskId = state.value.taskId
+        val taskId = navArgs.taskId
 
         if (!state.value.isEditMode || taskId == null) {
             return
@@ -90,7 +100,7 @@ class TaskDetailViewModel @Inject constructor(
             copy(
                 removeTaskConfirmationUiState = RemoveTaskConfirmationUiState.Shown(
                     taskId = taskId,
-                    this.recurrenceType != null,
+                    this.initialTaskState.recurrenceType != null,
                 )
             )
         }
@@ -117,7 +127,9 @@ class TaskDetailViewModel @Inject constructor(
     fun onDateChanged(localDate: LocalDate) {
         setState {
             copy(
-                date = localDate,
+                taskState = taskState.copy(
+                    date = localDate,
+                ),
                 showSetDate = false
             )
         }
@@ -126,7 +138,9 @@ class TaskDetailViewModel @Inject constructor(
     fun onReminderChanged(localTime: LocalTime?) {
         setState {
             copy(
-                reminder = localTime,
+                taskState = taskState.copy(
+                    reminder = localTime,
+                ),
                 showSetReminder = false,
             )
         }
@@ -160,7 +174,11 @@ class TaskDetailViewModel @Inject constructor(
 
     fun onReminderRemoved() {
         setState {
-            copy(reminder = null)
+            copy(
+                taskState = taskState.copy(
+                    reminder = null
+                )
+            )
         }
     }
 
@@ -176,16 +194,26 @@ class TaskDetailViewModel @Inject constructor(
     fun onRecurrenceChanged(
         recurrenceType: RecurrenceType?
     ) {
-        setState { copy(recurrenceType = recurrenceType, showSetRecurrence = false) }
+        setState {
+            copy(
+                taskState = taskState.copy(recurrenceType = recurrenceType),
+                showSetRecurrence = false
+            )
+        }
     }
 
     fun clearRecurrence() {
-        setState { copy(recurrenceType = null, showSetRecurrence = false) }
+        setState {
+            copy(
+                taskState = taskState.copy(recurrenceType = null),
+                showSetRecurrence = false
+            )
+        }
     }
 
     fun onMarkTask(isDone: Boolean) {
         viewModelScope.launch {
-            val taskId = state.value.taskId ?: return@launch
+            val taskId = navArgs.taskId ?: return@launch
 
             if (state.value.isEditMode) {
                 updateTaskIsDoneUseCase.invoke(
@@ -245,15 +273,15 @@ class TaskDetailViewModel @Inject constructor(
     @Suppress("ForbiddenComment")
     private fun createTask() {
         viewModelScope.launch {
-            val currentState = state.value
+            val currentTaskState = state.value.taskState
 
             createTaskUseCase(
                 CreateTaskUseCase.Params(
-                    name = currentState.name.text.toString(),
-                    date = currentState.date,
-                    reminderEnabled = currentState.reminder != null,
-                    reminderTime = currentState.reminder,
-                    recurrenceType = currentState.recurrenceType,
+                    name = currentTaskState.name.text.toString(),
+                    date = currentTaskState.date,
+                    reminderEnabled = currentTaskState.reminder != null,
+                    reminderTime = currentTaskState.reminder,
+                    recurrenceType = currentTaskState.recurrenceType,
                 ),
             ).fold(
                 ifError = {
@@ -273,14 +301,14 @@ class TaskDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val state = state.value
 
-            if (state.recurrenceType != null && recurringUpdateStrategy == null) {
+            if (state.initialTaskState.recurrenceType != null && recurringUpdateStrategy == null) {
                 setState {
                     copy(
                         taskToSave = TaskToSave(
-                            name = name.text.toString(),
-                            date = date,
-                            reminder = reminder,
-                            recurrenceType = recurrenceType
+                            name = taskState.name.text.toString(),
+                            date = taskState.date,
+                            reminder = taskState.reminder,
+                            recurrenceType = taskState.recurrenceType,
                         )
                     )
                 }
@@ -289,11 +317,11 @@ class TaskDetailViewModel @Inject constructor(
 
             editTaskUseCase(
                 EditTaskUseCase.Params(
-                    taskId = requireNotNull(state.taskId),
-                    name = state.name.text.toString(),
-                    date = state.date,
-                    reminderTime = state.reminder,
-                    recurrenceType = state.recurrenceType,
+                    taskId = requireNotNull(navArgs.taskId),
+                    name = state.taskState.name.text.toString(),
+                    date = state.taskState.date,
+                    reminderTime = state.taskState.reminder,
+                    recurrenceType = state.taskState.recurrenceType,
                     recurringUpdateStrategy = recurringUpdateStrategy,
                 ),
             ).fold(
@@ -309,7 +337,30 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun onClose() {
+        if (state.value.taskHasBeenEdited) {
+            atomAnalytics.track(DetailAnalytics.DiscardChangesShown)
+            setState {
+                copy(shouldShowDiscardChangesConfirmation = true)
+            }
+            return
+        }
+
         atomAnalytics.track(DetailAnalytics.Closed)
+        sendEvent(TaskDetailUiEvent.Close)
+    }
+
+    fun cancelDiscardChanges() {
+        atomAnalytics.track(DetailAnalytics.DiscardChangesCancel)
+        setState {
+            copy(shouldShowDiscardChangesConfirmation = false)
+        }
+    }
+
+    fun discardChanges() {
+        atomAnalytics.track(DetailAnalytics.DiscardChangesDiscard)
+        setState {
+            copy(shouldShowDiscardChangesConfirmation = false)
+        }
         sendEvent(TaskDetailUiEvent.Close)
     }
 }

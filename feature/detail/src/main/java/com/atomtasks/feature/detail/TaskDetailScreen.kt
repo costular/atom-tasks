@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -128,6 +129,8 @@ fun TaskDetailScreen(
         onConfirmDeleteRecurring = viewModel::deleteRecurringTask,
         onConfirmDelete = viewModel::deleteTask,
         onDismissDelete = viewModel::dismissDeleteConfirmation,
+        onDismissDiscardChanges = viewModel::cancelDiscardChanges,
+        onDiscardChanges = viewModel::discardChanges,
     )
 }
 
@@ -159,11 +162,18 @@ fun TaskDetailScreen(
     onDismissDelete: () -> Unit,
     onConfirmDelete: (id: Long) -> Unit,
     onConfirmDeleteRecurring: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
+    onDismissDiscardChanges: () -> Unit,
+    onDiscardChanges: () -> Unit,
 ) {
+    BackHandler(
+        enabled = true,
+        onBack = onClose,
+    )
+
     if (uiState.showSetDate) {
         DatePickerDialog(
             onDismiss = onCloseSelectDate,
-            currentDate = uiState.date,
+            currentDate = uiState.taskState.date,
             onDateSelected = onDateChanged,
         )
     }
@@ -181,7 +191,7 @@ fun TaskDetailScreen(
             ) {
                 TimePickerDialog(
                     onDismiss = onCloseSelectReminder,
-                    selectedTime = uiState.reminder,
+                    selectedTime = uiState.taskState.reminder,
                     onSelectTime = onSetReminder,
                 )
             }
@@ -190,7 +200,7 @@ fun TaskDetailScreen(
 
     if (uiState.showSetRecurrence) {
         RecurrenceTypePickerDialog(
-            recurrenceType = uiState.recurrenceType,
+            recurrenceType = uiState.taskState.recurrenceType,
             onRecurrenceTypeSelected = onRecurrenceChanged,
             onDismissRequest = onCloseSelectRecurrence,
         )
@@ -200,6 +210,13 @@ fun TaskDetailScreen(
         EditRecurringTaskConfirmDialog(
             onCancel = onCancelRecurringEdition,
             onEdit = onConfirmRecurringEdition,
+        )
+    }
+
+    if (uiState.shouldShowDiscardChangesConfirmation) {
+        DiscardUnsavedChangesDialog(
+            onDismiss = onDismissDiscardChanges,
+            onDiscard = onDiscardChanges,
         )
     }
 
@@ -277,7 +294,7 @@ private fun TaskDetailContent(
                     }
 
                     TaskInput(
-                        name = uiState.name,
+                        name = uiState.taskState.name,
                         focusRequester = focusRequester,
                         modifier = Modifier.weight(1f),
                     )
@@ -286,18 +303,18 @@ private fun TaskDetailContent(
                 Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
 
                 TaskDateSection(
-                    localDate = uiState.date,
+                    localDate = uiState.taskState.date,
                     onSelectDate = onSelectDate,
                 )
 
                 TaskReminderSection(
-                    reminder = uiState.reminder,
+                    reminder = uiState.taskState.reminder,
                     onSelectReminder = onSelectReminder,
                     onClearReminder = onClearReminder,
                 )
 
                 TaskRecurrenceSection(
-                    recurrenceType = uiState.recurrenceType,
+                    recurrenceType = uiState.taskState.recurrenceType,
                     onSelectRecurrence = onSelectRecurrence,
                     onClearRecurrence = onClearRecurrence,
                 )
@@ -516,6 +533,8 @@ private fun TaskDetailScreenPreview(
             onConfirmDelete = {},
             onDismissDelete = {},
             onConfirmDeleteRecurring = { _, _ -> },
+            onDiscardChanges = {},
+            onDismissDiscardChanges = {},
         )
     }
 }

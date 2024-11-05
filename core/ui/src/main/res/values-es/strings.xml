@@ -45,6 +45,10 @@
     <string name="task_detail_recurrence_picker_weekly">Cada semana</string>
     <string name="task_detail_recurrence_picker_monthly">Cada mes</string>
     <string name="task_detail_recurrence_picker_yearly">Cada año</string>
+    <string name="task_detail_discard_changes_title">¿Descartar cambios?</string>
+    <string name="task_detail_discard_changes_description">Tienes cambios sin guardar. Si sales, perderás todos los cambios realizados. ¿Quieres continuar sin guardar?</string>
+    <string name="task_detail_discard_changes_positive">Descartar</string>
+    <string name="task_detail_discard_changes_negative">Cancelar</string>
     <string name="notification_channel_reminders_title">Recordatorios</string>
     <string name="notification_channel_reminders_description">Recordatorios de tus tareas</string>
     <string name="notification_reminder">🔔 Recordatorio</string>

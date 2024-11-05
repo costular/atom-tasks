@@ -10,18 +10,22 @@ class TaskDetailPreviewParameterProvider : PreviewParameterProvider<TaskDetailUi
     override val values: Sequence<TaskDetailUiState> = sequenceOf(
         TaskDetailUiState(),
         TaskDetailUiState(
-            name = TextFieldState("\uD83C\uDFC3\u200D♂\uFE0F Go out for running"),
-            reminder = LocalTime.now().plusHours(4),
-            date = LocalDate.now().plusDays(4),
-            recurrenceType = RecurrenceType.DAILY,
+            taskState = TaskState(
+                name = TextFieldState("\uD83C\uDFC3\u200D♂\uFE0F Go out for running"),
+                reminder = LocalTime.now().plusHours(4),
+                date = LocalDate.now().plusDays(4),
+                recurrenceType = RecurrenceType.DAILY,
+            ),
             isSaving = false,
         ),
         TaskDetailUiState(
-            taskId = 10,
-            name = TextFieldState("\uD83C\uDFC3\u200D♂\uFE0F Go out for running"),
-            reminder = LocalTime.now().plusHours(4),
-            date = LocalDate.now().plusDays(4),
-            recurrenceType = RecurrenceType.DAILY,
+            taskState = TaskState(
+                name = TextFieldState("\uD83C\uDFC3\u200D♂\uFE0F Go out for running"),
+                reminder = LocalTime.now().plusHours(4),
+                date = LocalDate.now().plusDays(4),
+                recurrenceType = RecurrenceType.DAILY,
+            ),
+            isEditMode = true,
             isSaving = true,
         ),
     )

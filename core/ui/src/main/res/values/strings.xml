@@ -65,6 +65,10 @@
     <string name="task_detail_recurrence_picker_weekly">Every Week</string>
     <string name="task_detail_recurrence_picker_monthly">Every Month</string>
     <string name="task_detail_recurrence_picker_yearly">Every Year</string>
+    <string name="task_detail_discard_changes_title">Discard changes?</string>
+    <string name="task_detail_discard_changes_description">You have unsaved changes. If you exit, all changes will be lost. Do you want to continue without saving?</string>
+    <string name="task_detail_discard_changes_positive">Discard</string>
+    <string name="task_detail_discard_changes_negative">Cancel</string>
 
     <string name="notification_channel_reminders_title">Reminders</string>
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>
