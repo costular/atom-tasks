@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Atom Tasks</string>
+    <string name="app_name">MiniTask</string>
 
     <string name="home_menu_agenda">Agenda</string>
     <string name="home_menu_calendar">Calendar</string>
