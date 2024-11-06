@@ -1,7 +1,5 @@
-- New adaptative layout
-- Detail task getting rid of the old new task and edit task
-- New Cleaner and condesnsed design with less distractions
-- New today indicator
-- Get rid of the expanded header to just show a calendar dialog to select today
-- Updated edge to edge
-- Swipe to remove
+- Improved task detail screen
+- Daily notification to remind adding the day's tasks
+- Enhanced task postponement screen
+- Moved the "today" button to the top bar
+- Fixed task sorting
