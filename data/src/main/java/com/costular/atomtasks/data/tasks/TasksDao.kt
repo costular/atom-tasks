@@ -43,7 +43,7 @@ interface TasksDao {
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
-    fun getTaskById(id: Long): Flow<TaskAggregated>
+    fun getTaskById(id: Long): Flow<TaskAggregated?>
 
     @Query("DELETE FROM tasks WHERE id = :id")
     suspend fun removeTaskById(id: Long)

@@ -6,10 +6,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -19,56 +19,54 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Repeat
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.utils.DateUtils.dayAsText
 import com.costular.atomtasks.core.ui.utils.ofLocalizedTime
-import com.costular.atomtasks.tasks.createtask.RecurrenceTypePickerDialog
 import com.costular.atomtasks.tasks.format.localized
 import com.costular.atomtasks.tasks.model.RecurrenceType
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiHandler
+import com.costular.designsystem.components.AtomTopBar
+import com.costular.designsystem.components.Markable
+import com.costular.designsystem.components.PrimaryButton
 import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.dialogs.TimePickerDialog
 import com.costular.designsystem.theme.AppTheme
@@ -126,10 +124,17 @@ fun TaskDetailScreen(
         onConfirmRecurringEdition = viewModel::confirmRecurringEdition,
         onClose = viewModel::onClose,
         onClearRecurrence = viewModel::clearRecurrence,
+        onMarkTask = viewModel::onMarkTask,
+        onDelete = viewModel::onDelete,
+        onConfirmDeleteRecurring = viewModel::deleteRecurringTask,
+        onConfirmDelete = viewModel::deleteTask,
+        onDismissDelete = viewModel::dismissDeleteConfirmation,
+        onDismissDiscardChanges = viewModel::cancelDiscardChanges,
+        onDiscardChanges = viewModel::discardChanges,
     )
 }
 
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
 @Composable
@@ -152,11 +157,23 @@ fun TaskDetailScreen(
     onCloseSelectRecurrence: () -> Unit,
     onCancelRecurringEdition: () -> Unit,
     onConfirmRecurringEdition: (EditRecurringTaskResponse) -> Unit,
+    onMarkTask: (Boolean) -> Unit,
+    onDelete: () -> Unit,
+    onDismissDelete: () -> Unit,
+    onConfirmDelete: (id: Long) -> Unit,
+    onConfirmDeleteRecurring: (id: Long, strategy: RecurringRemovalStrategy) -> Unit,
+    onDismissDiscardChanges: () -> Unit,
+    onDiscardChanges: () -> Unit,
 ) {
+    BackHandler(
+        enabled = true,
+        onBack = onClose,
+    )
+
     if (uiState.showSetDate) {
         DatePickerDialog(
             onDismiss = onCloseSelectDate,
-            currentDate = uiState.date,
+            currentDate = uiState.taskState.date,
             onDateSelected = onDateChanged,
         )
     }
@@ -174,7 +191,7 @@ fun TaskDetailScreen(
             ) {
                 TimePickerDialog(
                     onDismiss = onCloseSelectReminder,
-                    selectedTime = uiState.reminder,
+                    selectedTime = uiState.taskState.reminder,
                     onSelectTime = onSetReminder,
                 )
             }
@@ -183,7 +200,7 @@ fun TaskDetailScreen(
 
     if (uiState.showSetRecurrence) {
         RecurrenceTypePickerDialog(
-            recurrenceType = uiState.recurrenceType,
+            recurrenceType = uiState.taskState.recurrenceType,
             onRecurrenceTypeSelected = onRecurrenceChanged,
             onDismissRequest = onCloseSelectRecurrence,
         )
@@ -196,6 +213,20 @@ fun TaskDetailScreen(
         )
     }
 
+    if (uiState.shouldShowDiscardChangesConfirmation) {
+        DiscardUnsavedChangesDialog(
+            onDismiss = onDismissDiscardChanges,
+            onDiscard = onDiscardChanges,
+        )
+    }
+
+    RemoveTaskConfirmationUiHandler(
+        uiState = uiState.removeTaskConfirmationUiState,
+        onDismiss = onDismissDelete,
+        onDeleteRecurring = onConfirmDeleteRecurring,
+        onDelete = onConfirmDelete,
+    )
+
     TaskDetailContent(
         uiState = uiState,
         onSelectDate = onSelectDate,
@@ -205,9 +236,12 @@ fun TaskDetailScreen(
         onClearReminder = onClearReminder,
         onClose = onClose,
         onClearRecurrence = onClearRecurrence,
+        onMarkTask = onMarkTask,
+        onDelete = onDelete,
     )
 }
 
+@Suppress("LongParameterList", "LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun TaskDetailContent(
@@ -218,7 +252,9 @@ private fun TaskDetailContent(
     onSelectRecurrence: () -> Unit,
     onClearRecurrence: () -> Unit,
     onClose: () -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
+    onMarkTask: (Boolean) -> Unit,
+    onDelete: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -226,87 +262,109 @@ private fun TaskDetailContent(
         focusRequester.requestFocus()
     }
 
-    Column(Modifier.fillMaxSize()) {
-        Header(
-            onClose = onClose,
-            onSave = onSave
-        )
-
-        Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
-
-        TaskInput(
-            name = uiState.name,
-            focusRequester = focusRequester
-        )
-
-        TaskDateSection(
-            localDate = uiState.date,
-            onSelectDate = onSelectDate,
-        )
-
-        TaskReminderSection(
-            reminder = uiState.reminder,
-            onSelectReminder = onSelectReminder,
-            onClearReminder = onClearReminder,
-        )
-
-        TaskRecurrenceSection(
-            recurrenceType = uiState.recurrenceType,
-            onSelectRecurrence = onSelectRecurrence,
-            onClearRecurrence = onClearRecurrence,
-        )
-
-        Spacer(Modifier.height(AppTheme.dimens.spacingLarge))
-    }
-}
-
-@Composable
-private fun Header(onClose: () -> Unit, onSave: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+    Surface(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        IconButton(
-            onClick = onClose,
-            modifier = Modifier.padding(start = 2.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = null
-            )
-        }
+        Box {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                Header(
+                    onClose = onClose,
+                    isEditing = uiState.isEditMode,
+                    onDelete = onDelete,
+                )
 
-        Button(
-            onClick = onSave,
-            modifier = Modifier.padding(end = AppTheme.dimens.spacingLarge)
-        ) {
-            Text(
-                text = stringResource(S.save)
-            )
+                Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = AppTheme.dimens.contentMargin),
+                ) {
+                    if (uiState.isEditMode) {
+                        Markable(
+                            isMarked = uiState.isDone,
+                            onMarkChanged = onMarkTask,
+                        )
+
+                        Spacer(Modifier.width(AppTheme.dimens.spacingMedium))
+                    }
+
+                    TaskInput(
+                        name = uiState.taskState.name,
+                        focusRequester = focusRequester,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+
+                Spacer(Modifier.height(AppTheme.dimens.spacingXLarge))
+
+                TaskDateSection(
+                    localDate = uiState.taskState.date,
+                    onSelectDate = onSelectDate,
+                )
+
+                TaskReminderSection(
+                    reminder = uiState.taskState.reminder,
+                    onSelectReminder = onSelectReminder,
+                    onClearReminder = onClearReminder,
+                )
+
+                TaskRecurrenceSection(
+                    recurrenceType = uiState.taskState.recurrenceType,
+                    onSelectRecurrence = onSelectRecurrence,
+                    onClearRecurrence = onClearRecurrence,
+                )
+            }
+
+            PrimaryButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(AppTheme.dimens.contentMargin),
+                onClick = onSave,
+            ) {
+                Text(stringResource(S.save))
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ColumnScope.TaskRecurrenceSection(
-    recurrenceType: RecurrenceType?,
-    onSelectRecurrence: () -> Unit,
-    onClearRecurrence: () -> Unit,
+private fun Header(
+    onClose: () -> Unit,
+    isEditing: Boolean,
+    onDelete: () -> Unit,
 ) {
-    TaskDetailSection(sectionName = stringResource(S.task_detail_recurrence_subhead)) {
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
-
-        Field(
-            icon = Icons.Outlined.Repeat,
-            onClick = onSelectRecurrence,
-            onClear = onClearRecurrence,
-            text = recurrenceType.localized(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimens.spacingLarge)
-        )
-    }
+    AtomTopBar(
+        title = {},
+        modifier = Modifier.fillMaxWidth(),
+        navigationIcon = {
+            IconButton(
+                onClick = onClose,
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = null,
+                )
+            }
+        },
+        actions = {
+            if (isEditing) {
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = null,
+                    )
+                }
+            }
+        },
+    )
 }
 
 @Composable
@@ -314,19 +372,15 @@ private fun ColumnScope.TaskDateSection(
     localDate: LocalDate,
     onSelectDate: () -> Unit,
 ) {
-    TaskDetailSection(sectionName = stringResource(S.task_detail_day_subhead)) {
-        Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
-
-        Field(
-            icon = Icons.Outlined.CalendarToday,
-            onClick = onSelectDate,
-            text = dayAsText(localDate),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        )
-
-    }
+    Field(
+        icon = Icons.Outlined.CalendarToday,
+        onClick = onSelectDate,
+        content = {
+            Text(text = dayAsText(localDate))
+        },
+        hasValue = true,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
@@ -335,30 +389,40 @@ private fun ColumnScope.TaskReminderSection(
     onSelectReminder: () -> Unit,
     onClearReminder: () -> Unit,
 ) {
-    TaskDetailSection(sectionName = stringResource(S.task_detail_reminder_subhead)) {
-        if (reminder != null) {
-            Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
+    val text =
+        reminder?.ofLocalizedTime() ?: stringResource(S.task_detail_reminder_add_reminder)
 
-            Field(
-                icon = Icons.Outlined.Alarm,
-                onClick = onSelectReminder,
-                text = reminder.ofLocalizedTime(),
-                isClearable = true,
-                onClear = onClearReminder,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimens.spacingLarge)
-            )
-        } else {
-            TextButton(
-                onClick = onSelectReminder,
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-            ) {
-                Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
-                Text(text = stringResource(S.task_detail_reminder_add_reminder))
+    Field(
+        icon = Icons.Outlined.Alarm,
+        onClick = onSelectReminder,
+        content = {
+            AnimatedContent(text, label = "Reminder") {
+                Text(text = it)
             }
-        }
-    }
+        },
+        isClearable = reminder != null,
+        hasValue = reminder != null,
+        onClear = onClearReminder,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun ColumnScope.TaskRecurrenceSection(
+    recurrenceType: RecurrenceType?,
+    onSelectRecurrence: () -> Unit,
+    onClearRecurrence: () -> Unit,
+) {
+    Field(
+        icon = Icons.Outlined.Repeat,
+        onClick = onSelectRecurrence,
+        onClear = onClearRecurrence,
+        content = {
+            Text(text = recurrenceType.localized())
+        },
+        hasValue = recurrenceType != null,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 
@@ -367,16 +431,17 @@ private fun ColumnScope.TaskReminderSection(
 private fun TaskInput(
     name: TextFieldState,
     focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
 ) {
-    Box {
+    Box(modifier = modifier) {
         if (name.text.isEmpty()) {
             Text(
                 text = stringResource(S.task_detail_task_name_placeholder),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimens.spacingLarge),
+                    .padding(start = 0.dp, end = AppTheme.dimens.spacingLarge),
                 style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -385,7 +450,7 @@ private fun TaskInput(
             lineLimits = TextFieldLineLimits.MultiLine(FieldMinLines, FieldMaxLines),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimens.spacingLarge)
+                .padding(start = 0.dp, end = AppTheme.dimens.spacingLarge)
                 .focusRequester(focusRequester),
             textStyle = MaterialTheme.typography.headlineSmall.copy(
                 color = MaterialTheme.colorScheme.onSurface,
@@ -396,87 +461,46 @@ private fun TaskInput(
 }
 
 @Composable
-fun ColumnScope.TaskDetailSection(
-    sectionName: String,
-    content: @Composable () -> Unit,
-) {
-    SectionSeparator(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = AppTheme.dimens.spacingLarge)
-    )
-
-    Text(
-        text = sectionName,
-        style = MaterialTheme.typography.titleSmall,
-        modifier = Modifier.padding(horizontal = AppTheme.dimens.spacingLarge)
-    )
-
-    content()
-}
-
-@Composable
 fun Field(
     icon: ImageVector,
-    text: String,
+    content: @Composable () -> Unit,
     onClick: () -> Unit,
+    hasValue: Boolean,
     modifier: Modifier = Modifier,
     isClearable: Boolean = false,
     onClear: () -> Unit = {},
 ) {
-    Row(
-        modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = RoundedCornerShape(percent = 50),
+    val contentColor = if (hasValue) {
+        MaterialTheme.colorScheme.secondary
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
+    ListItem(
+        leadingContent = {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
             )
-            .clip(RoundedCornerShape(percent = 50))
-            .clickable(onClick = onClick)
-            .padding(
-                vertical = 12.dp,
-                horizontal = AppTheme.dimens.spacingLarge,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(16.dp),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier.weight(1f),
-        )
-
-        if (isClearable) {
-            CompositionLocalProvider(
-                value = LocalMinimumInteractiveComponentSize provides Dp.Unspecified
-            ) {
-                IconButton(
-                    onClick = onClear,
-                    modifier = Modifier.size(18.dp),
-                ) {
+        },
+        trailingContent = {
+            if (isClearable) {
+                IconButton(onClick = onClear) {
                     Icon(
-                        imageVector = Icons.Default.Clear,
+                        imageVector = Icons.Filled.Clear,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun SectionSeparator(modifier: Modifier = Modifier) {
-    HorizontalDivider(modifier)
+        },
+        headlineContent = content,
+        colors = ListItemDefaults.colors(
+            headlineColor = contentColor,
+            leadingIconColor = contentColor,
+            trailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
+        modifier = modifier.clickable(enabled = true, onClick = onClick),
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -505,6 +529,13 @@ private fun TaskDetailScreenPreview(
             onConfirmRecurringEdition = {},
             onClose = {},
             onClearRecurrence = {},
+            onMarkTask = {},
+            onDelete = {},
+            onConfirmDelete = {},
+            onDismissDelete = {},
+            onConfirmDeleteRecurring = { _, _ -> },
+            onDiscardChanges = {},
+            onDismissDiscardChanges = {},
         )
     }
 }

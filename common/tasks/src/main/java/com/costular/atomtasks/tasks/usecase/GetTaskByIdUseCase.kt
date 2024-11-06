@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 class GetTaskByIdUseCase @Inject constructor(
     private val tasksRepository: TasksRepository,
-) : UseCase<GetTaskByIdUseCase.Params, Flow<Task>> {
+) : UseCase<GetTaskByIdUseCase.Params, Flow<Task?>> {
 
     data class Params(val id: Long)
 
-    override suspend fun invoke(params: Params): Flow<Task> =
+    override suspend fun invoke(params: Params): Flow<Task?> =
         tasksRepository.getTaskById(params.id)
 }

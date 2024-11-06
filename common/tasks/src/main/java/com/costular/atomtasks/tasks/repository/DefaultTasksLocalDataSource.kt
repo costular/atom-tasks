@@ -6,7 +6,7 @@ import com.costular.atomtasks.data.tasks.ReminderEntity
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.data.tasks.TasksDao
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -51,7 +51,7 @@ internal class DefaultTasksLocalDataSource @Inject constructor(
         }
     }
 
-    override fun getTaskById(id: Long): Flow<TaskAggregated> {
+    override fun getTaskById(id: Long): Flow<TaskAggregated?> {
         return tasksDao.getTaskById(id).distinctUntilChanged()
     }
 

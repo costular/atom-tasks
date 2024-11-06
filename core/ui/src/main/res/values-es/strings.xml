@@ -21,11 +21,11 @@
     <string name="today">Hoy</string>
     <string name="create_task_set_recurrence">Repetir</string>
     <string name="task_recurrence_never">No se repite</string>
-    <string name="task_recurrence_daily">Diario</string>
-    <string name="task_recurrence_weekdays">Días laborables</string>
-    <string name="task_recurrence_weekly">Semanal</string>
-    <string name="task_recurrence_monthly">Mensual</string>
-    <string name="task_recurrence_yearly">Anual</string>
+    <string name="task_recurrence_daily">A diario</string>
+    <string name="task_recurrence_weekdays">En días laborables</string>
+    <string name="task_recurrence_weekly">Cada semana</string>
+    <string name="task_recurrence_monthly">Cada mes</string>
+    <string name="task_recurrence_yearly">Cada año</string>
     <string name="create_task_recurrence_picker_daily">Todos los días</string>
     <string name="create_task_recurrence_picker_weekly">Cada semana</string>
     <string name="create_task_recurrence_picker_monthly">Cada mes</string>
@@ -37,7 +37,7 @@
     <string name="enable_reminder">Activar recordatorio</string>
     <string name="task_detail_day_subhead">Fecha</string>
     <string name="task_detail_reminder_subhead">Recordatorio</string>
-    <string name="task_detail_reminder_add_reminder">Recordatorio</string>
+    <string name="task_detail_reminder_add_reminder">Añadir recordatorio</string>
     <string name="task_detail_recurrence_subhead">Repetir</string>
     <string name="task_detail_recurrence_picker_none">No se repite</string>
     <string name="task_detail_recurrence_picker_daily">Todos los días</string>
@@ -45,6 +45,10 @@
     <string name="task_detail_recurrence_picker_weekly">Cada semana</string>
     <string name="task_detail_recurrence_picker_monthly">Cada mes</string>
     <string name="task_detail_recurrence_picker_yearly">Cada año</string>
+    <string name="task_detail_discard_changes_title">¿Descartar cambios?</string>
+    <string name="task_detail_discard_changes_description">Tienes cambios sin guardar. Si sales, perderás todos los cambios realizados. ¿Quieres continuar sin guardar?</string>
+    <string name="task_detail_discard_changes_positive">Descartar</string>
+    <string name="task_detail_discard_changes_negative">Cancelar</string>
     <string name="notification_channel_reminders_title">Recordatorios</string>
     <string name="notification_channel_reminders_description">Recordatorios de tus tareas</string>
     <string name="notification_reminder">🔔 Recordatorio</string>

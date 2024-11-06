@@ -136,7 +136,7 @@ private fun LazyItemScope.TaskItem(
 
             TaskCard(
                 title = task.name,
-                onMark = { onMarkTask(task.id, !task.isDone) },
+                onMark = { onMarkTask(task.id, it) },
                 onClick = { onClick(task) },
                 reminder = task.reminder,
                 isFinished = task.isDone,

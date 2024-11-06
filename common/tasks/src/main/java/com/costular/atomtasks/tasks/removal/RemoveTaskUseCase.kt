@@ -1,10 +1,9 @@
-package com.costular.atomtasks.tasks.usecase
+package com.costular.atomtasks.tasks.removal
 
 import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.core.logging.atomLog
 import com.costular.atomtasks.core.usecase.UseCase
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RemoveTaskError
 import com.costular.atomtasks.tasks.repository.TasksRepository
 import javax.inject.Inject

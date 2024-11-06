@@ -31,11 +31,11 @@
     <string name="agenda_tutorial_task_order">Want your tasks in order? Long press and drag!</string>
     <string name="today">Today</string>
     <string name="task_recurrence_never">Does not repeat</string>
-    <string name="task_recurrence_daily">Daily</string>
-    <string name="task_recurrence_weekdays">Weekdays</string>
-    <string name="task_recurrence_weekly">Weekly</string>
-    <string name="task_recurrence_monthly">Monthly</string>
-    <string name="task_recurrence_yearly">Yearly</string>
+    <string name="task_recurrence_daily">Repeats every day</string>
+    <string name="task_recurrence_weekdays">Repeats on weekdays</string>
+    <string name="task_recurrence_weekly">Repeats every week</string>
+    <string name="task_recurrence_monthly">Repeats every month</string>
+    <string name="task_recurrence_yearly">Repeats every year</string>
     <string name="remove_task_message">Are you sure to remove this task?</string>
     <string name="no_reminder">No reminder</string>
     <string name="enable_reminder">Enable reminder</string>
@@ -57,7 +57,7 @@
     <string name="task_detail_task_name_placeholder">Add title</string>
     <string name="task_detail_day_subhead">Date</string>
     <string name="task_detail_reminder_subhead">Reminder</string>
-    <string name="task_detail_reminder_add_reminder">Reminder</string>
+    <string name="task_detail_reminder_add_reminder">Add reminder</string>
     <string name="task_detail_recurrence_subhead">Repeat</string>
     <string name="task_detail_recurrence_picker_none">Does not repeat</string>
     <string name="task_detail_recurrence_picker_daily">Every Day</string>
@@ -65,6 +65,10 @@
     <string name="task_detail_recurrence_picker_weekly">Every Week</string>
     <string name="task_detail_recurrence_picker_monthly">Every Month</string>
     <string name="task_detail_recurrence_picker_yearly">Every Year</string>
+    <string name="task_detail_discard_changes_title">Discard changes?</string>
+    <string name="task_detail_discard_changes_description">You have unsaved changes. If you exit, all changes will be lost. Do you want to continue without saving?</string>
+    <string name="task_detail_discard_changes_positive">Discard</string>
+    <string name="task_detail_discard_changes_negative">Cancel</string>
 
     <string name="notification_channel_reminders_title">Reminders</string>
     <string name="notification_channel_reminders_description">Reminders for your tasks</string>

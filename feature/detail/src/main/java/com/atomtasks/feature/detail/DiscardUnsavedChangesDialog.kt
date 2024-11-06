@@ -1,6 +1,7 @@
-package com.costular.atomtasks.tasks.createtask
+package com.atomtasks.feature.detail
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -8,31 +9,31 @@ import androidx.compose.ui.res.stringResource
 import com.costular.atomtasks.core.ui.R
 
 @Composable
-fun NotificationRationale(
+fun DiscardUnsavedChangesDialog(
     onDismiss: () -> Unit,
-    onAccept: () -> Unit,
+    onDiscard: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
                 stringResource(
-                    R.string.create_task_notification_permission_rationale_title
+                    R.string.task_detail_discard_changes_title
                 )
             )
         },
         text = {
             Text(
                 stringResource(
-                    R.string.create_task_notification_permission_rationale_description
+                    R.string.task_detail_discard_changes_description
                 )
             )
         },
         confirmButton = {
-            TextButton(onClick = onAccept) {
+            Button(onClick = onDiscard) {
                 Text(
                     stringResource(
-                        R.string.create_task_notification_permission_rationale_confirm
+                        R.string.task_detail_discard_changes_positive
                     )
                 )
             }
@@ -41,7 +42,7 @@ fun NotificationRationale(
             TextButton(onClick = onDismiss) {
                 Text(
                     stringResource(
-                        R.string.create_task_notification_permission_rationale_dismiss
+                        R.string.task_detail_discard_changes_negative
                     )
                 )
             }

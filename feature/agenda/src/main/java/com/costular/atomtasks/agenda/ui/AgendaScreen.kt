@@ -22,15 +22,11 @@ import com.costular.atomtasks.core.ui.mvi.EventObserver
 import com.costular.atomtasks.core.ui.tasks.ItemPosition
 import com.costular.atomtasks.core.ui.utils.DevicesPreview
 import com.costular.atomtasks.review.ui.ReviewHandler
-import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskDialog
-import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.ALL
-import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS
-import com.costular.atomtasks.tasks.dialog.RemoveRecurrentTaskResponse.THIS_AND_FUTURES
-import com.costular.atomtasks.tasks.dialog.RemoveTaskDialog
 import com.costular.atomtasks.tasks.model.Reminder
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import com.costular.atomtasks.core.ui.tasks.TaskList
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiHandler
 import com.costular.designsystem.components.CircularLoadingIndicator
 import com.costular.designsystem.dialogs.DatePickerDialog
 import com.costular.designsystem.theme.AppTheme
@@ -185,30 +181,12 @@ fun AgendaScreen(
     onDragTask: (ItemPosition, ItemPosition) -> Unit,
     onDragStopped: () -> Unit,
 ) {
-    if (state.deleteTaskAction is DeleteTaskAction.Shown) {
-        if (state.deleteTaskAction.isRecurring) {
-            RemoveRecurrentTaskDialog(
-                onCancel = dismissDelete,
-                onRemove = { response ->
-                    val recurringRemovalStrategy = when (response) {
-                        THIS -> RecurringRemovalStrategy.SINGLE
-                        THIS_AND_FUTURES -> RecurringRemovalStrategy.SINGLE_AND_FUTURE_ONES
-                        ALL -> RecurringRemovalStrategy.ALL
-                    }
-                    deleteRecurringTask(state.deleteTaskAction.taskId, recurringRemovalStrategy)
-                }
-            )
-        } else {
-            RemoveTaskDialog(
-                onAccept = {
-                    deleteTask(state.deleteTaskAction.taskId)
-                },
-                onCancel = {
-                    dismissDelete()
-                },
-            )
-        }
-    }
+    RemoveTaskConfirmationUiHandler(
+        uiState = state.removeTaskConfirmationUiState,
+        onDismiss = dismissDelete,
+        onDeleteRecurring = deleteRecurringTask,
+        onDelete = deleteTask,
+    )
 
     if (state.shouldShowCalendarView) {
         DatePickerDialog(

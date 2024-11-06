@@ -2,10 +2,12 @@ package com.atomtasks.feature.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.costular.atomtasks.analytics.AtomAnalytics
+import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.AreExactRemindersAvailable
 import com.costular.atomtasks.tasks.usecase.CreateTaskUseCase
 import com.costular.atomtasks.tasks.usecase.EditTaskUseCase
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
+import com.costular.atomtasks.tasks.usecase.UpdateTaskIsDoneUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -26,6 +28,8 @@ class TaskDetailViewModelTest {
     private val createTaskUseCase: CreateTaskUseCase = mockk()
     private val atomAnalytics: AtomAnalytics = mockk()
     private val savedStateHandle: SavedStateHandle = mockk()
+    private val updateTaskIsDoneUseCase: UpdateTaskIsDoneUseCase = mockk()
+    private val removeTaskUseCase: RemoveTaskUseCase = mockk()
 
     @Before
     fun setUp() {
@@ -36,6 +40,8 @@ class TaskDetailViewModelTest {
             editTaskUseCase = editTaskUseCase,
             createTaskUseCase = createTaskUseCase,
             atomAnalytics = atomAnalytics,
+            updateTaskIsDoneUseCase = updateTaskIsDoneUseCase,
+            removeTaskUseCase = removeTaskUseCase,
         )
     }
 
@@ -45,7 +51,7 @@ class TaskDetailViewModelTest {
 
         sut.onDateChanged(date)
 
-        assertThat(sut.state.value.date).isEqualTo(date)
+        assertThat(sut.state.value.taskState.date).isEqualTo(date)
     }
 
     @Test
@@ -54,6 +60,6 @@ class TaskDetailViewModelTest {
 
         sut.onReminderChanged(localTime)
 
-        assertThat(sut.state.value.reminder).isEqualTo(localTime)
+        assertThat(sut.state.value.taskState.reminder).isEqualTo(localTime)
     }
 }

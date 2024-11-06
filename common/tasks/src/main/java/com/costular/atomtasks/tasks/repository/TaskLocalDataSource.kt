@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskAggregated
 import com.costular.atomtasks.data.tasks.TaskEntity
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ interface TaskLocalDataSource {
     )
     suspend fun getTasksCount(): Int
     fun getTasks(day: LocalDate? = null): Flow<List<TaskAggregated>>
-    fun getTaskById(id: Long): Flow<TaskAggregated>
+    fun getTaskById(id: Long): Flow<TaskAggregated?>
     suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?)
     suspend fun markTask(taskId: Long, isDone: Boolean)
     suspend fun updateTaskReminder(taskId: Long, time: LocalTime, date: LocalDate)

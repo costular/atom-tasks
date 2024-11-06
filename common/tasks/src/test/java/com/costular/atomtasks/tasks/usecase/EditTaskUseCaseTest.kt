@@ -4,7 +4,7 @@ import com.costular.atomtasks.core.Either
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.tasks.helper.TaskReminderManager
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.RecurringUpdateStrategy
 import com.costular.atomtasks.tasks.model.Reminder
 import com.costular.atomtasks.tasks.model.Task

@@ -29,7 +29,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement as
 @Composable
 fun ClearableChip(
     title: String,
-    icon: ImageVector,
+    icon: ImageVector?,
     isSelected: Boolean,
     isError: Boolean,
     onClick: () -> Unit,
@@ -51,11 +51,13 @@ fun ClearableChip(
         modifier = modifier,
         onClick = onClick,
         leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(AppTheme.ChipIconSize),
-            )
+            icon?.let {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(AppTheme.ChipIconSize),
+                )
+            }
         },
         label = {
             Text(

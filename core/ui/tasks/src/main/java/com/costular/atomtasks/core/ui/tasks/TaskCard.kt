@@ -69,7 +69,7 @@ fun TaskCard(
     isFinished: Boolean,
     recurrenceType: RecurrenceType?,
     reminder: Reminder?,
-    onMark: () -> Unit,
+    onMark: (Boolean) -> Unit,
     onClick: () -> Unit,
     onClickMore: () -> Unit,
     modifier: Modifier = Modifier,
@@ -99,10 +99,7 @@ fun TaskCard(
 
             Markable(
                 isMarked = isFinished,
-                borderColor = contentColor,
-                onClick = { onMark() },
-                contentColor = MaterialTheme.colorScheme.primary,
-                onContentColor = MaterialTheme.colorScheme.onPrimary,
+                onMarkChanged = onMark,
             )
 
             Spacer(modifier = Modifier.width(AppTheme.dimens.spacingLarge))

@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.dialog
+package com.costular.atomtasks.tasks.removal
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

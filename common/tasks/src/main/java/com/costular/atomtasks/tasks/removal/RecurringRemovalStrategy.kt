@@ -1,4 +1,4 @@
-package com.costular.atomtasks.tasks.model
+package com.costular.atomtasks.tasks.removal
 
 enum class RecurringRemovalStrategy {
     SINGLE,

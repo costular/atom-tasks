@@ -9,7 +9,7 @@ import com.costular.atomtasks.notifications.TaskNotificationManager
 import com.costular.atomtasks.tasks.usecase.GetTaskByIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 @HiltWorker
@@ -28,7 +28,11 @@ class NotifyTaskWorker @AssistedInject constructor(
                 throw IllegalArgumentException("Task id has not been passed")
             }
 
-            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId)).first()
+            val task = checkNotNull(
+                getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId)).firstOrNull()
+            ) {
+                "Task is null"
+            }
 
             if (task.reminder == null) {
                 throw IllegalStateException("Reminder is null")

@@ -2,7 +2,7 @@ package com.costular.atomtasks.tasks.repository
 
 import com.costular.atomtasks.data.tasks.TaskEntity
 import com.costular.atomtasks.tasks.model.RecurrenceType
-import com.costular.atomtasks.tasks.model.RecurringRemovalStrategy
+import com.costular.atomtasks.tasks.removal.RecurringRemovalStrategy
 import com.costular.atomtasks.tasks.model.Task
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -19,7 +19,7 @@ interface TasksRepository {
         parentId: Long?,
     ): Long
     suspend fun getTaskCount(): Int
-    fun getTaskById(id: Long): Flow<Task>
+    fun getTaskById(id: Long): Flow<Task?>
     fun getTasks(day: LocalDate? = null): Flow<List<Task>>
     suspend fun removeTask(taskId: Long, recurringRemovalStrategy: RecurringRemovalStrategy?)
     suspend fun markTask(taskId: Long, isDone: Boolean)
