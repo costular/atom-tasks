@@ -18,6 +18,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.8.0] - 2024-11-06
+
+### Added
+- New onboarding
+- Daily notification
+
+### Changed
+- Revamped task detail design
+- Revamped postpone task screen
+- Moved today to the TopBar
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Order tasks on agenda
+
+### Security
+
 ## [2.7.0] - 2024-10-10 
 
 ### Added
