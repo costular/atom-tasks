@@ -126,11 +126,11 @@ class DefaultTasksRepositoryTest {
 
         val actual = sut.getTaskById(taskId).first()
 
-        assertThat(actual.name).isEqualTo(expected.name)
-        assertThat(actual.createdAt).isEqualTo(expected.createdAt)
-        assertThat(actual.day).isEqualTo(expected.day)
-        assertThat(actual.isDone).isEqualTo(expected.isDone)
-        assertThat(actual.reminder?.time).isEqualTo(expected.reminder?.time)
+        assertThat(actual?.name).isEqualTo(expected.name)
+        assertThat(actual?.createdAt).isEqualTo(expected.createdAt)
+        assertThat(actual?.day).isEqualTo(expected.day)
+        assertThat(actual?.isDone).isEqualTo(expected.isDone)
+        assertThat(actual?.reminder?.time).isEqualTo(expected.reminder?.time)
     }
 
     @Test

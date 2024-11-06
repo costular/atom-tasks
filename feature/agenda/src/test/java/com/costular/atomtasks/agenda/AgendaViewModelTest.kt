@@ -3,8 +3,6 @@ package com.costular.atomtasks.agenda
 import app.cash.turbine.test
 import com.costular.atomtasks.agenda.analytics.AgendaAnalytics
 import com.costular.atomtasks.agenda.ui.AgendaViewModel
-import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Hidden
-import com.costular.atomtasks.agenda.ui.DeleteTaskAction.Shown
 import com.costular.atomtasks.agenda.ui.TasksState
 import com.costular.atomtasks.analytics.AtomAnalytics
 import com.costular.atomtasks.core.Either
@@ -19,6 +17,7 @@ import com.costular.atomtasks.review.usecase.ShouldAskReviewUseCase
 import com.costular.atomtasks.tasks.helper.AutoforwardManager
 import com.costular.atomtasks.tasks.helper.recurrence.RecurrenceScheduler
 import com.costular.atomtasks.tasks.model.Task
+import com.costular.atomtasks.tasks.removal.RemoveTaskConfirmationUiState
 import com.costular.atomtasks.tasks.usecase.MoveTaskUseCase
 import com.costular.atomtasks.tasks.usecase.ObserveTasksUseCase
 import com.costular.atomtasks.tasks.removal.RemoveTaskUseCase
@@ -123,7 +122,9 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.actionDelete(taskId)
 
             sut.state.test {
-                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(Shown::class.java)
+                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(
+                    RemoveTaskConfirmationUiState.Shown::class.java
+                )
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -140,7 +141,9 @@ class AgendaViewModelTest : MviViewModelTest() {
             sut.dismissDelete()
 
             sut.state.test {
-                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(Hidden::class.java)
+                assertThat(expectMostRecentItem().removeTaskConfirmationUiState).isInstanceOf(
+                    RemoveTaskConfirmationUiState.Hidden::class.java
+                )
                 cancelAndIgnoreRemainingEvents()
             }
         }
