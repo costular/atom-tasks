@@ -28,8 +28,11 @@ class NotifyTaskWorker @AssistedInject constructor(
                 throw IllegalArgumentException("Task id has not been passed")
             }
 
-            val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId)).firstOrNull()
-                ?: throw IllegalStateException("Task is null")
+            val task = checkNotNull(
+                getTaskByIdUseCase(GetTaskByIdUseCase.Params(taskId)).firstOrNull()
+            ) {
+                "Task is null"
+            }
 
             if (task.reminder == null) {
                 throw IllegalStateException("Reminder is null")

@@ -17,7 +17,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
 @Singleton
@@ -36,6 +35,7 @@ class EditTaskUseCase @Inject constructor(
         val recurringUpdateStrategy: RecurringUpdateStrategy?,
     )
 
+    @Suppress("ReturnCount")
     override suspend fun invoke(params: Params): Either<UpdateTaskUseCaseError, Unit> {
         return try {
             with(params) {

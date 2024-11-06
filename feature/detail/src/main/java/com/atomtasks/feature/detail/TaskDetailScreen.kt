@@ -134,7 +134,7 @@ fun TaskDetailScreen(
     )
 }
 
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
 @Composable
@@ -241,6 +241,7 @@ fun TaskDetailScreen(
     )
 }
 
+@Suppress("LongParameterList", "LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun TaskDetailContent(

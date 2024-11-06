@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.HapticFeedbackConstantsCompat
 import com.costular.designsystem.theme.AtomTheme
 
+@Suppress("LongMethod")
 @Composable
 fun Markable(
     isMarked: Boolean,

@@ -24,7 +24,7 @@ class PostponeTaskUseCase @Inject constructor(
         val time: LocalTime,
     )
 
-    @Suppress("SwallowedException", "TooGenericExceptionCaught")
+    @Suppress("SwallowedException", "TooGenericExceptionCaught", "ReturnCount")
     override suspend fun invoke(params: Params): Either<PostponeTaskFailure, Unit> {
         return try {
             val task = getTaskByIdUseCase(GetTaskByIdUseCase.Params(params.taskId)).firstOrNull()

@@ -25,7 +25,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 @HiltViewModel
 class TaskDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -295,7 +295,7 @@ class TaskDetailViewModel @Inject constructor(
         }
     }
 
-    fun editTask(
+    private fun editTask(
         recurringUpdateStrategy: RecurringUpdateStrategy?,
     ) {
         viewModelScope.launch {
