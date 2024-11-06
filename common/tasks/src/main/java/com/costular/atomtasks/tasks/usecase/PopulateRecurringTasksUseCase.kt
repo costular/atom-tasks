@@ -23,35 +23,31 @@ class PopulateRecurringTasksUseCase @Inject constructor(
     override suspend fun invoke(params: Params): Either<PopulateRecurringTasksError, Unit> {
         return try {
             val task = tasksRepository.getTaskById(params.taskId).firstOrNull()
-
-            if (task == null) {
-                return PopulateRecurringTasksError.TaskNotFound.toError()
-            }
+                ?: return PopulateRecurringTasksError.TaskNotFound.toError()
 
             if (!task.isRecurring || task.recurrenceType == null) {
-                return Either.Error(PopulateRecurringTasksError.NotRecurringTask)
-            }
+                Either.Error(PopulateRecurringTasksError.NotRecurringTask)
+            } else {
+                val recurrenceStrategy = RecurrenceStrategyFactory.recurrenceStrategy(task.recurrenceType)
 
-            val recurrenceStrategy =
-                RecurrenceStrategyFactory.recurrenceStrategy(task.recurrenceType)
-
-            val nextDates = recurrenceStrategy.calculateNextOccurrences(
-                startDate = task.day,
-                numberOfOccurrences = numberOfOccurrencesForType(task.recurrenceType),
-                drop = params.drop,
-            )
-
-            nextDates.forEach { dayToBeCreated ->
-                tasksRepository.createTask(
-                    name = task.name,
-                    date = dayToBeCreated,
-                    reminderEnabled = task.reminder != null,
-                    reminderTime = task.reminder?.time,
-                    recurrenceType = task.recurrenceType,
-                    parentId = task.parentId ?: task.id,
+                val nextDates = recurrenceStrategy.calculateNextOccurrences(
+                    startDate = task.day,
+                    numberOfOccurrences = numberOfOccurrencesForType(task.recurrenceType),
+                    drop = params.drop,
                 )
+
+                nextDates.forEach { dayToBeCreated ->
+                    tasksRepository.createTask(
+                        name = task.name,
+                        date = dayToBeCreated,
+                        reminderEnabled = task.reminder != null,
+                        reminderTime = task.reminder?.time,
+                        recurrenceType = task.recurrenceType,
+                        parentId = task.parentId ?: task.id,
+                    )
+                }
+                Either.Result(Unit)
             }
-            Either.Result(Unit)
         } catch (e: Exception) {
             atomLog { e }
             Either.Error(PopulateRecurringTasksError.UnknownError)
