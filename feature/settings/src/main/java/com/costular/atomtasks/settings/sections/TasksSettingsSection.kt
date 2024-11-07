@@ -45,7 +45,7 @@ fun TasksSettingsSection(
         )
 
         SettingOption(
-            title = "Reminder time",
+            title = stringResource(R.string.settings_tasks_daily_reminder_time_label),
             option = dailyReminder?.time?.ofLocalizedTime() ?: "-",
             icon = null,
             onClick = onClickDailyReminder,
@@ -70,12 +70,12 @@ private fun DailyReminderItem(
         title = {
             Column {
                 Text(
-                    text = "Daily reminder",
+                    text = stringResource(R.string.settings_tasks_daily_reminder_title),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Get a daily reminder to remind you of your tasks",
+                    text = stringResource(R.string.settings_tasks_daily_reminder_description),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }

@@ -75,8 +75,8 @@
     <string name="settings_tasks_title">Tareas</string>
     <string name="settings_tasks_autoforward_tasks_title">Auto-Posponer</string>
     <string name="settings_tasks_autoforward_tasks_description">"Las tareas no finalizadas se pospondrán automáticamente para el siguiente día.  "</string>
-    <string name="settings_about_donate_title">Apoya a Atom Tareas</string>
-    <string name="settings_about_donate_description">Ayuda a mantener Atom Task sin anuncios y de código abierto con una donación. Tu apoyo marca la diferencia :)</string>
+    <string name="settings_about_donate_title">Apoya a Minitask</string>
+    <string name="settings_about_donate_description">Ayuda a mantener Minitask sin anuncios y de código abierto con una donación. Tu apoyo marca la diferencia :)</string>
     <string name="save">Guardar</string>
     <string name="content_description_chip_clear">Limpiar</string>
     <string name="task_list_empty_title">Sin tareas</string>
@@ -90,7 +90,7 @@
     <string name="create_task_notification_permission_rationale_description">"Para utilizar la función de recordatorios, necesitamos el permiso de notificaciones. Sin él, los recordatorios no funcionarán "</string>
     <string name="create_task_notification_permission_rationale_dismiss">No gracias</string>
     <string name="create_task_notification_permission_rationale_confirm">Vale</string>
-    <string name="settings_about_title">Sobre Atom</string>
+    <string name="settings_about_title">Sobre Minitask</string>
     <string name="agenda_tutorial_task_order">¿Quieres ordenar tus tareas? Mantén presionado y arrastra</string>
     <string name="create_task_recurrence_picker_weekdays">Todos los días laborables</string>
     <string name="create_task_recurrence_picker_none">No se repite</string>
@@ -122,4 +122,7 @@
     <string name="onboarding_next">Siguiente</string>
     <string name="onboarding_skip">Saltar</string>
     <string name="onboarding_finish">Terminar</string>
+    <string name="settings_tasks_daily_reminder_title">Recordatorio diario</string>
+    <string name="settings_tasks_daily_reminder_description">Un recordatorio rápido para ayudarte a organizar tu día</string>
+    <string name="settings_tasks_daily_reminder_time_label">Elige la hora del recordatorio</string>
 </resources>
