@@ -146,7 +146,7 @@ private fun LazyItemScope.TaskItem(
                     .longPressDraggableHandle(
                         interactionSource = interactionSource,
                         onDragStarted = {
-                            view.performHapticFeedback(HapticFeedbackConstantsCompat.DRAG_START)
+                            view.performHapticFeedback(HapticFeedbackConstantsCompat.LONG_PRESS)
                         },
                         onDragStopped = {
                             view.performHapticFeedback(HapticFeedbackConstantsCompat.GESTURE_END)
