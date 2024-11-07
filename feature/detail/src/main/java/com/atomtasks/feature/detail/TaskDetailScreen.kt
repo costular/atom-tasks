@@ -280,7 +280,7 @@ private fun TaskDetailContent(
                 Spacer(Modifier.height(AppTheme.dimens.spacingMedium))
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Top,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = AppTheme.dimens.contentMargin),
