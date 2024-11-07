@@ -18,6 +18,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.8.1] 2024-11-07
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Missing copies
+- Notification icon
+- Haptic vibration for sorting tasks
+
+### Security
+
 ## [2.8.0] - 2024-11-06
 
 ### Added
