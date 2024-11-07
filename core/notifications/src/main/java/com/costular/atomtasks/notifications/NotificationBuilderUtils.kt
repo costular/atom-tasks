@@ -11,7 +11,7 @@ import com.costular.atomtasks.core.ui.R
 
 internal fun Context.buildNotificationBase(channel: String): NotificationCompat.Builder =
     NotificationCompat.Builder(this, channel)
-        .setSmallIcon(R.drawable.ic_atom)
+        .setSmallIcon(R.drawable.ic_minitask)
         .setColor(this.getColor(R.color.primary))
 
 internal fun generateRandomRequestCode(): Int {
