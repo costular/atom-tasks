@@ -35,8 +35,11 @@ class DailyReminderAlarmSchedulerImpl @Inject constructor(
     }
 
     override fun remove() {
-        checkNotNull(alarmManager)
-
+        alarmManager?.let { alarmManager ->
+            buildDailyReminderPendingIntent().also {
+                alarmManager.cancel(it)
+            }
+        }
     }
 
     private fun buildDailyReminderPendingIntent(): PendingIntent =
