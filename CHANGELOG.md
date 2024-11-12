@@ -18,6 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [2.8.2] 2024-11-12
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fix daily reminder being fired always
+
+### Security
+
 ## [2.8.1] 2024-11-07
 
 ### Added
