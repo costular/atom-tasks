@@ -88,6 +88,7 @@
     <string name="postpone_task_custom">Pick a date &amp; time</string>
     <string name="postpone_task_custom_date">Date</string>
     <string name="postpone_task_custom_time">Time</string>
+    <string name="postpone_task_custom_reschedule_cta">Reschedule</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

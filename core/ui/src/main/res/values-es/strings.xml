@@ -62,6 +62,7 @@
     <string name="postpone_task_tomorrow_morning">Mañana por la mañana</string>
     <string name="postpone_task_next_weekend">Próximo finde</string>
     <string name="postpone_task_next_week">Próxima semana</string>
+    <string name="postpone_task_custom_reschedule_cta">Posponer</string>
     <string name="settings">Ajustes</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_light">Claro</string>

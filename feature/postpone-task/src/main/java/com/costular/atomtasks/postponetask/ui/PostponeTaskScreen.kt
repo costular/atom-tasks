@@ -260,7 +260,7 @@ private fun ColumnScope.CustomPostponeChoice(
                     .fillMaxWidth()
                     .padding(horizontal = AppTheme.dimens.contentMargin)
             ) {
-                Text("Reschedule")
+                Text(stringResource(S.postpone_task_custom_reschedule_cta))
             }
         }
     }
